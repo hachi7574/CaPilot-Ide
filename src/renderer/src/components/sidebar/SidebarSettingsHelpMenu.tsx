@@ -14,7 +14,7 @@ import {
   Settings
 } from 'lucide-react'
 import { toast } from 'sonner'
-import logo from '../../../../../resources/logo.png'
+import logo from '../../../../../resources/assets/CaPilot logo inverted.png'
 import { useAppStore } from '@/store'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'

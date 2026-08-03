@@ -25,11 +25,11 @@ vi.mock('@electron-toolkit/utils', () => ({
   is: isMock
 }))
 
-vi.mock('../../resources/icon.png?asset', () => ({
+vi.mock('../../resources/assets/CaPilot logo rounded.png?asset', () => ({
   default: 'classic-icon'
 }))
 
-vi.mock('../../resources/icon-dev.png?asset', () => ({
+vi.mock('../../resources/assets/CaPilot logo rounded.png?asset', () => ({
   default: 'classic-dev-icon'
 }))
 

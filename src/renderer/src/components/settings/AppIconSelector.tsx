@@ -1,6 +1,6 @@
 import type React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import classicIconUrl from '../../../../../resources/icon.png?url'
+import classicIconUrl from '../../../../../resources/assets/CaPilot logo rounded.png?url'
 import watercolorIconUrl from '../../../../../resources/app-icons/capilot-watercolor.png?url'
 import blueIconUrl from '../../../../../resources/app-icons/capilot-blue.png?url'
 import { APP_ICON_OPTIONS, normalizeAppIconId, type AppIconId } from '../../../../shared/app-icon'

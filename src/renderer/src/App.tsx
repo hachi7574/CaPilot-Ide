@@ -20,7 +20,7 @@ import {
   PanelLeft,
   PanelRight
 } from 'lucide-react'
-import logo from '../../../resources/logo.png'
+import logo from '../../../resources/assets/CaPilot logo inverted.png'
 import { SYNC_FIT_PANES_EVENT, TOGGLE_TERMINAL_PANE_EXPAND_EVENT } from '@/constants/terminal'
 import { syncZoomCSSVar } from '@/lib/ui-zoom'
 import { resolveLeftSidebarStyleVariables } from '@/lib/left-sidebar-appearance'

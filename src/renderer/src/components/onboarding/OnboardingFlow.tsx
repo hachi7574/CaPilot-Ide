@@ -13,7 +13,7 @@ import { useOnboardingFlow } from './use-onboarding-flow'
 import { OnboardingSkipConfirmationDialog } from './OnboardingSkipConfirmationDialog'
 import { OnboardingFooter } from './OnboardingFooter'
 import { shouldRequestOnboardingSkipConfirmation } from './onboarding-dismiss-target'
-import logo from '../../../../../resources/logo.png'
+import logo from '../../../../../resources/assets/CaPilot logo inverted.png'
 import { translate } from '@/i18n/i18n'
 
 const stepCopy = {
