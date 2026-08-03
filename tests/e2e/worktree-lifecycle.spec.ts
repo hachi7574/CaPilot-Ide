@@ -20,7 +20,7 @@
  *   must not appear in worktree B's tab list.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   waitForSessionReady,
   waitForActiveWorktree,

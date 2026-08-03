@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Orca startup-time benchmark.
+ * CaPilot startup-time benchmark.
  *
  * Launches the built app (out/) against a synthetic userData fixture that
  * mimics a long-lived real profile (tens of thousands of Chromium cache
@@ -14,7 +14,7 @@
  *     [--state-profile none|restored-local-tabs] [--session-tabs 200]
  *     [--github-repos 3] [--gh-hang-ms 30000]
  *     [--wait-for-event renderer-startup-hydration-done]
- *     [--exe <path-to-packaged-Orca>] [--timeout-ms 240000]
+ *     [--exe <path-to-packaged-CaPilot>] [--timeout-ms 240000]
  *
  * Issue #7225 freeze reproduction: `--github-repos N` seeds N git repos with
  * GitHub remotes and no configured username, so repo hydration reaches the
@@ -110,7 +110,7 @@ function parseArgs(argv) {
 /**
  * Build a userData tree shaped like a real long-lived profile. The file count
  * drives the win32 icacls walk cost; contents are irrelevant, so files are
- * tiny. Layout mirrors Chromium cache dirs plus a few Orca-owned dirs.
+ * tiny. Layout mirrors Chromium cache dirs plus a few CaPilot-owned dirs.
  */
 function ensureFixture(fixtureDir, options) {
   const { fileCount, stateProfile, sessionTabs, githubRepos } = options
@@ -222,7 +222,7 @@ function buildGithubRepoFixtures(fixtureDir, githubRepos) {
 }
 
 function writePersistedStateFixture(fixtureDir, { stateProfile, sessionTabs, githubRepos }) {
-  const dataPath = join(fixtureDir, 'orca-data.json')
+  const dataPath = join(fixtureDir, 'capilot-data.json')
   if (stateProfile === 'none' && githubRepos === 0) {
     try {
       unlinkSync(dataPath)
@@ -585,7 +585,7 @@ async function main() {
     args.fixtureDir ??
       join(
         os.tmpdir(),
-        'orca-startup-bench',
+        'capilot-startup-bench',
         `userdata-${args.files}-${args.stateProfile}-${args.sessionTabs}-gh${args.githubRepos}`
       )
   )

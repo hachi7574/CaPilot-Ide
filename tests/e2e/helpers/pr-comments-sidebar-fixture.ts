@@ -135,7 +135,7 @@ export async function seedPRCommentsSidebarFixture(page: Page): Promise<PRCommen
       setUpstreamStatus: () => undefined
     }))
 
-    window.localStorage.setItem('orca:pr-comment-presentation', 'cards')
+    window.localStorage.setItem('capilot:pr-comment-presentation', 'cards')
 
     return { worktreeId: worktree.id, branch, prNumber }
   }, FIXTURE_COMMENTS)

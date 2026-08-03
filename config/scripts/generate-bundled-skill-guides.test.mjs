@@ -20,7 +20,7 @@ const projectDir = path.resolve(import.meta.dirname, '..', '..')
 const temporaryDirectories = []
 
 async function createFixture() {
-  const root = await mkdtemp(path.join(tmpdir(), 'orca-bundled-skill-guides-'))
+  const root = await mkdtemp(path.join(tmpdir(), 'capilot-bundled-skill-guides-'))
   temporaryDirectories.push(root)
   await Promise.all([
     cp(path.join(projectDir, 'skill-guides'), path.join(root, 'skill-guides'), {
@@ -73,16 +73,16 @@ describe('bundled skill guide generator', () => {
     const expectedFallbackCommands = {
       'computer-use': ['ORCA computer capabilities --json', 'ORCA computer list-apps --json'],
       'linear-tickets': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
-      'orca-emulator': ['ORCA emulator list --json'],
-      'orca-emulator-android': ['ORCA emulator devices --json'],
-      'orca-linear': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
-      'orca-per-workspace-env': ['ORCA vm recipe doctor <recipe-id> --repo-path <repo> --json'],
+      'capilot-emulator': ['ORCA emulator list --json'],
+      'capilot-emulator-android': ['ORCA emulator devices --json'],
+      'capilot-linear': ['ORCA linear --help', 'ORCA linear issue --current --full --json'],
+      'capilot-per-workspace-env': ['ORCA vm recipe doctor <recipe-id> --repo-path <repo> --json'],
       orchestration: ['ORCA orchestration task-list --json', 'ORCA terminal list --json']
     }
 
     for (const [name, commands] of Object.entries(expectedFallbackCommands)) {
       const stub = await readFile(path.join(projectDir, 'skill-stubs', `${name}.md`), 'utf8')
-      const fallback = stub.split('## If an older Orca does not recognize `skills get`')[1]
+      const fallback = stub.split('## If an older CaPilot does not recognize `skills get`')[1]
 
       expect(fallback, name).toBeDefined()
       for (const command of commands) {
@@ -111,18 +111,18 @@ describe('bundled skill guide generator', () => {
   })
 
   it('keeps CLI guide examples safe across shells and Linux command names', async () => {
-    for (const name of ['orca-cli', 'computer-use', 'orca-emulator', 'orca-emulator-android']) {
+    for (const name of ['capilot-cli', 'computer-use', 'capilot-emulator', 'capilot-emulator-android']) {
       const source = await readFile(path.join(projectDir, 'skill-guides', `${name}.md`), 'utf8')
 
       expect(source).toContain('ORCA_CLI_COMMAND')
-      expect(source).toContain('orca-dev')
-      expect(source).toContain('orca-ide')
+      expect(source).toContain('capilot-dev')
+      expect(source).toContain('capilot-ide')
       expect(source).toContain('PowerShell')
       expect(source).toContain('cmd.exe')
       expect(source).toMatch(/^ORCA .+--json$/mu)
-      // Why: bare command lines can launch GNOME Orca, while shell variables make
+      // Why: bare command lines can launch GNOME CaPilot, while shell variables make
       // the same guide unusable from PowerShell and cmd.exe.
-      expect(source).not.toMatch(/^orca /mu)
+      expect(source).not.toMatch(/^capilot /mu)
       expect(source).not.toMatch(/\$ORCA(?:_|\b)/u)
     }
   })

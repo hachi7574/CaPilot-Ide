@@ -9,7 +9,7 @@ const { workerState, appMock } = vi.hoisted(() => ({
   },
   appMock: {
     isPackaged: true,
-    getAppPath: vi.fn(() => '/apps/orca/app.asar'),
+    getAppPath: vi.fn(() => '/apps/capilot/app.asar'),
     on: vi.fn()
   }
 }))
@@ -113,9 +113,9 @@ describe('installMainThreadHangWatchdog', () => {
       }
     }
     expect(workerPath).toBe(
-      join('/apps/orca/app.asar', 'out', 'main', 'main-thread-hang-watchdog-entry.js')
+      join('/apps/capilot/app.asar', 'out', 'main', 'main-thread-hang-watchdog-entry.js')
     )
-    expect(options.name).toBe('orca-main-thread-hang-watchdog')
+    expect(options.name).toBe('capilot-main-thread-hang-watchdog')
     expect(options.workerData).toMatchObject({
       parentPid: process.pid,
       markerPath: join('/ud', 'main-thread-hang.json'),

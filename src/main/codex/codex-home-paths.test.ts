@@ -110,8 +110,8 @@ beforeEach(() => {
   fsMockState.failSymlink = false
   fsMockState.trackedReadCount = 0
   fsMockState.trackedReadPath = null
-  fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-resource-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-resource-user-data-'))
+  fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-resource-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-resource-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(fakeHomeDir)
@@ -342,7 +342,7 @@ describe('syncSystemCodexResourcesIntoManagedHome', () => {
       mkdirSync(managedHomePath, { recursive: true })
       writeFileSync(systemAgentsPath, 'system\n')
       symlinkSync(systemAgentsPath, runtimeAgentsPath)
-      mkdirSync(join(managedHomePath, '.orca-resource-copies', 'AGENTS.md.json'), {
+      mkdirSync(join(managedHomePath, '.capilot-resource-copies', 'AGENTS.md.json'), {
         recursive: true
       })
 
@@ -358,7 +358,7 @@ describe('syncSystemCodexResourcesIntoManagedHome', () => {
     const managedHomePath = join(userDataDir, 'wsl-runtime-home')
     writeFileSync(join(systemHomePath, 'AGENTS.md'), 'system\n')
     mkdirSync(managedHomePath, { recursive: true })
-    writeFileSync(join(managedHomePath, '.orca-resource-copies'), 'blocks marker directory\n')
+    writeFileSync(join(managedHomePath, '.capilot-resource-copies'), 'blocks marker directory\n')
 
     syncCodexGlobalInstructionsIntoManagedHome({ systemHomePath, managedHomePath })
 

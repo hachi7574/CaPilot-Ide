@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { defineMethod, type RpcMethod } from '../core'
 import { OptionalBoolean, OptionalString, requiredString } from '../schemas'
 import { ORCHESTRATION_RUN_PAGE_LIMIT } from '../../../../shared/orchestration-run-pagination'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { OrchestrationError } from '../../orchestration/orchestration-error'
 import { assertCallerHandleMatchesEvidence } from './orchestration-run-scope'
 
@@ -29,7 +29,7 @@ function requireCallerPane(runtime: OrcaRuntimeService, handle: string): string 
   if (!paneKey) {
     throw new OrchestrationError(
       'stable_pane_required',
-      'The coordinator terminal has no stable pane identity. Run this command inside a live Orca terminal.'
+      'The coordinator terminal has no stable pane identity. Run this command inside a live CaPilot terminal.'
     )
   }
   return paneKey

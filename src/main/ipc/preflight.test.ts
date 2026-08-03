@@ -590,13 +590,13 @@ describe('preflight', () => {
     await expect(detectInstalledAgents()).resolves.toEqual(['claude', 'cursor'])
   })
 
-  it('does not report Claude Agent Teams when only the Orca shim is present', async () => {
+  it('does not report Claude Agent Teams when only the CaPilot shim is present', async () => {
     execFileAsyncMock.mockImplementation(async (command, args) => {
       if (command !== 'which') {
         throw new Error(`unexpected command ${String(command)}`)
       }
-      if (String(args[0]) === 'orca') {
-        return { stdout: '/Applications/Orca.app/Contents/MacOS/orca\n' }
+      if (String(args[0]) === 'capilot') {
+        return { stdout: '/Applications/CaPilot.app/Contents/MacOS/capilot\n' }
       }
       throw new Error('not found')
     })
@@ -604,7 +604,7 @@ describe('preflight', () => {
     await expect(detectInstalledAgents()).resolves.toEqual([])
   })
 
-  it('reports Claude Agent Teams when both Orca and Claude are present', async () => {
+  it('reports Claude Agent Teams when both CaPilot and Claude are present', async () => {
     execFileAsyncMock.mockImplementation(async (command, args) => {
       if (command !== 'which') {
         throw new Error(`unexpected command ${String(command)}`)
@@ -612,8 +612,8 @@ describe('preflight', () => {
       if (String(args[0]) === 'claude') {
         return { stdout: '/Users/test/.local/bin/claude\n' }
       }
-      if (String(args[0]) === 'orca') {
-        return { stdout: '/Applications/Orca.app/Contents/MacOS/orca\n' }
+      if (String(args[0]) === 'capilot') {
+        return { stdout: '/Applications/CaPilot.app/Contents/MacOS/capilot\n' }
       }
       throw new Error('not found')
     })
@@ -633,8 +633,8 @@ describe('preflight', () => {
       if (String(args[0]) === 'claude') {
         return { stdout: '/mock/windows/npm/claude.cmd\n' }
       }
-      if (String(args[0]) === 'orca') {
-        return { stdout: '/mock/windows/programs/orca.cmd\n' }
+      if (String(args[0]) === 'capilot') {
+        return { stdout: '/mock/windows/programs/capilot.cmd\n' }
       }
       throw new Error('not found')
     })
@@ -794,9 +794,9 @@ describe('preflight', () => {
         throw new Error(`unexpected command ${String(command)}`)
       }
       const script = String(args[5])
-      expect(script).not.toContain("'orca'")
-      expect(script).not.toContain("'orca-dev'")
-      expect(script).not.toContain("'orca-ide'")
+      expect(script).not.toContain("'capilot'")
+      expect(script).not.toContain("'capilot-dev'")
+      expect(script).not.toContain("'capilot-ide'")
       if (script.includes("'claude'")) {
         return { stdout: '__ORCA_AGENT_PATH__claude\t/home/test/.local/bin/claude\n' }
       }

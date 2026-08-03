@@ -69,7 +69,7 @@ describe('Gitea hosted review integration', () => {
     })
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-    const repoPath = await mkdtemp(join(tmpdir(), 'orca-gitea-review-'))
+    const repoPath = await mkdtemp(join(tmpdir(), 'capilot-gitea-review-'))
     try {
       const address = server.address()
       if (!address || typeof address === 'string') {

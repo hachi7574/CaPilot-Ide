@@ -5957,7 +5957,7 @@ describe('createGitHubSlice.fetchWorkItems source/error envelope', () => {
       hostId: 'local' as const,
       projectHostSetupId: 'setup-1',
       repoId: 'repo-1',
-      providerIdentity: { provider: 'github' as const, owner: 'acme', repo: 'orca' }
+      providerIdentity: { provider: 'github' as const, owner: 'acme', repo: 'capilot' }
     }
     const secondSourceContext = {
       ...firstSourceContext,
@@ -5966,7 +5966,7 @@ describe('createGitHubSlice.fetchWorkItems source/error envelope', () => {
     mockApi.gh.listWorkItems
       .mockResolvedValueOnce({
         items: [{ type: 'issue', number: 1, title: 'Acme', url: 'https://example.test/1' }],
-        sources: { issues: { owner: 'acme', repo: 'orca' }, prs: { owner: 'acme', repo: 'orca' } }
+        sources: { issues: { owner: 'acme', repo: 'capilot' }, prs: { owner: 'acme', repo: 'capilot' } }
       })
       .mockResolvedValueOnce({
         items: [{ type: 'issue', number: 2, title: 'Stably', url: 'https://example.test/2' }],
@@ -7359,10 +7359,10 @@ describe('IssueSourceIndicator suppression', () => {
 
     // Same slug → null (no information to convey)
     expect(sameGitHubOwnerRepo({ owner: 'o', repo: 'r' }, { owner: 'o', repo: 'r' })).toBe(true)
-    // Case-insensitive equality — the parent design doc calls out that `StablyAI/Orca`
+    // Case-insensitive equality — the parent design doc calls out that `StablyAI/CaPilot`
     // and `stablyai/orca` resolve to the same repo and must suppress.
     expect(
-      sameGitHubOwnerRepo({ owner: 'StablyAI', repo: 'Orca' }, { owner: 'stablyai', repo: 'orca' })
+      sameGitHubOwnerRepo({ owner: 'StablyAI', repo: 'CaPilot' }, { owner: 'stablyai', repo: 'orca' })
     ).toBe(true)
     expect(
       sameGitHubOwnerRepo(

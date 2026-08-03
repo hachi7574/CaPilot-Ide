@@ -8,7 +8,7 @@
  * composition exactly like a real OS IME session.
  */
 import type { CDPSession, Locator, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { getStoreState, waitForSessionReady } from './helpers/store'
 import type { Repo } from '../../src/shared/types'
 

@@ -30,7 +30,7 @@ afterEach(() => {
 })
 
 function makeRoot(): string {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-grok-session-paths-'))
+  const dir = mkdtempSync(join(tmpdir(), 'capilot-grok-session-paths-'))
   tempDirs.push(dir)
   return dir
 }

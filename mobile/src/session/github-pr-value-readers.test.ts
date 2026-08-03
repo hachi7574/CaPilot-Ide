@@ -4,32 +4,32 @@ import { readCheckRunConclusion, readRepoIdentity } from './github-pr-value-read
 
 describe('readRepoIdentity', () => {
   it('parses a valid owner/repo identity', () => {
-    expect(readRepoIdentity({ owner: 'octo', repo: 'orca' })).toEqual({
+    expect(readRepoIdentity({ owner: 'octo', repo: 'capilot' })).toEqual({
       owner: 'octo',
-      repo: 'orca'
+      repo: 'capilot'
     })
   })
 
   it('preserves an Enterprise host', () => {
-    expect(readRepoIdentity({ owner: 'octo', repo: 'orca', host: 'github.acme.test' })).toEqual({
+    expect(readRepoIdentity({ owner: 'octo', repo: 'capilot', host: 'github.acme.test' })).toEqual({
       owner: 'octo',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.acme.test'
     })
   })
 
   it('drops a non-record value', () => {
     expect(readRepoIdentity(null)).toBeUndefined()
-    expect(readRepoIdentity('octo/orca')).toBeUndefined()
+    expect(readRepoIdentity('octo/capilot')).toBeUndefined()
   })
 
   it('drops a missing owner or repo', () => {
-    expect(readRepoIdentity({ repo: 'orca' })).toBeUndefined()
+    expect(readRepoIdentity({ repo: 'capilot' })).toBeUndefined()
     expect(readRepoIdentity({ owner: 'octo' })).toBeUndefined()
   })
 
   it('drops an empty owner or repo as malformed', () => {
-    expect(readRepoIdentity({ owner: '', repo: 'orca' })).toBeUndefined()
+    expect(readRepoIdentity({ owner: '', repo: 'capilot' })).toBeUndefined()
     expect(readRepoIdentity({ owner: 'octo', repo: '' })).toBeUndefined()
   })
 })

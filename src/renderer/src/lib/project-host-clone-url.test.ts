@@ -22,7 +22,7 @@ describe('getProjectHostCloneUrl', () => {
           providerIdentity: {
             provider: 'github',
             owner: ' stablyai ',
-            repo: ' orca '
+            repo: ' capilot '
           }
         })
       )
@@ -36,7 +36,7 @@ describe('getProjectHostCloneUrl', () => {
           providerIdentity: {
             provider: 'github',
             owner: 'enterprise owner',
-            repo: 'orca repo',
+            repo: 'capilot repo',
             host: 'github.acme-corp.com:8443'
           }
         })
@@ -55,7 +55,7 @@ describe('getProjectHostCloneUrl', () => {
       expect(
         getProjectHostCloneUrl(
           createProject({
-            providerIdentity: { provider: 'github', owner: 'acme', repo: 'orca', host }
+            providerIdentity: { provider: 'github', owner: 'acme', repo: 'capilot', host }
           })
         )
       ).toBeNull()
@@ -70,7 +70,7 @@ describe('getProjectHostCloneUrl', () => {
           providerIdentity: {
             provider: 'github',
             owner: '',
-            repo: 'orca'
+            repo: 'capilot'
           }
         })
       )

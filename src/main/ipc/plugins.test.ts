@@ -23,19 +23,19 @@ beforeEach(() => {
 describe('plugin consent IPC schema', () => {
   it('requires the fingerprint reviewed by the caller', () => {
     expect(() =>
-      parsePluginConsentArgs({ pluginKey: 'orca-samples.demo', decision: 'approve' })
+      parsePluginConsentArgs({ pluginKey: 'capilot-samples.demo', decision: 'approve' })
     ).toThrow()
   })
 
   it('accepts an explicit reviewed fingerprint', () => {
     expect(
       parsePluginConsentArgs({
-        pluginKey: 'orca-samples.demo',
+        pluginKey: 'capilot-samples.demo',
         reviewedFingerprint: 'sha256-reviewed',
         decision: 'approve'
       })
     ).toEqual({
-      pluginKey: 'orca-samples.demo',
+      pluginKey: 'capilot-samples.demo',
       reviewedFingerprint: 'sha256-reviewed',
       decision: 'approve'
     })
@@ -101,14 +101,14 @@ describe('plugin removal authority', () => {
   it('allows installed rows but refuses dev overrides and unknown keys', () => {
     const service = {
       getDiscovered: () => [
-        { pluginKey: 'orca-samples.installed', isDev: false },
-        { pluginKey: 'orca-samples.dev', isDev: true }
+        { pluginKey: 'capilot-samples.installed', isDev: false },
+        { pluginKey: 'capilot-samples.dev', isDev: true }
       ]
     } as unknown as PluginService
 
-    expect(canRemoveInstalledPlugin(service, 'orca-samples.installed')).toBe(true)
-    expect(canRemoveInstalledPlugin(service, 'orca-samples.dev')).toBe(false)
-    expect(canRemoveInstalledPlugin(service, 'orca-samples.unknown')).toBe(false)
+    expect(canRemoveInstalledPlugin(service, 'capilot-samples.installed')).toBe(true)
+    expect(canRemoveInstalledPlugin(service, 'capilot-samples.dev')).toBe(false)
+    expect(canRemoveInstalledPlugin(service, 'capilot-samples.unknown')).toBe(false)
   })
 
   it('refuses bundled installs because startup would restore them', () => {

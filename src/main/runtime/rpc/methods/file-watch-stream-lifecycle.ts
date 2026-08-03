@@ -1,5 +1,5 @@
 import { isWatcherProcessFailure } from '../../../ipc/parcel-watcher-process-failure'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { createFileWatchEventBatcher } from './file-watch-event-batcher'
 
 export async function runFileWatchStream(args: {

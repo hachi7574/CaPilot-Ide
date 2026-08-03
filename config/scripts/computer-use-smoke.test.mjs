@@ -9,7 +9,7 @@ const smokeScript = path.join(projectDir, 'config', 'scripts', 'computer-use-smo
 
 describe('computer-use smoke script', () => {
   it('can launch a runtime before checking apps', () => {
-    const root = mkdtempSync(path.join(tmpdir(), 'orca-computer-smoke-test-'))
+    const root = mkdtempSync(path.join(tmpdir(), 'capilot-computer-smoke-test-'))
     const cliPath = path.join(root, 'fake-cli.cjs')
     const callsPath = path.join(root, 'calls.jsonl')
     writeFileSync(
@@ -53,7 +53,7 @@ describe('computer-use smoke script', () => {
   })
 
   it('fails closed when a target app is required but none are available', () => {
-    const root = mkdtempSync(path.join(tmpdir(), 'orca-computer-smoke-test-'))
+    const root = mkdtempSync(path.join(tmpdir(), 'capilot-computer-smoke-test-'))
     const cliPath = writeFakeListAppsCli(root, [])
 
     const result = spawnSync(process.execPath, [smokeScript, '--require-target'], {
@@ -71,7 +71,7 @@ describe('computer-use smoke script', () => {
   })
 
   it('keeps no-target smoke permissive by default for local probing', () => {
-    const root = mkdtempSync(path.join(tmpdir(), 'orca-computer-smoke-test-'))
+    const root = mkdtempSync(path.join(tmpdir(), 'capilot-computer-smoke-test-'))
     const cliPath = writeFakeListAppsCli(root, [])
 
     const result = spawnSync(process.execPath, [smokeScript], {
@@ -89,7 +89,7 @@ describe('computer-use smoke script', () => {
   })
 
   it('skips background apps that report window_not_found instead of failing smoke', () => {
-    const root = mkdtempSync(path.join(tmpdir(), 'orca-computer-smoke-test-'))
+    const root = mkdtempSync(path.join(tmpdir(), 'capilot-computer-smoke-test-'))
     const cliPath = writeFakeSnapshotCli(
       root,
       [
@@ -117,7 +117,7 @@ describe('computer-use smoke script', () => {
   })
 
   it('uses cross-platform default app targets for smoke snapshots', () => {
-    const root = mkdtempSync(path.join(tmpdir(), 'orca-computer-smoke-test-'))
+    const root = mkdtempSync(path.join(tmpdir(), 'capilot-computer-smoke-test-'))
     const cliPath = writeFakeSnapshotCli(root, [{ name: 'Notepad', bundleId: null }])
 
     const result = spawnSync(process.execPath, [smokeScript], {

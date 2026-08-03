@@ -110,7 +110,7 @@ export class AgentSessionClaimSigner {
       args.namespace.providerRoot
     ]
     const identityFields = [
-      'orca-agent-session-claim-v1',
+      'capilot-agent-session-claim-v1',
       this.authorityDomainId,
       ...namespaceFields,
       args.identity.agent,
@@ -119,7 +119,7 @@ export class AgentSessionClaimSigner {
       args.identity.agent === 'pi' ? (args.identity.providerSession.transcriptPath ?? '') : ''
     ]
     const worktreeFields = [
-      'orca-agent-session-worktree-v1',
+      'capilot-agent-session-worktree-v1',
       this.authorityDomainId,
       ...namespaceFields,
       args.canonicalWorktreeId

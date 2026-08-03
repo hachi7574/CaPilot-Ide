@@ -22,7 +22,7 @@ type ServeReady = {
 }
 
 const STARTUP_DIAGNOSTIC_LIMIT = 8_000
-const PAIRING_URL_PATTERN = /orca:\/\/[^\s"\\]+/g
+const PAIRING_URL_PATTERN = /capilot:\/\/[^\s"\\]+/g
 const WEB_CLIENT_PAIRING_PATTERN = /([#&]pairing=)[^&\s"\\]+/g
 
 export type HeadlessPairedRuntimeHost = {
@@ -184,11 +184,11 @@ async function readPairingOffer(app: ElectronApplication): Promise<RuntimeDeskto
 }
 
 export async function launchHeadlessPairedRuntimeHost(): Promise<HeadlessPairedRuntimeHost> {
-  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-headless-paired-'))
+  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-headless-paired-'))
   let app: ElectronApplication | undefined
   try {
     writeFileSync(
-      path.join(userDataDir, 'orca-data.json'),
+      path.join(userDataDir, 'capilot-data.json'),
       `${JSON.stringify(getE2ECompletedOnboardingProfile(), null, 2)}\n`
     )
     const { ELECTRON_RUN_AS_NODE: _unused, ...cleanEnv } = process.env

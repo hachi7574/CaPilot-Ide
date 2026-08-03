@@ -390,7 +390,7 @@ export default function WorkspaceCleanupDialog(): React.JSX.Element {
     filteredCandidates.length === candidates.length
       ? translate(
           'auto.components.workspace.cleanup.WorkspaceCleanupDialog.f637f63882',
-          "Resource Manager counts {{value0}}; this list found {{value1}}. That counter reads Orca's activity record alone, while this scan also checks each workspace's git history and skips disconnected remotes.",
+          "Resource Manager counts {{value0}}; this list found {{value1}}. That counter reads CaPilot's activity record alone, while this scan also checks each workspace's git history and skips disconnected remotes.",
           { value0: estimatedInactiveCount, value1: candidates.length }
         )
       : null

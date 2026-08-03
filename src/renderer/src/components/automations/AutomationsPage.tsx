@@ -149,7 +149,7 @@ import { translate } from '@/i18n/i18n'
 
 const AGENTS = getAgentCatalog().map((agent) => agent.id)
 const DEFAULT_TIME = '09:00'
-const AUTOMATIONS_CHANGED_EVENT = 'orca:automations-changed'
+const AUTOMATIONS_CHANGED_EVENT = 'capilot:automations-changed'
 type AutomationPaneTab = 'overview' | 'runs'
 type RepoBackedAutomationSourceContext = TaskSourceContext & { provider: 'github' | 'gitlab' }
 
@@ -416,7 +416,7 @@ export default function AutomationsPage(): React.JSX.Element {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [createOpen, setCreateOpen] = useState(false)
-  const [createTarget, setCreateTarget] = useState<AutomationCreateTarget>('orca')
+  const [createTarget, setCreateTarget] = useState<AutomationCreateTarget>('capilot')
   const [editingAutomationId, setEditingAutomationId] = useState<string | null>(null)
   const [relativeNow, setRelativeNow] = useState(Date.now())
   const [activePaneTab, setActivePaneTab] = useState<AutomationPaneTab>('overview')
@@ -1210,7 +1210,7 @@ export default function AutomationsPage(): React.JSX.Element {
   useEffect(() => {
     if (
       !createOpen ||
-      createTarget !== 'orca' ||
+      createTarget !== 'capilot' ||
       draft.workspaceMode !== 'new_per_run' ||
       !draft.projectId
     ) {
@@ -1284,7 +1284,7 @@ export default function AutomationsPage(): React.JSX.Element {
     const target = getDefaultTarget()
     setEditingAutomationId(null)
     setEditingExternalTarget(null)
-    setCreateTarget('orca')
+    setCreateTarget('capilot')
     const baseDraft: AutomationDraft = {
       name: '',
       prompt: '',
@@ -1325,7 +1325,7 @@ export default function AutomationsPage(): React.JSX.Element {
   const openEditDialog = async (automation: Automation): Promise<void> => {
     const requestId = (editRequestRef.current += 1)
     setEditingExternalTarget(null)
-    setCreateTarget('orca')
+    setCreateTarget('capilot')
     let latest = automation
     try {
       latest =
@@ -1613,7 +1613,7 @@ export default function AutomationsPage(): React.JSX.Element {
         repos,
         projectHostSetups,
         yamlHooks:
-          createTarget === 'orca' && draft.workspaceMode === 'new_per_run'
+          createTarget === 'capilot' && draft.workspaceMode === 'new_per_run'
             ? await loadAutomationYamlHooksForRepo(draft.projectId)
             : null,
         draftSetupDecision: draft.setupDecision
@@ -2926,7 +2926,7 @@ export default function AutomationsPage(): React.JSX.Element {
                         selectedAutomationRunPage.scheduledFor,
                         relativeNow
                       ),
-                      'Orca',
+                      'CaPilot',
                       selectedAutomationRunPageWorkspaceDisplay?.detailLabel ?? 'No workspace'
                     ]}
                     detail={

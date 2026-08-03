@@ -1142,7 +1142,7 @@ export default function WorktreeJumpPalette(): React.JSX.Element | null {
       previousBrowserFocusTargetRef.current =
         activeTabType === 'browser' &&
         document.activeElement instanceof HTMLElement &&
-        document.activeElement.closest('[data-orca-browser-address-bar="true"]')
+        document.activeElement.closest('[data-capilot-browser-address-bar="true"]')
           ? 'address-bar'
           : 'webview'
       // Why: same timing constraint — capture pre-dialog focus now so Escape can restore the exact input (not document.body).
@@ -1696,7 +1696,7 @@ export default function WorktreeJumpPalette(): React.JSX.Element | null {
       ),
       subtitle: translate(
         'auto.components.WorktreeJumpPalette.f7fda8d562',
-        'Create a worktree or open a tab in Orca to get started.'
+        'Create a worktree or open a tab in CaPilot to get started.'
       )
     }
   })()

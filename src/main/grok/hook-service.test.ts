@@ -26,7 +26,7 @@ describe('GrokHookService', () => {
   let homeDir: string
 
   beforeEach(() => {
-    homeDir = mkdtempSync(join(tmpdir(), 'orca-grok-home-'))
+    homeDir = mkdtempSync(join(tmpdir(), 'capilot-grok-home-'))
     homedirMock.mockReturnValue(homeDir)
   })
 
@@ -39,11 +39,11 @@ describe('GrokHookService', () => {
     const status = new GrokHookService().install()
 
     expect(status.state).toBe('installed')
-    expect(status.configPath).toBe(join(homeDir, '.grok', 'hooks', 'orca-status.json'))
+    expect(status.configPath).toBe(join(homeDir, '.grok', 'hooks', 'capilot-status.json'))
     expect(status.managedHooksPresent).toBe(true)
 
     const config = JSON.parse(
-      readFileSync(join(homeDir, '.grok', 'hooks', 'orca-status.json'), 'utf8')
+      readFileSync(join(homeDir, '.grok', 'hooks', 'capilot-status.json'), 'utf8')
     ) as {
       hooks: Record<string, { matcher?: string; hooks: { command: string }[] }[]>
     }
@@ -79,11 +79,11 @@ describe('GrokHookService', () => {
       process.platform === 'win32' ? WINDOWS_POWERSHELL_LAUNCHER : /grok-hook/
     )
     if (process.platform !== 'win32') {
-      expect(config.hooks.PreToolUse[0].hooks[0].command).toContain(join(homeDir, '.orca'))
+      expect(config.hooks.PreToolUse[0].hooks[0].command).toContain(join(homeDir, '.capilot'))
     }
 
     const script = readFileSync(
-      join(homeDir, '.orca', 'agent-hooks', GROK_SCRIPT_FILE_NAME),
+      join(homeDir, '.capilot', 'agent-hooks', GROK_SCRIPT_FILE_NAME),
       'utf8'
     )
     expect(script).toContain('/hook/grok')
@@ -114,14 +114,14 @@ describe('GrokHookService', () => {
   it.skipIf(process.platform !== 'win32')(
     'wraps the managed hook command to survive spaces in the profile path (#6078)',
     () => {
-      const spaceHome = join(tmpdir(), 'orca grok home with spaces')
+      const spaceHome = join(tmpdir(), 'capilot grok home with spaces')
       mkdirSync(spaceHome, { recursive: true })
       homedirMock.mockReturnValue(spaceHome)
       try {
         expect(new GrokHookService().install().state).toBe('installed')
 
         const config = JSON.parse(
-          readFileSync(join(spaceHome, '.grok', 'hooks', 'orca-status.json'), 'utf8')
+          readFileSync(join(spaceHome, '.grok', 'hooks', 'capilot-status.json'), 'utf8')
         ) as { hooks: Record<string, { hooks: { command: string }[] }[]> }
 
         for (const eventName of ['SessionStart', 'UserPromptSubmit', 'Stop']) {
@@ -135,19 +135,19 @@ describe('GrokHookService', () => {
   )
 
   it('installs hooks under GROK_HOME when set', () => {
-    const grokHome = mkdtempSync(join(tmpdir(), 'orca-grok-home-env-'))
+    const grokHome = mkdtempSync(join(tmpdir(), 'capilot-grok-home-env-'))
     const previous = process.env.GROK_HOME
     process.env.GROK_HOME = grokHome
     try {
       const status = new GrokHookService().install()
       expect(status.state).toBe('installed')
-      expect(status.configPath).toBe(join(grokHome, 'hooks', 'orca-status.json'))
-      expect(readFileSync(join(grokHome, 'hooks', 'orca-status.json'), 'utf8')).toContain(
+      expect(status.configPath).toBe(join(grokHome, 'hooks', 'capilot-status.json'))
+      expect(readFileSync(join(grokHome, 'hooks', 'capilot-status.json'), 'utf8')).toContain(
         'SessionStart'
       )
       // Why: must not also write into the mocked ~/.grok when GROK_HOME wins.
       expect(() =>
-        readFileSync(join(homeDir, '.grok', 'hooks', 'orca-status.json'), 'utf8')
+        readFileSync(join(homeDir, '.grok', 'hooks', 'capilot-status.json'), 'utf8')
       ).toThrow()
     } finally {
       if (previous === undefined) {
@@ -159,8 +159,8 @@ describe('GrokHookService', () => {
     }
   })
 
-  it('preserves user-authored hook entries in the Orca Grok config file', () => {
-    const configPath = join(homeDir, '.grok', 'hooks', 'orca-status.json')
+  it('preserves user-authored hook entries in the CaPilot Grok config file', () => {
+    const configPath = join(homeDir, '.grok', 'hooks', 'capilot-status.json')
     mkdirSync(dirname(configPath), { recursive: true })
     writeFileSync(
       configPath,

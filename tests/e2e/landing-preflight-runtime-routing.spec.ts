@@ -2,8 +2,8 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { ElectronApplication, Page, TestInfo } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
-import { createRestartSession } from './helpers/orca-restart'
+import { expect, test } from './helpers/capilot-app'
+import { createRestartSession } from './helpers/capilot-restart'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedElectronClient,
@@ -11,7 +11,7 @@ import {
 } from './helpers/paired-electron-client'
 import { addPairedRuntimeEnvironment } from './helpers/nested-runtime-ssh-client-route'
 
-const missingGitPath = mkdtempSync(path.join(os.tmpdir(), 'orca-preflight-path-'))
+const missingGitPath = mkdtempSync(path.join(os.tmpdir(), 'capilot-preflight-path-'))
 
 test.use({ seedTestRepo: false })
 test.describe.configure({ mode: 'serial' })

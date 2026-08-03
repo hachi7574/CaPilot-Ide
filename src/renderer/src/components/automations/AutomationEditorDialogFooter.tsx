@@ -198,7 +198,7 @@ export function AutomationEditorDialogFooter({
         {isHermesTarget ? scheduleField : null}
       </div>
 
-      {/* Why: Hermes uses one compact footer row, while Orca adds agent,
+      {/* Why: Hermes uses one compact footer row, while CaPilot adds agent,
           session, schedule, and missed-run controls. Animate that row so
           switching the target changes the dialog height smoothly. */}
       <div
@@ -252,7 +252,7 @@ export function AutomationEditorDialogFooter({
               switch is a per-automation preference, not a peer of the compact
               column pickers, so it reads cleaner spanning the dialog. */}
           <AutomationSetupDecisionField
-            createTarget={isHermesTarget ? 'hermes' : 'orca'}
+            createTarget={isHermesTarget ? 'hermes' : 'capilot'}
             draft={draft}
             repos={repos}
             projectHostSetups={projectHostSetups}

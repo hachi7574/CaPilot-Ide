@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync, realpathSync } from 'node:fs'
 import path from 'node:path'
 import type { ElectronApplication, Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { removeWorktreeViaStore } from './helpers/dead-terminal'
 import {
   ensureTerminalVisible,
@@ -29,8 +29,8 @@ const CODEX_READY_RE = /Ask Codex|OpenAI Codex/i
 const CODEX_TRUST_PROMPT_RE =
   /Do you trust|trust this folder|Trust this|Working with untrusted contents/i
 const CODEX_UPDATE_PROMPT_RE = /update available|install update|Skip for now|Skip until next/i
-const CODEX_SKILL_PREVIEW_RE = /Press enter to insert|esc to close|electron|orca-cli|orca-emulator/i
-const SETUP_PANE_ACTIVITY_RE = /install-orca-skills|pnpm|Progress:|Packages:|Lockfile/i
+const CODEX_SKILL_PREVIEW_RE = /Press enter to insert|esc to close|electron|capilot-cli|capilot-emulator/i
+const SETUP_PANE_ACTIVITY_RE = /install-capilot-skills|pnpm|Progress:|Packages:|Lockfile/i
 const CLEAN_SKILL_ROW_RE = /^  [A-Za-z][A-Za-z0-9 .-]{1,32}\s+\[Skill\]\s/
 const CODEX_READY_SETTLE_MS = 3_500
 const SETUP_CHANGES_AFTER_PREVIEW = 3
@@ -121,7 +121,7 @@ async function addRealOrcaRepo(page: Page, repoPath: string): Promise<string> {
     await state.fetchRepos()
     const repo = store.getState().repos.find((candidate) => candidate.path === repoPath)
     if (!repo) {
-      throw new Error(`Real Orca repo did not load: ${repoPath}`)
+      throw new Error(`Real CaPilot repo did not load: ${repoPath}`)
     }
 
     await store.getState().updateRepo(repo.id, {
@@ -139,7 +139,7 @@ async function addRealOrcaRepo(page: Page, repoPath: string): Promise<string> {
       (candidate) => candidate.path === repoPath
     )
     if (!worktree) {
-      throw new Error(`Real Orca worktree did not load: ${repoPath}`)
+      throw new Error(`Real CaPilot worktree did not load: ${repoPath}`)
     }
 
     nextState.updateSettings({
@@ -198,7 +198,7 @@ async function createWorkspaceThroughComposer(page: Page, workspaceName: string)
         }, workspaceName),
       {
         timeout: 60_000,
-        message: `Workspace ${workspaceName} did not appear in the real Orca repo`
+        message: `Workspace ${workspaceName} did not appear in the real CaPilot repo`
       }
     )
     .not.toBeNull()
@@ -219,7 +219,7 @@ async function createWorkspaceThroughComposer(page: Page, workspaceName: string)
   await expect
     .poll(() => getActiveWorktreeId(page), {
       timeout: 30_000,
-      message: 'Created real Orca workspace did not become active'
+      message: 'Created real CaPilot workspace did not become active'
     })
     .toBe(createdId)
   expect(createdId).not.toBe(previousWorktreeId)
@@ -574,7 +574,7 @@ test.describe('Codex skill preview terminal artifact repro @headful', () => {
     createdWorktreeIds.length = 0
   })
 
-  test('captures the real Orca repo setup-split Codex skill preview overpaint before any click', async ({
+  test('captures the real CaPilot repo setup-split Codex skill preview overpaint before any click', async ({
     electronApp,
     orcaPage
   }, testInfo) => {

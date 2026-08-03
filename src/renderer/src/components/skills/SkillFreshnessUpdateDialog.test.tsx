@@ -120,8 +120,8 @@ function placement(
 function eligibleInventory(): SkillFreshnessInventory {
   return {
     schemaVersion: 1,
-    installations: [placement('orca-cli')],
-    eligibleUpdateNames: ['orca-cli'],
+    installations: [placement('capilot-cli')],
+    eligibleUpdateNames: ['capilot-cli'],
     scanIssues: [],
     scannedAt: 1
   }
@@ -218,26 +218,26 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
     await clickButton('Update 1 skill')
 
-    expect(skillsApi.startUpdateRun).toHaveBeenCalledWith(['orca-cli'])
+    expect(skillsApi.startUpdateRun).toHaveBeenCalledWith(['capilot-cli'])
   })
 
   it('shows indeterminate progress and says the run survives closing', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
 
     expect(container?.textContent).toContain('Updating 1 skill…')
     expect(container?.textContent).toContain('keeps running in the background')
     expect(container?.querySelector('[role="progressbar"]')).not.toBeNull()
     expect(
-      container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+      container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
     ).toBe('pending')
   })
 
   it('does not cancel the run when the dialog is closed', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
     await clickButton('Close')
 
     expect(container?.querySelector('[data-dialog-open]')).toBeNull()
@@ -249,14 +249,14 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
     await emitRun({
       state: 'success',
-      names: ['orca-cli'],
+      names: ['capilot-cli'],
       finishedAt: 2,
       output: '✓ Updated 1 skill(s)'
     })
 
     expect(container?.textContent).toContain('Updated 1 skill')
     expect(
-      container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+      container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
     ).toBe('done')
     expect(findButton('Done')).toBeDefined()
     // The re-scan is what makes the result trustworthy, so it must be requested.
@@ -266,8 +266,8 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('attributes failures to the names the re-scan says are still outdated', async () => {
     mocks.inventory = {
       schemaVersion: 1,
-      installations: [placement('orca-cli'), placement('orchestration')],
-      eligibleUpdateNames: ['orca-cli', 'orchestration'],
+      installations: [placement('capilot-cli'), placement('orchestration')],
+      eligibleUpdateNames: ['capilot-cli', 'orchestration'],
       scanIssues: [],
       scannedAt: 1
     }
@@ -275,7 +275,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
     await emitRun({
       state: 'error',
-      names: ['orca-cli', 'orchestration'],
+      names: ['capilot-cli', 'orchestration'],
       failedNames: ['orchestration'],
       finishedAt: 3,
       output: '✗ Failed to update orchestration',
@@ -284,7 +284,7 @@ describe('SkillFreshnessUpdateDialog', () => {
 
     expect(container?.textContent).toContain('Updated 1 of 2 skills')
     expect(
-      container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+      container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
     ).toBe('done')
     expect(
       container?.querySelector('[data-skill-row="orchestration"]')?.getAttribute('data-state-label')
@@ -296,11 +296,11 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('keeps the same row elements across the whole run instead of swapping layouts', async () => {
     await renderDialog()
     await openViaRequest()
-    const before = container?.querySelector('[data-skill-row="orca-cli"]')
+    const before = container?.querySelector('[data-skill-row="capilot-cli"]')
     expect(before?.getAttribute('data-state-label')).toBe('available')
 
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
-    const during = container?.querySelector('[data-skill-row="orca-cli"]')
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
+    const during = container?.querySelector('[data-skill-row="capilot-cli"]')
     expect(during).toBe(before)
     expect(during?.getAttribute('data-state-label')).toBe('pending')
 
@@ -308,14 +308,14 @@ describe('SkillFreshnessUpdateDialog', () => {
     // the group list and blank the row out mid-transition.
     mocks.inventory = {
       schemaVersion: 1,
-      installations: [placement('orca-cli', { status: 'current', installedReleaseRevision: 2 })],
+      installations: [placement('capilot-cli', { status: 'current', installedReleaseRevision: 2 })],
       eligibleUpdateNames: [],
       scanIssues: [],
       scannedAt: 5
     }
-    await emitRun({ state: 'success', names: ['orca-cli'], finishedAt: 2, output: 'done' })
+    await emitRun({ state: 'success', names: ['capilot-cli'], finishedAt: 2, output: 'done' })
     await rerender()
-    const after = container?.querySelector('[data-skill-row="orca-cli"]')
+    const after = container?.querySelector('[data-skill-row="capilot-cli"]')
     expect(after).toBe(before)
     expect(after?.getAttribute('data-state-label')).toBe('done')
   })
@@ -324,21 +324,21 @@ describe('SkillFreshnessUpdateDialog', () => {
     mocks.inventory = {
       schemaVersion: 1,
       installations: [
-        placement('orca-cli'),
-        placement('orca-cli', {
+        placement('capilot-cli'),
+        placement('capilot-cli', {
           rootId: 'plugin',
           topology: 'plugin-cache',
           status: 'inaccessible'
         })
       ],
-      eligibleUpdateNames: ['orca-cli'],
+      eligibleUpdateNames: ['capilot-cli'],
       scanIssues: [],
       scannedAt: 1
     }
     await renderDialog()
     await openViaRequest()
 
-    const row = container?.querySelector('[data-skill-row="orca-cli"]')
+    const row = container?.querySelector('[data-skill-row="capilot-cli"]')
     expect(row).not.toBeNull()
     // Closed by default — the paths are behind the row's own trigger.
     expect(row?.getAttribute('data-collapsible-open')).toBe('false')
@@ -350,7 +350,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     try {
       await renderDialog()
       await openViaRequest()
-      await emitRun({ state: 'success', names: ['orca-cli'], finishedAt: 2, output: 'done' })
+      await emitRun({ state: 'success', names: ['capilot-cli'], finishedAt: 2, output: 'done' })
 
       await act(async () => {
         vi.advanceTimersByTime(SKILL_UPDATE_SUCCESS_LINGER_MS * 3)
@@ -360,7 +360,7 @@ describe('SkillFreshnessUpdateDialog', () => {
       expect(container?.textContent).toContain('Updated 1 skill')
       expect(findButton('Done')).toBeDefined()
       expect(
-        container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+        container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
       ).toBe('done')
 
       // Closing is what hands the run back — it must not be left stuck.
@@ -376,7 +376,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
     await emitRun({
       state: 'success',
-      names: ['orca-cli'],
+      names: ['capilot-cli'],
       finishedAt: 2,
       output: 'Checking skills from source: stablyai/orca\n  ✓ Updated orca-cli'
     })
@@ -389,7 +389,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('shows the up-to-date state once every installation is current', async () => {
     mocks.inventory = {
       schemaVersion: 1,
-      installations: [placement('orca-cli', { status: 'current', installedReleaseRevision: 2 })],
+      installations: [placement('capilot-cli', { status: 'current', installedReleaseRevision: 2 })],
       eligibleUpdateNames: [],
       scanIssues: [],
       scannedAt: 2
@@ -397,7 +397,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     await renderDialog()
     await openViaRequest()
 
-    expect(container?.textContent).toContain('All installed Orca skills are up to date.')
+    expect(container?.textContent).toContain('All installed CaPilot skills are up to date.')
     expect(findButton('Update 1 skill')).toBeUndefined()
   })
 
@@ -431,7 +431,7 @@ describe('SkillFreshnessUpdateDialog', () => {
 
   it('raises no row for a skill whose only finding is a project-owned copy', async () => {
     // The reported bug: a pristine global install plus a drifted copy inside a work
-    // directory. Orca only ever updates global skills, so a "Skipped" row here asserts
+    // directory. CaPilot only ever updates global skills, so a "Skipped" row here asserts
     // it considered an update it could never perform.
     mocks.inventory = {
       schemaVersion: 1,
@@ -454,7 +454,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     await renderDialog()
     await openViaRequest()
 
-    expect(container?.textContent).toContain('All installed Orca skills are up to date.')
+    expect(container?.textContent).toContain('All installed CaPilot skills are up to date.')
     expect(container?.querySelector('[data-skill-row="computer-use"]')).toBeNull()
   })
 
@@ -510,7 +510,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('keeps the stale-record remedy when a project copy is listed beside it', async () => {
     // The same stale-record row as above, plus the user's own project copy. That copy is
     // listed but was never judged, so letting it explain the skip replaced the only
-    // runnable command with advice about a copy the user never asked Orca to update.
+    // runnable command with advice about a copy the user never asked CaPilot to update.
     mocks.inventory = {
       schemaVersion: 1,
       installations: [
@@ -553,27 +553,27 @@ describe('SkillFreshnessUpdateDialog', () => {
     await rerender()
 
     expect(container?.textContent).not.toContain('0 updates available')
-    expect(container?.textContent).toContain('Checking installed Orca skills…')
+    expect(container?.textContent).toContain('Checking installed CaPilot skills…')
     // The action keeps its place rather than reflowing the footer, but cannot
     // fire against bytes that are being re-read.
     const update = findButton('Update 1 skill')
     expect(update).toBeDefined()
     expect(update?.disabled).toBe(true)
     expect(
-      container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+      container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
     ).toBe('available')
   })
 
   it('says it is stopping while the process tree is still being killed', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
     await clickButton('Stop')
     // Main holds the run `running` until the kill lands — that is what blocks a
     // second writer — so the button must not sit enabled and inert meanwhile.
     await emitRun({
       state: 'running',
-      names: ['orca-cli'],
+      names: ['capilot-cli'],
       startedAt: 1,
       output: '',
       stopping: true
@@ -599,7 +599,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('re-reads the inventory after a run is stopped', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
     mocks.notifyChanged.mockClear()
     // A killed run may already have written several skills; leaving the pre-run
     // scan on screen would re-offer skills that are now current.
@@ -611,7 +611,7 @@ describe('SkillFreshnessUpdateDialog', () => {
   it('keeps the rows on screen while the settling re-scan is in flight', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'success', names: ['orca-cli'], finishedAt: 2, output: 'done' })
+    await emitRun({ state: 'success', names: ['capilot-cli'], finishedAt: 2, output: 'done' })
 
     // Settling notifies every skills surface, and that refresh nulls the
     // inventory synchronously while it re-hashes every package on disk.
@@ -620,7 +620,7 @@ describe('SkillFreshnessUpdateDialog', () => {
     await rerender()
 
     expect(
-      container?.querySelector('[data-skill-row="orca-cli"]')?.getAttribute('data-state-label')
+      container?.querySelector('[data-skill-row="capilot-cli"]')?.getAttribute('data-state-label')
     ).toBe('done')
     expect(container?.textContent).toContain('Updated 1 skill')
   })
@@ -630,8 +630,8 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
     await emitRun({
       state: 'error',
-      names: ['orca-cli'],
-      failedNames: ['orca-cli'],
+      names: ['capilot-cli'],
+      failedNames: ['capilot-cli'],
       finishedAt: 3,
       output: '',
       message: 'skills update exited with code 1'
@@ -643,13 +643,13 @@ describe('SkillFreshnessUpdateDialog', () => {
     await rerender()
     await clickButton('Retry')
 
-    expect(skillsApi.startUpdateRun).toHaveBeenCalledWith(['orca-cli'])
+    expect(skillsApi.startUpdateRun).toHaveBeenCalledWith(['capilot-cli'])
   })
 
   it('offers a way out of a run that never finishes', async () => {
     await renderDialog()
     await openViaRequest()
-    await emitRun({ state: 'running', names: ['orca-cli'], startedAt: 1, output: '' })
+    await emitRun({ state: 'running', names: ['capilot-cli'], startedAt: 1, output: '' })
     await clickButton('Stop')
 
     expect(skillsApi.cancelUpdateRun).toHaveBeenCalledTimes(1)
@@ -663,21 +663,21 @@ describe('SkillFreshnessUpdateDialog', () => {
     // sets `error` also clears `loading`), so pin it from the side that depends
     // on it — otherwise a later "keep spinning while retrying" change would
     // silently start showing stale rows under an error.
-    expect(container?.querySelector('[data-skill-row="orca-cli"]')).not.toBeNull()
+    expect(container?.querySelector('[data-skill-row="capilot-cli"]')).not.toBeNull()
 
     mocks.inventory = null
     mocks.error = 'Missing canonical agent skills root'
     await rerender()
 
     expect(container?.textContent).toContain('Missing canonical agent skills root')
-    expect(container?.querySelector('[data-skill-row="orca-cli"]')).toBeNull()
+    expect(container?.querySelector('[data-skill-row="capilot-cli"]')).toBeNull()
     expect(findButton('Update 1 skill')).toBeUndefined()
   })
   it('shows incomplete plugin coverage without presenting a fabricated skill copy', async () => {
     mocks.inventory = {
       schemaVersion: 1,
       installations: [
-        placement('orca-cli', { status: 'current', observedPackageDigest: 'current' })
+        placement('capilot-cli', { status: 'current', observedPackageDigest: 'current' })
       ],
       eligibleUpdateNames: [],
       scanIssues: [
@@ -695,15 +695,15 @@ describe('SkillFreshnessUpdateDialog', () => {
     await openViaRequest()
 
     expect(container?.textContent).toContain(
-      'Orca could not finish checking plugin-managed skills.'
+      'CaPilot could not finish checking plugin-managed skills.'
     )
     expect(container?.textContent).toContain('/home/.codex/plugins/cache/vendor/locked')
     expect(container?.textContent).toContain('EACCES')
-    expect(container?.textContent).not.toContain('All installed Orca skills are up to date.')
+    expect(container?.textContent).not.toContain('All installed CaPilot skills are up to date.')
     // Why: the fabricated per-skill path is exactly what this change removed — the
     // unreadable folder must never be rendered as a copy of a named skill.
     expect(container?.textContent).not.toContain(
-      '/home/.codex/plugins/cache/vendor/locked/orca-cli'
+      '/home/.codex/plugins/cache/vendor/locked/capilot-cli'
     )
   })
 
@@ -715,7 +715,7 @@ describe('SkillFreshnessUpdateDialog', () => {
       mocks.inventory = {
         schemaVersion: 1,
         installations: [
-          placement('orca-cli', { status: 'current', observedPackageDigest: 'current' })
+          placement('capilot-cli', { status: 'current', observedPackageDigest: 'current' })
         ],
         eligibleUpdateNames: [],
         scanIssues: [
@@ -732,9 +732,9 @@ describe('SkillFreshnessUpdateDialog', () => {
       await renderDialog()
       await openViaRequest()
 
-      expect(container?.textContent).not.toContain('All installed Orca skills are up to date.')
+      expect(container?.textContent).not.toContain('All installed CaPilot skills are up to date.')
       expect(container?.textContent).toContain(
-        'Orca could not finish checking plugin-managed skills.'
+        'CaPilot could not finish checking plugin-managed skills.'
       )
       // Why: the headline alone would pass with the folder list gone, leaving the user
       // told the scan stopped but never told where. Assert the diagnostic renders too.
@@ -742,14 +742,14 @@ describe('SkillFreshnessUpdateDialog', () => {
     }
   )
 
-  // Why: Orca's own traversal bounds are not the user's to act on. Headlining them
+  // Why: CaPilot's own traversal bounds are not the user's to act on. Headlining them
   // would put a permanent warning on any ordinary large plugin cache while every
   // skill badge stayed green — the same unclearable amber, moved into the dialog.
   it('lists a traversal bound without headlining it', async () => {
     mocks.inventory = {
       schemaVersion: 1,
       installations: [
-        placement('orca-cli', { status: 'current', observedPackageDigest: 'current' })
+        placement('capilot-cli', { status: 'current', observedPackageDigest: 'current' })
       ],
       eligibleUpdateNames: [],
       scanIssues: [
@@ -766,9 +766,9 @@ describe('SkillFreshnessUpdateDialog', () => {
     await renderDialog()
     await openViaRequest()
 
-    expect(container?.textContent).toContain('All installed Orca skills are up to date.')
+    expect(container?.textContent).toContain('All installed CaPilot skills are up to date.')
     expect(container?.textContent).not.toContain(
-      'Orca could not finish checking plugin-managed skills.'
+      'CaPilot could not finish checking plugin-managed skills.'
     )
     expect(container?.textContent).toContain('/home/.codex/plugins/cache/vendor/deep')
     expect(container?.textContent).toContain('scan depth limit')

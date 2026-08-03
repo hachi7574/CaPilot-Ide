@@ -23,7 +23,7 @@ export type RuntimeEnvironmentStatus = {
 }
 
 export type RuntimeStatusSlice = {
-  /** Saved remote Orca servers. Host pickers use this to show user-chosen names
+  /** Saved remote CaPilot servers. Host pickers use this to show user-chosen names
    * instead of opaque runtime ids. */
   runtimeEnvironments: PublicKnownRuntimeEnvironment[]
   /** True only after the saved-runtime catalog has loaded successfully. Gates
@@ -83,7 +83,7 @@ function showRuntimeDisconnectedToast(environmentId: string, getState: () => App
       )
     : translate(
         'auto.store.slices.runtime.status.runtimeHostUnreachable',
-        "Can't reach Orca server"
+        "Can't reach CaPilot server"
       )
   activeRuntimeDisconnectedToasts.set(toastId, activation)
   const clearActiveToast = (): void => {
@@ -97,7 +97,7 @@ function showRuntimeDisconnectedToast(environmentId: string, getState: () => App
       id: toastId,
       description: translate(
         'auto.store.slices.runtime.status.runtimeHostDisconnectedDescription',
-        'Check that Orca is running on this server and that your network connection is working, then try again.'
+        'Check that CaPilot is running on this server and that your network connection is working, then try again.'
       ),
       duration,
       action: {

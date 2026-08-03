@@ -10,7 +10,7 @@
  *   - Shortcuts no-op in non-terminal views (buttons also hidden there).
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import type { Page } from '@stablyai/playwright-test'
 import {
   waitForSessionReady,

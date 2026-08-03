@@ -114,7 +114,7 @@ function createHarness(args: {
     },
     pid: args.pid ?? SELF_PID,
     title: args.title ?? 'node',
-    argv: args.argv ?? ['node', '/usr/bin/orca']
+    argv: args.argv ?? ['node', '/usr/bin/capilot']
   }
 
   const context = {
@@ -493,7 +493,7 @@ describe('getPiAgentStatusExtensionSource', () => {
       '-H',
       'Content-Type: application/json',
       '-H',
-      'X-Orca-Agent-Hook-Token: token-1',
+      'X-CaPilot-Agent-Hook-Token: token-1',
       '--data-binary',
       '@-',
       'http://127.0.0.1:4321/hook/omp'
@@ -579,7 +579,7 @@ describe('getPiAgentStatusExtensionSource', () => {
     await Promise.resolve()
 
     // Why: Pi awaits extension handlers, so loopback status delivery cannot
-    // remain on the agent's critical path when Orca is stalled or restarting.
+    // remain on the agent's critical path when CaPilot is stalled or restarting.
     expect(harness.fetchMock).toHaveBeenCalledTimes(1)
     await vi.waitFor(() => expect(handlerReturned).toBe(true))
 

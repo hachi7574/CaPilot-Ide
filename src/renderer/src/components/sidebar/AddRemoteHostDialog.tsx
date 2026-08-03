@@ -287,7 +287,7 @@ export function AddRemoteHostDialog({
             {renderMode === 'server'
               ? translate(
                   'auto.components.sidebar.AddRemoteHostDialog.serverDescription',
-                  'Pair with Orca running on another computer.'
+                  'Pair with CaPilot running on another computer.'
                 )
               : translate(
                   'auto.components.sidebar.AddRemoteHostDialog.sshDescription',

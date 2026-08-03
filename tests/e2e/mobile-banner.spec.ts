@@ -1,5 +1,5 @@
 import type { ElectronApplication, Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveWorktreeId,
@@ -42,7 +42,7 @@ test('mobile subscribe mounts overlay; collapse → chip; Take back dismisses', 
   await expect(overlay).toHaveCount(0)
 
   // Fire the IPC events main emits when a mobile client subscribes in 'auto'
-  // mode (handleMobileSubscribe in src/main/runtime/orca-runtime.ts). The
+  // mode (handleMobileSubscribe in src/main/runtime/capilot-runtime.ts). The
   // renderer's listener calls setFitOverride + setDriverForPty, the banner
   // observes the change, and MobileDriverOverlay mounts in loud mode.
   await sendMobileSubscribeIpc(electronApp, { ptyId, cols: 45, rows: 20 })

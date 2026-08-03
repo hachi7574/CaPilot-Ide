@@ -2,7 +2,7 @@ import type { Page } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   focusActiveTerminalInput,
   waitForActivePanePtyId,
@@ -218,7 +218,7 @@ test.describe('Terminal typing latency vs scrollback history size', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-history-benchmark-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-history-benchmark-${runId}.mjs`)
     writeFileSync(scriptPath, historyEchoScript(runId))
     let commandSent = false
     try {

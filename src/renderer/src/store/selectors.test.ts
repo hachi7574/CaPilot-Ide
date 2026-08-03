@@ -245,8 +245,8 @@ describe('store selectors', () => {
     const repos = [
       makeRepo({
         id: 'repo-1',
-        path: '/Users/alice/orca',
-        displayName: 'orca'
+        path: '/Users/alice/capilot',
+        displayName: 'capilot'
       })
     ]
     const state = { repos }
@@ -407,8 +407,8 @@ describe('store selectors', () => {
     const repos = [
       makeRepo({
         id: 'repo-1',
-        path: '/Users/alice/orca',
-        displayName: 'orca'
+        path: '/Users/alice/capilot',
+        displayName: 'capilot'
       })
     ]
     const projects = [
@@ -427,8 +427,8 @@ describe('store selectors', () => {
         projectId: 'project-1',
         hostId: 'local' as const,
         repoId: 'repo-1',
-        path: '/Users/alice/orca',
-        displayName: 'orca',
+        path: '/Users/alice/capilot',
+        displayName: 'capilot',
         setupState: 'ready' as const,
         setupMethod: 'legacy-repo' as const,
         createdAt: 1,
@@ -445,15 +445,15 @@ describe('store selectors', () => {
   it('groups hydrated VM project setups under the repo-derived project identity', () => {
     const repos = [
       makeRepo({
-        id: 'local-orca',
-        path: '/Users/alice/stably/orca',
-        displayName: 'orca',
+        id: 'local-capilot',
+        path: '/Users/alice/stably/capilot',
+        displayName: 'capilot',
         upstream: { owner: 'stablyai', repo: 'orca' }
       }),
       makeRepo({
-        id: 'vm-orca',
-        path: '/vercel/sandbox/orca',
-        displayName: 'orca',
+        id: 'vm-capilot',
+        path: '/vercel/sandbox/capilot',
+        displayName: 'capilot',
         upstream: { owner: 'stablyai', repo: 'orca' },
         executionHostId: toRuntimeExecutionHostId('vm-env')
       })
@@ -461,17 +461,17 @@ describe('store selectors', () => {
     const projects = [
       {
         id: 'github:stablyai/orca',
-        displayName: 'orca',
+        displayName: 'capilot',
         badgeColor: '#737373',
-        sourceRepoIds: ['local-orca'],
+        sourceRepoIds: ['local-capilot'],
         createdAt: 1,
         updatedAt: 1
       },
       {
-        id: 'repo:vm-orca',
-        displayName: 'vercel/sandbox/orca',
+        id: 'repo:vm-capilot',
+        displayName: 'vercel/sandbox/capilot',
         badgeColor: '#737373',
-        sourceRepoIds: ['vm-orca'],
+        sourceRepoIds: ['vm-capilot'],
         createdAt: 1,
         updatedAt: 1
       }
@@ -481,9 +481,9 @@ describe('store selectors', () => {
         id: 'local-setup',
         projectId: 'github:stablyai/orca',
         hostId: 'local' as const,
-        repoId: 'local-orca',
-        path: '/Users/alice/stably/orca',
-        displayName: 'orca',
+        repoId: 'local-capilot',
+        path: '/Users/alice/stably/capilot',
+        displayName: 'capilot',
         setupState: 'ready' as const,
         setupMethod: 'legacy-repo' as const,
         createdAt: 1,
@@ -491,11 +491,11 @@ describe('store selectors', () => {
       },
       {
         id: 'vm-setup',
-        projectId: 'repo:vm-orca',
+        projectId: 'repo:vm-capilot',
         hostId: toRuntimeExecutionHostId('vm-env'),
-        repoId: 'vm-orca',
-        path: '/vercel/sandbox/orca',
-        displayName: 'orca',
+        repoId: 'vm-capilot',
+        path: '/vercel/sandbox/capilot',
+        displayName: 'capilot',
         setupState: 'ready' as const,
         setupMethod: 'provisioned' as const,
         createdAt: 1,
@@ -522,8 +522,8 @@ describe('store selectors', () => {
     const repos = [
       makeRepo({
         id: 'repo-1',
-        path: '/Users/alice/orca',
-        displayName: 'orca',
+        path: '/Users/alice/capilot',
+        displayName: 'capilot',
         upstream: { owner: 'stablyai', repo: 'orca' }
       })
     ]
@@ -546,7 +546,7 @@ describe('store selectors', () => {
         projectId: 'github:stablyai/orca',
         repoId: 'repo-1',
         hostId: 'local',
-        path: '/Users/alice/orca'
+        path: '/Users/alice/capilot'
       })
     ])
   })
@@ -555,8 +555,8 @@ describe('store selectors', () => {
     const repos = [
       makeRepo({
         id: 'repo-1',
-        path: '/Users/alice/orca',
-        displayName: 'orca'
+        path: '/Users/alice/capilot',
+        displayName: 'capilot'
       })
     ]
     const projects = [

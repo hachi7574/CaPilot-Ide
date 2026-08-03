@@ -8,7 +8,7 @@
  */
 
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveTabId,
@@ -395,6 +395,6 @@ test.describe('Terminal output scheduler', () => {
       })
       .toBe(true)
 
-    expect(await getTerminalContent(orcaPage)).not.toContain('Orca skipped hidden terminal output')
+    expect(await getTerminalContent(orcaPage)).not.toContain('CaPilot skipped hidden terminal output')
   })
 })

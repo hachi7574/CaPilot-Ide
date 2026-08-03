@@ -236,7 +236,7 @@ describe('launchWorktreeBackgroundTerminals', () => {
     await launchWorktreeBackgroundTerminals({
       worktreeId: 'wt-1',
       setup: {
-        runnerScriptPath: 'C:\\repo\\.git\\worktrees\\wt\\orca\\setup-runner.cmd',
+        runnerScriptPath: 'C:\\repo\\.git\\worktrees\\wt\\capilot\\setup-runner.cmd',
         envVars: { ORCA_WORKTREE_PATH: 'C:\\repo\\worktree' }
       }
     })
@@ -244,7 +244,7 @@ describe('launchWorktreeBackgroundTerminals', () => {
     expect(mockSpawn).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
-        command: 'cmd.exe /c "C:\\repo\\.git\\worktrees\\wt\\orca\\setup-runner.cmd"',
+        command: 'cmd.exe /c "C:\\repo\\.git\\worktrees\\wt\\capilot\\setup-runner.cmd"',
         connectionId: 'ssh-windows'
       })
     )
@@ -266,7 +266,7 @@ describe('launchWorktreeBackgroundTerminals', () => {
     await launchWorktreeBackgroundTerminals({
       worktreeId: 'wt-1',
       setup: {
-        runnerScriptPath: 'C:\\repo\\.git\\worktrees\\wt\\orca\\setup-runner.sh',
+        runnerScriptPath: 'C:\\repo\\.git\\worktrees\\wt\\capilot\\setup-runner.sh',
         shell: { family: 'posix', executable: 'wsl.exe' },
         envVars: { ORCA_WORKTREE_PATH: 'C:\\repo\\worktree' }
       }
@@ -275,7 +275,7 @@ describe('launchWorktreeBackgroundTerminals', () => {
     expect(mockSpawn).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
-        command: 'bash /mnt/c/repo/.git/worktrees/wt/orca/setup-runner.sh',
+        command: 'bash /mnt/c/repo/.git/worktrees/wt/capilot/setup-runner.sh',
         connectionId: null
       })
     )

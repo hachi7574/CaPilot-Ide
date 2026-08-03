@@ -26,8 +26,8 @@ function cloneProcessEnv(): Record<string, string> {
 }
 
 // Why: with system-default real-home routing, the headless Codex commit run
-// must use the user's own ~/.codex. If Orca itself was launched from a nested
-// Orca terminal it can inherit an Orca-owned CODEX_HOME override; strip only
+// must use the user's own ~/.codex. If CaPilot itself was launched from a nested
+// CaPilot terminal it can inherit an CaPilot-owned CODEX_HOME override; strip only
 // that (CODEX_HOME matching the private ORCA_CODEX_HOME marker), preserving a
 // user-set CODEX_HOME.
 function cloneProcessEnvWithoutOrcaCodexHomeOverride(): Record<string, string> {
@@ -75,8 +75,8 @@ function prepareShellConfigDirEnv(agentId: string): { ok: true; env?: NodeJS.Pro
     return { ok: true }
   }
 
-  // Why: GUI-launched Orca may not inherit shell startup exports, but these
-  // vars point the headless CLI at the user's auth/config root. Nested Orca
+  // Why: GUI-launched CaPilot may not inherit shell startup exports, but these
+  // vars point the headless CLI at the user's auth/config root. Nested CaPilot
   // launches inherit PTY overlays, so prefer ORCA_*_SOURCE_* when present.
   return { ok: true, env: { ...cloneProcessEnv(), [configVar]: value } }
 }
@@ -100,7 +100,7 @@ export async function prepareLocalCommitMessageAgentEnv(
       const wslCodexHome = codexHomePath ? parseWslUncPath(codexHomePath) : null
       if (target?.runtime === 'wsl') {
         const codexHomeForTarget = wslCodexHome?.linuxPath ?? null
-        // Why: the fallback must still strip Orca-owned overrides, or a
+        // Why: the fallback must still strip CaPilot-owned overrides, or a
         // system-default WSL run inherits the managed CODEX_HOME.
         return {
           ok: true,

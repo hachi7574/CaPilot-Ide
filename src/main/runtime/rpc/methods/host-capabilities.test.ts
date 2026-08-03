@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 
 const { isPwshAvailable, isWslAvailable, listWslDistros, isGitBashAvailable } = vi.hoisted(() => ({
   isPwshAvailable: vi.fn(),

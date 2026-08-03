@@ -5,7 +5,7 @@ import type { Page } from '@stablyai/playwright-test'
 import type { RuntimeTerminalRead } from '../../src/shared/runtime-types'
 import { TERMINAL_PAIRED_PARKING_RUNTIME_CAPABILITY } from '../../src/shared/protocol-version'
 import { toWebTerminalSurfaceTabId } from '../../src/shared/terminal-surface-id'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedWebClient
@@ -13,7 +13,7 @@ import {
 import { getTerminalContent, waitForActivePanePtyId } from './helpers/terminal'
 
 const RETENTION_PARK_DELAY_MS = 100
-const scratch = mkdtempSync(path.join(os.tmpdir(), 'orca-paired-truncated-tail-'))
+const scratch = mkdtempSync(path.join(os.tmpdir(), 'capilot-paired-truncated-tail-'))
 const fixturePath = path.join(scratch, 'truncated-tail-terminal.mjs')
 writeFileSync(
   fixturePath,

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { AUTOMATION_METHODS } from './automations'
 
 function makeRequest(method: string, params?: unknown): RpcRequest {
@@ -36,7 +36,7 @@ describe('automation RPC methods', () => {
           hostId: 'runtime:gpu',
           projectHostSetupId: 'setup-gpu',
           repoId: 'repo-gpu',
-          path: '/srv/orca'
+          path: '/srv/capilot'
         },
         sourceContext: {
           kind: 'task-source',

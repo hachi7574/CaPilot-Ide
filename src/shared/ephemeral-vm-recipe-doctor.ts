@@ -27,7 +27,7 @@ export function doctorEphemeralVmRecipe(args: {
       id: 'repo.path',
       status: 'fail',
       message: `Repo path does not exist or is not a directory: ${args.repoPath}`,
-      remediation: 'Pass the local repo that contains orca.yaml.'
+      remediation: 'Pass the local repo that contains capilot.yaml.'
     })
     return buildDoctorResult(args.recipeId, args.repoPath, checks)
   }
@@ -123,7 +123,7 @@ function checkCommandPath(
       id,
       status: 'warn',
       message: `Command is not a repo-relative path: ${executable}`,
-      remediation: 'Use a repo-relative script such as ./scripts/orca-vm/start.sh.'
+      remediation: 'Use a repo-relative script such as ./scripts/capilot-vm/start.sh.'
     }
   }
   const scriptPath = join(repoPath, normalize(executable))

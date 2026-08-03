@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   createStagedCommitMessageChange,
@@ -240,7 +240,7 @@ test.describe('Source Control Create PR intent worktree switching', () => {
     await waitForSessionReady(orcaPage)
     await waitForActiveWorktree(orcaPage)
     const { prWorktreeId, prWorktreePath } = await seedCreatePrComposer(orcaPage)
-    const remoteRoot = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-create-pr-remote-'))
+    const remoteRoot = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-create-pr-remote-'))
     const remotePath = path.join(remoteRoot, 'origin.git')
     execFileSync('git', ['init', '--bare', remotePath])
     // Why: the seeded worktree may already define origin, so make the add idempotent.
@@ -280,7 +280,7 @@ test.describe('Source Control Create PR intent worktree switching', () => {
               ? {
                   ...repo,
                   gitRemoteIdentity: {
-                    canonicalKey: 'github.com/acme/orca',
+                    canonicalKey: 'github.com/acme/capilot',
                     remoteName: 'origin',
                     remoteUrl: 'https://github.com/acme/orca.git'
                   }

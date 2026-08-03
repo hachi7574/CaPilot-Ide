@@ -99,10 +99,10 @@ function createSettings(overrides: TestSettingsOverrides = {}): GlobalSettings {
     terminalLigatures: 'auto',
     terminalCursorStyle: 'block',
     terminalCursorBlink: false,
-    terminalThemeDark: 'orca-dark',
+    terminalThemeDark: 'capilot-dark',
     terminalDividerColorDark: '#000000',
     terminalUseSeparateLightTheme: false,
-    terminalThemeLight: 'orca-light',
+    terminalThemeLight: 'capilot-light',
     terminalDividerColorLight: '#ffffff',
     terminalInactivePaneOpacity: 0.5,
     terminalActivePaneOpacity: 1,
@@ -276,7 +276,7 @@ function createResetRateLimitState(
 function createManagedHome(rootDir: string, accountId: string, config = '', auth = ''): string {
   const managedHomePath = join(rootDir, 'codex-accounts', accountId, 'home')
   mkdirSync(managedHomePath, { recursive: true })
-  writeFileSync(join(managedHomePath, '.orca-managed-home'), `${accountId}\n`, 'utf-8')
+  writeFileSync(join(managedHomePath, '.capilot-managed-home'), `${accountId}\n`, 'utf-8')
   if (config) {
     writeFileSync(join(managedHomePath, 'config.toml'), config, 'utf-8')
   }
@@ -336,7 +336,7 @@ async function createCanonicalHookTrustFixture(): Promise<{
   const expectedHashKey = computeTrustKey(expectedHashEntry)
   const ledgerHashKey = computeTrustKey(ledgerHashEntry)
   const userKey = computeTrustKey(userEntry)
-  const ledgerTrustedHash = 'sha256:codex-granted-orca-hook'
+  const ledgerTrustedHash = 'sha256:codex-granted-capilot-hook'
   writeCodexTrustGrantLedgerHome(sourceHomePath, {
     binary: null,
     entries: {
@@ -364,8 +364,8 @@ describe('CodexAccountService config sync', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
-    testState.userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-accounts-'))
-    testState.fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-home-'))
+    testState.userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-accounts-'))
+    testState.fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-home-'))
     testState.previousUserDataPath = process.env.ORCA_USER_DATA_PATH
     process.env.ORCA_USER_DATA_PATH = testState.userDataDir
     mkdirSync(join(testState.fakeHomeDir, '.codex'), { recursive: true })
@@ -903,7 +903,7 @@ describe('CodexAccountService config sync', () => {
       )
 
       await expect(service.addAccount()).rejects.toThrow(
-        'Orca cannot add a Codex OAuth account while ~/.codex/config.toml pins the custom provider "codex-lb". Keep using the system-default account for this provider, or remove model_provider (or set it to "openai") before adding an OAuth account. Orca left your config unchanged.'
+        'CaPilot cannot add a Codex OAuth account while ~/.codex/config.toml pins the custom provider "codex-lb". Keep using the system-default account for this provider, or remove model_provider (or set it to "openai") before adding an OAuth account. CaPilot left your config unchanged.'
       )
 
       expect(spawnMock).not.toHaveBeenCalled()
@@ -931,7 +931,7 @@ describe('CodexAccountService config sync', () => {
       (_command: string, _args: string[], options: { env: NodeJS.ProcessEnv }) => {
         const loginHome = options.env.CODEX_HOME
         expect(loginHome).toBeTruthy()
-        expect(readFileSync(join(loginHome!, '.orca-managed-home'), 'utf-8')).toBe('account-1\n')
+        expect(readFileSync(join(loginHome!, '.capilot-managed-home'), 'utf-8')).toBe('account-1\n')
         expect(readFileSync(join(loginHome!, 'config.toml'), 'utf-8')).toBe(canonicalConfig)
 
         const child = new EventEmitter() as EventEmitter & {
@@ -1059,7 +1059,7 @@ describe('CodexAccountService config sync', () => {
       ),
       managedHomeRuntime: 'wsl' as const,
       wslDistro: 'Ubuntu',
-      wslLinuxHomePath: '/home/test/.local/share/orca/codex-accounts/account-wsl/home',
+      wslLinuxHomePath: '/home/test/.local/share/capilot/codex-accounts/account-wsl/home',
       providerAccountId: 'provider-wsl',
       workspaceLabel: null,
       workspaceAccountId: 'provider-wsl',
@@ -1263,7 +1263,7 @@ describe('CodexAccountService config sync', () => {
     )
 
     await expect(service.reauthenticateAccount('account-1')).rejects.toThrow(
-      'Managed Codex home is missing Orca ownership marker.'
+      'Managed Codex home is missing CaPilot ownership marker.'
     )
     expect(spawnMock).not.toHaveBeenCalled()
     warnSpy.mockRestore()
@@ -1279,7 +1279,7 @@ describe('CodexAccountService config sync', () => {
 
     const wslManagedHomePath = join(testState.userDataDir, 'wsl-managed-home')
     const wslConfigPath = join(testState.userDataDir, 'wsl-config.toml')
-    const wslLinuxHomePath = '/home/alice/.local/share/orca/codex-accounts/account-id-for-test/home'
+    const wslLinuxHomePath = '/home/alice/.local/share/capilot/codex-accounts/account-id-for-test/home'
     writeFileSync(
       wslConfigPath,
       'sandbox_mode = "danger-full-access"\nmodel_instructions_file = "instructions.md"\n',
@@ -1303,7 +1303,7 @@ describe('CodexAccountService config sync', () => {
         return ''
       }
       mkdirSync(wslManagedHomePath, { recursive: true })
-      writeFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'account-id-for-test\n')
+      writeFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'account-id-for-test\n')
       return ''
     })
     const spawnMock = vi.fn((command: string, args: string[]) => {
@@ -1400,7 +1400,7 @@ describe('CodexAccountService config sync', () => {
     })
 
     const wslManagedHomePath = join(testState.userDataDir, 'wsl-managed-home')
-    const wslLinuxHomePath = '/home/alice/.local/share/orca/codex-accounts/account-id-for-test/home'
+    const wslLinuxHomePath = '/home/alice/.local/share/capilot/codex-accounts/account-id-for-test/home'
 
     const execFileSyncMock = vi.fn((_command: string, args: string[]) => {
       const script = decodeEncodedWslBashCommand(String(args.at(-1)))
@@ -1416,7 +1416,7 @@ describe('CodexAccountService config sync', () => {
         throw new Error('codex missing')
       }
       mkdirSync(wslManagedHomePath, { recursive: true })
-      writeFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'account-id-for-test\n')
+      writeFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'account-id-for-test\n')
       return ''
     })
     const spawnMock = vi.fn()
@@ -1471,9 +1471,9 @@ describe('CodexAccountService config sync', () => {
     })
 
     const wslManagedHomePath = join(testState.userDataDir, 'wsl-account', 'home')
-    const wslLinuxHomePath = '/home/alice/.local/share/orca/codex-accounts/account-1/home'
+    const wslLinuxHomePath = '/home/alice/.local/share/capilot/codex-accounts/account-1/home'
     mkdirSync(wslManagedHomePath, { recursive: true })
-    writeFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'account-1\n', 'utf-8')
+    writeFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'account-1\n', 'utf-8')
     writeFileSync(
       join(wslManagedHomePath, 'auth.json'),
       JSON.stringify({
@@ -1615,13 +1615,13 @@ describe('CodexAccountService config sync', () => {
     })
 
     const wslManagedHomePath = join(testState.userDataDir, 'wsl-account', 'home')
-    const wslLinuxHomePath = '/home/alice/.local/share/orca/codex-accounts/account-1/home'
+    const wslLinuxHomePath = '/home/alice/.local/share/capilot/codex-accounts/account-1/home'
 
     const execFileSyncMock = vi.fn((_command: string, args: string[]) => {
       const script = decodeEncodedWslBashCommand(String(args.at(-1)))
       if (script.includes('mkdir -p -- "$candidate"')) {
         mkdirSync(wslManagedHomePath, { recursive: true })
-        writeFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'account-1\n', 'utf-8')
+        writeFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'account-1\n', 'utf-8')
         return ''
       }
       if (script.includes('readlink -f')) {
@@ -1632,7 +1632,7 @@ describe('CodexAccountService config sync', () => {
     const spawnMock = vi.fn((command: string, args: string[]) => {
       expect(command).toBe('wsl.exe')
       expect(args).toEqual(buildWslCodexLoginArgs('Ubuntu', wslLinuxHomePath))
-      expect(readFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'utf-8')).toBe(
+      expect(readFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'utf-8')).toBe(
         'account-1\n'
       )
       const child = new EventEmitter() as EventEmitter & {
@@ -1724,9 +1724,9 @@ describe('CodexAccountService config sync', () => {
     })
 
     const wslManagedHomePath = join(testState.userDataDir, 'wsl-account', 'home')
-    const wslLinuxHomePath = '/home/alice/.local/share/orca/codex-accounts/account-1/home'
+    const wslLinuxHomePath = '/home/alice/.local/share/capilot/codex-accounts/account-1/home'
     mkdirSync(wslManagedHomePath, { recursive: true })
-    writeFileSync(join(wslManagedHomePath, '.orca-managed-home'), 'account-1\n', 'utf-8')
+    writeFileSync(join(wslManagedHomePath, '.capilot-managed-home'), 'account-1\n', 'utf-8')
 
     vi.doMock('node:child_process', () => ({
       execFileSync: vi.fn((_command: string, args: string[]) => {
@@ -1737,7 +1737,7 @@ describe('CodexAccountService config sync', () => {
             'test "$candidate_real" = "$managed_root_real/$expected_marker/home"'
           )
           expect(script).toContain(
-            'test "$(cat "$candidate_real/.orca-managed-home")" = "$expected_marker"'
+            'test "$(cat "$candidate_real/.capilot-managed-home")" = "$expected_marker"'
           )
           return `${wslLinuxHomePath}\n`
         }
@@ -1914,7 +1914,7 @@ describe('CodexAccountService config sync', () => {
       '{"account":"host"}\n'
     )
     const wslManagedHomePath =
-      '\\\\wsl.localhost\\Ubuntu\\home\\alice\\.local\\share\\orca\\codex-accounts\\wsl-account\\home'
+      '\\\\wsl.localhost\\Ubuntu\\home\\alice\\.local\\share\\capilot\\codex-accounts\\wsl-account\\home'
     const settings = createSettings({
       codexManagedAccounts: [
         {
@@ -1937,7 +1937,7 @@ describe('CodexAccountService config sync', () => {
           managedHomePath: wslManagedHomePath,
           managedHomeRuntime: 'wsl',
           wslDistro: 'Ubuntu',
-          wslLinuxHomePath: '/home/alice/.local/share/orca/codex-accounts/wsl-account/home',
+          wslLinuxHomePath: '/home/alice/.local/share/capilot/codex-accounts/wsl-account/home',
           providerAccountId: null,
           workspaceLabel: null,
           workspaceAccountId: null,
@@ -3876,8 +3876,8 @@ describe('CodexAccountService.addAccountFromHome', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
-    testState.userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-accounts-'))
-    testState.fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-home-'))
+    testState.userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-accounts-'))
+    testState.fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-home-'))
     testState.previousUserDataPath = process.env.ORCA_USER_DATA_PATH
     process.env.ORCA_USER_DATA_PATH = testState.userDataDir
     mkdirSync(join(testState.fakeHomeDir, '.codex'), { recursive: true })
@@ -3895,7 +3895,7 @@ describe('CodexAccountService.addAccountFromHome', () => {
 
   it('registers a managed Codex account by importing an authenticated CODEX_HOME', async () => {
     vi.doMock('../codex-cli/command', () => ({ resolveCodexCommand: () => 'codex' }))
-    const sourceHome = mkdtempSync(join(tmpdir(), 'orca-codex-source-'))
+    const sourceHome = mkdtempSync(join(tmpdir(), 'capilot-codex-source-'))
     writeFileSync(
       join(sourceHome, 'auth.json'),
       createCodexAuthJson('new@example.com', 'provider-account-1', 'refresh-token'),
@@ -3929,7 +3929,7 @@ describe('CodexAccountService.addAccountFromHome', () => {
 
   it('restores settings and runtime selection when post-write activation fails', async () => {
     vi.doMock('../codex-cli/command', () => ({ resolveCodexCommand: () => 'codex' }))
-    const sourceHome = mkdtempSync(join(tmpdir(), 'orca-codex-source-rollback-'))
+    const sourceHome = mkdtempSync(join(tmpdir(), 'capilot-codex-source-rollback-'))
     writeFileSync(
       join(sourceHome, 'auth.json'),
       createCodexAuthJson('new@example.com', 'provider-account-1', 'refresh-token'),
@@ -3968,7 +3968,7 @@ describe('CodexAccountService.addAccountFromHome', () => {
 
   it('rejects when the source home has no auth.json', async () => {
     vi.doMock('../codex-cli/command', () => ({ resolveCodexCommand: () => 'codex' }))
-    const sourceHome = mkdtempSync(join(tmpdir(), 'orca-codex-source-empty-'))
+    const sourceHome = mkdtempSync(join(tmpdir(), 'capilot-codex-source-empty-'))
 
     try {
       const settings = createSettings()

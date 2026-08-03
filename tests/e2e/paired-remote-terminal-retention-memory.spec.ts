@@ -1,4 +1,4 @@
-import { test } from './helpers/orca-app'
+import { test } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedWebClient

@@ -98,7 +98,7 @@ export function useModalReturnFocus(visible: boolean): {
     if (focusCapturedElement()) {
       return
     }
-    focusFirstMatchingSurface(['[data-orca-emulator-frame="true"] [tabindex]'])
+    focusFirstMatchingSurface(['[data-capilot-emulator-frame="true"] [tabindex]'])
   }, [focusCapturedElement, focusFirstMatchingSurface])
 
   const focusFallbackSurface = useCallback((): void => {
@@ -132,7 +132,7 @@ export function useModalReturnFocus(visible: boolean): {
     // Why: this can be called from Radix onOpenAutoFocus, before focus moves
     // into the dialog, preserving address-bar/editor/simulator identity.
     const browserTarget =
-      tabType === 'browser' && activeElement?.closest('[data-orca-browser-address-bar="true"]')
+      tabType === 'browser' && activeElement?.closest('[data-capilot-browser-address-bar="true"]')
         ? 'address-bar'
         : 'webview'
     capturedElementRef.current = isRestorableFocusedElement(activeElement) ? activeElement : null

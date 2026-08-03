@@ -164,7 +164,7 @@ function getPreviewDirectory(): string {
   } catch {
     base = tmpdir()
   }
-  return join(base, 'orca-diagnostic-bundle-previews')
+  return join(base, 'capilot-diagnostic-bundle-previews')
 }
 
 function writeBundlePreviewFile(bundle: CollectedBundle): string {

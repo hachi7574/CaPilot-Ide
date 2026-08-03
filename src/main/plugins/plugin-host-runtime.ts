@@ -15,7 +15,7 @@ import type { PluginEventName } from '../../shared/plugins/plugin-manifest'
 
 export type PluginHostCallError = Error & { code?: string }
 
-/** API surface handed to a plugin's `activate(orca)` export. Everything is
+/** API surface handed to a plugin's `activate(capilot)` export. Everything is
  *  EXPERIMENTAL until pluginApi v1 freezes. */
 export type PluginWorkerOrcaApi = {
   /** Register the handler for a command declared in the manifest. */
@@ -89,7 +89,7 @@ export function createPluginWorkerRuntime(
       throw new Error(`plugin entry ${input.mainEntry} has a non-function deactivate export`)
     }
     deactivate = (module.deactivate as (() => unknown | Promise<unknown>) | undefined) ?? null
-    const orca: PluginWorkerOrcaApi = {
+    const capilot: PluginWorkerOrcaApi = {
       commands: {
         register(commandId, handler) {
           commandHandlers.set(commandId, handler)
@@ -116,7 +116,7 @@ export function createPluginWorkerRuntime(
         send({ type: 'log', level: 'info', message: String(message).slice(0, 8192) })
       }
     }
-    await activate(orca)
+    await activate(capilot)
     send({ type: 'ready', commands: [...commandHandlers.keys()] })
   }
 

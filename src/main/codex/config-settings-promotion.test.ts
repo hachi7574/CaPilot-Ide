@@ -60,8 +60,8 @@ let userDataDir: string
 let previousUserDataPath: string | undefined
 
 beforeEach(() => {
-  tmpHome = mkdtempSync(join(tmpdir(), 'orca-codex-settings-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-settings-user-data-'))
+  tmpHome = mkdtempSync(join(tmpdir(), 'capilot-codex-settings-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-settings-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(tmpHome)
@@ -98,7 +98,7 @@ function runtimeConfigPath(): string {
 }
 
 function baselinePath(): string {
-  return join(runtimeHomeDir(), '.orca-config-settings-baseline.json')
+  return join(runtimeHomeDir(), '.capilot-config-settings-baseline.json')
 }
 
 function writeSystemConfig(content: string): void {
@@ -289,7 +289,7 @@ describe('codex settings write-back promotion', () => {
   })
 
   it('keeps runtime-only settings when promotion has to create ~/.codex/config.toml', () => {
-    // Why: `codex mcp add` inside an Orca-launched Codex writes into the runtime
+    // Why: `codex mcp add` inside an CaPilot-launched Codex writes into the runtime
     // home. Seeding ~/.codex from the promoted keys alone made the next mirror
     // treat that skeleton as authoritative and delete the MCP server for good.
     expect(existsSync(join(tmpHome, '.codex'))).toBe(false)
@@ -304,7 +304,7 @@ describe('codex settings write-back promotion', () => {
     expect(readRuntimeConfig()).toContain('[mcp_servers.linear]')
     expect(readRuntimeConfig()).toContain('[features]')
     expect(readRuntimeConfig()).toContain('model = "o4"')
-    // Trust stays runtime-owned; Orca must not write it into the real ~/.codex.
+    // Trust stays runtime-owned; CaPilot must not write it into the real ~/.codex.
     expect(readRuntimeConfig()).toContain('[projects."/repo"]')
     expect(readSystemConfig()).not.toContain('[projects."/repo"]')
     expect(readSystemConfig()).toContain('[mcp_servers.linear]')
@@ -487,7 +487,7 @@ describe('codex [tui] settings write-back promotion', () => {
     writeSystemConfig('model = "gpt-5"\n')
     syncSystemConfigIntoManagedCodexHome()
 
-    // The user customizes the status line/theme inside Orca-launched Codex.
+    // The user customizes the status line/theme inside CaPilot-launched Codex.
     writeFileSync(runtimeConfigPath(), `${readRuntimeConfig()}\n${CODEX_TUI_BLOCK}`, 'utf-8')
     syncSystemConfigIntoManagedCodexHome()
 

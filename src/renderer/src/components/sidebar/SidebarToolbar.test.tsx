@@ -36,7 +36,7 @@ vi.mock('./SidebarSettingsHelpMenu', () => ({
   SidebarSettingsHelpMenu: () => <button type="button">Settings</button>
 }))
 
-vi.mock('../orca-profiles/OrcaProfileSwitcher', () => ({
+vi.mock('../capilot-profiles/OrcaProfileSwitcher', () => ({
   OrcaProfileSwitcher: ({ placement }: { placement?: string }) => (
     <button type="button" data-placement={placement}>
       Profile
@@ -114,7 +114,7 @@ describe('SidebarToolbar moved workspace board hint', () => {
 
     expect(onWorkspaceBoardToggle).toHaveBeenCalledOnce()
     expect(container.textContent).not.toContain('Workspace board moved to the bottom bar')
-    expect(window.localStorage.getItem('orca.workspaceBoardMovedHintSeen.v1')).toBeNull()
+    expect(window.localStorage.getItem('capilot.workspaceBoardMovedHintSeen.v1')).toBeNull()
   })
 
   it('shows the moved hint once to users who had already used the workspace board', async () => {
@@ -128,7 +128,7 @@ describe('SidebarToolbar moved workspace board hint', () => {
     const { container } = await renderToolbar()
 
     expect(container.textContent).toContain('Workspace board moved to the bottom bar')
-    expect(window.localStorage.getItem('orca.workspaceBoardMovedHintSeen.v1')).toBe('true')
+    expect(window.localStorage.getItem('capilot.workspaceBoardMovedHintSeen.v1')).toBe('true')
   })
 
   it('renders the profile switcher before settings in the footer controls', async () => {

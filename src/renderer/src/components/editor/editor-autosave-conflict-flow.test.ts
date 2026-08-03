@@ -97,8 +97,8 @@ describe('editor autosave changed-on-disk conflict flow', () => {
     openDirtyFile(store, 'typed during save')
     // Why: the combined-Changes reload notification routes through the
     // controller for the saved path — a fresh self-write stamp means the
-    // event is Orca's own echo, not an external change.
-    recordSelfWrite('/repo/file.ts', 'orca save')
+    // event is CaPilot's own echo, not an external change.
+    recordSelfWrite('/repo/file.ts', 'capilot save')
 
     const cleanup = attachEditorAutosaveController(store)
     try {

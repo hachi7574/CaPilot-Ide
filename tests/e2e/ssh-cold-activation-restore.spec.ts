@@ -1,5 +1,5 @@
 import type { ElectronApplication, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   focusActiveTerminalInput,
@@ -14,7 +14,7 @@ import {
   type DockerSshRelayTarget
 } from './helpers/docker-ssh-relay-target'
 import { connectDockerSshRelayTarget } from './helpers/docker-ssh-relay-connection'
-import { createRestartSession } from './helpers/orca-restart'
+import { createRestartSession } from './helpers/capilot-restart'
 
 const RUN_DOCKER_SSH = process.env.ORCA_E2E_SSH_DOCKER === '1'
 const TAB_COUNT = 6
@@ -195,7 +195,7 @@ test.describe('SSH cold activation restore', () => {
       }, firstTabId)
 
       const marker = `SSH_RESTORE_OK_${Date.now()}`
-      const proofFile = '/tmp/orca-ssh-restore-proof'
+      const proofFile = '/tmp/capilot-ssh-restore-proof'
       await focusActiveTerminalInput(orcaPage)
       await orcaPage.keyboard.type(`printf '${marker}' > ${proofFile} && printf '${marker}\\n'`)
       await orcaPage.keyboard.press('Enter')
@@ -229,8 +229,8 @@ test.describe('SSH cold activation restore', () => {
       await waitForActiveTerminalManager(firstLaunch.page, 60_000)
       const firstPtyId = await waitForActivePanePtyId(firstLaunch.page, 60_000)
       const token = `SSH_PROCESS_RESTART_${Date.now()}`
-      const beforeProofPath = `/tmp/orca-ssh-restart-before-${Date.now()}`
-      const afterProofPath = `/tmp/orca-ssh-restart-after-${Date.now()}`
+      const beforeProofPath = `/tmp/capilot-ssh-restart-before-${Date.now()}`
+      const afterProofPath = `/tmp/capilot-ssh-restart-after-${Date.now()}`
 
       await focusActiveTerminalInput(firstLaunch.page)
       await firstLaunch.page.keyboard.type(

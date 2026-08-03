@@ -23,7 +23,7 @@ export function getBrowserLinkRoutingDescription(
   modifierInverts = false
 ): string {
   const base =
-    "Open http(s) links in Orca's built-in browser — from the terminal, markdown, and the editor."
+    "Open http(s) links in CaPilot's built-in browser — from the terminal, markdown, and the editor."
   return modifierInverts
     ? base
     : `${base} ${platform.isMac ? '⇧⌘-click' : 'Shift+Ctrl+click'} always uses your system browser.`
@@ -157,7 +157,7 @@ export function getBrowserPaneSearchEntries(
       ),
       description: translate(
         'auto.components.settings.browser.search.4e0fdf0a3f',
-        'Open workspace ports as worktree-specific Orca localhost URLs so browser tabs are easier to tell apart.'
+        'Open workspace ports as worktree-specific CaPilot localhost URLs so browser tabs are easier to tell apart.'
       ),
       keywords: [
         ...translateSearchKeyword('auto.components.settings.browser.search.2d2d995c58', 'browser'),
@@ -176,7 +176,7 @@ export function getBrowserPaneSearchEntries(
       title: translate('auto.components.settings.browser.search.96afedcb5c', 'Session & Cookies'),
       description: translate(
         'auto.components.settings.browser.search.060ac1fcba',
-        'Import cookies from Chrome, Edge, or other browsers to use existing logins inside Orca.'
+        'Import cookies from Chrome, Edge, or other browsers to use existing logins inside CaPilot.'
       ),
       keywords: [
         ...translateSearchKeyword('auto.components.settings.browser.search.2d2d995c58', 'browser'),

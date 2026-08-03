@@ -2493,7 +2493,7 @@ const api = {
       callback: (event: {
         browserPageId: string
         origin: string
-        action: 'opened-in-orca' | 'opened-external' | 'blocked'
+        action: 'opened-in-capilot' | 'opened-external' | 'blocked'
       }) => void
     ): (() => void) => {
       const listener = (
@@ -2501,7 +2501,7 @@ const api = {
         data: {
           browserPageId: string
           origin: string
-          action: 'opened-in-orca' | 'opened-external' | 'blocked'
+          action: 'opened-in-capilot' | 'opened-external' | 'blocked'
         }
       ) => callback(data)
       ipcRenderer.on('browser:popup', listener)
@@ -2665,8 +2665,8 @@ const api = {
         _event: Electron.IpcRendererEvent,
         data: { browserPageId: string; url: string }
       ) => callback(data)
-      ipcRenderer.on('browser:open-link-in-orca-tab', listener)
-      return () => ipcRenderer.removeListener('browser:open-link-in-orca-tab', listener)
+      ipcRenderer.on('browser:open-link-in-capilot-tab', listener)
+      return () => ipcRenderer.removeListener('browser:open-link-in-capilot-tab', listener)
     },
 
     cancelDownload: (args: { downloadId: string }): Promise<boolean> =>

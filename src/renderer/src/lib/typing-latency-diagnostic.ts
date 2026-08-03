@@ -179,7 +179,7 @@ function stopProbe(): string {
 
 function reportProbe(): TypingLatencyReport {
   const report = buildReport(active ?? lastState, active !== null)
-  console.log('[orca] typing latency diagnostic', report)
+  console.log('[capilot] typing latency diagnostic', report)
   return report
 }
 

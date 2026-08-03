@@ -52,7 +52,7 @@ export type AutomationDraft = {
   scheduleWarning: string | null
 }
 
-export type AutomationCreateTarget = 'orca' | 'hermes'
+export type AutomationCreateTarget = 'capilot' | 'hermes'
 
 type AutomationEditorDialogProps = {
   open: boolean

@@ -145,12 +145,12 @@ function makeCompletedOnboardingProfile() {
 }
 
 function createIdleRepo(worktreeCount) {
-  const repoDir = mkdtempSync(path.join(os.tmpdir(), 'orca-idle-cpu-repo-'))
+  const repoDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-idle-cpu-repo-'))
   const cleanupDirs = [repoDir]
   run('git', ['init'], { cwd: repoDir })
   run('git', ['config', 'user.email', 'idle-cpu@test.local'], { cwd: repoDir })
   run('git', ['config', 'user.name', 'Idle CPU Benchmark'], { cwd: repoDir })
-  writeFileSync(path.join(repoDir, 'README.md'), '# Orca idle CPU benchmark\n')
+  writeFileSync(path.join(repoDir, 'README.md'), '# CaPilot idle CPU benchmark\n')
   writeFileSync(
     path.join(repoDir, 'package.json'),
     `${JSON.stringify({ private: true }, null, 2)}\n`
@@ -162,7 +162,7 @@ function createIdleRepo(worktreeCount) {
   for (let i = 2; i <= worktreeCount; i += 1) {
     const worktreeDir = path.join(
       path.dirname(repoDir),
-      `orca-idle-cpu-worktree-${i}-${Date.now()}`
+      `capilot-idle-cpu-worktree-${i}-${Date.now()}`
     )
     cleanupDirs.push(worktreeDir)
     run('git', ['worktree', 'add', worktreeDir, '-b', `idle-cpu-${i}`], { cwd: repoDir })
@@ -455,10 +455,10 @@ async function main() {
   const options = parseArgs(process.argv.slice(2))
   const root = path.resolve(import.meta.dirname, '..', '..')
   const mainPath = buildAppIfNeeded(root, options.skipBuild)
-  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'orca-idle-cpu-userdata-'))
+  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-idle-cpu-userdata-'))
   const { repoDir, cleanupDirs } = createIdleRepo(options.worktrees)
   writeFileSync(
-    path.join(userDataDir, 'orca-data.json'),
+    path.join(userDataDir, 'capilot-data.json'),
     `${JSON.stringify(makeCompletedOnboardingProfile(), null, 2)}\n`
   )
   const {
@@ -558,7 +558,7 @@ async function main() {
       await sleep(options.intervalMs)
     }
     const report = {
-      benchmark: 'orca-idle-cpu',
+      benchmark: 'capilot-idle-cpu',
       createdAt: new Date().toISOString(),
       options,
       rootPid,

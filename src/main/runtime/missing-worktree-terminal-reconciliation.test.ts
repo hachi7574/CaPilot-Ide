@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { IPtyProvider } from '../providers/types'
 import type { Repo } from '../../shared/types'
-import type { OrcaRuntimeService } from './orca-runtime'
+import type { OrcaRuntimeService } from './capilot-runtime'
 import { stopMissingWorktreeTerminals } from './missing-worktree-terminal-reconciliation'
 
 function createProvider(sessionIds: string[]): IPtyProvider {

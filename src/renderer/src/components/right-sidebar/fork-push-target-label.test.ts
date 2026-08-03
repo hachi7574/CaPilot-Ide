@@ -4,7 +4,7 @@ import { describeForkPushTarget } from './fork-push-target-label'
 
 function target(overrides: Partial<GitPushTarget>): GitPushTarget {
   return {
-    remoteName: 'pr-contributor-orca',
+    remoteName: 'pr-contributor-capilot',
     branchName: 'contributor/fix',
     ...overrides
   }
@@ -13,7 +13,7 @@ function target(overrides: Partial<GitPushTarget>): GitPushTarget {
 describe('describeForkPushTarget', () => {
   it('derives owner:branch from an SSH fork URL', () => {
     expect(
-      describeForkPushTarget(target({ remoteUrl: 'git@github.com:contributor/orca.git' }))
+      describeForkPushTarget(target({ remoteUrl: 'git@github.com:contributor/capilot.git' }))
     ).toBe('contributor:contributor/fix')
   })
 
@@ -31,13 +31,13 @@ describe('describeForkPushTarget', () => {
 
   it('falls back to remoteName/branch when there is no remote URL', () => {
     expect(describeForkPushTarget(target({ remoteUrl: undefined }))).toBe(
-      'pr-contributor-orca/contributor/fix'
+      'pr-contributor-capilot/contributor/fix'
     )
   })
 
   it('works for non-GitHub hosts via the generic owner segment', () => {
     expect(
-      describeForkPushTarget(target({ remoteUrl: 'git@gitlab.com:contributor/orca.git' }))
+      describeForkPushTarget(target({ remoteUrl: 'git@gitlab.com:contributor/capilot.git' }))
     ).toBe('contributor:contributor/fix')
   })
 })

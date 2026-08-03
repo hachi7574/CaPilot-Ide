@@ -42,7 +42,7 @@ export async function pickFreePort() {
 }
 
 export function createGpuUserDataDirectory(gpuMode) {
-  const userDataDir = mkdtempSync(path.join(os.tmpdir(), `orca-apphang-${gpuMode}-userdata-`))
+  const userDataDir = mkdtempSync(path.join(os.tmpdir(), `capilot-apphang-${gpuMode}-userdata-`))
   createCompletedOnboardingProfile(userDataDir)
   return userDataDir
 }

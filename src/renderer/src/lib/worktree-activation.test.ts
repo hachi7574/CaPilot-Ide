@@ -65,7 +65,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore({ createTab })
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       envVars: {
         ORCA_ROOT_PATH: '/tmp/repo',
         ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1'
@@ -79,7 +79,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       recordInteraction: false
     })
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: {
         ORCA_ROOT_PATH: '/tmp/repo',
         ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1'
@@ -94,7 +94,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore({ createTab })
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: 'C:\\repo\\.git\\orca\\setup-runner.sh',
+      runnerScriptPath: 'C:\\repo\\.git\\capilot\\setup-runner.sh',
       shell: { family: 'posix' },
       envVars: {
         ORCA_ROOT_PATH: 'C:\\repo',
@@ -103,7 +103,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     })
 
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /c/repo/.git/orca/setup-runner.sh',
+      command: 'bash /c/repo/.git/capilot/setup-runner.sh',
       env: {
         ORCA_ROOT_PATH: 'C:\\repo',
         ORCA_WORKTREE_PATH: 'C:\\worktrees\\wt-1'
@@ -174,7 +174,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       undefined,
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1' }
       },
       undefined,
@@ -201,7 +201,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     })
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-1', { command: 'pnpm dev' })
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1' }
     })
   })
@@ -299,7 +299,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' },
         waitForAgentStartup: true
       }
@@ -314,7 +314,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
       'tab-2',
       expect.objectContaining({
-        command: expect.stringContaining('bash /tmp/repo/.git/orca/setup-runner.sh')
+        command: expect.stringContaining('bash /tmp/repo/.git/capilot/setup-runner.sh')
       })
     )
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
@@ -396,7 +396,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     })
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       envVars: {}
     })
 
@@ -417,7 +417,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     })
 
     const result = ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       command: 'bash -lc wrapped-setup',
       envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
@@ -449,7 +449,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' },
         waitForAgentStartup: true
       }
@@ -460,7 +460,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
       'tab-2',
       expect.objectContaining({
-        command: expect.stringContaining('bash /tmp/repo/.git/orca/setup-runner.sh')
+        command: expect.stringContaining('bash /tmp/repo/.git/capilot/setup-runner.sh')
       })
     )
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
@@ -478,7 +478,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore({ createTab })
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: 'C:\\repo\\.git\\orca\\setup-runner.sh',
+      runnerScriptPath: 'C:\\repo\\.git\\capilot\\setup-runner.sh',
       shell: { family: 'posix', executable: 'wsl.exe' },
       envVars: {
         ORCA_ROOT_PATH: 'C:\\repo',
@@ -487,7 +487,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     })
 
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /mnt/c/repo/.git/orca/setup-runner.sh',
+      command: 'bash /mnt/c/repo/.git/capilot/setup-runner.sh',
       env: {
         ORCA_ROOT_PATH: 'C:\\repo',
         ORCA_WORKTREE_PATH: 'C:\\worktrees\\wt-1'
@@ -689,7 +689,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' },
         waitForAgentStartup: true
       }
@@ -716,7 +716,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
       'tab-2',
       expect.objectContaining({
-        command: expect.stringContaining('bash /tmp/repo/.git/orca/setup-runner.sh')
+        command: expect.stringContaining('bash /tmp/repo/.git/capilot/setup-runner.sh')
       })
     )
     expect(store.queueTabSetupSplit).not.toHaveBeenCalled()
@@ -733,7 +733,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
       }
     )
@@ -742,7 +742,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       command: 'claude'
     })
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
   })
@@ -756,7 +756,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' },
         waitForAgentStartup: true
       }
@@ -769,7 +769,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       })
     )
     expect(store.queueTabSetupSplit).toHaveBeenCalledWith('tab-1', {
-      command: expect.stringContaining('bash /tmp/repo/.git/orca/setup-runner.sh'),
+      command: expect.stringContaining('bash /tmp/repo/.git/capilot/setup-runner.sh'),
       env: { ORCA_ROOT_PATH: '/tmp/repo' },
       direction: 'vertical'
     })
@@ -789,7 +789,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       { command: 'claude' },
       {
-        runnerScriptPath: 'C:\\repo\\.git\\orca\\setup-runner.sh',
+        runnerScriptPath: 'C:\\repo\\.git\\capilot\\setup-runner.sh',
         shell: { family: 'posix', executable: 'wsl.exe' },
         envVars: { ORCA_ROOT_PATH: 'C:\\repo' },
         waitForAgentStartup: true
@@ -799,11 +799,11 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith(
       'tab-1',
       expect.objectContaining({
-        command: expect.stringContaining('/mnt/c/repo/.git/orca/setup-runner.sh')
+        command: expect.stringContaining('/mnt/c/repo/.git/capilot/setup-runner.sh')
       })
     )
     expect(store.queueTabSetupSplit).toHaveBeenCalledWith('tab-1', {
-      command: expect.stringContaining('bash /mnt/c/repo/.git/orca/setup-runner.sh'),
+      command: expect.stringContaining('bash /mnt/c/repo/.git/capilot/setup-runner.sh'),
       env: { ORCA_ROOT_PATH: 'C:\\repo' },
       direction: 'vertical'
     })
@@ -881,7 +881,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore()
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/issue-command-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/issue-command-runner.sh',
       envVars: {
         ORCA_ROOT_PATH: '/tmp/repo',
         ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1'
@@ -894,7 +894,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     expect(store.setActiveTab).toHaveBeenCalledWith('tab-1')
     expect(store.queueTabSetupSplit).not.toHaveBeenCalled()
     expect(store.queueTabIssueCommandSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /tmp/repo/.git/orca/issue-command-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/issue-command-runner.sh',
       env: {
         ORCA_ROOT_PATH: '/tmp/repo',
         ORCA_WORKTREE_PATH: '/tmp/worktrees/wt-1'
@@ -906,13 +906,13 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore()
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, undefined, {
-      runnerScriptPath: 'C:\\repo\\.git\\orca\\issue-command-runner.sh',
+      runnerScriptPath: 'C:\\repo\\.git\\capilot\\issue-command-runner.sh',
       shell: { family: 'posix', executable: 'wsl.exe' },
       envVars: { ORCA_ROOT_PATH: 'C:\\repo' }
     })
 
     expect(store.queueTabIssueCommandSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /mnt/c/repo/.git/orca/issue-command-runner.sh',
+      command: 'bash /mnt/c/repo/.git/capilot/issue-command-runner.sh',
       env: { ORCA_ROOT_PATH: 'C:\\repo' }
     })
   })
@@ -926,23 +926,23 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       'wt-1',
       undefined,
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
       },
       {
-        runnerScriptPath: '/tmp/repo/.git/orca/issue-command-runner.sh',
+        runnerScriptPath: '/tmp/repo/.git/capilot/issue-command-runner.sh',
         envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
       }
     )
 
     expect(store.queueTabStartupCommand).not.toHaveBeenCalled()
     expect(store.queueTabSetupSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' },
       direction: 'vertical'
     })
     expect(store.queueTabIssueCommandSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /tmp/repo/.git/orca/issue-command-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/issue-command-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
   })
@@ -961,12 +961,12 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore()
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
 
     expect(store.queueTabSetupSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' },
       direction: 'vertical'
     })
@@ -977,12 +977,12 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore()
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
 
     expect(store.queueTabSetupSplit).toHaveBeenCalledWith('tab-1', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' },
       direction: 'horizontal'
     })
@@ -995,7 +995,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
     const store = createMockStore({ createTab })
 
     ensureWorktreeHasInitialTerminal(store, 'wt-1', undefined, {
-      runnerScriptPath: '/tmp/repo/.git/orca/setup-runner.sh',
+      runnerScriptPath: '/tmp/repo/.git/capilot/setup-runner.sh',
       envVars: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
 
@@ -1008,7 +1008,7 @@ describe('ensureWorktreeHasInitialTerminal', () => {
       recordInteraction: false
     })
     expect(store.queueTabStartupCommand).toHaveBeenCalledWith('tab-2', {
-      command: 'bash /tmp/repo/.git/orca/setup-runner.sh',
+      command: 'bash /tmp/repo/.git/capilot/setup-runner.sh',
       env: { ORCA_ROOT_PATH: '/tmp/repo' }
     })
     expect(store.queueTabSetupSplit).not.toHaveBeenCalled()

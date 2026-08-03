@@ -57,8 +57,8 @@ function isCodexManagedCommand(command: string | undefined): boolean {
 let previousUserDataPath: string | undefined
 
 beforeEach(() => {
-  tmpHome = mkdtempSync(join(tmpdir(), 'orca-codex-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-user-data-'))
+  tmpHome = mkdtempSync(join(tmpdir(), 'capilot-codex-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(tmpHome)
@@ -130,7 +130,7 @@ function localManagedCodexEvents(): string[] {
 }
 
 describe('CodexHookService', () => {
-  it('installs PermissionRequest with trust so Codex approval prompts reach Orca', () => {
+  it('installs PermissionRequest with trust so Codex approval prompts reach CaPilot', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     mkdirSync(systemCodexHome, { recursive: true })
     writeFileSync(
@@ -166,7 +166,7 @@ describe('CodexHookService', () => {
 
     const perAccountHome = join(userDataDir, 'codex-accounts', 'account-1', 'home')
     mkdirSync(perAccountHome, { recursive: true })
-    writeFileSync(join(perAccountHome, '.orca-managed-home'), 'account-1\n', 'utf-8')
+    writeFileSync(join(perAccountHome, '.capilot-managed-home'), 'account-1\n', 'utf-8')
 
     const status = new CodexHookService().install(perAccountHome)
     expect(status.state).toBe('installed')
@@ -219,7 +219,7 @@ describe('CodexHookService', () => {
   it.skipIf(process.platform !== 'win32')(
     'wraps the managed hook command when the profile path contains a space (#6078)',
     () => {
-      const spaceHome = join(tmpdir(), 'orca home with spaces')
+      const spaceHome = join(tmpdir(), 'capilot home with spaces')
       mkdirSync(spaceHome, { recursive: true })
       homedirMock.mockReturnValue(spaceHome)
       try {
@@ -249,7 +249,7 @@ describe('CodexHookService', () => {
   it.skipIf(process.platform !== 'win32')(
     'keeps the encoded launcher when the profile path contains cmd metacharacters',
     () => {
-      const metacharHome = join(tmpdir(), 'orca %ORCA_TEST% ^ home')
+      const metacharHome = join(tmpdir(), 'capilot %ORCA_TEST% ^ home')
       mkdirSync(metacharHome, { recursive: true })
       homedirMock.mockReturnValue(metacharHome)
       try {
@@ -291,7 +291,7 @@ describe('CodexHookService', () => {
       // Why: the temp home is normally cmd-safe; guard so a runner whose tmpdir
       // holds an exotic character still asserts the correct (fallback) branch.
       const command = hooksConfig.hooks.Stop?.[0]?.hooks?.[0]?.command ?? ''
-      const cmdSafe = /^[A-Za-z0-9_.:\\~-]+$/.test(join(tmpHome, '.orca', 'agent-hooks'))
+      const cmdSafe = /^[A-Za-z0-9_.:\\~-]+$/.test(join(tmpHome, '.capilot', 'agent-hooks'))
       if (cmdSafe) {
         expect(command).not.toMatch(/powershell/i)
         expect(command).toMatch(/\\agent-hooks\\codex-hook\.cmd$/)
@@ -308,7 +308,7 @@ describe('CodexHookService', () => {
     'posts hook payloads via the curl-based managed script preserving UTF-8 and spaced metadata',
     async () => {
       new CodexHookService().install()
-      const scriptPath = join(homedir(), '.orca', 'agent-hooks', 'codex-hook.cmd')
+      const scriptPath = join(homedir(), '.capilot', 'agent-hooks', 'codex-hook.cmd')
       expect(existsSync(scriptPath)).toBe(true)
 
       // Why: resolve when the listener has fully read the hook POST. spawnSync
@@ -333,10 +333,10 @@ describe('CodexHookService', () => {
 
       try {
         const payload = JSON.stringify({ prompt: '你好世界', hook_event_name: 'UserPromptSubmit' })
-        // Why: this suite may run inside an Orca-launched terminal whose env
+        // Why: this suite may run inside an CaPilot-launched terminal whose env
         // already carries ORCA_AGENT_HOOK_ENDPOINT/PORT/TOKEN. The managed
         // script sources that endpoint file, so leave it out or the hook posts
-        // to the live Orca instead of this test's listener.
+        // to the live CaPilot instead of this test's listener.
         const cleanEnv = { ...process.env }
         for (const key of Object.keys(cleanEnv)) {
           if (key.startsWith('ORCA_')) {
@@ -360,7 +360,7 @@ describe('CodexHookService', () => {
 
         const received = await receivedPromise
         const params = new URLSearchParams(received.body)
-        expect(received.headers['x-orca-agent-hook-token']).toBe('tok123')
+        expect(received.headers['x-capilot-agent-hook-token']).toBe('tok123')
         expect(params.get('paneKey')).toBe('42:leaf-abc')
         expect(params.get('worktreeId')).toBe('C:\\work trees\\my repo & co')
         expect(JSON.parse(params.get('payload') ?? '{}').prompt).toBe('你好世界')
@@ -370,15 +370,15 @@ describe('CodexHookService', () => {
     }
   )
 
-  it('keeps hooks isolated by Orca userData instead of mutating system ~/.codex', () => {
+  it('keeps hooks isolated by CaPilot userData instead of mutating system ~/.codex', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
     const existingSystemHooks = '{"hooks":{"Stop":[{"hooks":[{"command":"user-hook"}]}]}}\n'
     mkdirSync(systemCodexHome, { recursive: true })
     writeFileSync(systemHooksPath, existingSystemHooks, 'utf-8')
 
-    const devUserDataDir = mkdtempSync(join(tmpdir(), 'orca-dev-codex-user-data-'))
-    const prodUserDataDir = mkdtempSync(join(tmpdir(), 'orca-prod-codex-user-data-'))
+    const devUserDataDir = mkdtempSync(join(tmpdir(), 'capilot-dev-codex-user-data-'))
+    const prodUserDataDir = mkdtempSync(join(tmpdir(), 'capilot-prod-codex-user-data-'))
     try {
       getPathMock.mockImplementation((name: string) => {
         if (name === 'userData') {
@@ -830,7 +830,7 @@ describe('CodexHookService', () => {
     expect(stopCommands).not.toContain('user-hook-old')
   })
 
-  it('refreshes runtime user hooks without installing Orca-managed hooks', () => {
+  it('refreshes runtime user hooks without installing CaPilot-managed hooks', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
     mkdirSync(systemCodexHome, { recursive: true })
@@ -900,12 +900,12 @@ describe('CodexHookService', () => {
     expect(runtimeToml).not.toContain(':permission_request:0:0')
   })
 
-  it('removes legacy Orca-managed hooks from system ~/.codex during install', () => {
+  it('removes legacy CaPilot-managed hooks from system ~/.codex during install', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
     const legacyScriptPath = join(
       tmpHome,
-      '.orca',
+      '.capilot',
       'agent-hooks',
       process.platform === 'win32' ? 'codex-hook.cmd' : 'codex-hook.sh'
     )
@@ -970,12 +970,12 @@ describe('CodexHookService', () => {
     expect(systemToml).not.toContain(':session_start:0:0')
   })
 
-  it('removes very large legacy Orca-managed hook lists from system ~/.codex', () => {
+  it('removes very large legacy CaPilot-managed hook lists from system ~/.codex', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
     const legacyScriptPath = join(
       tmpHome,
-      '.orca',
+      '.capilot',
       'agent-hooks',
       process.platform === 'win32' ? 'codex-hook.cmd' : 'codex-hook.sh'
     )
@@ -1011,9 +1011,9 @@ describe('CodexHookService', () => {
     expect(systemHooks.hooks.Stop).toBeUndefined()
   }, 30_000)
 
-  it('removes the legacy Orca Codex profile file when it only contains managed hooks', () => {
+  it('removes the legacy CaPilot Codex profile file when it only contains managed hooks', () => {
     const systemCodexHome = join(tmpHome, '.codex')
-    const profilePath = join(systemCodexHome, 'orca-agent-status.config.toml')
+    const profilePath = join(systemCodexHome, 'capilot-agent-status.config.toml')
     mkdirSync(systemCodexHome, { recursive: true })
     writeFileSync(
       profilePath,
@@ -1034,9 +1034,9 @@ describe('CodexHookService', () => {
     expect(existsSync(profilePath)).toBe(false)
   })
 
-  it('removes only the legacy Orca block from a user-edited Codex profile file', () => {
+  it('removes only the legacy CaPilot block from a user-edited Codex profile file', () => {
     const systemCodexHome = join(tmpHome, '.codex')
-    const profilePath = join(systemCodexHome, 'orca-agent-status.config.toml')
+    const profilePath = join(systemCodexHome, 'capilot-agent-status.config.toml')
     mkdirSync(systemCodexHome, { recursive: true })
     writeFileSync(
       profilePath,
@@ -1069,10 +1069,10 @@ describe('CodexHookService', () => {
 
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
-    const profilePath = join(systemCodexHome, 'orca-agent-status.config.toml')
+    const profilePath = join(systemCodexHome, 'capilot-agent-status.config.toml')
     const legacyScriptPath = join(
       tmpHome,
-      '.orca',
+      '.capilot',
       'agent-hooks',
       process.platform === 'win32' ? 'codex-hook.cmd' : 'codex-hook.sh'
     )
@@ -1161,10 +1161,10 @@ describe('CodexHookService', () => {
     const systemCodexHome = join(tmpHome, '.codex')
     const systemHooksPath = join(systemCodexHome, 'hooks.json')
     const systemTomlPath = join(systemCodexHome, 'config.toml')
-    const legacyProfilePath = join(systemCodexHome, 'orca-agent-status.config.toml')
+    const legacyProfilePath = join(systemCodexHome, 'capilot-agent-status.config.toml')
     const legacyScriptPath = join(
       tmpHome,
-      '.orca',
+      '.capilot',
       'agent-hooks',
       process.platform === 'win32' ? 'codex-hook.cmd' : 'codex-hook.sh'
     )

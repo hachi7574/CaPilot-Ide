@@ -120,7 +120,7 @@ import {
   isENOENT,
   registerWorktreeRootsForRepo
 } from './filesystem-auth'
-import type { OrcaRuntimeService, RuntimeWorktreeLifecycleEvent } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService, RuntimeWorktreeLifecycleEvent } from '../runtime/capilot-runtime'
 import { killAllProcessesForWorktree } from '../runtime/worktree-teardown'
 import { clearProviderPtyState, getLocalPtyProvider, getSshPtyProvider } from './pty'
 import { findExistingWorktreeSymlinkPaths, removeWorktreeLinkedPaths } from './worktree-symlinks'
@@ -453,7 +453,7 @@ async function getArchiveHooksForRemoval(repo: Repo): Promise<OrcaHooks | null> 
   }
 
   try {
-    const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+    const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'capilot.yaml'))
     const yamlHooks = result.isBinary ? null : parseOrcaYaml(result.content)
     return getEffectiveHooksFromConfig(repo, yamlHooks)
   } catch {
@@ -2463,10 +2463,10 @@ export function registerWorktreeHandlers(
             }
             if (await isAlreadyRemovedWorktreePath(repo, worktreePath, localWorktreeGitOptions)) {
               if (!args.force && !removedMeta) {
-                // Why: without persisted metadata, require the renderer recovery path before deleting Orca-only state for an unregistered path.
+                // Why: without persisted metadata, require the renderer recovery path before deleting CaPilot-only state for an unregistered path.
                 throw new Error(UNREGISTERED_MISSING_WORKTREE_MESSAGE)
               }
-              // Why: a manually deleted worktree is already gone; persisted metadata proves it was an Orca-known row, so no force is needed.
+              // Why: a manually deleted worktree is already gone; persisted metadata proves it was an CaPilot-known row, so no force is needed.
               if (repo.connectionId) {
                 await cleanupUnusedWorktreePushTargetRemoteSsh(
                   provider!,
@@ -2666,7 +2666,7 @@ export function registerWorktreeHandlers(
             )
           }
 
-          // Why: `orca.yaml` shared directories are symlinked in too, and a
+          // Why: `capilot.yaml` shared directories are symlinked in too, and a
           // directory-only ignore rule leaves those links untracked, so removal must
           // tolerate and unlink them exactly like the per-user shared paths.
           const linkedPaths = getWorktreeSharedLinkPaths(repo)
@@ -3094,7 +3094,7 @@ export function registerWorktreeHandlers(
           return { status: 'error', hasHooks: false, hooks: null, mayNeedUpdate: false }
         }
         try {
-          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'capilot.yaml'))
           return {
             status: 'ok',
             hasHooks: !result.isBinary,
@@ -3113,7 +3113,7 @@ export function registerWorktreeHandlers(
 
       const has = hasHooksFile(repo.path)
       const hooks = has ? loadHooks(repo.path) : null
-      // Why: unrecognised top-level keys mean the file is well-formed but from a newer Orca; suggest updating rather than "could not be parsed".
+      // Why: unrecognised top-level keys mean the file is well-formed but from a newer CaPilot; suggest updating rather than "could not be parsed".
       const mayNeedUpdate = has && !hooks && hasUnrecognizedOrcaYamlKeys(repo.path)
       return {
         status: 'ok',
@@ -3221,7 +3221,7 @@ export function registerWorktreeHandlers(
         }
       }
       if (repo.connectionId) {
-        const issueCommandPath = joinWorktreeRelativePath(repo.path, '.orca/issue-command')
+        const issueCommandPath = joinWorktreeRelativePath(repo.path, '.capilot/issue-command')
         const fsProvider = getSshFilesystemProvider(repo.connectionId)
         if (!fsProvider) {
           return {
@@ -3246,7 +3246,7 @@ export function registerWorktreeHandlers(
           }
         }
         try {
-          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'orca.yaml'))
+          const result = await fsProvider.readFile(joinWorktreeRelativePath(repo.path, 'capilot.yaml'))
           sharedContent = result.isBinary
             ? null
             : parseOrcaYaml(result.content)?.issueCommand?.trim() || null
@@ -3281,7 +3281,7 @@ export function registerWorktreeHandlers(
         return
       }
       if (repo.connectionId) {
-        const issueCommandPath = joinWorktreeRelativePath(repo.path, '.orca/issue-command')
+        const issueCommandPath = joinWorktreeRelativePath(repo.path, '.capilot/issue-command')
         const fsProvider = getSshFilesystemProvider(repo.connectionId)
         if (!fsProvider) {
           throw new Error(
@@ -3297,19 +3297,19 @@ export function registerWorktreeHandlers(
           })
           return
         }
-        await fsProvider.createDir(joinWorktreeRelativePath(repo.path, '.orca'))
+        await fsProvider.createDir(joinWorktreeRelativePath(repo.path, '.capilot'))
         const gitignorePath = joinWorktreeRelativePath(repo.path, '.gitignore')
         try {
           const result = await fsProvider.readFile(gitignorePath)
-          if (!result.isBinary && !/^\.orca\/?$/m.test(result.content)) {
+          if (!result.isBinary && !/^\.capilot\/?$/m.test(result.content)) {
             const separator = result.content.endsWith('\n') ? '' : '\n'
-            await fsProvider.writeFile(gitignorePath, `${result.content}${separator}.orca\n`)
+            await fsProvider.writeFile(gitignorePath, `${result.content}${separator}.capilot\n`)
           }
         } catch (error) {
           if (!isENOENT(error)) {
             throw error
           }
-          await fsProvider.writeFile(gitignorePath, '.orca\n')
+          await fsProvider.writeFile(gitignorePath, '.capilot\n')
         }
         await fsProvider.writeFile(issueCommandPath, `${trimmed}\n`)
         return

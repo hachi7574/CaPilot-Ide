@@ -17,7 +17,7 @@ import {
 } from '../../../../shared/agent-session-host-authority'
 import { isTuiAgent } from '../../../../shared/tui-agent-config'
 import { isValidTerminalTabId } from '../../../../shared/terminal-tab-id'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { defineMethod, type RpcAnyMethod } from '../core'
 
 const MAX_WORKTREE_SELECTOR_LENGTH = 32_768

@@ -65,7 +65,7 @@ describe('resolveMissingRepoProjectDialogState', () => {
     expect(result.repoNotInOrca).toBe(repoNotInOrca)
   })
 
-  it('clears repo-not-in-orca dialogs once the repo slug resolves', () => {
+  it('clears repo-not-in-capilot dialogs once the repo slug resolves', () => {
     const slugDialog = { origin: { owner: 'other', repo: 'tool' } }
     const repoNotInOrca = { owner: 'stablyai', repo: 'orca', url: null }
     const result = resolveMissingRepoProjectDialogState({

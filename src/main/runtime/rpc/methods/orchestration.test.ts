@@ -5,7 +5,7 @@ import { RpcDispatcher } from '../dispatcher'
 import { buildRegistry, type RpcContext, type RpcRequest } from '../core'
 import { OrchestrationDb } from '../../orchestration/db'
 import { reconcileLifecycleMessage } from '../../orchestration/lifecycle-reconciliation'
-import { OrcaRuntimeService } from '../../orca-runtime'
+import { OrcaRuntimeService } from '../../capilot-runtime'
 import type { RuntimeTerminalSummary } from '../../../../shared/runtime-types'
 import { ORCHESTRATION_ASK_MAX_TIMEOUT_MS } from '../../../../shared/orchestration-ask-timeout'
 import { ORCHESTRATION_CONTRACT_VERSION } from '../../../../shared/protocol-version'
@@ -2003,14 +2003,14 @@ describe('orchestration RPC methods', () => {
 
       expect(send).toHaveBeenCalledWith(
         'term_a',
-        expect.stringContaining('orca-dev orchestration send')
+        expect.stringContaining('capilot-dev orchestration send')
       )
     })
 
     it('uses the target pane CLI command for the returned preamble', async () => {
       setup()
       const task = db.createTask({ spec: 'work' })
-      vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('orca-ide')
+      vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('capilot-ide')
 
       const result = (await call('orchestration.dispatch', {
         task: task.id,
@@ -2019,8 +2019,8 @@ describe('orchestration RPC methods', () => {
       })) as { preamble: string }
 
       expect(runtime.getTerminalOrchestrationCliCommand).toHaveBeenCalledWith('term_wsl')
-      expect(result.preamble).toContain('orca-ide orchestration send')
-      expect(result.preamble).not.toMatch(/(^|\s)orca orchestration/m)
+      expect(result.preamble).toContain('capilot-ide orchestration send')
+      expect(result.preamble).not.toMatch(/(^|\s)capilot orchestration/m)
     })
 
     it('injects preamble through the agent prompt path instead of raw terminal send', async () => {
@@ -2150,7 +2150,7 @@ describe('orchestration RPC methods', () => {
       vi.mocked(runtime.getTerminalProcessIncarnation).mockImplementation((handle) =>
         handle === 'term_worker' ? 'runtime_test:term_worker:1' : null
       )
-      vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('orca')
+      vi.spyOn(runtime, 'getTerminalOrchestrationCliCommand').mockReturnValue('capilot')
       vi.spyOn(runtime, 'sendTerminalAgentPrompt').mockResolvedValue({
         handle: 'term_worker',
         accepted: true,

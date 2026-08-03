@@ -25,7 +25,7 @@ async function loadStoreModule() {
 }
 
 beforeEach(() => {
-  tempHome = mkdtempLike('orca-openai-key-store-')
+  tempHome = mkdtempLike('capilot-openai-key-store-')
   safeStorageMock.decryptString.mockClear()
   safeStorageMock.encryptString.mockClear()
   safeStorageMock.isEncryptionAvailable.mockClear()
@@ -37,7 +37,7 @@ function mkdtempLike(prefix: string): string {
 }
 
 function writeStoredOpenAiKey(value: string): void {
-  const orcaDir = join(tempHome, '.orca')
+  const orcaDir = join(tempHome, '.capilot')
   mkdirSync(orcaDir, { recursive: true })
   writeFileSync(join(orcaDir, 'openai-speech-token.enc'), value)
 }
@@ -82,7 +82,7 @@ describe('OpenAI speech API key store', () => {
     const store = await loadStoreModule()
 
     expect(store.hasOpenAiSpeechApiKey()).toBe(false)
-    expect(existsSync(join(tempHome, '.orca'))).toBe(false)
+    expect(existsSync(join(tempHome, '.capilot'))).toBe(false)
     expect(safeStorageMock.decryptString).not.toHaveBeenCalled()
   })
 })

@@ -2,7 +2,7 @@ import type { Page, TestInfo } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { runNodeScriptInTerminal } from './helpers/run-node-script-in-terminal'
 import {
   ensureTerminalVisible,
@@ -207,7 +207,7 @@ async function writeHiddenSideEffectBurst(
   const payload = `\x07\x1b]0;${title}\x07${marker}\n`
   const script = `process.stdout.write(${JSON.stringify(payload)}); setTimeout(() => process.exit(0), 30000)`
   // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
-  await runNodeScriptInTerminal(page, ptyId, script, { prefix: 'orca-hidden-side-effect' })
+  await runNodeScriptInTerminal(page, ptyId, script, { prefix: 'capilot-hidden-side-effect' })
 }
 
 test.describe('Hidden terminal TUI visual restore', () => {
@@ -243,7 +243,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
 
     const runId = randomUUID()
     const finalMarker = `VISUAL_RESTORE_FINAL_${runId}_24`
-    const scriptPath = path.join(testRepoPath, `.orca-hidden-tui-visual-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-hidden-tui-visual-${runId}.mjs`)
     writeHiddenFrameScript(scriptPath, runId)
     await resetHiddenDebug(orcaPage)
     await writeHiddenFrames(orcaPage, hiddenPane.ptyId, scriptPath)
@@ -281,7 +281,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
     expect(content).toContain('╭')
     expect(content).toContain('├')
     expect(content).toContain('█')
-    expect(content).not.toContain('Orca skipped hidden terminal output')
+    expect(content).not.toContain('CaPilot skipped hidden terminal output')
     await expect
       .poll(() => readTuiCursorState(orcaPage), {
         timeout: 5_000,
@@ -337,7 +337,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
     const hiddenFrame = lowRiskRestoreFrame(runId, 40)
     const liveFrame = lowRiskRestoreFrame(runId, 41)
     const finalMarker = `VISUAL_RESTORE_FINAL_${runId}_41`
-    const scriptPath = path.join(testRepoPath, `.orca-low-risk-hidden-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-low-risk-hidden-${runId}.mjs`)
     writeLowRiskFrameScript(scriptPath, hiddenFrame)
     await resetHiddenDebug(orcaPage)
     await sendToTerminal(orcaPage, hiddenPane.ptyId, `node ${JSON.stringify(scriptPath)}\r`)
@@ -373,7 +373,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
     expect(content.indexOf(`LOW_RISK_RESTORE_FRAME_${runId}_41`)).toBeGreaterThan(
       content.indexOf(`LOW_RISK_RESTORE_FRAME_${runId}_40`)
     )
-    expect(content).not.toContain('Orca skipped hidden terminal output')
+    expect(content).not.toContain('CaPilot skipped hidden terminal output')
     await expect
       .poll(() => readTuiCursorState(orcaPage), {
         timeout: 5_000,
@@ -424,7 +424,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
 
     const runId = randomUUID()
     const finalMarker = `VISUAL_RESTORE_FINAL_${runId}_24`
-    const scriptPath = path.join(testRepoPath, `.orca-hidden-rich-model-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-hidden-rich-model-${runId}.mjs`)
     writeHiddenFrameScript(scriptPath, runId)
     await resetHiddenDebug(orcaPage)
     try {
@@ -462,7 +462,7 @@ test.describe('Hidden terminal TUI visual restore', () => {
       expect(content).toContain('╭')
       expect(content).toContain('├')
       expect(content).toContain('█')
-      expect(content).not.toContain('Orca skipped hidden terminal output')
+      expect(content).not.toContain('CaPilot skipped hidden terminal output')
       await expect
         .poll(() => readTuiCursorState(orcaPage), {
           timeout: 5_000,

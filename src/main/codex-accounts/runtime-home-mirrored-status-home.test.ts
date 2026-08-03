@@ -16,8 +16,8 @@ vi.mock('node:os', async () => {
 
 beforeEach(() => {
   vi.resetModules()
-  testState.userData = mkdtempSync(join(tmpdir(), 'orca-codex-status-home-ud-'))
-  testState.home = mkdtempSync(join(tmpdir(), 'orca-codex-status-home-'))
+  testState.userData = mkdtempSync(join(tmpdir(), 'capilot-codex-status-home-ud-'))
+  testState.home = mkdtempSync(join(tmpdir(), 'capilot-codex-status-home-'))
   // Why: the real-home check consults CODEX_HOME and the shell rc, so a
   // developer who exports one would otherwise fail this suite locally.
   for (const key of [
@@ -60,7 +60,7 @@ function createStore(accounts: CodexManagedAccount[], activeId: string | null) {
 function createManagedAccount(id: string): CodexManagedAccount {
   const home = join(testState.userData, 'codex-accounts', id, 'home')
   mkdirSync(home, { recursive: true })
-  writeFileSync(join(home, '.orca-managed-home'), `${id}\n`, 'utf-8')
+  writeFileSync(join(home, '.capilot-managed-home'), `${id}\n`, 'utf-8')
   writeFileSync(join(home, 'auth.json'), '{}', 'utf-8')
   return {
     id,

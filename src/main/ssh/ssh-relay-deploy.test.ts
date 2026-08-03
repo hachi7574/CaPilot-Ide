@@ -15,7 +15,7 @@ vi.mock('fs', () => ({
 
 vi.mock('./relay-protocol', () => ({
   RELAY_VERSION: '0.1.0',
-  RELAY_REMOTE_DIR: '.orca-remote',
+  RELAY_REMOTE_DIR: '.capilot-remote',
   parseUnameToRelayPlatform: vi.fn((os: string, arch: string) => {
     const normalizedOs = os.toLowerCase()
     const normalizedArch = arch.toLowerCase()
@@ -60,7 +60,7 @@ vi.mock('./ssh-relay-endpoint-credential', () => ({
 // and GC. Stub them so deploy tests need no real SSH connection.
 vi.mock('./ssh-relay-versioned-install', () => ({
   readLocalFullVersion: vi.fn().mockReturnValue('0.1.0+abcdef012345'),
-  computeRemoteRelayDir: (home: string, v: string) => `${home}/.orca-remote/relay-${v}`,
+  computeRemoteRelayDir: (home: string, v: string) => `${home}/.capilot-remote/relay-${v}`,
   isRelayAlreadyInstalled: vi.fn().mockResolvedValue(true),
   finalizeInstall: vi.fn().mockResolvedValue(undefined),
   abandonInstall: vi.fn().mockResolvedValue(undefined),
@@ -559,7 +559,7 @@ describe('deployAndLaunchRelay', () => {
     const execArgs = vi.mocked(conn.exec).mock.calls.map(([cmd]) => cmd as string)
     const allCmds = [...execArgs, ...mockExecCommand.mock.calls.map(([, cmd]) => cmd)]
     const sawVersionedDir = allCmds.some((cmd) =>
-      cmd.includes('/.orca-remote/relay-0.1.0+abcdef012345')
+      cmd.includes('/.capilot-remote/relay-0.1.0+abcdef012345')
     )
     expect(sawVersionedDir).toBe(true)
     const sawLegacyDir = allCmds.some((cmd) => cmd.includes('relay-v0.1.0'))
@@ -764,7 +764,7 @@ describe('deployAndLaunchRelay', () => {
 
     expect(result.platform).toBe('win32-x64')
     expect(result.remoteHome).toBe('C:/Users/me user')
-    expect(result.sockPath).toMatch(/^\\\\\.\\pipe\\orca-relay-[0-9a-f]{20}$/)
+    expect(result.sockPath).toMatch(/^\\\\\.\\pipe\\capilot-relay-[0-9a-f]{20}$/)
     const execCommands = vi.mocked(conn.exec).mock.calls.map(([cmd]) => cmd as string)
     expect(execCommands).toHaveLength(1)
     expect(execCommands[0]).toContain('powershell.exe')
@@ -773,10 +773,10 @@ describe('deployAndLaunchRelay', () => {
       .filter((script): script is string => script !== null)
     const launchScript = decodedScripts.find((script) => script.includes('Invoke-CimMethod')) ?? ''
     expect(launchScript).toContain(
-      '"C:/Users/me user/.orca-remote/relay-0.1.0+abcdef012345/relay.js"'
+      '"C:/Users/me user/.capilot-remote/relay-0.1.0+abcdef012345/relay.js"'
     )
     expect(launchScript).toContain(
-      '"C:/Users/me user/.orca-remote/relay-0.1.0+abcdef012345/agent-hooks/orca-relay-'
+      '"C:/Users/me user/.capilot-remote/relay-0.1.0+abcdef012345/agent-hooks/capilot-relay-'
     )
     expect(launchScript).toContain('--endpoint-dir')
     expect(launchScript).not.toContain('--pty-source-credit-v1')
@@ -831,8 +831,8 @@ describe('deployAndLaunchRelay', () => {
     const secondConnectScript = decodePowerShellCommand(execCommands[1]) ?? ''
     const primaryPipe = extractWindowsSockPath(firstConnectScript)
     const fallbackPipe = extractWindowsSockPath(secondConnectScript)
-    expect(primaryPipe).toMatch(/^\\\\\.\\pipe\\orca-relay-[0-9a-f]{20}$/)
-    expect(fallbackPipe).toMatch(/^\\\\\.\\pipe\\orca-relay-[0-9a-f]{20}$/)
+    expect(primaryPipe).toMatch(/^\\\\\.\\pipe\\capilot-relay-[0-9a-f]{20}$/)
+    expect(fallbackPipe).toMatch(/^\\\\\.\\pipe\\capilot-relay-[0-9a-f]{20}$/)
     expect(fallbackPipe).not.toBe(primaryPipe)
     expect(result.sockPath).toBe(fallbackPipe)
 
@@ -856,7 +856,7 @@ describe('deployAndLaunchRelay', () => {
   it('prefers a persisted Windows fallback pipe on later reconnects', async () => {
     const conn = makeMockConnection()
     const mockExecCommand = vi.mocked(execCommand)
-    const persistedPipe = '\\\\.\\pipe\\orca-relay-1234567890abcdef1234'
+    const persistedPipe = '\\\\.\\pipe\\capilot-relay-1234567890abcdef1234'
     vi.mocked(resolveRemoteNodePath).mockResolvedValue('C:/Program Files/nodejs/node.exe')
     mockExecCommand
       .mockRejectedValueOnce(new Error('uname not found')) // tagged POSIX platform probe

@@ -97,8 +97,8 @@ function createLocalRepoFixture(worktreeCount) {
   const repoPath = path.join(baseDir, 'repo')
   mkdirSync(repoPath, { recursive: true })
   git(repoPath, 'init', '--initial-branch=main')
-  git(repoPath, 'config', 'user.email', 'bench@orca.local')
-  git(repoPath, 'config', 'user.name', 'Orca Bench')
+  git(repoPath, 'config', 'user.email', 'bench@capilot.local')
+  git(repoPath, 'config', 'user.name', 'CaPilot Bench')
   writeFileSync(path.join(repoPath, 'README.md'), '# cold-park resource fixture\n')
   git(repoPath, 'add', '.')
   git(repoPath, 'commit', '-m', 'init', '--no-gpg-sign')
@@ -113,7 +113,7 @@ function createLocalRepoFixture(worktreeCount) {
 
 async function setupWorkspaces(page, fixture) {
   return await runWithTimeout(
-    'fixture registration in Orca',
+    'fixture registration in CaPilot',
     () =>
       page.evaluate(
         async ({ repoPath, importedWorktreePaths }) => {

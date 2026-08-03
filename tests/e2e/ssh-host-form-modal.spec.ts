@@ -5,7 +5,7 @@
  */
 
 import type { Page } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
 // Why: afterEach deletes every target carrying this prefix, so two workers loading

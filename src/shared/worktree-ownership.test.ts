@@ -73,7 +73,7 @@ function makeMeta(overrides: Partial<WorktreeMeta> = {}): WorktreeMeta {
 
 function makeSettings(overrides: Partial<GlobalSettings> = {}): GlobalSettings {
   return {
-    workspaceDir: '/orca/workspaces',
+    workspaceDir: '/capilot/workspaces',
     nestWorkspaces: true,
     workspaceDirHistory: [],
     refreshLocalBaseRefOnWorktreeCreate: false,
@@ -96,7 +96,7 @@ function makeSettings(overrides: Partial<GlobalSettings> = {}): GlobalSettings {
 }
 
 describe('worktree ownership classification', () => {
-  it('treats explicit Orca metadata as managed even outside the workspace root', () => {
+  it('treats explicit CaPilot metadata as managed even outside the workspace root', () => {
     const repo = makeRepo()
     const settings = makeSettings()
     expect(
@@ -107,10 +107,10 @@ describe('worktree ownership classification', () => {
         meta: makeMeta({ orcaCreatedAt: 1 }),
         knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
       })
-    ).toBe('orca-managed')
+    ).toBe('capilot-managed')
   })
 
-  it('treats nested Orca workspace paths without metadata as external', () => {
+  it('treats nested CaPilot workspace paths without metadata as external', () => {
     const repo = makeRepo()
     const settings = makeSettings()
     const layouts = buildKnownOrcaWorkspaceLayouts(settings, repo)
@@ -118,7 +118,7 @@ describe('worktree ownership classification', () => {
       classifyWorktreeOwnership({
         repo,
         settings,
-        worktree: makeWorktree({ path: '/orca/workspaces/app/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/app/feature' }),
         knownOrcaLayouts: layouts
       })
     ).toBe('external')
@@ -126,36 +126,36 @@ describe('worktree ownership classification', () => {
       classifyWorktreeOwnership({
         repo,
         settings,
-        worktree: makeWorktree({ path: '/orca/workspaces/other/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/other/feature' }),
         knownOrcaLayouts: layouts
       })
     ).toBe('external')
   })
 
-  it('treats explicit Orca creation layout metadata as managed', () => {
+  it('treats explicit CaPilot creation layout metadata as managed', () => {
     const repo = makeRepo()
     const settings = makeSettings()
     expect(
       classifyWorktreeOwnership({
         repo,
         settings,
-        worktree: makeWorktree({ path: '/orca/workspaces/app/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/app/feature' }),
         meta: makeMeta({
-          orcaCreationWorkspaceLayout: { path: '/orca/workspaces', nestWorkspaces: true }
+          orcaCreationWorkspaceLayout: { path: '/capilot/workspaces', nestWorkspaces: true }
         }),
         knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
       })
-    ).toBe('orca-managed')
+    ).toBe('capilot-managed')
   })
 
-  it('does not treat metadata-free nested workspace paths as Orca-managed for new repos', () => {
+  it('does not treat metadata-free nested workspace paths as CaPilot-managed for new repos', () => {
     const repo = makeRepo({ externalWorktreeVisibility: 'hide' })
     const settings = makeSettings()
     const detected = toDetectedWorktree({
       repo,
       settings,
       worktree: makeWorktree({
-        path: '/orca/workspaces/app/manual-git-worktree',
+        path: '/capilot/workspaces/app/manual-git-worktree',
         isMainWorktree: false
       }),
       knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
@@ -165,14 +165,14 @@ describe('worktree ownership classification', () => {
     expect(detected.visible).toBe(false)
   })
 
-  it('does not treat generic discovery metadata on nested workspace paths as Orca-managed', () => {
+  it('does not treat generic discovery metadata on nested workspace paths as CaPilot-managed', () => {
     const repo = makeRepo({ externalWorktreeVisibility: 'hide' })
     const settings = makeSettings()
     const detected = toDetectedWorktree({
       repo,
       settings,
       worktree: makeWorktree({
-        path: '/orca/workspaces/app/manual-git-worktree',
+        path: '/capilot/workspaces/app/manual-git-worktree',
         isMainWorktree: false
       }),
       meta: makeMeta({ displayName: 'manual-git-worktree' }),
@@ -190,7 +190,7 @@ describe('worktree ownership classification', () => {
       repo,
       settings,
       worktree: makeWorktree({
-        path: '/orca/workspaces/app/manual-git-worktree',
+        path: '/capilot/workspaces/app/manual-git-worktree',
         isMainWorktree: false
       }),
       knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
@@ -210,7 +210,7 @@ describe('worktree ownership classification', () => {
       repo,
       settings,
       worktree: makeWorktree({
-        path: '/orca/workspaces/app/manual-git-worktree',
+        path: '/capilot/workspaces/app/manual-git-worktree',
         isMainWorktree: false
       }),
       knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
@@ -227,7 +227,7 @@ describe('worktree ownership classification', () => {
       classifyWorktreeOwnership({
         repo,
         settings,
-        worktree: makeWorktree({ path: '/orca/workspaces/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/feature' }),
         knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
       })
     ).toBe('unknown-legacy')
@@ -237,13 +237,13 @@ describe('worktree ownership classification', () => {
     const repo = makeRepo()
     const settings = makeSettings({
       nestWorkspaces: true,
-      workspaceDirHistory: [{ path: '/orca/workspaces', nestWorkspaces: false }]
+      workspaceDirHistory: [{ path: '/capilot/workspaces', nestWorkspaces: false }]
     })
     expect(
       classifyWorktreeOwnership({
         repo,
         settings,
-        worktree: makeWorktree({ path: '/orca/workspaces/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/feature' }),
         knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
       })
     ).toBe('unknown-legacy')
@@ -292,7 +292,7 @@ describe('worktree ownership classification', () => {
 
   it('handles Windows drive casing and separators', () => {
     const repo = makeRepo({ path: 'C:\\repos\\App' })
-    const settings = makeSettings({ workspaceDir: 'C:\\Orca\\Workspaces' })
+    const settings = makeSettings({ workspaceDir: 'C:\\CaPilot\\Workspaces' })
     expect(
       classifyWorktreeOwnership({
         repo,
@@ -417,7 +417,7 @@ describe('external worktree visibility policy', () => {
     expect(
       shouldShowWorktree({
         repo,
-        worktree: makeWorktree({ path: '/orca/workspaces/feature' }),
+        worktree: makeWorktree({ path: '/capilot/workspaces/feature' }),
         ownership: 'unknown-legacy',
         isLegacyRepoForVisibility: true,
         isSelectedCheckout: false
@@ -445,7 +445,7 @@ describe('agent scratch worktrees', () => {
   it('classifies scratch worktrees created inside another linked checkout', () => {
     const repo = makeRepo()
     const settings = makeSettings()
-    const linkedCheckoutPath = '/orca/workspaces/app/feature-x'
+    const linkedCheckoutPath = '/capilot/workspaces/app/feature-x'
     expect(
       classifyWorktreeOwnership({
         repo,
@@ -463,7 +463,7 @@ describe('agent scratch worktrees', () => {
     ).toBe('agent-scratch')
   })
 
-  it('keeps strong Orca metadata authoritative over the scratch path match', () => {
+  it('keeps strong CaPilot metadata authoritative over the scratch path match', () => {
     const repo = makeRepo()
     const settings = makeSettings()
     expect(
@@ -474,10 +474,10 @@ describe('agent scratch worktrees', () => {
         meta: makeMeta({ orcaCreatedAt: 1 }),
         knownOrcaLayouts: buildKnownOrcaWorkspaceLayouts(settings, repo)
       })
-    ).toBe('orca-managed')
+    ).toBe('capilot-managed')
   })
 
-  it('hides agent scratch even when the repo shows non-Orca worktrees', () => {
+  it('hides agent scratch even when the repo shows non-CaPilot worktrees', () => {
     for (const repo of [
       makeRepo({ externalWorktreeVisibility: 'show' }),
       makeRepo({ addedAt: EXTERNAL_WORKTREE_VISIBILITY_ROLLOUT_AT - 1 })

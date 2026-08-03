@@ -12,7 +12,7 @@ import type {
 } from './types'
 
 const { getPathMock, writeOpens, writeGate } = vi.hoisted(() => ({
-  getPathMock: vi.fn(() => '/tmp/orca-test-userdata'),
+  getPathMock: vi.fn(() => '/tmp/capilot-test-userdata'),
   // Why only mode 'w': the durable write also opens the directory read-only to fsync it, so counting
   // every open would hide a regression back to multiple full-cache rewrites per scan.
   writeOpens: { value: 0, inFlight: 0, maxConcurrent: 0 },
@@ -115,7 +115,7 @@ describe('CodexUsageStore', () => {
   let tempUserData: string
 
   beforeEach(() => {
-    tempUserData = mkdtempSync(join(tmpdir(), 'orca-codex-usage-store-'))
+    tempUserData = mkdtempSync(join(tmpdir(), 'capilot-codex-usage-store-'))
     getPathMock.mockReturnValue(tempUserData)
     initCodexUsagePath()
     writeOpens.value = 0
@@ -150,7 +150,7 @@ describe('CodexUsageStore', () => {
     // Why exactly one: a refresh that rewrites the whole 60 MB cache twice is the regression this guards.
     expect(writeOpens.value).toBe(1)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
-    const persistedJson = readFileSync(join(tempUserData, 'orca-codex-usage.json'), 'utf-8')
+    const persistedJson = readFileSync(join(tempUserData, 'capilot-codex-usage.json'), 'utf-8')
     expect(persistedJson).toBe(JSON.stringify(JSON.parse(persistedJson)))
     expect(persistedJson).not.toContain('\n')
     expect(JSON.parse(persistedJson).scanState).toMatchObject({
@@ -217,7 +217,7 @@ describe('CodexUsageStore', () => {
     await Promise.all([first, second])
 
     expect(
-      JSON.parse(readFileSync(join(tempUserData, 'orca-codex-usage.json'), 'utf-8')).scanState
+      JSON.parse(readFileSync(join(tempUserData, 'capilot-codex-usage.json'), 'utf-8')).scanState
         .enabled
     ).toBe(false)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
@@ -226,7 +226,7 @@ describe('CodexUsageStore', () => {
   })
 
   it('sweeps a usage temp file orphaned by a crash between write and rename', async () => {
-    const orphan = join(tempUserData, 'orca-codex-usage.json.999.1.abc.tmp')
+    const orphan = join(tempUserData, 'capilot-codex-usage.json.999.1.abc.tmp')
     writeFileSync(orphan, '{}')
 
     createStoreWithState({})
@@ -235,7 +235,7 @@ describe('CodexUsageStore', () => {
     )
   })
 
-  it('reports no data for Orca scope when only non-Orca Codex usage exists', async () => {
+  it('reports no data for CaPilot scope when only non-CaPilot Codex usage exists', async () => {
     const store = createStoreWithState({
       sessions: [
         {
@@ -320,7 +320,7 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.hasAnyCodexData).toBe(false)
     expect(summary.sessions).toBe(0)
@@ -348,7 +348,7 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(0.0014)
     expect(summary.totalTokens).toBe(1250)
@@ -421,8 +421,8 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const summary = await store.getSummary('capilot', '30d')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(107.486)
     expect(breakdown.find((row) => row.key === 'gpt-5.2-codex')?.estimatedCostUsd).toBeCloseTo(
@@ -454,8 +454,8 @@ describe('CodexUsageStore', () => {
       }))
     })
 
-    const summary = await store.getSummary('orca', '30d')
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const summary = await store.getSummary('capilot', '30d')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(85.7208)
     expect(breakdown.find((row) => row.key === 'gpt-5.6-sol')?.estimatedCostUsd).toBeCloseTo(50.424)
@@ -486,7 +486,7 @@ describe('CodexUsageStore', () => {
       }))
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(breakdown.find((row) => row.key === 'gpt-5.6-terra-high')?.estimatedCostUsd).toBeCloseTo(
       0.5125
@@ -515,7 +515,7 @@ describe('CodexUsageStore', () => {
       }))
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(breakdown.find((row) => row.key === 'gpt-5.6')?.estimatedCostUsd).toBeCloseTo(1.025)
     expect(breakdown.find((row) => row.key === 'gpt-5.6-luna')?.estimatedCostUsd).toBeCloseTo(0.205)
@@ -572,7 +572,7 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(breakdown.find((row) => row.key === 'gpt-5.4-mini-high')?.estimatedCostUsd).toBeCloseTo(
       4.9125
@@ -606,7 +606,7 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(858.929724)
   })
@@ -736,13 +736,13 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(breakdown.find((row) => row.key === 'gpt-5')?.sessions).toBe(1)
     expect(breakdown.find((row) => row.key === 'gpt-5.2-codex')?.sessions).toBe(1)
   })
 
-  it('uses only Orca-scoped models when projecting mixed-scope sessions', async () => {
+  it('uses only CaPilot-scoped models when projecting mixed-scope sessions', async () => {
     const store = createStoreWithState({
       sessions: [
         {
@@ -880,8 +880,8 @@ describe('CodexUsageStore', () => {
       ]
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
-    const recentSessions = await store.getRecentSessions('orca', '30d', 10)
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
+    const recentSessions = await store.getRecentSessions('capilot', '30d', 10)
 
     expect(breakdown.find((row) => row.key === 'gpt-5')?.sessions).toBe(1)
     expect(breakdown.find((row) => row.key === 'gpt-5.2-codex')).toBeUndefined()

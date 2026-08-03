@@ -287,7 +287,7 @@ export class CodexAccountService {
 
   /**
    * Registers a managed Codex account from an already-authenticated `CODEX_HOME`
-   * instead of driving `codex login` here. Lets the `orca account add --agent codex`
+   * instead of driving `codex login` here. Lets the `capilot account add --agent codex`
    * CLI run the login in the user's own terminal on a headless host and then import
    * the captured `auth.json` into managed storage.
    */
@@ -782,7 +782,7 @@ export class CodexAccountService {
   ): Promise<CodexRateLimitAccountsState> {
     const identity = this.readIdentityFromHome(managedHome.managedHomePath, accountId)
     if (!identity.email) {
-      throw new Error('Codex login completed, but Orca could not resolve the account email.')
+      throw new Error('Codex login completed, but CaPilot could not resolve the account email.')
     }
 
     const now = Date.now()
@@ -861,7 +861,7 @@ export class CodexAccountService {
     await this.runCodexLogin(managedHomePath)
     const identity = this.readIdentityFromHome(managedHomePath, account.id)
     if (!identity.email) {
-      throw new Error('Codex login completed, but Orca could not resolve the account email.')
+      throw new Error('Codex login completed, but CaPilot could not resolve the account email.')
     }
 
     const settings = this.store.getSettings()
@@ -1140,8 +1140,8 @@ export class CodexAccountService {
 
     const managedHomePath = join(this.getManagedAccountsRoot(), accountId, 'home')
     mkdirSync(managedHomePath, { recursive: true })
-    // Why: marker lets future cleanup prove the path belongs to Orca before deleting anything.
-    writeFileSync(join(managedHomePath, '.orca-managed-home'), `${accountId}\n`, 'utf-8')
+    // Why: marker lets future cleanup prove the path belongs to CaPilot before deleting anything.
+    writeFileSync(join(managedHomePath, '.capilot-managed-home'), `${accountId}\n`, 'utf-8')
     return {
       managedHomePath: this.assertManagedHomePath(managedHomePath, accountId),
       managedHomeRuntime: 'host',
@@ -1174,8 +1174,8 @@ export class CodexAccountService {
       throw new Error('Could not resolve the active WSL home directory for Codex login.')
     }
 
-    const wslLinuxHomePath = `${home.replace(/\/$/, '')}/.local/share/orca/codex-accounts/${accountId}/home`
-    const markerPath = `${wslLinuxHomePath}/.orca-managed-home`
+    const wslLinuxHomePath = `${home.replace(/\/$/, '')}/.local/share/capilot/codex-accounts/${accountId}/home`
+    const markerPath = `${wslLinuxHomePath}/.capilot-managed-home`
     execFileSync(
       'wsl.exe',
       [
@@ -1264,7 +1264,7 @@ export class CodexAccountService {
       })
       return
     }
-    // Why: Orca account switching is meant to swap Codex credentials and quota
+    // Why: CaPilot account switching is meant to swap Codex credentials and quota
     // identity, not silently fork the user's sandbox/config defaults. Syncing
     // one canonical config into every managed home keeps auth isolated per
     // account while preserving consistent Codex behavior. Managed homes are
@@ -1273,7 +1273,7 @@ export class CodexAccountService {
     let sanitizedConfig = canonicalConfig.contents
     if (isCodexSystemDefaultRealHomeEnabled()) {
       const material = getCodexManagedHookInstallMaterial()
-      // Why: source-home Orca trust is foreign to each managed home's hooks.json.
+      // Why: source-home CaPilot trust is foreign to each managed home's hooks.json.
       sanitizedConfig = stripCodexManagedHookTrustEntriesFromConfig(canonicalConfig.contents, {
         runtimeHomePath: canonicalConfig.sourceHomePath,
         sourcePath: canonicalConfig.sourceHooksPath,
@@ -1313,7 +1313,7 @@ export class CodexAccountService {
       return this.readCanonicalConfig()
     }
 
-    const managedRootMarker = '/.local/share/orca/codex-accounts/'
+    const managedRootMarker = '/.local/share/capilot/codex-accounts/'
     const markerIndex = wslInfo.linuxPath.indexOf(managedRootMarker)
     if (markerIndex < 0) {
       return null
@@ -1349,7 +1349,7 @@ export class CodexAccountService {
     // Why: mirroring a custom-provider pin into an OAuth managed home makes
     // the new OAuth credentials inert; fail before login and leave user config intact.
     throw new Error(
-      `Orca cannot add a Codex OAuth account while ~/.codex/config.toml pins the custom provider ${JSON.stringify(modelProvider)}. Keep using the system-default account for this provider, or remove model_provider (or set it to "openai") before adding an OAuth account. Orca left your config unchanged.`
+      `CaPilot cannot add a Codex OAuth account while ~/.codex/config.toml pins the custom provider ${JSON.stringify(modelProvider)}. Keep using the system-default account for this provider, or remove model_provider (or set it to "openai") before adding an OAuth account. CaPilot left your config unchanged.`
     )
   }
 
@@ -1397,9 +1397,9 @@ export class CodexAccountService {
       throw originalError
     }
 
-    // Why: re-auth may recreate a lost empty home, but only at the exact Orca-owned path persisted for this account.
+    // Why: re-auth may recreate a lost empty home, but only at the exact CaPilot-owned path persisted for this account.
     mkdirSync(expectedManagedHomePath, { recursive: true })
-    writeFileSync(join(expectedManagedHomePath, '.orca-managed-home'), `${account.id}\n`, 'utf-8')
+    writeFileSync(join(expectedManagedHomePath, '.capilot-managed-home'), `${account.id}\n`, 'utf-8')
     return this.assertManagedHomePath(expectedManagedHomePath, account.id)
   }
 
@@ -1411,7 +1411,7 @@ export class CodexAccountService {
       account.managedHomeRuntime !== 'wsl' ||
       account.wslDistro !== wslInfo.distro ||
       account.wslLinuxHomePath !== wslInfo.linuxPath ||
-      !wslInfo.linuxPath.endsWith(`/.local/share/orca/codex-accounts/${account.id}/home`)
+      !wslInfo.linuxPath.endsWith(`/.local/share/capilot/codex-accounts/${account.id}/home`)
     ) {
       return
     }
@@ -1429,7 +1429,7 @@ export class CodexAccountService {
             'set -euo pipefail',
             `candidate=${shellQuote(wslInfo.linuxPath)}`,
             `expected_marker=${shellQuote(account.id)}`,
-            'marker="$candidate/.orca-managed-home"',
+            'marker="$candidate/.capilot-managed-home"',
             'if [ -e "$candidate" ] && [ ! -f "$marker" ]; then exit 41; fi',
             'if [ -f "$marker" ] && [ "$(cat "$marker")" != "$expected_marker" ]; then exit 42; fi',
             'mkdir -p -- "$candidate"',
@@ -1461,14 +1461,14 @@ export class CodexAccountService {
     const wslInfo = parseWslUncPath(candidatePath)
     if (wslInfo) {
       if (
-        !wslInfo.linuxPath.includes('/.local/share/orca/codex-accounts/') ||
+        !wslInfo.linuxPath.includes('/.local/share/capilot/codex-accounts/') ||
         !wslInfo.linuxPath.endsWith('/home')
       ) {
-        throw new Error('Managed WSL Codex home is outside Orca account storage.')
+        throw new Error('Managed WSL Codex home is outside CaPilot account storage.')
       }
       if (
         expectedAccountId !== undefined &&
-        !wslInfo.linuxPath.endsWith(`/.local/share/orca/codex-accounts/${expectedAccountId}/home`)
+        !wslInfo.linuxPath.endsWith(`/.local/share/capilot/codex-accounts/${expectedAccountId}/home`)
       ) {
         throw new Error('Managed WSL Codex home does not match its persisted account ID.')
       }
@@ -1487,10 +1487,10 @@ export class CodexAccountService {
                 [
                   'set -euo pipefail',
                   `candidate=${shellQuote(wslInfo.linuxPath)}`,
-                  'managed_root="${HOME%/}/.local/share/orca/codex-accounts"',
+                  'managed_root="${HOME%/}/.local/share/capilot/codex-accounts"',
                   'candidate_real=$(readlink -f -- "$candidate")',
                   'managed_root_real=$(readlink -f -- "$managed_root")',
-                  'test -f "$candidate_real/.orca-managed-home"',
+                  'test -f "$candidate_real/.capilot-managed-home"',
                   ...(expectedAccountId === undefined
                     ? [
                         'case "$candidate_real" in "$managed_root_real"/*/home) printf "%s\\n" "$candidate_real" ;; *) exit 35 ;; esac'
@@ -1498,7 +1498,7 @@ export class CodexAccountService {
                     : [
                         `expected_marker=${shellQuote(expectedAccountId)}`,
                         'test "$candidate_real" = "$managed_root_real/$expected_marker/home"',
-                        'test "$(cat "$candidate_real/.orca-managed-home")" = "$expected_marker"',
+                        'test "$(cat "$candidate_real/.capilot-managed-home")" = "$expected_marker"',
                         'printf "%s\\n" "$candidate_real"'
                       ])
                 ].join('\n')
@@ -1511,24 +1511,24 @@ export class CodexAccountService {
           }
           return toWindowsWslPath(canonicalLinuxPath, wslInfo.distro)
         } catch (error) {
-          throw new Error('Managed WSL Codex home is outside Orca account storage.', {
+          throw new Error('Managed WSL Codex home is outside CaPilot account storage.', {
             cause: error
           })
         }
       }
 
       if (wslInfo.linuxPath.split('/').includes('..')) {
-        throw new Error('Managed WSL Codex home is outside Orca account storage.')
+        throw new Error('Managed WSL Codex home is outside CaPilot account storage.')
       }
       if (!existsSync(candidatePath)) {
         throw new Error('Managed Codex home directory does not exist on disk.')
       }
-      if (!existsSync(join(candidatePath, '.orca-managed-home'))) {
-        throw new Error('Managed Codex home is missing Orca ownership marker.')
+      if (!existsSync(join(candidatePath, '.capilot-managed-home'))) {
+        throw new Error('Managed Codex home is missing CaPilot ownership marker.')
       }
       if (
         expectedAccountId !== undefined &&
-        readFileSync(join(candidatePath, '.orca-managed-home'), 'utf-8').trim() !==
+        readFileSync(join(candidatePath, '.capilot-managed-home'), 'utf-8').trim() !==
           expectedAccountId
       ) {
         throw new Error('Managed WSL Codex home ownership marker does not match its account ID.')
@@ -1564,14 +1564,14 @@ export class CodexAccountService {
               'set -euo pipefail',
               `candidate=${shellQuote(linuxHomePath)}`,
               `expected_marker=${shellQuote(expectedAccountId)}`,
-              'managed_root="${HOME%/}/.local/share/orca/codex-accounts"',
+              'managed_root="${HOME%/}/.local/share/capilot/codex-accounts"',
               'candidate_real=$(readlink -f -- "$candidate" 2>/dev/null || true)',
               'managed_root_real=$(readlink -f -- "$managed_root" 2>/dev/null || true)',
               'test -n "$candidate_real"',
               'test -n "$managed_root_real"',
               'case "$candidate_real" in "$managed_root_real"/*/home) ;; *) exit 0 ;; esac',
-              'test -f "$candidate_real/.orca-managed-home"',
-              'test "$(cat "$candidate_real/.orca-managed-home")" = "$expected_marker"',
+              'test -f "$candidate_real/.capilot-managed-home"',
+              'test "$(cat "$candidate_real/.capilot-managed-home")" = "$expected_marker"',
               'rm -rf -- "$candidate_real"',
               'parent_dir=$(dirname -- "$candidate_real")',
               'case "$parent_dir" in "$managed_root_real"/*) rmdir -- "$parent_dir" 2>/dev/null || true ;; esac'

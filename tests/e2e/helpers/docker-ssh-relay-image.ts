@@ -32,7 +32,7 @@ function hashDockerFixtureDirectory(fixtureDir: string): string {
 function fixtureImage(root: string): string {
   const fixtureDir = path.join(root, 'tests', 'e2e', 'fixtures', 'docker-ssh-relay')
   const digest = hashDockerFixtureDirectory(fixtureDir)
-  return `orca-e2e-ssh-relay:${digest}`
+  return `capilot-e2e-ssh-relay:${digest}`
 }
 
 export function getDockerSshRelayImage(): string {

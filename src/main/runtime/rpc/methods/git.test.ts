@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { GIT_METHODS } from './git'
 
 function makeRequest(method: string, params?: unknown): RpcRequest {
@@ -433,7 +433,7 @@ describe('git RPC methods', () => {
 
     expect(runtime.syncRuntimeGitForkDefaultBranch).toHaveBeenCalledWith('id:wt-1', {
       owner: 'stablyai',
-      repo: 'orca'
+      repo: 'capilot'
     })
     expect(response).toMatchObject({
       ok: true,
@@ -451,7 +451,7 @@ describe('git RPC methods', () => {
     const response = await dispatcher.dispatch(
       makeRequest('git.forkSync', {
         worktree: 'id:wt-1',
-        expectedUpstream: { owner: '   ', repo: 'orca' }
+        expectedUpstream: { owner: '   ', repo: 'capilot' }
       })
     )
 
@@ -646,7 +646,7 @@ describe('git RPC methods', () => {
         worktree: 'id:wt-1',
         filePath: 'src/a.ts',
         compare: {
-          headOid: '--output=/tmp/orca-test',
+          headOid: '--output=/tmp/capilot-test',
           mergeBase: 'a'.repeat(40)
         }
       })
@@ -666,7 +666,7 @@ describe('git RPC methods', () => {
     const response = await dispatcher.dispatch(
       makeRequest('git.branchCompare', {
         worktree: 'id:wt-1',
-        baseRef: '--output=/tmp/orca-test'
+        baseRef: '--output=/tmp/capilot-test'
       })
     )
 

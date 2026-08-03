@@ -14,7 +14,7 @@ export {
   type BrowserPageZoomDirection
 } from '../../../../shared/browser-page-zoom'
 
-export const ORCA_BROWSER_PAGE_ZOOM_EVENT = 'orca:browser-page-zoom'
+export const ORCA_BROWSER_PAGE_ZOOM_EVENT = 'capilot:browser-page-zoom'
 
 export type BrowserPageZoomEventDetail = {
   browserPageId: string

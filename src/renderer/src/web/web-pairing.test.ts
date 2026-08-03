@@ -46,7 +46,7 @@ describe('web pairing input', () => {
     )
   })
 
-  it('rejects orca URLs outside the exact pairing route', () => {
+  it('rejects capilot URLs outside the exact pairing route', () => {
     expect(parseWebPairingInput(`orca://pairing?code=${encodeOffer()}`)).toBeNull()
     expect(parseWebPairingInput(`orca://pair-extra?code=${encodeOffer()}`)).toBeNull()
   })

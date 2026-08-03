@@ -128,7 +128,7 @@ function buildWslWorkspaceLayouts(
   if (!linuxHome) {
     return []
   }
-  const root = `//wsl.localhost/${parsed.distro}${linuxHome}/orca/workspaces`
+  const root = `//wsl.localhost/${parsed.distro}${linuxHome}/capilot/workspaces`
   const historicalModes = (settings.workspaceDirHistory ?? []).map(
     (layout) => layout.nestWorkspaces
   )
@@ -145,7 +145,7 @@ export function classifyWorktreeOwnership(args: {
   agentScratchWorktreePathMatcher?: AgentScratchWorktreePathMatcher
 }): WorktreeOwnership {
   if (hasStrongOrcaMetadata(args.meta)) {
-    return 'orca-managed'
+    return 'capilot-managed'
   }
 
   // Why: sub-agent scratch worktrees (e.g. .claude/worktrees) are tool
@@ -162,8 +162,8 @@ export function classifyWorktreeOwnership(args: {
   }
 
   if (canClassifyAsExternal(args.worktree.path, args.knownOrcaLayouts)) {
-    // Why: a plain `git worktree add` can target Orca's nested workspace
-    // folder. Only metadata proves Orca created it.
+    // Why: a plain `git worktree add` can target CaPilot's nested workspace
+    // folder. Only metadata proves CaPilot created it.
     return 'external'
   }
 
@@ -211,7 +211,7 @@ export function shouldShowWorktree(args: {
   if (args.isSelectedCheckout) {
     return true
   }
-  if (args.ownership === 'orca-managed') {
+  if (args.ownership === 'capilot-managed') {
     return true
   }
   if (
@@ -221,7 +221,7 @@ export function shouldShowWorktree(args: {
   ) {
     return true
   }
-  // Why: agent scratch stays hidden even when the repo shows non-Orca
+  // Why: agent scratch stays hidden even when the repo shows non-CaPilot
   // worktrees; only an explicit import or selected checkout reveals it.
   if (args.ownership === 'agent-scratch') {
     return false
@@ -240,7 +240,7 @@ export function applyMetadataFallbackVisibility(detected: DetectedWorktree): Det
   return {
     ...detected,
     visible: true,
-    ownership: detected.ownership === 'orca-managed' ? 'orca-managed' : 'unknown-legacy'
+    ownership: detected.ownership === 'capilot-managed' ? 'capilot-managed' : 'unknown-legacy'
   }
 }
 

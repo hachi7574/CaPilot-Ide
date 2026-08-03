@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   focusActiveTerminalInput,
@@ -76,7 +76,7 @@ test.describe('split terminal pane paste ownership', () => {
     }
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-split-paste-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-split-paste-${runId}.mjs`)
     writeFileSync(scriptPath, pasteEchoScript(runId))
     let scriptStarted = false
 
@@ -155,7 +155,7 @@ test.describe('split terminal pane paste ownership', () => {
           throw new Error('Drop target pane not found')
         }
         const dataTransfer = new DataTransfer()
-        dataTransfer.setData('text/x-orca-file-path', pathValue)
+        dataTransfer.setData('text/x-capilot-file-path', pathValue)
         const target = pane.container.querySelector('.xterm-screen, textarea') ?? pane.container
         for (const eventType of ['dragenter', 'dragover', 'drop']) {
           target.dispatchEvent(

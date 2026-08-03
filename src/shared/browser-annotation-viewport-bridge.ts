@@ -92,7 +92,7 @@ export function buildBrowserAnnotationViewportBridgeScript({
   const token = ${JSON.stringify(token)};
   const prefix = ${JSON.stringify(BROWSER_ANNOTATION_VIEWPORT_MESSAGE_PREFIX)};
   const stateKey = '__orcaBrowserAnnotationViewportBridge';
-  const hostAttribute = 'data-orca-browser-annotation-overlay';
+  const hostAttribute = 'data-capilot-browser-annotation-overlay';
   const markerSize = 24;
 
   const removeOverlay = (state) => {

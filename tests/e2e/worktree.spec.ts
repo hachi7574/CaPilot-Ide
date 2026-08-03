@@ -1,5 +1,5 @@
 /**
- * E2E tests for the "Create Workspace" flow in Orca.
+ * E2E tests for the "Create Workspace" flow in CaPilot.
  *
  * Why: the old 'create-worktree' modal was replaced by the composer modal
  * (`activeModal === 'new-workspace-composer'`) in #710. A prior version of
@@ -20,7 +20,7 @@
  */
 
 import type { ConsoleMessage } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   waitForSessionReady,
   waitForActiveWorktree,

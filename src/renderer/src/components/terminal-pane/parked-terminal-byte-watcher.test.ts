@@ -387,7 +387,7 @@ describe('startParkedTerminalByteWatcher', () => {
       expect.objectContaining({
         url: 'https://github.com/orca-dev/orca/pull/421',
         number: 421,
-        slug: { owner: 'orca-dev', repo: 'orca', host: 'github.com' }
+        slug: { owner: 'capilot-dev', repo: 'capilot', host: 'github.com' }
       })
     )
     dispose()
@@ -922,7 +922,7 @@ describe('startParkedTerminalByteWatcher', () => {
 
       const link = {
         url: 'https://github.com/orca-dev/orca/pull/421',
-        slug: { owner: 'orca-dev', repo: 'orca' },
+        slug: { owner: 'capilot-dev', repo: 'capilot' },
         number: 421
       }
       await dispatchFacts([{ kind: 'pr-link', link }])

@@ -13,7 +13,7 @@ const itWithBash = hasBash ? it : it.skip
 const tempDirs: string[] = []
 
 function makeTempDir(): string {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-omp-node-pty-'))
+  const dir = mkdtempSync(join(tmpdir(), 'capilot-omp-node-pty-'))
   tempDirs.push(dir)
   return dir
 }
@@ -110,7 +110,7 @@ describePosix('OMP shell wrapper node-pty reproduction', () => {
     mkdirSync(binDir)
     mkdirSync(piDir)
     mkdirSync(extensionDir, { recursive: true })
-    const statusExtension = join(extensionDir, 'orca-agent-status.ts')
+    const statusExtension = join(extensionDir, 'capilot-agent-status.ts')
     writeFileSync(statusExtension, 'export default {}')
     writeFakeOmp(binDir)
 
@@ -177,7 +177,7 @@ exit 0
     mkdirSync(binDir)
     mkdirSync(sourceDir, { recursive: true })
     mkdirSync(extensionDir, { recursive: true })
-    const statusExtension = join(extensionDir, 'orca-agent-status.ts')
+    const statusExtension = join(extensionDir, 'capilot-agent-status.ts')
     writeFileSync(statusExtension, 'export default {}')
     writeFakeOmp(binDir)
 
@@ -232,7 +232,7 @@ exit 0
     mkdirSync(binDir)
     mkdirSync(sourceDir, { recursive: true })
     mkdirSync(extensionDir, { recursive: true })
-    const statusExtension = join(extensionDir, 'orca-agent-status.ts')
+    const statusExtension = join(extensionDir, 'capilot-agent-status.ts')
     writeFileSync(statusExtension, 'export default {}')
     writeFakeOmp(binDir)
 
@@ -275,7 +275,7 @@ exit 0
       mkdirSync(binDir)
       mkdirSync(defaultOmpDir, { recursive: true })
       mkdirSync(extensionDir, { recursive: true })
-      const statusExtension = join(extensionDir, 'orca-agent-status.ts')
+      const statusExtension = join(extensionDir, 'capilot-agent-status.ts')
       writeFileSync(statusExtension, 'export default {}')
       writeFakeOmp(binDir)
 

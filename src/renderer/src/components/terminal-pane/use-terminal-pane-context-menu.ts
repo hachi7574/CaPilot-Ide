@@ -46,7 +46,7 @@ import { copyTerminalHandleForPane } from './terminal-handle-copy'
 import { runCopyPaneId, runTerminalCopy } from './terminal-copy-rejection-guards'
 import { copyTerminalSelection } from './terminal-selection-copy'
 
-const CLOSE_ALL_CONTEXT_MENUS_EVENT = 'orca-close-all-context-menus'
+const CLOSE_ALL_CONTEXT_MENUS_EVENT = 'capilot-close-all-context-menus'
 
 export function recordContextMenuCreatedTerminalPaneSplit(
   createdPane: unknown,

@@ -62,7 +62,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
       String(textTarget)
     ])
 
-    const marker = `orca computer e2e ${Date.now()}`
+    const marker = `capilot computer e2e ${Date.now()}`
     await runOrcaCli(['computer', 'type-text', '--app', 'TextEdit', '--text', marker])
 
     const after = parseJsonOutput<{ result: ComputerSnapshotResult }>(
@@ -80,7 +80,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
           '--app',
           'TextEdit',
           '--text',
-          'orca paste first',
+          'capilot paste first',
           '--no-screenshot',
           '--json'
         ])
@@ -106,7 +106,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
     expect(selectAll.result.action?.actionName).toBe('AXSelectAll')
     expect(selectAll.result.action?.verification?.state).toBe('verified')
 
-    const marker = `orca paste final ${Date.now()}`
+    const marker = `capilot paste final ${Date.now()}`
     const second = parseJsonOutput<{ result: ComputerActionResult }>(
       (
         await runOrcaCli([
@@ -141,7 +141,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
       ).stdout
     )
     expect(after.result.snapshot.treeText).toContain(marker)
-    expect(after.result.snapshot.treeText).not.toContain('orca paste first')
+    expect(after.result.snapshot.treeText).not.toContain('capilot paste first')
   })
 
   test('accessibility text actions work when TextEdit is not frontmost', async () => {
@@ -181,7 +181,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
       '--app',
       'TextEdit',
       '--text',
-      'orca unfocused first',
+      'capilot unfocused first',
       '--no-screenshot'
     ])
     await activateFinder()
@@ -203,7 +203,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
     expect(selectAll.result.action?.actionName).toBe('AXSelectAll')
     expect(selectAll.result.action?.verification?.state).toBe('verified')
 
-    const marker = `orca unfocused final ${Date.now()}`
+    const marker = `capilot unfocused final ${Date.now()}`
     const replacement = parseJsonOutput<{ result: ComputerActionResult }>(
       (
         await runOrcaCli([
@@ -238,7 +238,7 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
       ).stdout
     )
     expect(after.result.snapshot.treeText).toContain(marker)
-    expect(after.result.snapshot.treeText).not.toContain('orca unfocused first')
+    expect(after.result.snapshot.treeText).not.toContain('capilot unfocused first')
   })
 
   test('screenshot capture returns image metadata', async () => {
@@ -249,6 +249,6 @@ describe.skipIf(!isMac || !e2eOptIn)('computer-use macOS e2e (TextEdit)', () => 
     expect(envelope.result.screenshot?.format).toBe('png')
     expect(envelope.result.screenshot?.data).toBeUndefined()
     expect(envelope.result.screenshot?.dataOmitted).toBe(true)
-    expect(envelope.result.screenshot?.path).toContain('orca-computer-use')
+    expect(envelope.result.screenshot?.path).toContain('capilot-computer-use')
   })
 })

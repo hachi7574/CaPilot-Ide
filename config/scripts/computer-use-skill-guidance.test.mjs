@@ -15,12 +15,12 @@ describe('computer-use skill guidance', () => {
   it('keeps web-app targeting on the computer-use surface', () => {
     const skill = readFileSync(guidePath, 'utf8')
 
-    expect(skill).toContain('Use this skill for desktop UI through `orca computer`')
+    expect(skill).toContain('Use this skill for desktop UI through `capilot computer`')
     expect(skill).toContain('operate the desktop browser app/window that contains the page')
-    expect(skill).not.toContain('orca goto')
-    expect(skill).not.toContain('orca snapshot')
-    expect(skill).not.toContain('orca click')
-    expect(skill).not.toContain('orca fill')
+    expect(skill).not.toContain('capilot goto')
+    expect(skill).not.toContain('capilot snapshot')
+    expect(skill).not.toContain('capilot click')
+    expect(skill).not.toContain('capilot fill')
     expect(skill).not.toContain('Routing:')
   })
 
@@ -63,12 +63,12 @@ describe('computer-use install stub', () => {
 
     expect(stub).toContain('discovery stub')
     expect(stub).toContain('ORCA skills get computer-use')
-    // The safe CLI-resolution contract must survive in the stub, never a bare `orca`.
+    // The safe CLI-resolution contract must survive in the stub, never a bare `capilot`.
     expect(stub).toContain('ORCA_CLI_COMMAND')
-    expect(stub).toContain('orca-dev')
-    expect(stub).toContain('orca-ide')
-    expect(stub).toContain('GNOME Orca screen reader')
-    expect(stub).not.toMatch(/^orca /mu)
+    expect(stub).toContain('capilot-dev')
+    expect(stub).toContain('capilot-ide')
+    expect(stub).toContain('GNOME CaPilot screen reader')
+    expect(stub).not.toMatch(/^capilot /mu)
   })
 
   it('gives older binaries a bounded fallback instead of a dead end', () => {

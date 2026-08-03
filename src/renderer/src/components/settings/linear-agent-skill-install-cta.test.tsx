@@ -40,14 +40,14 @@ let container: HTMLDivElement | null = null
 function discoveredSkill(overrides: Partial<DiscoveredSkill>): DiscoveredSkill {
   return {
     id: 'skill-1',
-    name: 'orca-linear',
+    name: 'capilot-linear',
     description: null,
     providers: ['agent-skills'],
     sourceKind: 'home',
     sourceLabel: 'Agent skills home',
     rootPath: '/Users/test/.agents/skills',
-    directoryPath: '/Users/test/.agents/skills/orca-linear',
-    skillFilePath: '/Users/test/.agents/skills/orca-linear/SKILL.md',
+    directoryPath: '/Users/test/.agents/skills/capilot-linear',
+    skillFilePath: '/Users/test/.agents/skills/capilot-linear/SKILL.md',
     installed: true,
     fileCount: 1,
     updatedAt: null,
@@ -111,7 +111,7 @@ describe('LinearAgentSkillInstallCta', () => {
     const rendered = await renderCta()
 
     expect(rendered.textContent).toContain('Agent skill:')
-    expect(rendered.textContent).toContain('orca-linear')
+    expect(rendered.textContent).toContain('capilot-linear')
     expect(rendered.textContent).toContain('Not installed')
     expect(rendered.textContent).toContain(
       'Full guided setup (connect + skill + visibility) is under Settings → Task Sources.'
@@ -138,13 +138,13 @@ describe('LinearAgentSkillInstallCta', () => {
 
   it('shows a subtle confirmation and the update command when installed', async () => {
     mocks.skillState.installed = true
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' })]
+    mocks.skillState.skills = [discoveredSkill({ name: 'capilot-linear' })]
 
     const rendered = await renderCta()
 
     expect(rendered.textContent).toContain('Installed')
     expect(rendered.textContent).toContain('Agent skill installed. To update it, run:')
-    expect(rendered.textContent).toContain('npx skills update orca-linear --global')
+    expect(rendered.textContent).toContain('npx skills update capilot-linear --global')
     expect(rendered.textContent).not.toContain('Not installed')
   })
 

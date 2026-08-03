@@ -625,7 +625,7 @@ function NewWorktreeModalContent({
         setupTrust.contentHash !== options.approvedSetupContentHash &&
         !isSetupHookTrusted(trustedOrcaHooks, selectedRepo.id, setupTrust.contentHash)
       ) {
-        // Why: desktop prompts before running repo-owned orca.yaml setup hooks.
+        // Why: desktop prompts before running repo-owned capilot.yaml setup hooks.
         // Mobile stores the same trust hash so approvals carry across surfaces.
         setSetupTrustPrompt({
           repoId: selectedRepo.id,
@@ -937,7 +937,7 @@ function NewWorktreeModalContent({
                       {setupSource && (
                         <View style={styles.sourceBadge}>
                           <Text style={styles.sourceBadgeText}>
-                            {setupSource === 'orca.yaml' ? 'ORCA.YAML' : 'HOOKS'}
+                            {setupSource === 'capilot.yaml' ? 'ORCA.YAML' : 'HOOKS'}
                           </Text>
                         </View>
                       )}

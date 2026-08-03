@@ -15,7 +15,7 @@ afterEach(() => {
 })
 
 function createOutputDir(): string {
-  outputDir = mkdtempSync(join(tmpdir(), 'orca-plain-node-entry-guard-'))
+  outputDir = mkdtempSync(join(tmpdir(), 'capilot-plain-node-entry-guard-'))
   return outputDir
 }
 

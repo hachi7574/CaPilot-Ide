@@ -5,7 +5,7 @@ import type { ElectronApplication, Page } from '@stablyai/playwright-test'
 import { PNG } from 'pngjs'
 import type { RuntimeTerminalRead } from '../../src/shared/runtime-types'
 import { toWebTerminalSurfaceTabId } from '../../src/shared/terminal-surface-id'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedWebClient
@@ -14,7 +14,7 @@ import { getTerminalContent, waitForActivePanePtyId } from './helpers/terminal'
 
 const MIN_EXHAUSTED_ACK_BYTES = 400 * 1024
 const PUBLICATION_DEADLINE_MS = 10_000
-const scratch = mkdtempSync(path.join(os.tmpdir(), 'orca-paired-stalled-stream-'))
+const scratch = mkdtempSync(path.join(os.tmpdir(), 'capilot-paired-stalled-stream-'))
 const fixturePath = path.join(scratch, 'stalled-stream-terminal.mjs')
 writeFileSync(
   fixturePath,

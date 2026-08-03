@@ -104,7 +104,7 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
   })
 
   it('removes a launcher directory after partial trial setup', () => {
-    const launcherDir = mkdtempSync(path.join(tmpdir(), 'orca-owner-partial-setup-test-'))
+    const launcherDir = mkdtempSync(path.join(tmpdir(), 'capilot-owner-partial-setup-test-'))
     temporaryDirectories.add(launcherDir)
 
     const cleanup = cleanupOwnerLossTrial({
@@ -119,7 +119,7 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
   })
 
   it('kills a timed-out trial group only after validating its environment', async () => {
-    const temporaryDirectory = mkdtempSync(path.join(tmpdir(), 'orca-owner-benchmark-group-test-'))
+    const temporaryDirectory = mkdtempSync(path.join(tmpdir(), 'capilot-owner-benchmark-group-test-'))
     temporaryDirectories.add(temporaryDirectory)
     const childPidPath = path.join(temporaryDirectory, 'child.pid')
     const environmentName = `ORCA_OWNER_GROUP_${process.pid}`
@@ -319,11 +319,11 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
 
   it('kills a recorded helper in a separate process group', async () => {
     const temporaryDirectory = mkdtempSync(
-      path.join(tmpdir(), 'orca-owner-benchmark-cleanup-test-')
+      path.join(tmpdir(), 'capilot-owner-benchmark-cleanup-test-')
     )
     temporaryDirectories.add(temporaryDirectory)
     const recordPath = path.join(temporaryDirectory, 'helper.json')
-    const marker = `orca-owner-cleanup-${process.pid}-${Date.now()}`
+    const marker = `capilot-owner-cleanup-${process.pid}-${Date.now()}`
     const helper = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1_000)', marker], {
       detached: true,
       stdio: 'ignore'
@@ -350,7 +350,7 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
   })
 
   it('kills every unrecorded helper using its unique trial command', async () => {
-    const marker = `orca-owner-unrecorded-${process.pid}-${Date.now()}`
+    const marker = `capilot-owner-unrecorded-${process.pid}-${Date.now()}`
     const helpers = Array.from({ length: 2 }, () =>
       spawn(process.execPath, ['-e', 'setInterval(() => {}, 1_000)', marker], {
         detached: true,
@@ -374,7 +374,7 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
   })
 
   it('continues exact-match cleanup after an earlier match fails', () => {
-    const marker = `orca-owner-multiple-${process.pid}-${Date.now()}`
+    const marker = `capilot-owner-multiple-${process.pid}-${Date.now()}`
     const matches = [
       { pid: 41, pgid: 41, command: `/helper ${marker}` },
       { pid: 42, pgid: 42, command: `/helper ${marker}` }
@@ -507,11 +507,11 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
 
   it('runs unique-command cleanup after an invalid process record', async () => {
     const temporaryDirectory = mkdtempSync(
-      path.join(tmpdir(), 'orca-owner-benchmark-fallback-test-')
+      path.join(tmpdir(), 'capilot-owner-benchmark-fallback-test-')
     )
     temporaryDirectories.add(temporaryDirectory)
     const recordPath = path.join(temporaryDirectory, 'helper.json')
-    const marker = `orca-owner-invalid-record-${process.pid}-${Date.now()}`
+    const marker = `capilot-owner-invalid-record-${process.pid}-${Date.now()}`
     const helper = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1_000)', marker], {
       detached: true,
       stdio: 'ignore'
@@ -535,11 +535,11 @@ describeMacOS('macOS helper owner-loss benchmark process cleanup', () => {
 
   it('rejects a record that is not a detached process-group identity', () => {
     const temporaryDirectory = mkdtempSync(
-      path.join(tmpdir(), 'orca-owner-benchmark-identity-test-')
+      path.join(tmpdir(), 'capilot-owner-benchmark-identity-test-')
     )
     temporaryDirectories.add(temporaryDirectory)
     const recordPath = path.join(temporaryDirectory, 'helper.json')
-    const marker = `orca-owner-invalid-identity-${process.pid}-${Date.now()}`
+    const marker = `capilot-owner-invalid-identity-${process.pid}-${Date.now()}`
     const helper = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1_000)', marker], {
       stdio: 'ignore'
     })

@@ -23,7 +23,7 @@ afterEach(() => {
 })
 
 function makeRepo(): string {
-  const root = mkdtempSync(join(tmpdir(), 'orca-vm-recipe-runner-'))
+  const root = mkdtempSync(join(tmpdir(), 'capilot-vm-recipe-runner-'))
   tmpRoots.push(root)
   return root
 }
@@ -71,7 +71,7 @@ describe('runEphemeralVmRecipeStart', () => {
     expect(result.ok).toBe(true)
     if (result.ok) {
       expect(result.context.recipeId).toBe('cloud-sandbox')
-      expect(result.context.instanceId).toMatch(/^orca-/)
+      expect(result.context.instanceId).toMatch(/^capilot-/)
       expect(getEphemeralVmRecipeResultProjectRoot(result.result)).toBe('/workspace/repo')
       expect(result.result.userData).toEqual({ providerResourceId: result.context.instanceId })
       expect(result.stderr).toContain(`cwd:${realpathSync(repoPath)}`)
@@ -91,7 +91,7 @@ describe('runEphemeralVmRecipeStart', () => {
         name: 'Cloud Sandbox',
         create: nodeCommand(scriptPath)
       },
-      context: { instanceId: 'orca-test-instance' }
+      context: { instanceId: 'capilot-test-instance' }
     })
 
     expect(result).toMatchObject({
@@ -100,7 +100,7 @@ describe('runEphemeralVmRecipeStart', () => {
       exitCode: 0,
       signal: null,
       context: {
-        instanceId: 'orca-test-instance',
+        instanceId: 'capilot-test-instance',
         recipeId: 'cloud-sandbox',
         repoPath
       }
@@ -138,14 +138,14 @@ describe('runEphemeralVmRecipeCleanup', () => {
       id: 'cloud-sandbox',
       name: 'Cloud Sandbox',
       create: 'unused',
-      destroy: './scripts/orca-vm/destroy.sh'
+      destroy: './scripts/capilot-vm/destroy.sh'
     }
     const payload = buildEphemeralVmRecipeCleanupPayload({
       recipe,
       context: {
         recipeId: 'cloud-sandbox',
         repoPath,
-        instanceId: 'orca-test-instance',
+        instanceId: 'capilot-test-instance',
         workspaceName: 'fix-login-race'
       },
       recipeResult: {
@@ -159,7 +159,7 @@ describe('runEphemeralVmRecipeCleanup', () => {
       schemaVersion: 1,
       mode: 'destroy',
       recipeId: 'cloud-sandbox',
-      instanceId: 'orca-test-instance',
+      instanceId: 'capilot-test-instance',
       workspaceName: 'fix-login-race',
       recipeResult: { projectRoot: '/workspace/repo' }
     })
@@ -168,7 +168,7 @@ describe('runEphemeralVmRecipeCleanup', () => {
         destroyCommand: recipe.destroy!,
         payload
       })
-    ).toContain('| ./scripts/orca-vm/destroy.sh')
+    ).toContain('| ./scripts/capilot-vm/destroy.sh')
   })
 
   it('passes cleanup context and recipe result on stdin', async () => {
@@ -205,7 +205,7 @@ describe('runEphemeralVmRecipeCleanup', () => {
       context: {
         recipeId: 'cloud-sandbox',
         repoPath,
-        instanceId: 'orca-test-instance',
+        instanceId: 'capilot-test-instance',
         workspaceName: 'fix-login-race'
       },
       recipeResult: {
@@ -222,7 +222,7 @@ describe('runEphemeralVmRecipeCleanup', () => {
     expect(JSON.parse(result.stdout)).toEqual({
       mode: 'destroy',
       recipeId: 'cloud-sandbox',
-      instanceId: 'orca-test-instance',
+      instanceId: 'capilot-test-instance',
       projectRoot: '/workspace/repo',
       envMode: 'destroy',
       envWorkspace: 'fix-login-race'
@@ -243,7 +243,7 @@ describe('runEphemeralVmRecipeCleanup', () => {
       context: {
         recipeId: 'manual-sandbox',
         repoPath,
-        instanceId: 'orca-test-instance'
+        instanceId: 'capilot-test-instance'
       },
       recipeResult: {
         schemaVersion: 1,
@@ -290,7 +290,7 @@ describe('runEphemeralVmRecipeSuspend and runEphemeralVmRecipeResume', () => {
       context: {
         recipeId: 'cloud-sandbox',
         repoPath,
-        instanceId: 'orca-test-instance'
+        instanceId: 'capilot-test-instance'
       },
       recipeResult: {
         schemaVersion: 1,
@@ -336,7 +336,7 @@ describe('runEphemeralVmRecipeSuspend and runEphemeralVmRecipeResume', () => {
       context: {
         recipeId: 'cloud-sandbox',
         repoPath,
-        instanceId: 'orca-test-instance'
+        instanceId: 'capilot-test-instance'
       },
       recipeResult: {
         schemaVersion: 1,

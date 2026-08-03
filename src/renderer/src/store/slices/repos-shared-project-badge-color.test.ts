@@ -7,16 +7,16 @@ import {
 } from '../../runtime/runtime-compatibility-test-fixture'
 import { clearRuntimeCompatibilityCacheForTests } from '../../runtime/runtime-rpc-client'
 
-// Mirrors the real report: one project name ("orca") set up on the local Mac and on a
-// remote Orca server, where only the local repo row carries the user's chosen color.
+// Mirrors the real report: one project name ("capilot") set up on the local Mac and on a
+// remote CaPilot server, where only the local repo row carries the user's chosen color.
 const SHARED_PROJECT_ID = 'github:stablyai/orca'
 const LOCAL_GREEN = '#22c55e'
 const REMOTE_NEUTRAL = '#737373'
 
 const localRepo: Repo = {
   id: 'local-repo',
-  path: '/local/orca',
-  displayName: 'orca',
+  path: '/local/capilot',
+  displayName: 'capilot',
   badgeColor: LOCAL_GREEN,
   upstream: { owner: 'stablyai', repo: 'orca' },
   addedAt: 1
@@ -24,8 +24,8 @@ const localRepo: Repo = {
 
 const remoteRepo: Repo = {
   id: 'remote-repo',
-  path: '/srv/orca',
-  displayName: 'orca',
+  path: '/srv/capilot',
+  displayName: 'capilot',
   badgeColor: REMOTE_NEUTRAL,
   upstream: { owner: 'stablyai', repo: 'orca' },
   addedAt: 1
@@ -33,7 +33,7 @@ const remoteRepo: Repo = {
 
 const localProject: Project = {
   id: SHARED_PROJECT_ID,
-  displayName: 'orca',
+  displayName: 'capilot',
   badgeColor: LOCAL_GREEN,
   sourceRepoIds: ['local-repo'],
   createdAt: 1,
@@ -42,7 +42,7 @@ const localProject: Project = {
 
 const remoteProject: Project = {
   id: SHARED_PROJECT_ID,
-  displayName: 'orca',
+  displayName: 'capilot',
   badgeColor: REMOTE_NEUTRAL,
   sourceRepoIds: ['remote-repo'],
   createdAt: 2,
@@ -56,7 +56,7 @@ function setup(projectId: string, repoId: string, path: string): ProjectHostSetu
     hostId: 'local',
     repoId,
     path,
-    displayName: 'orca',
+    displayName: 'capilot',
     setupState: 'ready',
     setupMethod: 'imported-existing-folder',
     createdAt: 1,
@@ -80,7 +80,7 @@ function runtimeResult(method: string): unknown {
     return { projects: [remoteProject] }
   }
   if (method === 'projectHostSetup.list') {
-    return { setups: [setup(SHARED_PROJECT_ID, 'remote-repo', '/srv/orca')] }
+    return { setups: [setup(SHARED_PROJECT_ID, 'remote-repo', '/srv/capilot')] }
   }
   return {}
 }
@@ -101,7 +101,7 @@ beforeEach(() => {
     ...updates
   }))
   projectsList.mockResolvedValue([localProject])
-  listHostSetups.mockResolvedValue([setup(SHARED_PROJECT_ID, 'local-repo', '/local/orca')])
+  listHostSetups.mockResolvedValue([setup(SHARED_PROJECT_ID, 'local-repo', '/local/capilot')])
   runtimeEnvironmentsList.mockResolvedValue([{ id: 'env-1', name: 'awin' }])
   runtimeEnvironmentCall.mockImplementation((args: RuntimeEnvironmentCallRequest) => ({
     id: `rpc-${args.method}`,

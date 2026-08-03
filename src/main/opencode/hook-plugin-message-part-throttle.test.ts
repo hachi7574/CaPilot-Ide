@@ -1,9 +1,9 @@
 /**
  * Executes the generated OpenCode plugin source (the artifact that runs inside
  * OpenCode's process) to verify streamed message.part.updated events are
- * coalesced and capped before POSTing to Orca's agent-hook server. The
+ * coalesced and capped before POSTing to CaPilot's agent-hook server. The
  * un-throttled plugin re-posted the full accumulated reply per streamed
- * append — O(n²) bytes per turn — which saturated Orca's main + renderer
+ * append — O(n²) bytes per turn — which saturated CaPilot's main + renderer
  * event loops on Windows and froze the UI mid-reply.
  */
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
@@ -43,7 +43,7 @@ describe('OpenCode plugin MessagePart throttling', () => {
   let savedFetch: typeof globalThis.fetch
 
   beforeEach(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-opencode-plugin-test-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-opencode-plugin-test-'))
     posts = []
     savedEnv = {}
     for (const key of ENV_KEYS) {
@@ -74,7 +74,7 @@ describe('OpenCode plugin MessagePart throttling', () => {
   })
 
   async function loadPluginEventHandler(): Promise<PluginEventHandler> {
-    const pluginPath = join(tempDir, 'orca-opencode-status.mjs')
+    const pluginPath = join(tempDir, 'capilot-opencode-status.mjs')
     writeFileSync(pluginPath, _internals.getOpenCodePluginSource())
     const module = (await import(pathToFileURL(pluginPath).href)) as {
       OrcaOpenCodeStatusPlugin: (ctx: unknown) => Promise<{ event: PluginEventHandler }>

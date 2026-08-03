@@ -21,7 +21,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
     const summary = hostedReviewSummaryFromGitHubPRInfo({
       pr,
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.acme.internal'
     })
 
@@ -29,7 +29,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
       provider: 'github',
       host: 'github.acme.internal',
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       number: 12
     })
     expect(summary.checksStatus).toBe('pending')
@@ -40,7 +40,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
     const summary = hostedReviewSummaryFromGitHubPRInfo({
       pr: { ...pr, checksStatus: 'success' },
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       comments: [
         {
           id: 1,
@@ -84,7 +84,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
     const summary = hostedReviewSummaryFromGitHubPRInfo({
       pr: { ...pr, checksStatus: 'success' },
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       checks: [{ name: 'ci', status: 'completed', conclusion: 'cancelled', url: null }]
     })
 
@@ -95,7 +95,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
     const summary = hostedReviewSummaryFromGitHubPRInfo({
       pr: { ...pr, checksStatus: 'success' },
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       checks: [{ name: 'approval', status: 'completed', conclusion: 'action_required', url: null }]
     })
 
@@ -107,7 +107,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
       hostedReviewSummaryFromGitHubPRInfo({
         pr,
         owner: 'acme',
-        repo: 'orca'
+        repo: 'capilot'
       }).threadSummary
     ).toBeUndefined()
 
@@ -115,7 +115,7 @@ describe('hostedReviewSummaryFromGitHubPRInfo', () => {
       hostedReviewSummaryFromGitHubPRInfo({
         pr,
         owner: 'acme',
-        repo: 'orca',
+        repo: 'capilot',
         comments: []
       }).threadSummary
     ).toEqual({ unresolvedCount: 0, dataCompleteness: 'partial' })

@@ -6,8 +6,8 @@ import { ORCA_PI_PREFILL_EXTENSION_FILE } from './prefill-extension-source'
 import { ORCA_PI_EXTENSION_FILE } from './titlebar-extension-source'
 import { isSafeDescendCandidate } from '../pty/overlay-mirror'
 
-const LEGACY_PI_OVERLAY_MANIFEST_FILE = '.orca-pi-overlay-manifest.json'
-const LEGACY_OMP_OVERLAY_MIGRATION_MARKER_FILE = '.orca-omp-overlay-migration-complete'
+const LEGACY_PI_OVERLAY_MANIFEST_FILE = '.capilot-pi-overlay-manifest.json'
+const LEGACY_OMP_OVERLAY_MIGRATION_MARKER_FILE = '.capilot-omp-overlay-migration-complete'
 const PI_AGENT_SETTINGS_FILE = 'settings.json'
 const SQLITE_DATABASE_EXTENSION = '.db'
 const SQLITE_SIDECAR_SUFFIXES = ['-wal', '-shm', '-journal'] as const

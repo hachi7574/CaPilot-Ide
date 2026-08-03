@@ -1,5 +1,5 @@
 import type { Page, TestInfo } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 
 const NOTE_LINE = 6
@@ -9,7 +9,7 @@ const NOTE_BODY =
   'This saved note is intentionally one long paragraph so it wraps across several visual lines in narrow and wide diff layouts without adding newline characters to the initial zone estimate.'
 
 async function assertCardClearsFollowingLine(page: Page): Promise<void> {
-  const card = page.locator('.orca-diff-comment-card').first()
+  const card = page.locator('.capilot-diff-comment-card').first()
   const followingLine = page
     .locator('.modified-in-monaco-diff-editor .view-lines .view-line')
     .filter({ hasText: FOLLOWING_LINE })

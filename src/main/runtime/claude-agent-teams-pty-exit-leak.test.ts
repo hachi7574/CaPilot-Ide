@@ -11,7 +11,7 @@
  * process dies, renderer reload) the team + nested panes Map leaked permanently.
  */
 import { describe, it, expect } from 'vitest'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import type { ClaudeAgentTeamsService } from './claude-agent-teams-service'
 
 type RuntimeInternals = {
@@ -29,8 +29,8 @@ function registerTeam(runtime: OrcaRuntimeService, ptyId: string, leaderHandle: 
   claudeAgentTeams.createLaunchEnv({
     leaderHandle,
     baseEnv: {},
-    shimDir: '/tmp/orca-shim',
-    shimBin: 'orca'
+    shimDir: '/tmp/capilot-shim',
+    shimBin: 'capilot'
   })
   // onPtyExit / dropDisconnectedPtyRecord resolve the leader handle via this map.
   handleByPtyId.set(ptyId, leaderHandle)

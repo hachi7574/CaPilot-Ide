@@ -19,7 +19,7 @@ export function createTerminalImeByteReader(
   const runId = randomUUID().replaceAll('-', '')
   const readyMarker = `ORCA_IME_READER_READY_${runId}`
   const resultPrefix = `ORCA_IME_BYTES_${runId}`
-  const scriptPath = path.join(testRepoPath, `.orca-ime-byte-reader-${runId}.cjs`)
+  const scriptPath = path.join(testRepoPath, `.capilot-ime-byte-reader-${runId}.cjs`)
   const source = `
 const expectedLineCount = ${expectedLineCount}
 const readyMarker = ${JSON.stringify(readyMarker)}

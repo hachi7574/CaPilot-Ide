@@ -44,7 +44,7 @@ export function installMainThreadHangWatchdog(options: {
   try {
     // Why: the worker survives an AppKit main-thread deadlock without another Electron process.
     worker = new Worker(workerPath, {
-      name: 'orca-main-thread-hang-watchdog',
+      name: 'capilot-main-thread-hang-watchdog',
       workerData
     })
   } catch (error) {

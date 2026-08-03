@@ -1,6 +1,6 @@
 {
   "auto.App.03a14f6b5b": {
-    "ko": "페이지를 다시 시도하거나 다른 Orca 화면으로 이동하세요."
+    "ko": "페이지를 다시 시도하거나 다른 CaPilot 화면으로 이동하세요."
   },
   "auto.App.8d1e160ed1": {
     "ko": "사이드바를 다시 시도하거나 탭을 전환해 이 화면을 다시 불러오세요."
@@ -585,7 +585,7 @@
     "ko": "워크트리"
   },
   "auto.components.automations.AutomationMissedRunGraceField.3d70c185c8": {
-    "ko": "Orca 또는 실행 호스트를 예약된 시간에 사용할 수 없었다면, 이 기간 안에 다시 사용 가능해졌을 때 Orca가 놓친 실행을 한 번 실행합니다. 더 오래된 놓친 실행은 건너뜁니다."
+    "ko": "CaPilot 또는 실행 호스트를 예약된 시간에 사용할 수 없었다면, 이 기간 안에 다시 사용 가능해졌을 때 Orca가 놓친 실행을 한 번 실행합니다. 더 오래된 놓친 실행은 건너뜁니다."
   },
   "auto.components.automations.AutomationMissedRunGraceField.529dc6c0b7": {
     "ko": "유예 없음"
@@ -951,16 +951,16 @@
     "ko": "토글 텍스트"
   },
   "auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.5c59ea96ca": {
-    "ko": "모바일 에뮬레이터 Orca CLI 스킬 설정"
+    "ko": "모바일 에뮬레이터 CaPilot CLI 스킬 설정"
   },
   "auto.components.emulator.pane.MobileEmulatorAgentSetupGuideSteps.bff5341ac3": {
-    "ko": "모바일 에뮬레이터 Orca CLI 스킬 설치 terminal"
+    "ko": "모바일 에뮬레이터 CaPilot CLI 스킬 설치 terminal"
   },
   "auto.components.emulator.pane.emulator.pane.toolbar.868c0f2938": {
     "ko": "작업 중…"
   },
   "auto.components.feature.tips.CliSkillSetupTerminal.1953e90447": {
-    "ko": "Enter를 눌러 agents 용 Orca CLI 오케스트레이션 스킬을 설치하세요."
+    "ko": "Enter를 눌러 agents 용 CaPilot CLI 오케스트레이션 스킬을 설치하세요."
   },
   "auto.components.feature.tips.CmdJPaletteFeatureTipVisual.379d776971": {
     "ko": "입력 중"
@@ -1044,7 +1044,7 @@
     "ko": "[data-slash-menu] [data-slash-row].slash-active { background: rgba(24,24,27,0.07); box-shadow: inset 0 0 0 1px rgba(24,24,27,0.06); } [data-md-active-line][data-role=\"active\"] { color: rgb(113 113 122); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; } [data-md-active-line][data-role=\"h1\"] { color: inherit; font-family: inherit; font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.2; margin-top: 6px; } [data-md-caret] { display: inline-block; width: 1.5px; height: 1em; background: currentColor; vertical-align: -2px; margin-left: 1px; animation: md-caret-blink 1.05s steps(1) infinite; } @keyframes md-caret-blink { 0%, 50% { opacity: 1 } 51%, 100% { opacity: 0 } } @keyframes md-block-in { from { opacity: 0; transform: translateY(-2px); } to { opacity: 1; transform: none; } } @keyframes md-cursor-ripple { 0% { transform: scale(0.4); opacity: 0.9; } 100% { transform: scale(1.4); opacity: 0; } } [data-clicking=\"1\"] [data-cursor-ripple] { animation: md-cursor-ripple 460ms ease-out forwards; }"
   },
   "auto.components.feature.wall.FeatureTourPreview.04d54d50ec": {
-    "ko": "orca · zsh"
+    "ko": "capilot · zsh"
   },
   "auto.components.feature.wall.FeatureTourPreview.304ad0dfc1": {
     "ko": "생각 중..."
@@ -1473,7 +1473,7 @@
     "ko": "pnpm test --filter mobile"
   },
   "auto.components.mobile.slides.TerminalSlide.e0f98be657": {
-    "ko": "orca/feat-mobile-page"
+    "ko": "capilot/feat-mobile-page"
   },
   "auto.components.mobile.slides.TerminalSlide.e4befee569": {
     "ko": "셸"
@@ -1896,10 +1896,10 @@
     "ko": "이 repos"
   },
   "auto.components.right.sidebar.SourceControlAgentActionDialogForm.1bb611240f": {
-    "ko": "Orca 기본 프롬프트를 사용하려면 {basePrompt}를 사용하세요."
+    "ko": "CaPilot 기본 프롬프트를 사용하려면 {basePrompt}를 사용하세요."
   },
   "auto.components.right.sidebar.SourceControlAgentActionDialogForm.23280cbab1": {
-    "ko": "이 템플릿에는 {basePrompt}가 포함되어 있지 않아 agent가 Orca 기본 프롬프트를 받지 못합니다."
+    "ko": "이 템플릿에는 {basePrompt}가 포함되어 있지 않아 agent가 CaPilot 기본 프롬프트를 받지 못합니다."
   },
   "auto.components.right.sidebar.SourceControlAgentActionDialogForm.6cefcdfba1": {
     "ko": "나중에 Source Control AI 설정에서 변경할 수 있습니다."
@@ -1908,7 +1908,7 @@
     "ko": "이 프롬프트를 저장하고 다음에는 이 리뷰를 표시하지 않기"
   },
   "auto.components.right.sidebar.SourceControlAgentActionDialogForm.d8f40128ee": {
-    "ko": "{basePrompt}는 Orca 기본 프롬프트입니다."
+    "ko": "{basePrompt}는 CaPilot 기본 프롬프트입니다."
   },
   "auto.components.right.sidebar.SourceControlAgentActionDialogForm.f4f3c9ca4a": {
     "ko": "프롬프트 템플릿"
@@ -2181,7 +2181,7 @@
     "ko": "이 컴퓨터"
   },
   "auto.components.settings.BrowserPane.c0f85056d9": {
-    "ko": "이 Orca 서버의 브라우저 프로필입니다."
+    "ko": "이 CaPilot 서버의 브라우저 프로필입니다."
   },
   "auto.components.settings.BrowserPane.cd47bc9622": {
     "ko": "새 브라우저 탭의 기본 프로필을 선택합니다. 쿠키를 가져오고 탭별로 프로필을 전환하려면 다음을 이용하세요:"
@@ -2268,7 +2268,7 @@
     "ko": "별도로 재정의하지 않은 로컬 Windows 프로젝트의 기본 런타임입니다."
   },
   "auto.components.settings.GeneralSupportSection.6922c1fa2b": {
-    "ko": "GitHub에서 Orca 스타 누르기"
+    "ko": "GitHub에서 CaPilot 스타 누르기"
   },
   "auto.components.settings.GeneralSupportSection.964acc6bb4": {
     "ko": "스타"
@@ -2307,7 +2307,7 @@
     "ko": "이렇게 하면 다음과 같은 명령이 유지됩니다"
   },
   "auto.components.settings.GitPane.e02ea23a32": {
-    "ko": "Orca 표기"
+    "ko": "CaPilot 표기"
   },
   "auto.components.settings.GitPane.f35007e6e8": {
     "ko": "git-username"
@@ -2358,7 +2358,7 @@
     "ko": "SSH repos는 원격 파일 시스템을 통해 읽힙니다. 스타터 생성은 워크스페이스 루트 구성으로 제한됩니다."
   },
   "auto.components.settings.MobileEmulatorExamples.4daa95f25a": {
-    "ko": "Orca CLI 스킬이 설치된 프로젝트의 Claude Code, Codex 또는 다른 agent에 이들 중 하나를 붙여넣으세요."
+    "ko": "CaPilot CLI 스킬이 설치된 프로젝트의 Claude Code, Codex 또는 다른 agent에 이들 중 하나를 붙여넣으세요."
   },
   "auto.components.settings.MobileEmulatorSettingsPane.a4f1c82d90": {
     "ko": "비활성화됨"
@@ -2469,7 +2469,7 @@
     "ko": "# 예: pnpm install cp \"$ORCA_ROOT_PATH/.env\" \"$ORCA_WORKTREE_PATH/.env\""
   },
   "auto.components.settings.RepositoryHooksSection.b20c5df6ca": {
-    "ko": "이 repo의 공유 설정, 아카이브 또는 이슈 자동화 기본값을 사용하려면 `orca.yaml` 파일을 추가하세요. 예제 템플릿:"
+    "ko": "이 repo의 공유 설정, 아카이브 또는 이슈 자동화 기본값을 사용하려면 `capilot.yaml` 파일을 추가하세요. 예제 템플릿:"
   },
   "auto.components.settings.RepositoryHooksSection.b5e3e77e89": {
     "ko": "작업"
@@ -2556,7 +2556,7 @@
     "ko": "같은 프로젝트를 연결된 다른 호스트에도 추가합니다."
   },
   "auto.components.settings.RepositoryPane.hostSetupBlockedVersion": {
-    "ko": "Orca 서버 버전이 호환되지 않습니다."
+    "ko": "CaPilot 서버 버전이 호환되지 않습니다."
   },
   "auto.components.settings.RepositoryPane.hostSetupCheckingCapability": {
     "ko": "호스트 기능 확인 중"
@@ -2655,7 +2655,7 @@
     "ko": "terminal에서 실행되는 개발자 도구의 macOS 개인정보 보호 접근 권한입니다."
   },
   "auto.components.settings.Settings.b5ee17826b": {
-    "ko": "지속 세션, 더 풍부한 원격 상태, 웹 또는 모바일 핸드오프를 위해 원격 Orca 런타임을 페어링합니다."
+    "ko": "지속 세션, 더 풍부한 원격 상태, 웹 또는 모바일 핸드오프를 위해 원격 CaPilot 런타임을 페어링합니다."
   },
   "auto.components.settings.Settings.b79b5b31e9": {
     "ko": "셸, 렌더러, 세션, terminal 동작."
@@ -2919,7 +2919,7 @@
     "ko": "사용자 지정 및 커뮤니티 테마는 자동 가져오기가 찾을 수 있도록 Warp 테마 폴더에 YAML 파일로 있어야 합니다. Warp의 공개 테마 repo를 클론했다면 Choose Folder를 사용해 해당 체크아웃을 가져오세요."
   },
   "auto.components.settings.WarpThemeImportModal.description": {
-    "ko": "Warp 테마를 Orca terminal 테마로 가져옵니다."
+    "ko": "Warp 테마를 CaPilot terminal 테마로 가져옵니다."
   },
   "auto.components.settings.WarpThemeImportModal.found_in_source": {
     "ko": "{{value0}}에서"
@@ -2958,7 +2958,7 @@
     "ko": "Warp에서 테마 가져오기"
   },
   "auto.components.settings.WarpThemeImportModal.yaml_description": {
-    "ko": "YAML 파일(Warp 형식)을 Orca terminal 테마로 가져옵니다."
+    "ko": "YAML 파일(Warp 형식)을 CaPilot terminal 테마로 가져옵니다."
   },
   "auto.components.settings.WarpThemeImportModal.yaml_no_themes_found": {
     "ko": "선택한 파일에서 테마를 찾을 수 없습니다."
@@ -3465,7 +3465,7 @@
     "ko": "런타임"
   },
   "auto.components.settings.mobile.emulator.search.d4b7833894": {
-    "ko": "orca cli"
+    "ko": "capilot cli"
   },
   "auto.components.settings.mobile.emulator.search.ea1f51b980": {
     "ko": "Xcode, simctl, serve-sim 및 에뮬레이터 장치가 준비되었는지 확인하세요."
@@ -3558,22 +3558,22 @@
     "ko": "사용량"
   },
   "auto.components.settings.providerAccountScope.localCredentials": {
-    "ko": "이 제공자의 자격 증명과 계정 확인은 이 데스크톱 클라이언트가 소유합니다. 서버 소유 자격 증명은 설정 > 원격 Orca 서버 > 고급에서 편집하세요."
+    "ko": "이 제공자의 자격 증명과 계정 확인은 이 데스크톱 클라이언트가 소유합니다. 서버 소유 자격 증명은 설정 > 원격 CaPilot 서버 > 고급에서 편집하세요."
   },
   "auto.components.settings.providerAccountScope.localMac": {
     "ko": "로컬 Mac"
   },
   "auto.components.settings.providerAccountScope.localRateLimit": {
-    "ko": "{{value0}} API 예산은 이 데스크톱 클라이언트의 CLI에서 가져옵니다. 서버 소유 예산을 보려면 설정 > 원격 Orca 서버 > 고급을 사용하세요."
+    "ko": "{{value0}} API 예산은 이 데스크톱 클라이언트의 CLI에서 가져옵니다. 서버 소유 예산을 보려면 설정 > 원격 CaPilot 서버 > 고급을 사용하세요."
   },
   "auto.components.settings.providerAccountScope.remoteServer": {
     "ko": "원격 서버: {{value0}}"
   },
   "auto.components.settings.providerAccountScope.remoteServerCredentials": {
-    "ko": "이 공급자의 자격 증명과 계정 확인은 이 원격 서버가 소유합니다. 다른 기본 런타임 범위를 편집하려면 설정 > 원격 Orca 서버 > 고급을 사용하세요."
+    "ko": "이 공급자의 자격 증명과 계정 확인은 이 원격 서버가 소유합니다. 다른 기본 런타임 범위를 편집하려면 설정 > 원격 CaPilot 서버 > 고급을 사용하세요."
   },
   "auto.components.settings.providerAccountScope.remoteServerRateLimit": {
-    "ko": "{{value0}} API 예산은 이 원격 서버의 CLI에서 가져옵니다. 다른 기본 런타임 예산을 보려면 설정 > 원격 Orca 서버 > 고급을 사용하세요."
+    "ko": "{{value0}} API 예산은 이 원격 서버의 CLI에서 가져옵니다. 다른 기본 런타임 예산을 보려면 설정 > 원격 CaPilot 서버 > 고급을 사용하세요."
   },
   "auto.components.settings.quick.commands.search.2d8aff42be": {
     "ko": "실행"
@@ -3687,7 +3687,7 @@
     "ko": "TUI"
   },
   "auto.components.settings.shortcuts.search.afda131738": {
-    "ko": "Orca 먼저"
+    "ko": "CaPilot 먼저"
   },
   "auto.components.settings.shortcuts.search.ca6a0c2df7": {
     "ko": "단축키"
@@ -3960,13 +3960,13 @@
     "ko": "버퍼"
   },
   "auto.components.settings.terminal.search.warp_import.description": {
-    "ko": "Warp 테마를 Orca terminal 테마로 가져옵니다."
+    "ko": "Warp 테마를 CaPilot terminal 테마로 가져옵니다."
   },
   "auto.components.settings.terminal.search.warp_import.title": {
     "ko": "Warp에서 테마 가져오기"
   },
   "auto.components.settings.terminal.search.yaml_import.description": {
-    "ko": "테마 YAML 파일을 Orca terminal 테마로 가져옵니다."
+    "ko": "테마 YAML 파일을 CaPilot terminal 테마로 가져옵니다."
   },
   "auto.components.settings.terminal.search.yaml_import.title": {
     "ko": "YAML에서 가져오기"
@@ -4179,7 +4179,7 @@
     "ko": "{{value0}}을(를) 제거할까요?"
   },
   "auto.components.sidebar.HostRemoveDialog.4d5e6f7a8b": {
-    "ko": "이 작업은 이 서버를 제거할 수 있는 Orca 서버 설정을 엽니다."
+    "ko": "이 작업은 이 서버를 제거할 수 있는 CaPilot 서버 설정을 엽니다."
   },
   "auto.components.sidebar.HostRemoveDialog.5e6f7a8b9c": {
     "ko": "이 컴퓨터에서 저장된 SSH 호스트와 인증 정보를 제거합니다. 원격 파일은 삭제되지 않습니다."
@@ -4398,7 +4398,7 @@
     "ko": "읽지 않음:"
   },
   "auto.components.sidebar.WorktreeVisibilityDialog.83a5ba8dd1": {
-    "ko": "Orca 외부 워크트리"
+    "ko": "CaPilot 외부 워크트리"
   },
   "auto.components.sidebar.add.repo.local.start.actions.runtimeBrowseDescription": {
     "ko": "이 호스트의 기존 Git 리포지토리 또는 폴더"
@@ -4593,7 +4593,7 @@
     "ko": "추론"
   },
   "auto.components.stats.stats.search.26bb901fcd": {
-    "ko": "Orca 통계, Claude/Codex/OpenCode 통합 사용량 분석, 토큰, 캐시, 모델, 세션"
+    "ko": "CaPilot 통계, Claude/Codex/OpenCode 통합 사용량 분석, 토큰, 캐시, 모델, 세션"
   },
   "auto.components.stats.usage.overview.sections.1dd166c920": {
     "ko": "적음"
@@ -4971,7 +4971,7 @@
     "ko": "SSH를 통해 기존 머신의 파일, terminals, Git, 워크스페이스를 사용합니다."
   },
   "auto.hooks.useSettingsNavigationMetadata.3d65d3f1b9": {
-    "ko": "Orca 및 코딩 agents의 모바일 에뮬레이터 지원을 구성합니다."
+    "ko": "CaPilot 및 코딩 agents의 모바일 에뮬레이터 지원을 구성합니다."
   },
   "auto.hooks.useSettingsNavigationMetadata.40d80bad8a": {
     "ko": "베타"
@@ -5037,7 +5037,7 @@
     "ko": "리소스 관리자를 표시합니다. 클릭하면 CPU, 메모리, 세션, 데몬 제어, 워크스페이스 디스크 스캔을 볼 수 있습니다."
   },
   "settings.appearance.statusBar.sshToggleDescription": {
-    "ko": "사용 가능한 SSH 및 원격 Orca 호스트가 있으면 표시합니다."
+    "ko": "사용 가능한 SSH 및 원격 CaPilot 호스트가 있으면 표시합니다."
   },
   "auto.components.right.sidebar.AiVaultPanelControls.selectAllAgents": {
     "ko": "모두 선택"

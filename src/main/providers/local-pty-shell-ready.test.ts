@@ -219,8 +219,8 @@ describe('scanForShellReady', () => {
   it('flushes marker-like output when the full marker is not BEL-terminated', () => {
     const state = createShellReadyScanState()
 
-    expect(scanForShellReady(state, 'before \x1b]777;orca-shell-readyx')).toEqual({
-      output: 'before \x1b]777;orca-shell-readyx',
+    expect(scanForShellReady(state, 'before \x1b]777;capilot-shell-readyx')).toEqual({
+      output: 'before \x1b]777;capilot-shell-readyx',
       matched: false,
       postMarkerBytesObserved: false
     })
@@ -233,21 +233,21 @@ describe('scanForShellReady', () => {
 
   it('reports post-marker bytes only when bytes follow the BEL terminator in the matching call', () => {
     let state = createShellReadyScanState()
-    expect(scanForShellReady(state, 'before \x1b]777;orca-shell-ready\x07')).toEqual({
+    expect(scanForShellReady(state, 'before \x1b]777;capilot-shell-ready\x07')).toEqual({
       output: 'before ',
       matched: true,
       postMarkerBytesObserved: false
     })
 
     state = createShellReadyScanState()
-    expect(scanForShellReady(state, 'before \x1b]777;orca-shell-ready\x07% ')).toEqual({
+    expect(scanForShellReady(state, 'before \x1b]777;capilot-shell-ready\x07% ')).toEqual({
       output: 'before % ',
       matched: true,
       postMarkerBytesObserved: true
     })
 
     state = createShellReadyScanState()
-    expect(scanForShellReady(state, 'before \x1b]777;orca-shell-ready')).toEqual({
+    expect(scanForShellReady(state, 'before \x1b]777;capilot-shell-ready')).toEqual({
       output: 'before ',
       matched: false,
       postMarkerBytesObserved: false
@@ -259,7 +259,7 @@ describe('scanForShellReady', () => {
     })
 
     state = createShellReadyScanState()
-    expect(scanForShellReady(state, '\x1b]777;orca-shell-ready')).toEqual({
+    expect(scanForShellReady(state, '\x1b]777;capilot-shell-ready')).toEqual({
       output: '',
       matched: false,
       postMarkerBytesObserved: false
@@ -275,7 +275,7 @@ describe('scanForShellReady', () => {
 describe('shell-ready wrapper root resolution', () => {
   // Why: daemon-entry fork is plain Node (no electron), so the wrapper root resolves from ORCA_USER_DATA_PATH, not app.getPath.
   it('resolves the wrapper root from ORCA_USER_DATA_PATH', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'orca-userdata-env-'))
+    const root = mkdtempSync(join(tmpdir(), 'capilot-userdata-env-'))
     try {
       setTestUserDataPath(root)
       const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
@@ -338,7 +338,7 @@ function expectZdotdirSourceContext(content: string, fileName: '.zprofile' | '.z
 }
 
 function expectFinalZdotdirRestoreContext(content: string) {
-  expect(content).toContain("after Orca's last wrapper file has loaded")
+  expect(content).toContain("after CaPilot's last wrapper file has loaded")
   expect(content).toContain('export ZDOTDIR="$_orca_home"')
 }
 
@@ -364,10 +364,10 @@ describePosix('local PTY shell-ready launch config', () => {
   })
 
   it('falls back to HOME for ORCA_ORIG_ZDOTDIR when inherited ZDOTDIR points at a wrapper dir', async () => {
-    // Why: mirrors the daemon path — guards the same zsh recursion loop for renderer/local PTYs spawned inside an Orca terminal.
+    // Why: mirrors the daemon path — guards the same zsh recursion loop for renderer/local PTYs spawned inside an CaPilot terminal.
     const previousZdotdir = process.env.ZDOTDIR
     const previousHome = process.env.HOME
-    process.env.ZDOTDIR = '/some/other/orca/shell-ready/zsh'
+    process.env.ZDOTDIR = '/some/other/capilot/shell-ready/zsh'
     process.env.HOME = '/Users/alice'
     try {
       const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
@@ -388,11 +388,11 @@ describePosix('local PTY shell-ready launch config', () => {
     }
   })
 
-  it('uses inherited ORCA_ORIG_ZDOTDIR when ZDOTDIR is an Orca wrapper dir', async () => {
+  it('uses inherited ORCA_ORIG_ZDOTDIR when ZDOTDIR is an CaPilot wrapper dir', async () => {
     const previousZdotdir = process.env.ZDOTDIR
     const previousOrigZdotdir = process.env.ORCA_ORIG_ZDOTDIR
     const previousHome = process.env.HOME
-    process.env.ZDOTDIR = '/some/other/orca/shell-ready/zsh'
+    process.env.ZDOTDIR = '/some/other/capilot/shell-ready/zsh'
     process.env.ORCA_ORIG_ZDOTDIR = '/Users/alice/.config/zsh'
     process.env.HOME = '/Users/alice'
     try {
@@ -424,7 +424,7 @@ describePosix('local PTY shell-ready launch config', () => {
     const previousOrigZdotdir = process.env.ORCA_ORIG_ZDOTDIR
     const previousHome = process.env.HOME
     delete process.env.ZDOTDIR
-    process.env.ORCA_ORIG_ZDOTDIR = '/some/other/orca/shell-ready/zsh'
+    process.env.ORCA_ORIG_ZDOTDIR = '/some/other/capilot/shell-ready/zsh'
     process.env.HOME = '/Users/alice'
     try {
       const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
@@ -477,7 +477,7 @@ describePosix('local PTY shell-ready launch config', () => {
     const zlogin = readFileSync(join(userDataPath, 'shell-ready', 'zsh', '.zlogin'), 'utf8')
     expect(zlogin).toContain('zle -N zle-line-init __orca_prompt_mark')
     expect(zlogin).toContain('__orca_prev_line_init_fn="${widgets[zle-line-init]#user:}"')
-    expect(zlogin).toContain('printf "\\033]777;orca-shell-ready\\007"')
+    expect(zlogin).toContain('printf "\\033]777;capilot-shell-ready\\007"')
     // Why: add-zle-hook-widget aborts its chain on a non-zero earlier hook (e.g. oh-my-zsh vi-mode); don't register the marker through it.
     expect(zlogin).not.toContain('add-zle-hook-widget line-init')
     // Why: re-source guard — skip re-capturing when already the bound widget so the prior chain survives a second source.
@@ -607,7 +607,7 @@ describePosix('local PTY shell-ready launch config', () => {
   it('rejects inherited ZDOTDIR ending in /shell-ready/zsh even with a trailing slash', async () => {
     const previousZdotdir = process.env.ZDOTDIR
     const previousHome = process.env.HOME
-    process.env.ZDOTDIR = '/some/other/orca/shell-ready/zsh/'
+    process.env.ZDOTDIR = '/some/other/capilot/shell-ready/zsh/'
     process.env.HOME = '/Users/alice'
     try {
       const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
@@ -744,8 +744,8 @@ describePosix('live zsh subprocess tests', () => {
     let userDataPath: string
 
     beforeEach(async () => {
-      testHome = mkdtempSync(join(tmpdir(), 'orca-zsh-test-home-'))
-      userDataPath = mkdtempSync(join(tmpdir(), 'orca-zsh-test-userdata-'))
+      testHome = mkdtempSync(join(tmpdir(), 'capilot-zsh-test-home-'))
+      userDataPath = mkdtempSync(join(tmpdir(), 'capilot-zsh-test-userdata-'))
       setTestUserDataPath(userDataPath)
     })
 
@@ -772,7 +772,7 @@ path=(/custom/bin $path)
 `
       )
 
-      // Generate the Orca wrapper
+      // Generate the CaPilot wrapper
       const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
       const config = getShellReadyLaunchConfig('/bin/zsh')
 
@@ -786,7 +786,7 @@ path=(/custom/bin $path)
       delete cleanEnv.ORCA_ORIG_ZDOTDIR
       // Why: this test isolates zsh top-level path scoping, not attribution shim ordering.
       delete cleanEnv.ORCA_ATTRIBUTION_SHIM_DIR
-      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to Orca wrapper dir
+      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to CaPilot wrapper dir
 
       const result = spawnSync(
         'zsh',
@@ -1004,7 +1004,7 @@ export ZDOTDIR="$HOME/.config/zsh"
       const cleanEnv: Record<string, string | undefined> = { ...process.env, HOME: testHome }
       delete cleanEnv.ZDOTDIR
       delete cleanEnv.ORCA_ORIG_ZDOTDIR
-      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to Orca wrapper dir
+      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to CaPilot wrapper dir
 
       const result = spawnSync(
         'zsh',
@@ -1037,7 +1037,7 @@ export MY_VAR=foo
       const cleanEnv: Record<string, string | undefined> = { ...process.env, HOME: testHome }
       delete cleanEnv.ZDOTDIR
       delete cleanEnv.ORCA_ORIG_ZDOTDIR
-      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to Orca wrapper dir
+      cleanEnv.ZDOTDIR = config.env.ZDOTDIR // Point to CaPilot wrapper dir
 
       const result = spawnSync('zsh', ['-c', 'echo "ORCA_ORIG_ZDOTDIR=${ORCA_ORIG_ZDOTDIR}"'], {
         env: cleanEnv as NodeJS.ProcessEnv,
@@ -1054,8 +1054,8 @@ export MY_VAR=foo
     let userDataPath: string
 
     beforeEach(async () => {
-      testHome = mkdtempSync(join(tmpdir(), 'orca-zsh-edge-'))
-      userDataPath = mkdtempSync(join(tmpdir(), 'orca-zsh-userdata-'))
+      testHome = mkdtempSync(join(tmpdir(), 'capilot-zsh-edge-'))
+      userDataPath = mkdtempSync(join(tmpdir(), 'capilot-zsh-userdata-'))
       setTestUserDataPath(userDataPath)
     })
 
@@ -1379,8 +1379,8 @@ export MY_VAR=foo
     let userDataPath: string
 
     beforeEach(async () => {
-      testHome = mkdtempSync(join(tmpdir(), 'orca-term-'))
-      userDataPath = mkdtempSync(join(tmpdir(), 'orca-term-userdata-'))
+      testHome = mkdtempSync(join(tmpdir(), 'capilot-term-'))
+      userDataPath = mkdtempSync(join(tmpdir(), 'capilot-term-userdata-'))
       setTestUserDataPath(userDataPath)
     })
 
@@ -1478,7 +1478,7 @@ export MY_VAR=foo
       writeFileSync(join(testHome, '.zshenv'), `export ZDOTDIR="${currentZdotdir}"\n`)
 
       const previousOrcaZdotdir = process.env.ORCA_ORIG_ZDOTDIR
-      process.env.ORCA_ORIG_ZDOTDIR = '/opt/orca-old/shell-ready/zsh' // stale wrapper path
+      process.env.ORCA_ORIG_ZDOTDIR = '/opt/capilot-old/shell-ready/zsh' // stale wrapper path
 
       try {
         const { getShellReadyLaunchConfig } = await importFreshLocalPtyShellReady()
@@ -1487,7 +1487,7 @@ export MY_VAR=foo
         const cleanEnv: Record<string, string | undefined> = {
           ...process.env,
           HOME: testHome,
-          ORCA_ORIG_ZDOTDIR: '/opt/orca-old/shell-ready/zsh'
+          ORCA_ORIG_ZDOTDIR: '/opt/capilot-old/shell-ready/zsh'
         }
         delete cleanEnv.ZDOTDIR
         cleanEnv.ZDOTDIR = config.env.ZDOTDIR
@@ -1612,8 +1612,8 @@ export MY_VAR=foo
     let userDataPath: string
 
     beforeEach(async () => {
-      testHome = mkdtempSync(join(tmpdir(), 'orca-auto-'))
-      userDataPath = mkdtempSync(join(tmpdir(), 'orca-auto-userdata-'))
+      testHome = mkdtempSync(join(tmpdir(), 'capilot-auto-'))
+      userDataPath = mkdtempSync(join(tmpdir(), 'capilot-auto-userdata-'))
       setTestUserDataPath(userDataPath)
     })
 

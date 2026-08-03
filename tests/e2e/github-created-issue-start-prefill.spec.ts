@@ -2,14 +2,14 @@ import { execFileSync } from 'node:child_process'
 import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { test as base, expect } from './helpers/orca-app'
+import { test as base, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import { getTerminalContent } from './helpers/terminal'
 
 const ISSUE_NUMBER = 6613
 const ISSUE_TITLE = 'Start a newly created issue without losing its context'
 const ISSUE_URL = `https://github.com/acme/repo/issues/${ISSUE_NUMBER}`
-const fakeCliDir = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-created-issue-prefill-'))
+const fakeCliDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-created-issue-prefill-'))
 
 const fakeGhSource = `
 const args = process.argv.slice(2)

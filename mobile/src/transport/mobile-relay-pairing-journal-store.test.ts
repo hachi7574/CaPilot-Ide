@@ -31,8 +31,8 @@ import {
 import type { PairingOffer } from './types'
 
 const now = Date.UTC(2026, 6, 13)
-const GENERATION_KEY = 'orca:pairing-keychain-generation'
-const JOURNAL_PRESENCE_KEY = 'orca:pairing-keychain-presence:orca.mobile-relay.pairing-journal.v1'
+const GENERATION_KEY = 'capilot:pairing-keychain-generation'
+const JOURNAL_PRESENCE_KEY = 'capilot:pairing-keychain-presence:capilot.mobile-relay.pairing-journal.v1'
 const offer = {
   v: 2,
   endpoint: 'ws://192.168.1.10:6768',
@@ -130,7 +130,7 @@ describe('mobile relay pairing journal store', () => {
       async (_key: string, value: string, options?: { keychainService?: string }) => {
         if (options?.keychainService === undefined) {
           throw new Error(
-            "Could not encrypt the value for key 'orca.mobile-relay.pairing-journal.v1' under keychain 'key_v1'. Caused by: unknown"
+            "Could not encrypt the value for key 'capilot.mobile-relay.pairing-journal.v1' under keychain 'key_v1'. Caused by: unknown"
           )
         }
         secretRaw = value
@@ -142,9 +142,9 @@ describe('mobile relay pairing journal store', () => {
 
     expect(generationRaw).toBe('1')
     expect(secureStore.setItemAsync).toHaveBeenLastCalledWith(
-      'orca.mobile-relay.pairing-journal.v1',
+      'capilot.mobile-relay.pairing-journal.v1',
       expect.any(String),
-      expect.objectContaining({ keychainService: 'orca.pairing.v1' })
+      expect.objectContaining({ keychainService: 'capilot.pairing.v1' })
     )
   })
 

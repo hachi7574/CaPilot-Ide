@@ -1,4 +1,4 @@
-export const ORCA_TERMINAL_COMMAND_FINISHED_EVENT = 'orca:terminal-command-finished'
+export const ORCA_TERMINAL_COMMAND_FINISHED_EVENT = 'capilot:terminal-command-finished'
 
 export type TerminalCommandFinishedEventDetail = {
   worktreeId: string

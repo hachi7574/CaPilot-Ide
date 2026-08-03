@@ -1,6 +1,6 @@
 /**
  * Executes the generated OpenCode plugin source because this delivery state
- * lives inside OpenCode's process, not in Orca's TypeScript runtime.
+ * lives inside OpenCode's process, not in CaPilot's TypeScript runtime.
  */
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -41,7 +41,7 @@ describe('OpenCode plugin lifecycle delivery', () => {
   let savedFetch: typeof globalThis.fetch
 
   beforeEach(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-opencode-lifecycle-plugin-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-opencode-lifecycle-plugin-'))
     posts = []
     savedEnv = {}
     for (const key of ENV_KEYS) {
@@ -84,7 +84,7 @@ describe('OpenCode plugin lifecycle delivery', () => {
   }
 
   async function loadHooksWithSession(session: object): Promise<PluginHooks> {
-    const pluginPath = join(tempDir, 'orca-opencode-status.mjs')
+    const pluginPath = join(tempDir, 'capilot-opencode-status.mjs')
     writeFileSync(pluginPath, _internals.getOpenCodePluginSource())
     const module = (await import(pathToFileURL(pluginPath).href)) as {
       OrcaOpenCodeStatusPlugin: (ctx: unknown) => Promise<PluginHooks>
@@ -731,7 +731,7 @@ describe('OpenCode plugin lifecycle delivery', () => {
       posts.push(readPayload(init))
       deliveries.push({
         url: String(url),
-        token: new Headers(init?.headers).get('X-Orca-Agent-Hook-Token')
+        token: new Headers(init?.headers).get('X-CaPilot-Agent-Hook-Token')
       })
       return new Response(null, { status: 204 })
     }) as typeof globalThis.fetch

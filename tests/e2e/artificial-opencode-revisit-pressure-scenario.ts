@@ -139,8 +139,8 @@ export async function runRendererBackpressureRevisitScenario<
   const [revisitPane, ...loadPanes] = panes
   await deps.focusPane(orcaPage, revisitPane.paneKey)
 
-  const typingScriptPath = path.join(testRepoPath, `.orca-revisit-typing-${runId}.mjs`)
-  const pressureScriptPath = path.join(testRepoPath, `.orca-revisit-pressure-${runId}.mjs`)
+  const typingScriptPath = path.join(testRepoPath, `.capilot-revisit-typing-${runId}.mjs`)
+  const pressureScriptPath = path.join(testRepoPath, `.capilot-revisit-pressure-${runId}.mjs`)
   const revisitMarker = `OPENCODE_REVISIT_READY_${runId}`
   const pressureDoneMarker = `OPENCODE_PRESSURE_DONE_${runId}_0`
   deps.writeInteractivePromptScript(typingScriptPath, runId)

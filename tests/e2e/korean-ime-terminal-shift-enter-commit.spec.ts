@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { CDPSession, Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   focusActiveTerminalInput,
@@ -478,7 +478,7 @@ test.describe('Korean IME terminal committing Enter chords', () => {
 
         const ptyId = await waitForActivePanePtyId(orcaPage)
         const runId = randomUUID()
-        const scriptPath = path.join(testRepoPath, `.orca-korean-ime-harness-${runId}.cjs`)
+        const scriptPath = path.join(testRepoPath, `.capilot-korean-ime-harness-${runId}.cjs`)
         const session = await orcaPage.context().newCDPSession(orcaPage)
 
         try {

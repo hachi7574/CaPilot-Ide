@@ -120,7 +120,7 @@ function repairElectronPathFile() {
 
 async function installElectronPackageBinary() {
   const electronDistDir = resolve(electronPackageDir, 'dist')
-  const tempDir = mkdtempSync(resolve(tmpdir(), 'orca-electron-'))
+  const tempDir = mkdtempSync(resolve(tmpdir(), 'capilot-electron-'))
   const cacheRoot = join(tempDir, 'cache')
   const extractDir = join(tempDir, 'extract')
 

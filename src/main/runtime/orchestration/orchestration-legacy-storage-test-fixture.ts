@@ -24,7 +24,7 @@ export function createLegacyStorageCutoverFixture(): {
   fixture: LegacyStorageCutoverFixture
   tempDir: string
 } {
-  const tempDir = mkdtempSync(join(tmpdir(), 'orca-legacy-storage-'))
+  const tempDir = mkdtempSync(join(tmpdir(), 'capilot-legacy-storage-'))
   const dbPath = join(tempDir, 'orchestration.db')
   const first = new OrchestrationDb(dbPath)
   const currentRun = first.createRun({

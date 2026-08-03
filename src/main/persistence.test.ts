@@ -148,7 +148,7 @@ async function withPlatform<T>(platform: NodeJS.Platform, fn: () => Promise<T>):
 }
 
 function dataFile(): string {
-  return join(testState.dir, 'orca-data.json')
+  return join(testState.dir, 'capilot-data.json')
 }
 
 function writeDataFile(data: unknown): void {
@@ -318,7 +318,7 @@ function makeBalancedLegacyPaneLayout(start: number, end: number): TerminalPaneL
 
 describe('Store', () => {
   beforeEach(() => {
-    testState.dir = mkdtempSync(join(tmpdir(), 'orca-test-'))
+    testState.dir = mkdtempSync(join(tmpdir(), 'capilot-test-'))
     trackMock.mockReset()
     getCohortAtEmitMock.mockReset()
     getCohortAtEmitMock.mockReturnValue({ nth_repo_added: 2 })
@@ -458,7 +458,7 @@ describe('Store', () => {
 
   it('loads state from an explicit profile data file path', async () => {
     const profileDataDirectory = join(testState.dir, 'profiles', 'local-default')
-    const profileDataFile = join(profileDataDirectory, 'orca-data.json')
+    const profileDataFile = join(profileDataDirectory, 'capilot-data.json')
     mkdirSync(profileDataDirectory, { recursive: true })
     writeDataFile({
       schemaVersion: 1,
@@ -487,14 +487,14 @@ describe('Store', () => {
       repos: [
         makeRepo({
           id: 'local-repo',
-          path: '/Users/alice/orca',
-          displayName: 'Orca',
-          upstream: { owner: 'StablyAI', repo: 'Orca' }
+          path: '/Users/alice/capilot',
+          displayName: 'CaPilot',
+          upstream: { owner: 'StablyAI', repo: 'CaPilot' }
         }),
         makeRepo({
           id: 'remote-repo',
-          path: '/home/alice/orca',
-          displayName: 'orca',
+          path: '/home/alice/capilot',
+          displayName: 'capilot',
           connectionId: 'gpu-vm',
           upstream: { owner: 'stablyai', repo: 'orca' }
         })
@@ -514,13 +514,13 @@ describe('Store', () => {
         id: 'local-repo',
         projectId: 'github:stablyai/orca',
         hostId: 'local',
-        path: '/Users/alice/orca'
+        path: '/Users/alice/capilot'
       }),
       expect.objectContaining({
         id: 'remote-repo',
         projectId: 'github:stablyai/orca',
         hostId: 'ssh:gpu-vm',
-        path: '/home/alice/orca'
+        path: '/home/alice/capilot'
       })
     ])
 
@@ -2622,7 +2622,7 @@ describe('Store', () => {
       customAgentCommand: 'claude'
     })
     store.flush()
-    const persisted = JSON.parse(readFileSync(join(testState.dir, 'orca-data.json'), 'utf-8'))
+    const persisted = JSON.parse(readFileSync(join(testState.dir, 'capilot-data.json'), 'utf-8'))
     expect(persisted.settings.sourceControlAi.actions.commitMessage).toEqual({
       agentId: 'claude',
       commandInputTemplate: '{basePrompt}\n\nRollback commit prompt'
@@ -2781,7 +2781,7 @@ describe('Store', () => {
     })
 
     const store = await createStore()
-    expect(store.getSettings().terminalShortcutPolicy).toBe('orca-first')
+    expect(store.getSettings().terminalShortcutPolicy).toBe('capilot-first')
   })
 
   it('normalizes malformed source control group order on load', async () => {
@@ -4592,15 +4592,15 @@ describe('Store', () => {
 
     const updated = store.updateRepo('r1', {
       gitRemoteIdentity: {
-        canonicalKey: 'gitlab.example.com/team/orca',
+        canonicalKey: 'gitlab.example.com/team/capilot',
         remoteName: 'origin',
-        remoteUrl: 'git@gitlab.example.com:team/orca.git'
+        remoteUrl: 'git@gitlab.example.com:team/capilot.git'
       }
     })
     expect(updated!.gitRemoteIdentity).toEqual({
-      canonicalKey: 'gitlab.example.com/team/orca',
+      canonicalKey: 'gitlab.example.com/team/capilot',
       remoteName: 'origin',
-      remoteUrl: 'git@gitlab.example.com:team/orca.git'
+      remoteUrl: 'git@gitlab.example.com:team/capilot.git'
     })
 
     store.updateRepo('r1', { gitRemoteIdentity: null })
@@ -5586,7 +5586,7 @@ describe('Store', () => {
 
   it('normalizes disabled TUI agents on load and update', async () => {
     writeFileSync(
-      join(testState.dir, 'orca-data.json'),
+      join(testState.dir, 'capilot-data.json'),
       JSON.stringify({
         settings: {
           disabledTuiAgents: ['codex', 'not-real', 'codex', 'claude']
@@ -5612,7 +5612,7 @@ describe('Store', () => {
 
   it('migrates yolo default args onto untouched agent launch settings', async () => {
     writeFileSync(
-      join(testState.dir, 'orca-data.json'),
+      join(testState.dir, 'capilot-data.json'),
       JSON.stringify({
         settings: {
           agentCmdOverrides: {}
@@ -5634,7 +5634,7 @@ describe('Store', () => {
 
   it('does not add yolo defaults for legacy agents with command overrides', async () => {
     writeFileSync(
-      join(testState.dir, 'orca-data.json'),
+      join(testState.dir, 'capilot-data.json'),
       JSON.stringify({
         settings: {
           agentCmdOverrides: {
@@ -5653,7 +5653,7 @@ describe('Store', () => {
 
   it('removes unsupported TUI skip-permissions args from migrated profiles', async () => {
     writeFileSync(
-      join(testState.dir, 'orca-data.json'),
+      join(testState.dir, 'capilot-data.json'),
       JSON.stringify({
         settings: {
           agentYoloDefaultsMigrated: true,
@@ -5681,7 +5681,7 @@ describe('Store', () => {
 
   it('normalizes app icon on load and update', async () => {
     writeFileSync(
-      join(testState.dir, 'orca-data.json'),
+      join(testState.dir, 'capilot-data.json'),
       JSON.stringify({
         settings: {
           appIcon: 'not-real'
@@ -5835,7 +5835,7 @@ describe('Store', () => {
     expect(store.getSettings().terminalShortcutPolicy).toBe('terminal-first')
 
     store.updateSettings({ terminalShortcutPolicy: 'terminal-maybe' as never })
-    expect(store.getSettings().terminalShortcutPolicy).toBe('orca-first')
+    expect(store.getSettings().terminalShortcutPolicy).toBe('capilot-first')
   })
 
   it('reloads sourceControlViewMode from global settings without touching workspace state', async () => {
@@ -6186,7 +6186,7 @@ describe('Store', () => {
     const store = await createStore()
     store.setGitHubCache({ pr: { 'o/r#7': { fetchedAt: 7 } as never }, issue: {} })
     store.flush()
-    expect(existsSync(join(testState.dir, 'orca-github-cache.json'))).toBe(true)
+    expect(existsSync(join(testState.dir, 'capilot-github-cache.json'))).toBe(true)
 
     const restarted = await createStore()
     expect(restarted.getGitHubCache().pr['o/r#7']).toEqual({ fetchedAt: 7 })
@@ -6195,8 +6195,8 @@ describe('Store', () => {
   it('keeps GitHub cache sidecars scoped to explicit profile data files', async () => {
     const profileADir = join(testState.dir, 'profiles', 'a')
     const profileBDir = join(testState.dir, 'profiles', 'b')
-    const profileADataFile = join(profileADir, 'orca-data.json')
-    const profileBDataFile = join(profileBDir, 'orca-data.json')
+    const profileADataFile = join(profileADir, 'capilot-data.json')
+    const profileBDataFile = join(profileBDir, 'capilot-data.json')
     mkdirSync(profileADir, { recursive: true })
     mkdirSync(profileBDir, { recursive: true })
 
@@ -6814,7 +6814,7 @@ describe('Store', () => {
       sshPtyConsumerRecoveries: { ownerLease: string }[]
     }
     expect(persisted.sshPtyConsumerRecoveries[0]?.ownerLease).not.toBe('secret-owner-lease')
-    expect(existsSync(join(testState.dir, 'orca-github-cache.json'))).toBe(false)
+    expect(existsSync(join(testState.dir, 'capilot-github-cache.json'))).toBe(false)
 
     const reloaded = await createStore()
     expect(reloaded.getSshPtyConsumerRecovery('ssh-1')).toEqual({
@@ -6856,7 +6856,7 @@ describe('Store', () => {
       label: 'SSH 1',
       host: 'example.test',
       port: 22,
-      username: 'orca'
+      username: 'capilot'
     })
     await store.upsertSshPtyConsumerRecovery({
       targetId: 'ssh-1',
@@ -7896,7 +7896,7 @@ describe('Store', () => {
 
   it('stores terminal scrollback snapshots beside explicit profile data files', async () => {
     const profileDataDirectory = join(testState.dir, 'profiles', 'local-default')
-    const profileDataFile = join(profileDataDirectory, 'orca-data.json')
+    const profileDataFile = join(profileDataDirectory, 'capilot-data.json')
     mkdirSync(profileDataDirectory, { recursive: true })
 
     vi.resetModules()
@@ -7922,7 +7922,7 @@ describe('Store', () => {
 
   it('reads legacy terminal scrollback snapshots for explicit profile data files', async () => {
     const profileDataDirectory = join(testState.dir, 'profiles', 'local-default')
-    const profileDataFile = join(profileDataDirectory, 'orca-data.json')
+    const profileDataFile = join(profileDataDirectory, 'capilot-data.json')
     const ref = 'v1-11111111111111111111111111111111'
     const legacySnapshotDir = join(testState.dir, 'terminal-scrollback')
     mkdirSync(profileDataDirectory, { recursive: true })
@@ -11175,7 +11175,7 @@ describe('Store.migrateTabSwitchKeybindings', () => {
   // Freezes the tab-switch cohort on first load, keying on `fileExistedOnLoad` (not field presence) so the verdict survives later launches.
 
   beforeEach(() => {
-    testState.dir = mkdtempSync(join(tmpdir(), 'orca-test-'))
+    testState.dir = mkdtempSync(join(tmpdir(), 'capilot-test-'))
   })
 
   afterEach(() => {
@@ -11232,7 +11232,7 @@ describe('Store.migrateWorktreeIdentity', () => {
   const NEW_WORKSPACE_KEY = worktreeWorkspaceKey(NEW)
 
   beforeEach(() => {
-    testState.dir = mkdtempSync(join(tmpdir(), 'orca-test-'))
+    testState.dir = mkdtempSync(join(tmpdir(), 'capilot-test-'))
   })
 
   afterEach(() => {
@@ -11423,7 +11423,7 @@ describe('Store.migrateWorktreeIdentity', () => {
 
 describe('Store host-partitioned workspace sessions', () => {
   beforeEach(() => {
-    testState.dir = mkdtempSync(join(tmpdir(), 'orca-test-'))
+    testState.dir = mkdtempSync(join(tmpdir(), 'capilot-test-'))
   })
 
   afterEach(() => {
@@ -11910,7 +11910,7 @@ describe('Store host-partitioned workspace sessions', () => {
 
 describe('Store native-chat tab viewMode persistence', () => {
   beforeEach(() => {
-    testState.dir = mkdtempSync(join(tmpdir(), 'orca-test-'))
+    testState.dir = mkdtempSync(join(tmpdir(), 'capilot-test-'))
   })
 
   afterEach(() => {

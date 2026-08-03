@@ -8,7 +8,7 @@
  * All tests require @headful mode for WebGL to be active.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   waitForSessionReady,
   waitForActiveWorktree,

@@ -18,7 +18,7 @@ afterEach(async () => {
 
 describe('Codex real-account validation harness', () => {
   it('forces home and Codex routing variables after stripping ambient values', async () => {
-    const primaryHome = path.join(os.tmpdir(), 'orca-primary-home-sentinel')
+    const primaryHome = path.join(os.tmpdir(), 'capilot-primary-home-sentinel')
     const { layout, env } = runValidationModule<{
       layout: { tempRoot: string; homeDir: string }
       env: Record<string, string | undefined>
@@ -31,7 +31,7 @@ describe('Codex real-account validation harness', () => {
           HOME: primaryHome,
           USERPROFILE: primaryHome,
           CODEX_HOME: '/unsafe/codex',
-          ORCA_CODEX_HOME: '/unsafe/orca-codex',
+          ORCA_CODEX_HOME: '/unsafe/capilot-codex',
           ZDOTDIR: '/unsafe/zsh',
           SAFE_VALUE: 'preserved'
         }, layout)
@@ -51,7 +51,7 @@ describe('Codex real-account validation harness', () => {
   })
 
   it('pins the real-home flag off when the system-default lane is disabled', async () => {
-    const primaryHome = path.join(os.tmpdir(), 'orca-primary-home-sentinel')
+    const primaryHome = path.join(os.tmpdir(), 'capilot-primary-home-sentinel')
     const { layout, env } = runValidationModule<{
       layout: { tempRoot: string }
       env: Record<string, string | undefined>
@@ -92,7 +92,7 @@ describe('Codex real-account validation harness', () => {
         await writeFile(path.join(managedHome, 'auth.json'), '{"refresh_token":"never-report-me"}\\n')
         console.log(JSON.stringify({ layout, snapshot: await snapshotValidationState(layout) }))
       `,
-      [path.join(os.tmpdir(), 'orca-primary-home-sentinel')]
+      [path.join(os.tmpdir(), 'capilot-primary-home-sentinel')]
     )
     cleanupPaths.push(layout.tempRoot)
 
@@ -103,7 +103,7 @@ describe('Codex real-account validation harness', () => {
   })
 
   it('honors a disposable temp parent override outside the primary home', async () => {
-    const tempParent = await mkdtemp(path.join(os.tmpdir(), 'orca-temp-parent-'))
+    const tempParent = await mkdtemp(path.join(os.tmpdir(), 'capilot-temp-parent-'))
     cleanupPaths.push(tempParent)
     const { layout } = runValidationModule<{ layout: { tempRoot: string } }>(
       `
@@ -111,7 +111,7 @@ describe('Codex real-account validation harness', () => {
         const layout = await createValidationLayout({ primaryHome: process.argv[2] })
         console.log(JSON.stringify({ layout }))
       `,
-      [path.join(os.tmpdir(), 'orca-primary-home-sentinel')],
+      [path.join(os.tmpdir(), 'capilot-primary-home-sentinel')],
       { ORCA_CODEX_VALIDATION_TEMP_PARENT: tempParent }
     )
 
@@ -121,7 +121,7 @@ describe('Codex real-account validation harness', () => {
   it.skipIf(process.platform === 'win32')(
     'refuses a symlinked temp parent that resolves inside the primary home',
     async () => {
-      const root = await mkdtemp(path.join(os.tmpdir(), 'orca-symlink-guard-'))
+      const root = await mkdtemp(path.join(os.tmpdir(), 'capilot-symlink-guard-'))
       cleanupPaths.push(root)
       const primaryHome = path.join(root, 'primary-home')
       const insidePrimary = path.join(primaryHome, 'nested-temp')
@@ -195,7 +195,7 @@ describe('Codex real-account validation harness', () => {
   })
 
   it('fails clearly when the repo-local electron-vite entry is unavailable', async () => {
-    const emptyRoot = await mkdtemp(path.join(os.tmpdir(), 'orca-no-electron-vite-'))
+    const emptyRoot = await mkdtemp(path.join(os.tmpdir(), 'capilot-no-electron-vite-'))
     cleanupPaths.push(emptyRoot)
     const { error } = runValidationModule<{ error: string | null }>(
       `

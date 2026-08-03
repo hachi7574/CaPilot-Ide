@@ -9,7 +9,7 @@ import {
   shouldApplyWebSessionTabsSnapshot,
   type WebSessionTabsSyncState
 } from '../../src/renderer/src/runtime/web-session-tabs-sync'
-import { OrcaRuntimeService } from '../../src/main/runtime/orca-runtime'
+import { OrcaRuntimeService } from '../../src/main/runtime/capilot-runtime'
 
 vi.mock('../../src/renderer/src/store', () => ({
   useAppStore: { setState: vi.fn() }

@@ -46,7 +46,7 @@ beforeEach(() => {
 })
 
 async function writeKey(contents: Buffer, filename = 'security key'): Promise<string> {
-  const directory = await mkdtemp(join(tmpdir(), 'orca-security-key-'))
+  const directory = await mkdtemp(join(tmpdir(), 'capilot-security-key-'))
   tempDirs.push(directory)
   const keyPath = join(directory, filename)
   await writeFile(keyPath, contents)
@@ -54,7 +54,7 @@ async function writeKey(contents: Buffer, filename = 'security key'): Promise<st
 }
 
 async function createDefaultKeyHome(files: Record<string, Buffer>): Promise<string> {
-  const directory = await mkdtemp(join(tmpdir(), 'orca-default-key-home-'))
+  const directory = await mkdtemp(join(tmpdir(), 'capilot-default-key-home-'))
   tempDirs.push(directory)
   await mkdir(join(directory, '.ssh'))
   for (const [name, contents] of Object.entries(files)) {
@@ -284,7 +284,7 @@ describe('requiresSystemSshForSecurityKey', () => {
   it.each([ED25519_SECURITY_KEY, ECDSA_SECURITY_KEY])(
     'detects an agent-backed %s identity from its public sidecar',
     async (keyType) => {
-      const directory = await mkdtemp(join(tmpdir(), 'orca-security-key-agent-'))
+      const directory = await mkdtemp(join(tmpdir(), 'capilot-security-key-agent-'))
       tempDirs.push(directory)
       const identityPath = join(directory, 'agent-key')
       await writeFile(`${identityPath}.pub`, createOpenSshPublicKeyFixture(keyType))

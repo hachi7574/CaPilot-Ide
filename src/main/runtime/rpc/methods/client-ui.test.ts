@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/terminal-quick-commands'
 import { DEFAULT_WORKTREE_CARD_PROPERTIES } from '../../../../shared/worktree-card-properties'
 import type { PersistedUIState } from '../../../../shared/types'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import type { RpcRequest } from '../core'
 import { RpcDispatcher } from '../dispatcher'
 import { CLIENT_UI_METHODS } from './client-ui'

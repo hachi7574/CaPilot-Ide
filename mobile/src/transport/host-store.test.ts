@@ -47,8 +47,8 @@ import {
 } from './host-store'
 import { resetMobileRelayHostOverlayStoreForTests } from './mobile-relay-host-overlay-store'
 
-const HOSTS_STORAGE_KEY = 'orca:hosts'
-const OVERLAY_STORAGE_KEY = 'orca:mobile-relay:host-overlays:v2'
+const HOSTS_STORAGE_KEY = 'capilot:hosts'
+const OVERLAY_STORAGE_KEY = 'capilot:mobile-relay:host-overlays:v2'
 const HOST_ONE = {
   id: 'host-1',
   name: 'Host 1',
@@ -192,7 +192,7 @@ describe('host-store list mutations', () => {
     })
 
     expect(secureStoreMock.setItemAsync).toHaveBeenCalledWith(
-      'orca.host-token.host-new',
+      'capilot.host-token.host-new',
       'new-token',
       {
         keychainAccessible: 'WHEN_UNLOCKED_THIS_DEVICE_ONLY'
@@ -509,9 +509,9 @@ describe('host-store pairing save after an Android encryption rejection', () => 
   }
   // Why: the verbatim Android rejection from #6600 — expo maps a null-message GeneralSecurityException to this.
   const ENCRYPT_REJECTION = new Error(
-    "Could not encrypt the value for key 'orca.host-token.host-1782629088232' under keychain 'key_v1'. Caused by: unknown"
+    "Could not encrypt the value for key 'capilot.host-token.host-1782629088232' under keychain 'key_v1'. Caused by: unknown"
   )
-  const GENERATION_KEY = 'orca:pairing-keychain-generation'
+  const GENERATION_KEY = 'capilot:pairing-keychain-generation'
   let storedHostsRaw: string
   let storedGenerationRaw: string | null
 
@@ -556,7 +556,7 @@ describe('host-store pairing save after an Android encryption rejection', () => 
 
     await expect(saveHost(NEW_HOST)).resolves.toBeUndefined()
 
-    expect(written.get('orca.pairing.v1')).toBe('device-token')
+    expect(written.get('capilot.pairing.v1')).toBe('device-token')
     expect(JSON.parse(storedHostsRaw)).toEqual([
       {
         id: NEW_HOST.id,

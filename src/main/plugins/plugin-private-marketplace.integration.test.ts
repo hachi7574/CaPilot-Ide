@@ -39,9 +39,9 @@ async function createGitRepository(
   await runGit(repository, ['add', '--all'])
   await runGit(repository, [
     '-c',
-    'user.name=Orca Test',
+    'user.name=CaPilot Test',
     '-c',
-    'user.email=orca-test@example.invalid',
+    'user.email=capilot-test@example.invalid',
     'commit',
     '--quiet',
     '-m',
@@ -69,19 +69,19 @@ afterEach(async () => {
 
 describe('private Git marketplace integration', () => {
   it('uses the caller SSH environment for marketplace preview and install', async () => {
-    const root = await mkdtemp(join(tmpdir(), 'orca-private-marketplace-'))
+    const root = await mkdtemp(join(tmpdir(), 'capilot-private-marketplace-'))
     temporaryRoots.push(root)
     const pluginKey = 'private.private-locale'
     const pluginUrl = 'ssh://git@example.invalid/private/locale.git'
     const marketplaceUrl = 'ssh://git@example.invalid/private/marketplace.git'
     const pluginRepository = await createGitRepository(root, 'locale-source', {
-      'orca-plugin.json': JSON.stringify({
+      'capilot-plugin.json': JSON.stringify({
         manifestVersion: 1,
         id: 'private-locale',
         publisher: 'private',
         name: 'Private Locale',
         version: '1.0.0',
-        engines: { orca: '>=1.4.0' },
+        engines: { capilot: '>=1.4.0' },
         pluginApi: 1,
         contributes: {
           languagePacks: [{ locale: 'pt-BR', path: 'locale.json' }]
@@ -93,7 +93,7 @@ describe('private Git marketplace integration', () => {
       })
     })
     const marketplaceRepository = await createGitRepository(root, 'marketplace-source', {
-      'orca-marketplace.json': JSON.stringify({
+      'capilot-marketplace.json': JSON.stringify({
         name: 'Private Team Plugins',
         owner: 'private-team',
         plugins: [

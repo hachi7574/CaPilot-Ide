@@ -160,7 +160,7 @@ describe('browser-url helpers', () => {
     expect(normalizeBrowserNavigationUrl('C:\\Users\\me\\My Site\\index #1.html')).toBe(
       'file:///C:/Users/me/My%20Site/index%20%231.html'
     )
-    expect(normalizeBrowserNavigationUrl('C:\\tmp\\orca & 100% ! ^\\index.html')).toBe(
+    expect(normalizeBrowserNavigationUrl('C:\\tmp\\capilot & 100% ! ^\\index.html')).toBe(
       'file:///C:/tmp/orca%20%26%20100%25%20!%20%5E/index.html'
     )
   })

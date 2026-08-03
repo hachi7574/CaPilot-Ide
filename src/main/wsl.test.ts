@@ -398,7 +398,7 @@ describe('WSL distro discovery cache', () => {
 
   // Why: an empty list is a real probe result and must keep driving the
   // `wsl-distro-missing` repair prompt even once stale. Going null instead fails
-  // open and silently spawns `wsl.exe -d <distro>` for a distro Orca saw was absent.
+  // open and silently spawns `wsl.exe -d <distro>` for a distro CaPilot saw was absent.
   it('keeps reporting an empty result after it goes stale', () => {
     vi.useFakeTimers()
     execFileSyncMock.mockReturnValue('')
@@ -680,12 +680,12 @@ describe('wsl path helpers', () => {
   })
 
   it('converts Windows drive paths to /mnt paths for WSL commands', () => {
-    expect(toLinuxPath('C:\\Users\\jinwo\\git\\orca')).toBe('/mnt/c/Users/jinwo/git/orca')
+    expect(toLinuxPath('C:\\Users\\jinwo\\git\\capilot')).toBe('/mnt/c/Users/jinwo/git/capilot')
   })
 
   it('converts /mnt drive paths back to native Windows form', () => {
-    expect(toWindowsWslPath('/mnt/c/Users/jinwo/git/orca', 'Ubuntu')).toBe(
-      'C:\\Users\\jinwo\\git\\orca'
+    expect(toWindowsWslPath('/mnt/c/Users/jinwo/git/capilot', 'Ubuntu')).toBe(
+      'C:\\Users\\jinwo\\git\\capilot'
     )
   })
 })

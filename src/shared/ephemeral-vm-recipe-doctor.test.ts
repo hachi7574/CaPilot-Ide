@@ -14,7 +14,7 @@ afterEach(() => {
 })
 
 function makeRepo(scripts: Record<string, { body?: string; mode?: number }>): string {
-  const root = mkdtempSync(join(tmpdir(), 'orca-vm-doctor-'))
+  const root = mkdtempSync(join(tmpdir(), 'capilot-vm-doctor-'))
   roots.push(root)
   for (const [relPath, opts] of Object.entries(scripts)) {
     const full = join(root, relPath)

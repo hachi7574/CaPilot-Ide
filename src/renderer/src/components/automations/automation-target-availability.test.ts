@@ -422,7 +422,7 @@ describe('automation target availability', () => {
               provider: 'gitlab',
               projectId: 'stablyai/orca',
               namespace: 'stablyai',
-              project: 'orca',
+              project: 'capilot',
               webUrl: 'https://gitlab.com/stablyai/orca'
             }
           }

@@ -31,7 +31,7 @@ async function postGrokHook(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Orca-Agent-Hook-Token': endpoint.token
+      'X-CaPilot-Agent-Hook-Token': endpoint.token
     },
     body: JSON.stringify(hookBody(payload))
   })
@@ -45,7 +45,7 @@ describe('AgentHookServer Grok discovery retries', () => {
     })
     vi.spyOn(agentHookListener, 'preparePendingGrokResultDiscovery').mockReturnValue(discovery)
     const server = new AgentHookServer()
-    const root = mkdtempSync(join(tmpdir(), 'orca-grok-delayed-discovery-'))
+    const root = mkdtempSync(join(tmpdir(), 'capilot-grok-delayed-discovery-'))
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf532'
     const cwd = join(root, 'workspace')
     const sessionDir = join(root, '.grok', 'sessions', encodeURIComponent(cwd), sessionId)
@@ -90,7 +90,7 @@ describe('AgentHookServer Grok discovery retries', () => {
     })
     vi.spyOn(agentHookListener, 'preparePendingGrokResultDiscovery').mockReturnValue(discovery)
     const server = new AgentHookServer()
-    const root = mkdtempSync(join(tmpdir(), 'orca-grok-stale-discovery-'))
+    const root = mkdtempSync(join(tmpdir(), 'capilot-grok-stale-discovery-'))
     vi.stubEnv('HOME', root)
     vi.stubEnv('USERPROFILE', root)
     await server.start({ env: 'production' })

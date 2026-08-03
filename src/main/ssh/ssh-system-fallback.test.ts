@@ -275,12 +275,12 @@ describe('spawnSystemSsh', () => {
         configHost: '127.0.0.1',
         host: '127.0.0.1',
         port: 2222,
-        identityFile: '/tmp/orca-docker-key',
+        identityFile: '/tmp/capilot-docker-key',
         identitiesOnly: true
       })
     )
 
-    expect(args).toEqual(expect.arrayContaining(['-p', '2222', '-i', '/tmp/orca-docker-key']))
+    expect(args).toEqual(expect.arrayContaining(['-p', '2222', '-i', '/tmp/capilot-docker-key']))
     expect(args).toContain('IdentitiesOnly=yes')
     expect(args).toContain('deploy@127.0.0.1')
   })
@@ -332,7 +332,7 @@ describe('spawnSystemSsh', () => {
     expect(args).toContain('krb-host')
   })
 
-  it('does not inject Orca ControlMaster flags when ssh config already owns muxing', () => {
+  it('does not inject CaPilot ControlMaster flags when ssh config already owns muxing', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }), {
       resolvedConfig: createResolvedConfig({
         controlMaster: 'auto',
@@ -346,7 +346,7 @@ describe('spawnSystemSsh', () => {
     expect(args).toContain('workbox')
   })
 
-  it('injects Orca ControlMaster flags when ssh config only sets ControlPersist', () => {
+  it('injects CaPilot ControlMaster flags when ssh config only sets ControlPersist', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }), {
       resolvedConfig: createResolvedConfig({
         controlMaster: 'no',
@@ -358,7 +358,7 @@ describe('spawnSystemSsh', () => {
     expect(args).not.toContain('-S')
   })
 
-  it('injects Orca ControlMaster flags when ssh config only sets ControlPath', () => {
+  it('injects CaPilot ControlMaster flags when ssh config only sets ControlPath', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }), {
       resolvedConfig: createResolvedConfig({
         controlMaster: 'no',
@@ -370,7 +370,7 @@ describe('spawnSystemSsh', () => {
     expect(args).not.toContain('-S')
   })
 
-  it('injects Orca ControlMaster flags when ssh config omits ControlPath', () => {
+  it('injects CaPilot ControlMaster flags when ssh config omits ControlPath', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }), {
       resolvedConfig: createResolvedConfig({
         controlMaster: 'auto'
@@ -381,7 +381,7 @@ describe('spawnSystemSsh', () => {
     expect(args).not.toContain('-S')
   })
 
-  it('does not inject Orca ControlMaster flags for unresolved ssh-config targets', () => {
+  it('does not inject CaPilot ControlMaster flags for unresolved ssh-config targets', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }))
 
     expectNoOrcaControlMasterArgs(args)
@@ -389,7 +389,7 @@ describe('spawnSystemSsh', () => {
     expect(args).toContain('workbox')
   })
 
-  it('does not inject Orca ControlMaster flags for unresolved legacy config aliases', () => {
+  it('does not inject CaPilot ControlMaster flags for unresolved legacy config aliases', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', host: 'resolved.example.com' }))
 
     expectNoOrcaControlMasterArgs(args)
@@ -397,7 +397,7 @@ describe('spawnSystemSsh', () => {
     expect(args).toContain('workbox')
   })
 
-  it('can inject Orca ControlMaster flags for ssh-config targets with resolved config', () => {
+  it('can inject CaPilot ControlMaster flags for ssh-config targets with resolved config', () => {
     const args = buildSshArgs(createTarget({ configHost: 'workbox', source: 'ssh-config' }), {
       resolvedConfig: createResolvedConfig()
     })
@@ -415,7 +415,7 @@ describe('spawnSystemSsh', () => {
     expectNoOrcaControlMasterArgs(args)
   })
 
-  it('adds keepalive options to Orca-owned ControlMaster connections', () => {
+  it('adds keepalive options to CaPilot-owned ControlMaster connections', () => {
     const args = buildSshArgs(createTarget(), { resolvedConfig: createResolvedConfig() })
 
     expectOrcaControlMasterArgs(args)
@@ -572,7 +572,7 @@ describe('spawnSystemSsh', () => {
     const received: Buffer[] = []
     proc.stdin.on('data', (chunk: Buffer) => received.push(chunk))
     spawnMock.mockReturnValue(proc)
-    const dir = mkdtempSync(join(tmpdir(), 'orca-system-ssh-upload-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-system-ssh-upload-'))
     const source = join(dir, 'payload.bin')
     writeFileSync(source, Buffer.from('payload'))
 
@@ -612,7 +612,7 @@ describe('spawnSystemSsh', () => {
   it('downloads files from POSIX system SSH targets', async () => {
     const proc = createEventedProcess()
     spawnMock.mockReturnValue(proc)
-    const dir = mkdtempSync(join(tmpdir(), 'orca-system-ssh-download-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-system-ssh-download-'))
     const dest = join(dir, 'payload.bin')
 
     try {
@@ -654,7 +654,7 @@ describe('spawnSystemSsh', () => {
 
     const promise = writeFileViaSystemSsh(
       createTarget(),
-      'C:/Users/me/.orca-remote/relay/.version',
+      'C:/Users/me/.capilot-remote/relay/.version',
       '0.1.0',
       { hostPlatform }
     )
@@ -694,7 +694,7 @@ describe('spawnSystemSsh', () => {
     const proc = createEventedProcess()
     spawnMock.mockReturnValue(proc)
     const hostPlatform = getRemoteHostPlatform('win32-x64')
-    const dir = mkdtempSync(join(tmpdir(), 'orca-system-ssh-download-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-system-ssh-download-'))
     const dest = join(dir, 'payload.bin')
 
     try {
@@ -725,7 +725,7 @@ describe('spawnSystemSsh', () => {
 
     const promise = writeFileViaSystemSsh(
       createTarget(),
-      'C:/Users/me/.orca-remote/relay/.version',
+      'C:/Users/me/.capilot-remote/relay/.version',
       '0.1.0',
       { hostPlatform, disableControlMaster: true }
     )
@@ -739,7 +739,7 @@ describe('spawnSystemSsh', () => {
   })
 
   it('uploads directories to Windows system SSH targets in one PowerShell batch', async () => {
-    const localDir = mkdtempSync(join(tmpdir(), 'orca-system-ssh-upload-'))
+    const localDir = mkdtempSync(join(tmpdir(), 'capilot-system-ssh-upload-'))
     writeFileSync(join(localDir, 'relay.js'), 'console.log("relay")')
     const spawned: EventedProcess[] = []
     spawnMock.mockImplementation(() => {
@@ -753,7 +753,7 @@ describe('spawnSystemSsh', () => {
       await uploadDirectoryViaSystemSsh(
         createTarget(),
         localDir,
-        'C:/Users/me/.orca-remote/relay',
+        'C:/Users/me/.capilot-remote/relay',
         { hostPlatform: getRemoteHostPlatform('win32-x64') }
       )
     } finally {
@@ -772,10 +772,10 @@ describe('spawnSystemSsh', () => {
     }[]
     expect(payload).toEqual(
       expect.arrayContaining([
-        { kind: 'directory', path: 'C:/Users/me/.orca-remote/relay' },
+        { kind: 'directory', path: 'C:/Users/me/.capilot-remote/relay' },
         {
           kind: 'file',
-          path: 'C:/Users/me/.orca-remote/relay/relay.js',
+          path: 'C:/Users/me/.capilot-remote/relay/relay.js',
           contentsBase64: Buffer.from('console.log("relay")').toString('base64')
         }
       ])
@@ -783,7 +783,7 @@ describe('spawnSystemSsh', () => {
   })
 
   it('forces standalone SSH for Windows upload packages when requested', async () => {
-    const localDir = mkdtempSync(join(tmpdir(), 'orca-system-ssh-upload-'))
+    const localDir = mkdtempSync(join(tmpdir(), 'capilot-system-ssh-upload-'))
     writeFileSync(join(localDir, 'relay.js'), 'console.log("relay")')
     spawnMock.mockImplementation(() => {
       const proc = createEventedProcess()
@@ -795,7 +795,7 @@ describe('spawnSystemSsh', () => {
       await uploadDirectoryViaSystemSsh(
         createTarget(),
         localDir,
-        'C:/Users/me/.orca-remote/relay',
+        'C:/Users/me/.capilot-remote/relay',
         { hostPlatform: getRemoteHostPlatform('win32-x64'), disableControlMaster: true }
       )
     } finally {

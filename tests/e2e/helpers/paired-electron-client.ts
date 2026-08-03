@@ -16,7 +16,7 @@ import {
   assertElectronResolvedIsolatedHome,
   createElectronHomeIsolation
 } from './electron-home-isolation'
-import { forwardElectronProcessLogs } from './orca-app'
+import { forwardElectronProcessLogs } from './capilot-app'
 import {
   replaceRuntimePairingInPlace,
   type SameIdPairingReplacement
@@ -143,10 +143,10 @@ export async function launchPairedElectronClient(
   testInfo: TestInfo,
   name: string
 ): Promise<PairedElectronClient> {
-  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-paired-desktop-'))
+  const userDataDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-paired-desktop-'))
   const directSshProbePath = path.join(userDataDir, 'forbidden-local-ssh-connects.jsonl')
   writeFileSync(
-    path.join(userDataDir, 'orca-data.json'),
+    path.join(userDataDir, 'capilot-data.json'),
     `${JSON.stringify(getE2ECompletedOnboardingProfile(), null, 2)}\n`
   )
   const { ELECTRON_RUN_AS_NODE: _unused, ...cleanEnv } = process.env

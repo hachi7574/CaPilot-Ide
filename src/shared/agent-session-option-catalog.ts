@@ -49,7 +49,7 @@ export function findCatalogOption(
   return model?.options.find((option) => option.id === optionId)
 }
 
-/** Merge live rows over the static seed while retaining only option shapes Orca
+/** Merge live rows over the static seed while retaining only option shapes CaPilot
  * can actually map. Newly discovered ids remain model-only until cataloged. */
 export function mergeCatalogModels(
   seed: readonly CatalogModel[],

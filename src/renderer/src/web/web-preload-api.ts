@@ -53,7 +53,7 @@ import {
 import {
   createDefaultLocalOrcaProfile,
   DEFAULT_LOCAL_ORCA_PROFILE_ID
-} from '../../../shared/orca-profiles'
+} from '../../../shared/capilot-profiles'
 import { legacyBaseRefSearchResult } from '../../../shared/base-ref-search-result'
 import { EMPTY_PTY_MAIN_DELIVERY_DIAGNOSTICS } from '../../../shared/pty-delivery-diagnostics'
 import { createE2EConfig } from '../../../shared/e2e-config'
@@ -146,12 +146,12 @@ import {
 } from '@/components/native-chat/native-chat-runtime-contract'
 import { createWebFileMutationMethods } from './web-file-mutation-methods'
 
-const SETTINGS_STORAGE_KEY = 'orca.web.settings.v1'
-const UI_STORAGE_KEY = 'orca.web.ui.v1'
-const SESSION_STORAGE_KEY = 'orca.web.workspaceSession.v1'
-const ONBOARDING_STORAGE_KEY = 'orca.web.onboarding.v1'
-const GITHUB_CACHE_STORAGE_KEY = 'orca.web.githubCache.v1'
-const KEYBINDINGS_STORAGE_KEY = 'orca.web.keybindings.v1'
+const SETTINGS_STORAGE_KEY = 'capilot.web.settings.v1'
+const UI_STORAGE_KEY = 'capilot.web.ui.v1'
+const SESSION_STORAGE_KEY = 'capilot.web.workspaceSession.v1'
+const ONBOARDING_STORAGE_KEY = 'capilot.web.onboarding.v1'
+const GITHUB_CACHE_STORAGE_KEY = 'capilot.web.githubCache.v1'
+const KEYBINDINGS_STORAGE_KEY = 'capilot.web.keybindings.v1'
 // Why: paired web clients lack Electron env/preload state; the E2E build gate keeps URL overrides out of releases.
 const webE2EExposeStore = String(import.meta.env.VITE_EXPOSE_STORE) === 'true'
 const webE2EQuery = webE2EExposeStore ? new URLSearchParams(window.location.search) : null
@@ -529,14 +529,14 @@ function createWebPreloadApi(): Partial<PreloadApi> {
       configured: false,
       state: 'unconfigured' as const,
       persistence: 'none' as const,
-      setupMessage: 'Orca Cloud sign-in is not available in the browser fallback.'
+      setupMessage: 'CaPilot Cloud sign-in is not available in the browser fallback.'
     })
 
   return {
     app: {
       getIdentity: () =>
         Promise.resolve({
-          name: 'Orca',
+          name: 'CaPilot',
           isDev: false,
           devLabel: null,
           devBranch: null,
@@ -1357,7 +1357,7 @@ function createRuntimeEnvironmentsApi(): NonNullable<Partial<PreloadApi>['runtim
     addFromPairingCode: async ({ name, pairingCode }) => {
       const offer = parseWebPairingInput(pairingCode)
       if (!offer) {
-        throw new Error('Invalid Orca pairing code.')
+        throw new Error('Invalid CaPilot pairing code.')
       }
       const previousEnvironment = activeEnvironment
       closeActiveRuntimeClients()
@@ -1430,7 +1430,7 @@ function createRuntimeEnvironmentsApi(): NonNullable<Partial<PreloadApi>['runtim
           kind: 'host-unreachable',
           message: translate(
             'auto.web.webPreloadApi.remotePairingUnreachable',
-            'Cannot reach Orca at {{endpoint}}.',
+            'Cannot reach CaPilot at {{endpoint}}.',
             { endpoint: parsed.value.displayEndpoint }
           )
         }
@@ -1453,7 +1453,7 @@ function createRuntimeEnvironmentsApi(): NonNullable<Partial<PreloadApi>['runtim
           kind: 'environment-save-failed',
           message: translate(
             'auto.web.webPreloadApi.remotePairingSaveFailed',
-            'Orca verified the host but could not save it. Check browser storage and try again.'
+            'CaPilot verified the host but could not save it. Check browser storage and try again.'
           )
         }
       }
@@ -2836,7 +2836,7 @@ function createPreflightApi(): NonNullable<Partial<PreloadApi>['preflight']> {
 function createCliApi(): NonNullable<Partial<PreloadApi>['cli']> {
   const status = {
     platform: getBrowserPlatform(),
-    commandName: getBrowserPlatform() === 'linux' ? 'orca-ide' : 'orca',
+    commandName: getBrowserPlatform() === 'linux' ? 'capilot-ide' : 'capilot',
     commandPath: null,
     pathDirectory: null,
     pathConfigured: false,
@@ -2846,7 +2846,7 @@ function createCliApi(): NonNullable<Partial<PreloadApi>['cli']> {
     state: 'unsupported',
     currentTarget: null,
     unsupportedReason: 'launch_mode_unavailable',
-    detail: 'CLI registration is managed on the Orca server, not in the web browser.'
+    detail: 'CLI registration is managed on the CaPilot server, not in the web browser.'
   } as const
   return {
     getInstallStatus: () => Promise.resolve(status),
@@ -2880,7 +2880,7 @@ function createAgentHooksApi(): NonNullable<Partial<PreloadApi>['agentHooks']> {
       state: 'not_installed',
       configPath: '',
       managedHooksPresent: false,
-      detail: 'Agent hook status is only available on the Orca server.'
+      detail: 'Agent hook status is only available on the CaPilot server.'
     } as const)
   return {
     claudeStatus: () => status('claude'),
@@ -2939,7 +2939,7 @@ function createComputerUsePermissionsApi(): NonNullable<
         helperAppPath: null,
         openedSettings: false,
         launchedHelper: false,
-        nextStep: 'Computer-use permissions are managed on the Orca server.'
+        nextStep: 'Computer-use permissions are managed on the CaPilot server.'
       })),
     reset: () =>
       Promise.resolve({
@@ -3557,13 +3557,13 @@ function resolveEnvironment(selector: string): StoredWebRuntimeEnvironment {
   if (environment.compatibleEnvironmentIds?.includes(selector)) {
     return environment
   }
-  throw new Error(`Unknown Orca runtime environment: ${selector}`)
+  throw new Error(`Unknown CaPilot runtime environment: ${selector}`)
 }
 
 function requireActiveEnvironment(): StoredWebRuntimeEnvironment {
   activeEnvironment = activeEnvironment ?? readStoredWebRuntimeEnvironment()
   if (!activeEnvironment) {
-    throw new Error('Pair this web client with an Orca server first.')
+    throw new Error('Pair this web client with an CaPilot server first.')
   }
   return activeEnvironment
 }
@@ -3575,7 +3575,7 @@ function requireActiveEnvironmentOrNull(): StoredWebRuntimeEnvironment | null {
 
 function assertActiveEnvironment(environmentId: string): void {
   if (requireActiveEnvironment().id !== environmentId) {
-    throw new Error('The paired Orca server changed while the request was in progress.')
+    throw new Error('The paired CaPilot server changed while the request was in progress.')
   }
 }
 
@@ -3790,7 +3790,7 @@ function getStoredOnboarding(): OnboardingState {
     return closed
   }
   const closed = closeWebOnboarding(getDefaultOnboardingState())
-  // Why: paired clients already have an Orca server; skip desktop first-run onboarding that would probe browser-local tools.
+  // Why: paired clients already have an CaPilot server; skip desktop first-run onboarding that would probe browser-local tools.
   writeJson(ONBOARDING_STORAGE_KEY, closed)
   return closed
 }
@@ -4077,7 +4077,7 @@ function toLegacyDetectedWorktreeResult(
     source: 'session-fallback',
     worktrees: worktrees.map((worktree) => ({
       ...worktree,
-      ownership: 'orca-managed',
+      ownership: 'capilot-managed',
       selectedCheckout: false,
       visible: true
     }))

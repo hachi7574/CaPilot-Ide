@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { RpcDispatcher } from '../runtime/rpc/dispatcher'
 import { LINEAR_AGENT_ACCESS_METHODS } from '../runtime/rpc/methods/linear-agent-access'
 import { dispatchRemoteLinearRelationWrite } from './ssh-remote-linear-relation-write'

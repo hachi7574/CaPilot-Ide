@@ -2,7 +2,7 @@ import type { Page, TestInfo } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { runNodeScriptInTerminal } from './helpers/run-node-script-in-terminal'
 import {
   ensureTerminalVisible,
@@ -283,7 +283,7 @@ test.describe('Terminal hidden view parking', () => {
 
     const runId = randomUUID()
     const finalMarker = `PARKED_RESTORE_FINAL_${runId}_${PARKED_FRAME_COUNT - 1}`
-    const scriptPath = path.join(testRepoPath, `.orca-parked-rich-tui-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-parked-rich-tui-${runId}.mjs`)
     writeParkedFrameScript(scriptPath, runId)
     try {
       await sendToTerminal(orcaPage, tabAPtyId, `node ${JSON.stringify(scriptPath)}\r`)
@@ -331,7 +331,7 @@ test.describe('Terminal hidden view parking', () => {
       expect(content).toContain('╭')
       expect(content).toContain('├')
       expect(content).toContain('█')
-      expect(content).not.toContain('Orca skipped hidden terminal output')
+      expect(content).not.toContain('CaPilot skipped hidden terminal output')
 
       // Why: the typed marker only appears joined in command *output*, so this
       // proves the revealed terminal accepts input end-to-end, not just echo.
@@ -339,7 +339,7 @@ test.describe('Terminal hidden view parking', () => {
       const typedProbeScript = `console.log('PARKED_TYPED_OK_' + '${runId}')`
       // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
       await runNodeScriptInTerminal(orcaPage, tabAPtyId, typedProbeScript, {
-        prefix: 'orca-parked-typed-probe'
+        prefix: 'capilot-parked-typed-probe'
       })
       await expect
         .poll(() => getTerminalContent(orcaPage, 12_000), {
@@ -380,7 +380,7 @@ test.describe('Terminal hidden view parking', () => {
     const sideEffectScript = `process.stdout.write(${JSON.stringify(payload)}); setTimeout(() => process.exit(0), 30000)`
     // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
     await runNodeScriptInTerminal(orcaPage, tabAPtyId, sideEffectScript, {
-      prefix: 'orca-parked-side-effect'
+      prefix: 'capilot-parked-side-effect'
     })
 
     await expect
@@ -475,7 +475,7 @@ test.describe('Terminal hidden view parking', () => {
 
     const runId = randomUUID()
     const marker = `CYCLE_REFERENCE_${runId}`
-    const scriptPath = path.join(testRepoPath, `.orca-cycle-reference-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-cycle-reference-${runId}.mjs`)
     writeCycleReferenceScript(scriptPath, runId)
     try {
       await sendToTerminal(orcaPage, tabAPtyId, `node ${JSON.stringify(scriptPath)}\r`)
@@ -517,7 +517,7 @@ test.describe('Terminal hidden view parking', () => {
           .toContain(marker)
         const rows = terminalContentRows(await getTerminalContent(orcaPage, 12_000))
         // Garble sentinel: the hidden-skip banner must never appear.
-        expect(rows.join('\n')).not.toContain('Orca skipped hidden terminal output')
+        expect(rows.join('\n')).not.toContain('CaPilot skipped hidden terminal output')
         return rows
       }
 

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ORCHESTRATION_CONTRACT_VERSION } from '../../../../shared/protocol-version'
-import { OrcaRuntimeService } from '../../orca-runtime'
+import { OrcaRuntimeService } from '../../capilot-runtime'
 import { OrchestrationDb } from '../../orchestration/db'
 import type { RpcRequest } from '../core'
 import { RpcDispatcher } from '../dispatcher'

@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { CDPSession, Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   focusActiveTerminalInput,
@@ -415,7 +415,7 @@ async function dispatchOrphanLetterKeyup(session: CDPSession): Promise<void> {
 
 async function dispatchSogouEmptyCompositionUpdate(page: Page): Promise<void> {
   // Why: Sogou/fcitx emits empty compositionupdate data while its candidate
-  // popup is still open (#6765); Orca's tracker must not flip inactive on it.
+  // popup is still open (#6765); CaPilot's tracker must not flip inactive on it.
   await page.evaluate(() => {
     const active = document.activeElement
     if (!(active instanceof HTMLTextAreaElement)) {
@@ -427,7 +427,7 @@ async function dispatchSogouEmptyCompositionUpdate(page: Page): Promise<void> {
 
 async function dispatchSogouPostCompositionEnd(page: Page, data: string): Promise<void> {
   // Why: some Sogou/fcitx traces deliver the plain selector key after
-  // compositionend; target the terminal element so Orca's tracker sees the end
+  // compositionend; target the terminal element so CaPilot's tracker sees the end
   // without making xterm finalize a synthetic preedit string.
   await page.evaluate((data) => {
     const active = document.activeElement
@@ -524,7 +524,7 @@ test.describe('Chinese IME terminal chat input repro', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-chinese-ime-harness-${runId}.cjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-chinese-ime-harness-${runId}.cjs`)
     writeFileSync(scriptPath, terminalImeHarnessScript(runId))
     const session = await orcaPage.context().newCDPSession(orcaPage)
 
@@ -607,8 +607,8 @@ test.describe('Chinese IME terminal chat input repro', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-windows-shift-ime-${runId}.cjs`)
-    const inputLogPath = path.join(testRepoPath, `.orca-windows-shift-ime-${runId}.jsonl`)
+    const scriptPath = path.join(testRepoPath, `.capilot-windows-shift-ime-${runId}.cjs`)
+    const inputLogPath = path.join(testRepoPath, `.capilot-windows-shift-ime-${runId}.jsonl`)
     writeFileSync(scriptPath, terminalImeHarnessScript(runId, inputLogPath))
     writeFileSync(inputLogPath, '')
     const session = await orcaPage.context().newCDPSession(orcaPage)
@@ -652,7 +652,7 @@ test.describe('Chinese IME terminal chat input repro', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-sogou-ime-harness-${runId}.cjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-sogou-ime-harness-${runId}.cjs`)
     let session: CDPSession | null = null
     let harnessStarted = false
 

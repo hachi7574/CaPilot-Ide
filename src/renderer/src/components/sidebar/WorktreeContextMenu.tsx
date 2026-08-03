@@ -78,7 +78,7 @@ type Props = {
   onOpenChange?: (open: boolean) => void
 }
 
-const CLOSE_ALL_CONTEXT_MENUS_EVENT = 'orca-close-all-context-menus'
+const CLOSE_ALL_CONTEXT_MENUS_EVENT = 'capilot-close-all-context-menus'
 const WORKTREE_CONTEXT_MENU_SCOPE_ATTR = 'data-worktree-context-menu-scope'
 const WORKTREE_NATIVE_CONTEXT_MENU_ATTR = 'data-worktree-native-context-menu'
 const CONTEXT_MENU_CLICK_SUPPRESSION_MS = 500
@@ -1000,7 +1000,7 @@ const WorktreeContextMenu = React.memo(function WorktreeContextMenu({
               </TooltipContent>
             </Tooltip>
           ) : null}
-          {/* Why: primary checkout rows remove the project from Orca instead of
+          {/* Why: primary checkout rows remove the project from CaPilot instead of
              invoking git worktree deletion. Radix forwards unknown props to the
              DOM element, so `title` works directly without a wrapper span —
              this preserves Radix's flat roving-tabindex keyboard navigation. */}
@@ -1034,7 +1034,7 @@ const WorktreeContextMenu = React.memo(function WorktreeContextMenu({
                   : removesProject
                     ? translate(
                         'auto.components.sidebar.WorktreeContextMenu.f5ac91531d',
-                        'Remove Project from Orca'
+                        'Remove Project from CaPilot'
                       )
                     : lineageDescendantCount > 0
                       ? translate(

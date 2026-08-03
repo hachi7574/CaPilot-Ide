@@ -14,8 +14,8 @@ import {
   writeTextFileRemoteAtomic
 } from '../agent-hooks/installer-utils-remote'
 
-const AMP_PLUGIN_FILE = 'orca-agent-status.ts'
-const AMP_PLUGIN_MARKER = 'Managed by Orca. Do not edit; changes may be overwritten.'
+const AMP_PLUGIN_FILE = 'capilot-agent-status.ts'
+const AMP_PLUGIN_MARKER = 'Managed by CaPilot. Do not edit; changes may be overwritten.'
 
 type PluginFileState =
   | { kind: 'absent' }
@@ -87,7 +87,7 @@ function statusFromState(pluginPath: string, state: PluginFileState): AgentHookI
         state: 'partial',
         configPath: pluginPath,
         managedHooksPresent: false,
-        detail: 'Amp Orca status plugin exists but is not Orca-managed'
+        detail: 'Amp CaPilot status plugin exists but is not CaPilot-managed'
       }
     case 'error':
       return {
@@ -168,14 +168,14 @@ function getAmpPluginSource(): string {
     '    cachedEndpointValues = null',
     '    if ((error as { code?: unknown })?.code !== "ENOENT" && !warnedBadEndpoint) {',
     '      warnedBadEndpoint = true',
-    "      console.warn('[orca-hook] failed to parse Amp endpoint file:', (error as Error).message)",
+    "      console.warn('[capilot-hook] failed to parse Amp endpoint file:', (error as Error).message)",
     '    }',
     '    return null',
     '  }',
     '}',
     '',
     'function resolveHookCoords(): HookCoords {',
-    '  // Why: Amp sessions can outlive an Orca restart; the endpoint file is',
+    '  // Why: Amp sessions can outlive an CaPilot restart; the endpoint file is',
     '  // rewritten on each start, so read it per event before falling back to env.',
     '  const fileEnv = readEndpointFile() ?? {}',
     '  return {',
@@ -228,7 +228,7 @@ function getAmpPluginSource(): string {
     '      signal: controller.signal,',
     '      headers: {',
     '        "Content-Type": "application/json",',
-    '        "X-Orca-Agent-Hook-Token": coords.token',
+    '        "X-CaPilot-Agent-Hook-Token": coords.token',
     '      },',
     '      body: JSON.stringify({',
     '        paneKey,',
@@ -242,7 +242,7 @@ function getAmpPluginSource(): string {
     '      })',
     '    })',
     '  } catch {',
-    '    // Why: Orca status reporting must never affect the Amp run.',
+    '    // Why: CaPilot status reporting must never affect the Amp run.',
     '  } finally {',
     '    clearTimeout(timeout)',
     '  }',
@@ -271,7 +271,7 @@ function getAmpPluginSource(): string {
     '}',
     'function enqueuePost(hookEventName: string, payload: Record<string, unknown>): void {',
     '  // Why: keep hook callbacks non-blocking without retaining unbounded',
-    '  // payload closures when Orca is down and each POST waits for timeout.',
+    '  // payload closures when CaPilot is down and each POST waits for timeout.',
     '  if (postQueue.length >= MAX_PENDING_POSTS) {',
     '    postQueue.shift()',
     '  }',

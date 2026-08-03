@@ -2,7 +2,7 @@ import type { Page, TestInfo } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveTabId,
@@ -270,7 +270,7 @@ test.describe('Terminal parked memory', () => {
     await waitForSessionReady(orcaPage)
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-parked-memory-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-parked-memory-${runId}.mjs`)
     writeScrollbackFillScript(scriptPath, runId)
     try {
       const { worktreeId, scrollbackTabs } = await setUpScrollbackTabs(orcaPage, scriptPath, runId)
@@ -341,7 +341,7 @@ test.describe('Terminal parked memory', () => {
       .toBe(false)
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-parked-memory-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-parked-memory-${runId}.mjs`)
     writeScrollbackFillScript(scriptPath, runId)
     try {
       const { worktreeId, scrollbackTabs } = await setUpScrollbackTabs(orcaPage, scriptPath, runId)
@@ -633,7 +633,7 @@ test.describe('Terminal hidden worktree retention budget', () => {
     await waitForRetentionBudgetSetting(orcaPage, false)
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-retention-memory-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-retention-memory-${runId}.mjs`)
     writeScrollbackFillScript(scriptPath, runId, RETENTION_FILL_LINE_COUNT)
     try {
       await ensureTerminalVisible(orcaPage)

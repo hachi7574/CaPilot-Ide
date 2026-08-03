@@ -1781,7 +1781,7 @@ describe('updater', () => {
       expect.objectContaining({
         state: 'error',
         // Why: a pre-commit install failure is not fixed by restarting, so the copy must not suggest it.
-        message: 'Could not start the update installer. Orca remains open.'
+        message: 'Could not start the update installer. CaPilot remains open.'
       })
     )
   })
@@ -3802,10 +3802,10 @@ describe('updater', () => {
     // Why: macOS keeps the restart advice because quitting does re-stage a Squirrel update.
     const PRE_COMMIT_FAILURE_MESSAGE =
       process.platform === 'darwin'
-        ? 'Could not restart to install the update. Quit and reopen Orca, then try again.'
-        : 'Could not start the update installer. Orca remains open.'
-    const DEB_PATH = '/home/tester/.cache/orca-updater/pending/orca-ide_1.0.61_amd64.deb'
-    const RPM_PATH = '/home/tester/.cache/orca-updater/pending/orca-ide-1.0.61.x86_64.rpm'
+        ? 'Could not restart to install the update. Quit and reopen CaPilot, then try again.'
+        : 'Could not start the update installer. CaPilot remains open.'
+    const DEB_PATH = '/home/tester/.cache/capilot-updater/pending/capilot-ide_1.0.61_amd64.deb'
+    const RPM_PATH = '/home/tester/.cache/capilot-updater/pending/capilot-ide-1.0.61.x86_64.rpm'
     const AGENT_STDERR =
       'pkexec: Error executing command as another user: No authentication agent found.'
     const EXIT_127 = `Command failed: /usr/bin/pkexec /usr/bin/dpkg -i ${DEB_PATH}, exited with code 127`
@@ -3813,7 +3813,7 @@ describe('updater', () => {
     const downloadedEvent = (overrides?: Record<string, unknown>): Record<string, unknown> => ({
       version: '1.0.61',
       downloadedFile: DEB_PATH,
-      files: [{ url: 'orca-ide_1.0.61_amd64.deb', sha512: DEB_SHA512 }],
+      files: [{ url: 'capilot-ide_1.0.61_amd64.deb', sha512: DEB_SHA512 }],
       ...overrides
     })
 
@@ -3930,7 +3930,7 @@ describe('updater', () => {
         updater,
         downloadedEvent({
           downloadedFile: RPM_PATH,
-          files: [{ url: 'orca-ide-1.0.61.x86_64.rpm', sha512: RPM_SHA512 }]
+          files: [{ url: 'capilot-ide-1.0.61.x86_64.rpm', sha512: RPM_SHA512 }]
         })
       )
       autoUpdaterMock.quitAndInstall.mockImplementation(() => {
@@ -3961,7 +3961,7 @@ describe('updater', () => {
       // Release metadata without a digest must not enable cached-package recovery.
       await reachDownloaded(
         updater,
-        downloadedEvent({ files: [{ url: 'orca-ide_1.0.61_amd64.deb' }] })
+        downloadedEvent({ files: [{ url: 'capilot-ide_1.0.61_amd64.deb' }] })
       )
       autoUpdaterMock.quitAndInstall.mockImplementation(() => {
         autoUpdaterMock.emit('error', new Error(EXIT_127))
@@ -3997,7 +3997,7 @@ describe('updater', () => {
       expect(autoUpdaterMock.quitAndInstall).not.toHaveBeenCalled()
       expect(send).toHaveBeenCalledWith('updater:status', {
         state: 'error',
-        message: 'Could not restart to install the update. Quit and reopen Orca, then try again.'
+        message: 'Could not restart to install the update. Quit and reopen CaPilot, then try again.'
       })
       expect(updater.isQuittingForUpdate()).toBe(false)
     })

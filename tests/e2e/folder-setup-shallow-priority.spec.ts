@@ -4,7 +4,7 @@ import { mkdtemp } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import type { ElectronApplication, Locator } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
 const tempRoots: string[] = []
@@ -32,7 +32,7 @@ async function createShallowPriorityTruncationFixture(): Promise<{
   // repo.path / projectGroup.parentPath on macOS, where os.tmpdir() (/var/...)
   // symlinks to /private/var/... and the app canonicalizes paths on import.
   const parentPath = realpathSync(
-    await mkdtemp(path.join(os.tmpdir(), 'orca-e2e-shallow-priority-'))
+    await mkdtemp(path.join(os.tmpdir(), 'capilot-e2e-shallow-priority-'))
   )
   tempRoots.push(parentPath)
   const archivePath = path.join(parentPath, 'archive')
@@ -63,7 +63,7 @@ async function createCancellableScanFixture(): Promise<{
   // canonicalized repo.path / projectGroup.parentPath on macOS (os.tmpdir()
   // /var/... symlinks to /private/var/...).
   const parentPath = realpathSync(
-    await mkdtemp(path.join(os.tmpdir(), 'orca-e2e-cancellable-scan-'))
+    await mkdtemp(path.join(os.tmpdir(), 'capilot-e2e-cancellable-scan-'))
   )
   tempRoots.push(parentPath)
   const apiPath = path.join(parentPath, 'api')

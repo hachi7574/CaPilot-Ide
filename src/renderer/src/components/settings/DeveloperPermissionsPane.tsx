@@ -123,7 +123,7 @@ const PERMISSIONS: PermissionDefinition[] = [
     get description() {
       return translate(
         'auto.components.settings.DeveloperPermissionsPane.7ca17b62c8',
-        "macOS names Orca when the agents it runs read other apps' data, because Orca is the responsible process for terminal commands. Grant this to Orca to reduce those prompts. Then quit and reopen Orca."
+        "macOS names CaPilot when the agents it runs read other apps' data, because CaPilot is the responsible process for terminal commands. Grant this to CaPilot to reduce those prompts. Then quit and reopen CaPilot."
       )
     },
     get actionLabel() {
@@ -267,7 +267,7 @@ export function DeveloperPermissionsPane({
   }, [refresh])
 
   // Why: after the user flips a permission in System Settings and switches
-  // back to Orca, the chip should reflect the new status without a manual
+  // back to CaPilot, the chip should reflect the new status without a manual
   // Refresh click. Tied to window focus rather than a polling interval so
   // we don't keep hammering `systemPreferences` while the pane is idle.
   useEffect(() => {
@@ -335,13 +335,13 @@ export function DeveloperPermissionsPane({
             <ShieldCheck className="size-4" />
             {translate(
               'auto.components.settings.DeveloperPermissionsPane.6f011b9bf6',
-              "Terminal tools inherit Orca's macOS privacy envelope."
+              "Terminal tools inherit CaPilot's macOS privacy envelope."
             )}
           </div>
           <p className="text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.DeveloperPermissionsPane.6326a4c5cc',
-              'Use these controls when a CLI, local app, or automation tool needs macOS privacy access. Orca does not ask at startup.'
+              'Use these controls when a CLI, local app, or automation tool needs macOS privacy access. CaPilot does not ask at startup.'
             )}
           </p>
         </div>

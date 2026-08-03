@@ -42,7 +42,7 @@ describe('BrowserPane webview preferences', () => {
       browserTabId: 'browser-page-1',
       container,
       inputLocked: false,
-      webviewPartition: 'persist:orca-browser-session-profile-1',
+      webviewPartition: 'persist:capilot-browser-session-profile-1',
       resolveContainer: () => container
     })
 
@@ -50,7 +50,7 @@ describe('BrowserPane webview preferences', () => {
     expect(ensuredWebview?.created).toBe(true)
     expect(ensuredWebview?.container).toBe(container)
     expect(ensuredWebview?.webview.getAttribute('partition')).toBe(
-      'persist:orca-browser-session-profile-1'
+      'persist:capilot-browser-session-profile-1'
     )
     expect(ensuredWebview?.webview.getAttribute('webpreferences')).toBe(
       ORCA_BROWSER_GUEST_WEB_PREFERENCES_ATTRIBUTE
@@ -65,7 +65,7 @@ describe('BrowserPane webview preferences', () => {
   it('remounts the webview in a refreshed container when the stored resolved partition changes', () => {
     const staleContainer = createContainer('stale')
     const staleWebview = document.createElement('webview') as Electron.WebviewTag
-    staleWebview.setAttribute('partition', 'persist:orca-browser')
+    staleWebview.setAttribute('partition', 'persist:capilot-browser')
     staleContainer.appendChild(staleWebview)
     registryMocks.webviewRegistry.set('browser-page-1', staleWebview)
 
@@ -87,7 +87,7 @@ describe('BrowserPane webview preferences', () => {
       browserTabId: 'browser-page-1',
       container: staleContainer,
       inputLocked: true,
-      webviewPartition: 'persist:orca-browser-session-profile-1',
+      webviewPartition: 'persist:capilot-browser-session-profile-1',
       resolveContainer
     })
 
@@ -98,7 +98,7 @@ describe('BrowserPane webview preferences', () => {
     expect(ensuredWebview?.container).toBe(refreshedContainer)
     expect(ensuredWebview?.webview).not.toBe(staleWebview)
     expect(ensuredWebview?.webview.getAttribute('partition')).toBe(
-      'persist:orca-browser-session-profile-1'
+      'persist:capilot-browser-session-profile-1'
     )
     expect(ensuredWebview?.webview.style.pointerEvents).toBe('none')
     expect(refreshedContainer.lastElementChild).toBe(ensuredWebview?.webview as unknown as Element)
@@ -107,7 +107,7 @@ describe('BrowserPane webview preferences', () => {
   it('keeps a replacement viewport while rebuilding a parent-drifted webview (STA-3228)', () => {
     const staleContainer = createContainer('stale')
     const staleWebview = document.createElement('webview') as Electron.WebviewTag
-    staleWebview.setAttribute('partition', 'persist:orca-browser')
+    staleWebview.setAttribute('partition', 'persist:capilot-browser')
     staleContainer.appendChild(staleWebview)
     registryMocks.webviewRegistry.set('browser-page-1', staleWebview)
     const replacementContainer = createContainer('replacement')
@@ -122,7 +122,7 @@ describe('BrowserPane webview preferences', () => {
       browserTabId: 'browser-page-1',
       container: replacementContainer,
       inputLocked: false,
-      webviewPartition: 'persist:orca-browser',
+      webviewPartition: 'persist:capilot-browser',
       resolveContainer
     })
 

@@ -22,7 +22,7 @@ import {
   type DockerSshRelayTarget
 } from './helpers/docker-ssh-relay-target'
 import { openFileExplorer } from './helpers/file-explorer'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   execInTerminal,
@@ -65,7 +65,7 @@ async function waitForRelayWatcherProcessGroup(
 
 async function openRemoteFileExplorer(page: Page, target: DockerSshRelayTarget): Promise<void> {
   await openFileExplorer(page)
-  await expect(page.locator('[data-orca-explorer-shell]')).toBeVisible({ timeout: 15_000 })
+  await expect(page.locator('[data-capilot-explorer-shell]')).toBeVisible({ timeout: 15_000 })
   await expect(fileExplorerRow(page, 'README.md')).toBeVisible({ timeout: 30_000 })
   // Why: the child appears only after the real explorer watch subscribes, so
   // external file creation below cannot race the initial watch registration.

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { useAppStore } from '@/store'
-import type { OrcaHookScriptKind } from '@/lib/orca-hook-trust'
+import type { OrcaHookScriptKind } from '@/lib/capilot-hook-trust'
 import { translate } from '@/i18n/i18n'
 
 type ScriptKind = OrcaHookScriptKind
@@ -35,7 +35,7 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
   const markOrcaHookScriptConfirmed = useAppStore((s) => s.markOrcaHookScriptConfirmed)
   const markOrcaHookRepoAlwaysTrusted = useAppStore((s) => s.markOrcaHookRepoAlwaysTrusted)
 
-  const isOpen = activeModal === 'confirm-orca-yaml-hooks'
+  const isOpen = activeModal === 'confirm-capilot-yaml-hooks'
   const [alwaysTrustState, setAlwaysTrustState] = useState(() => ({
     isOpen,
     value: false
@@ -123,7 +123,7 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
             {previouslyApproved ? (
               <>
                 <code>
-                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'capilot.yaml')}
                 </code>{' '}
                 {translate(
                   'auto.components.sidebar.OrcaYamlTrustDialog.c55beddbf8',
@@ -138,7 +138,7 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
                   "This repository's"
                 )}{' '}
                 <code>
-                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+                  {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'capilot.yaml')}
                 </code>{' '}
                 {translate(
                   'auto.components.sidebar.OrcaYamlTrustDialog.831f2cd9f0',
@@ -192,7 +192,7 @@ const OrcaYamlTrustDialog = React.memo(function OrcaYamlTrustDialog() {
           <span className="text-xs font-medium text-foreground">
             {translate('auto.components.sidebar.OrcaYamlTrustDialog.531689199b', 'Always trust')}{' '}
             <code>
-              {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'orca.yaml')}
+              {translate('auto.components.sidebar.OrcaYamlTrustDialog.79afc6772b', 'capilot.yaml')}
             </code>{' '}
             {translate('auto.components.sidebar.OrcaYamlTrustDialog.c494b3ccb1', 'in')} {repoName}
           </span>

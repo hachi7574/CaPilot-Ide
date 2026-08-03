@@ -1,8 +1,8 @@
 import path from 'node:path'
 import type { ElectronApplication, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
-import { createRestartSession } from './helpers/orca-restart'
+import { createRestartSession } from './helpers/capilot-restart'
 
 // Why: mirrors FLOATING_TERMINAL_WORKTREE_ID in src/shared/constants.ts.
 // E2E specs avoid importing renderer/shared modules into the Playwright runner.
@@ -80,7 +80,7 @@ async function openFloatingPanel(page: Page): Promise<void> {
     PANEL_SELECTOR,
     { timeout: 30_000 }
   )
-  await page.evaluate(() => window.dispatchEvent(new Event('orca-toggle-floating-terminal')))
+  await page.evaluate(() => window.dispatchEvent(new Event('capilot-toggle-floating-terminal')))
   await expect(page.locator(OPEN_PANEL_SELECTOR)).toBeVisible()
 }
 

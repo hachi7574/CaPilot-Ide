@@ -63,7 +63,7 @@ describe('getManagedStatusLineScript (win32 local)', () => {
     expect(script).toContain('set "ORCA_STATUSLINE_PANE_ID=%ORCA_PANE_KEY:~-36%"')
     expect(script).toContain('set "ORCA_STATUSLINE_PANE_ID=%ORCA_STATUSLINE_PANE_ID::=_%"')
     expect(script).toContain(
-      'set "ORCA_STATUSLINE_PAYLOAD_FILE=%TEMP%\\orca-claude-statusline-%ORCA_STATUSLINE_PANE_ID%.tmp"'
+      'set "ORCA_STATUSLINE_PAYLOAD_FILE=%TEMP%\\capilot-claude-statusline-%ORCA_STATUSLINE_PANE_ID%.tmp"'
     )
     expect(script).toContain('--data-urlencode "payload@%ORCA_STATUSLINE_PAYLOAD_FILE%"')
     expect(script).not.toContain('payload@-')
@@ -102,7 +102,7 @@ describe('getManagedStatusLineScript (win32 local)', () => {
     const script = getManagedStatusLineScript('local')
     const captureIndex = script.indexOf('more.com')
     const stampIndex = script.indexOf(
-      'set "ORCA_STATUSLINE_STAMP_FILE=%TEMP%\\orca-claude-statusline-last-%ORCA_STATUSLINE_PANE_ID%.tmp"'
+      'set "ORCA_STATUSLINE_STAMP_FILE=%TEMP%\\capilot-claude-statusline-last-%ORCA_STATUSLINE_PANE_ID%.tmp"'
     )
     const throttleIndex = script.indexOf(
       `if %ORCA_STATUSLINE_ELAPSED% GEQ 0 if %ORCA_STATUSLINE_ELAPSED% LSS ${CLAUDE_STATUSLINE_MIN_POST_INTERVAL_SECONDS} goto :orca_statusline_cleanup`
@@ -185,7 +185,7 @@ describe.skipIf(process.platform === 'win32')('statusline curl throttle (posix b
     dateLog: string
     catLog: string
   } {
-    const dir = mkdtempSync(join(tmpdir(), 'orca-statusline-throttle-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-statusline-throttle-'))
     dirs.push(dir)
     const curlLog = join(dir, 'curl.log')
     const payloadLog = join(dir, 'payload.log')
@@ -254,7 +254,7 @@ describe.skipIf(process.platform === 'win32')('statusline curl throttle (posix b
   }
 
   function stampPathFor(dir: string, leafId = LEAF_ID): string {
-    return join(dir, `orca-claude-statusline-last-${leafId}`)
+    return join(dir, `capilot-claude-statusline-last-${leafId}`)
   }
 
   it('spawns one curl and no capture or clock subprocesses across 30 rapid ticks', async () => {

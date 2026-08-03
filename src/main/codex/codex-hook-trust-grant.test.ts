@@ -31,7 +31,7 @@ let runtimeHomeDir: string
 let previousUserDataPath: string | undefined
 
 beforeEach(() => {
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-trust-grant-userdata-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-trust-grant-userdata-'))
   runtimeHomeDir = join(userDataDir, 'codex-runtime-home', 'home')
   // Why: production writes hooks.json before granting trust; keeping that
   // ordering prevents test-only canonical-path drift during ledger setup.
@@ -57,7 +57,7 @@ afterEach(() => {
   rmSync(userDataDir, { recursive: true, force: true })
 })
 
-const MANAGED_COMMAND = "/bin/sh '/tmp/orca/codex-hook.sh'"
+const MANAGED_COMMAND = "/bin/sh '/tmp/capilot/codex-hook.sh'"
 
 function managedEntry(eventLabel: CodexTrustEntry['eventLabel']): CodexTrustEntry {
   return {

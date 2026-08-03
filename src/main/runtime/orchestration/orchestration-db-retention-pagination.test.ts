@@ -219,7 +219,7 @@ describe('OrchestrationDb dispatch assignee index migration', () => {
   })
 
   it('migrates a populated v21 database idempotently', () => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-dispatch-index-migration-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-dispatch-index-migration-'))
     const dbPath = join(tempDir, 'orchestration.db')
     db = new OrchestrationDb(dbPath)
     const task = db.createTask({ spec: 'indexed lookup' })

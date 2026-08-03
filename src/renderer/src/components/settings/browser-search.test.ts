@@ -33,14 +33,14 @@ describe('browser settings search copy', () => {
   // it, so the default output has to stay byte-identical to the pre-feature copy.
   it('keeps the pre-feature wording while inverting is off', () => {
     expect(getBrowserLinkRoutingDescription({ isMac: true })).toBe(
-      "Open http(s) links in Orca's built-in browser — from the terminal, markdown, and the editor. ⇧⌘-click always uses your system browser."
+      "Open http(s) links in CaPilot's built-in browser — from the terminal, markdown, and the editor. ⇧⌘-click always uses your system browser."
     )
     expect(getBrowserLinkRoutingDescription({ isMac: false })).toContain(
       'Shift+Ctrl+click always uses your system browser.'
     )
   })
 
-  // Why: "always" would be a lie once the chord can land in Orca, so the nested row
+  // Why: "always" would be a lie once the chord can land in CaPilot, so the nested row
   // takes over the claim.
   it('drops the modifier claim once inverting is on', () => {
     const description = getBrowserLinkRoutingDescription({ isMac: true }, true)
@@ -58,14 +58,14 @@ describe('browser link routing modifier copy', () => {
       'Default Search Engine',
       'Default Zoom',
       'Link Routing',
-      'Hold Shift to open in Orca',
+      'Hold Shift to open in CaPilot',
       'Localhost Worktree Labels',
       'Session & Cookies'
     ])
   })
 
   it('names the destination the modifier actually reaches', () => {
-    expect(getLinkRoutingModifierTitle(false)).toBe('Hold Shift to open in Orca')
+    expect(getLinkRoutingModifierTitle(false)).toBe('Hold Shift to open in CaPilot')
     expect(getLinkRoutingModifierTitle(true)).toBe('Hold Shift to open in your web browser')
   })
 
@@ -78,18 +78,18 @@ describe('browser link routing modifier copy', () => {
     )
   })
 
-  it('points the description at Orca only when links currently open externally', () => {
+  it('points the description at CaPilot only when links currently open externally', () => {
     expect(getLinkRoutingModifierDescription({ openLinksInApp: false, isMac: true })).toContain(
-      "Orca's built-in browser"
+      "CaPilot's built-in browser"
     )
     expect(getLinkRoutingModifierDescription({ openLinksInApp: true, isMac: true })).toContain(
       'system browser'
     )
   })
 
-  // Why: the toggle is off by default, so present-tense "opens one in Orca" would
+  // Why: the toggle is off by default, so present-tense "opens one in CaPilot" would
   // describe behavior the user does not have yet.
-  it('phrases the Orca branch as enabled-state copy', () => {
+  it('phrases the CaPilot branch as enabled-state copy', () => {
     expect(getLinkRoutingModifierDescription({ openLinksInApp: false, isMac: true })).toContain(
       'When enabled'
     )

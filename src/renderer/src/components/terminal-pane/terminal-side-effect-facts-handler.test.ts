@@ -201,7 +201,7 @@ describe('registerTerminalSideEffectFactConsumer', () => {
           kind: 'pr-link',
           link: {
             url: 'https://github.com/acme/orca/pull/42',
-            slug: { owner: 'acme', repo: 'orca' },
+            slug: { owner: 'acme', repo: 'capilot' },
             number: 42
           }
         },
@@ -316,7 +316,7 @@ describe('registerTerminalSideEffectFactConsumer', () => {
             kind: 'pr-link',
             link: {
               url: 'https://github.com/acme/orca/pull/42',
-              slug: { owner: 'acme', repo: 'orca' },
+              slug: { owner: 'acme', repo: 'capilot' },
               number: 42
             }
           }

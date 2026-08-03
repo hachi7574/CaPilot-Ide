@@ -324,9 +324,9 @@ describe('terminal path helpers', () => {
       const link = extractTerminalFileLinks(line).find(
         (candidate) => candidate.displayText === 'file:///Users/dev/orca/report.html'
       )
-      expect(link).toMatchObject({ pathText: '/Users/dev/orca/report.html' })
-      expect(resolveTerminalFileLink(link!, '/Users/dev/orca')).toEqual({
-        absolutePath: '/Users/dev/orca/report.html',
+      expect(link).toMatchObject({ pathText: '/Users/dev/capilot/report.html' })
+      expect(resolveTerminalFileLink(link!, '/Users/dev/capilot')).toEqual({
+        absolutePath: '/Users/dev/capilot/report.html',
         line: null,
         column: null
       })

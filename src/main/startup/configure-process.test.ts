@@ -70,7 +70,7 @@ describe('patchPackagedProcessPath', () => {
     const segments = (process.env.PATH ?? '').split(':')
     // Why: issue #829 — ~/.opencode/bin and ~/.vite-plus/bin are the documented
     // fallback install locations for the opencode and Pi CLI install scripts.
-    // Without them on PATH, GUI-launched Orca reports both as "Not installed"
+    // Without them on PATH, GUI-launched CaPilot reports both as "Not installed"
     // even when `which` resolves them in the user's shell.
     expect(segments).toContain(join('/Users/tester', '.opencode/bin'))
     expect(segments).toContain(join('/Users/tester', '.vite-plus/bin'))
@@ -117,7 +117,7 @@ describe('configureDevUserDataPath', () => {
     const originalE2EHomeDir = process.env.ORCA_E2E_HOME_DIR
     const originalHome = process.env.HOME
     const originalUserProfile = process.env.USERPROFILE
-    const tempRoot = mkdtempSync(join(tmpdir(), 'orca-configure-e2e-home-'))
+    const tempRoot = mkdtempSync(join(tmpdir(), 'capilot-configure-e2e-home-'))
     const e2eRoot = join(tempRoot, 'user-data')
     const e2eHome = join(tempRoot, 'home')
     process.env.ORCA_E2E_USER_DATA_DIR = e2eRoot
@@ -161,7 +161,7 @@ describe('configureDevUserDataPath', () => {
     const originalE2EHomeDir = process.env.ORCA_E2E_HOME_DIR
     const originalHome = process.env.HOME
     const originalUserProfile = process.env.USERPROFILE
-    const e2eRoot = mkdtempSync(join(tmpdir(), 'orca-configure-e2e-escape-'))
+    const e2eRoot = mkdtempSync(join(tmpdir(), 'capilot-configure-e2e-escape-'))
     process.env.ORCA_E2E_USER_DATA_DIR = e2eRoot
     process.env.ORCA_E2E_HOME_DIR = join(e2eRoot, 'home')
     process.env.HOME = join(e2eRoot, 'escaped-home')
@@ -182,7 +182,7 @@ describe('configureDevUserDataPath', () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
     const originalOverride = process.env.ORCA_DEV_USER_DATA_PATH
-    process.env.ORCA_DEV_USER_DATA_PATH = '/tmp/orca-dev-repro'
+    process.env.ORCA_DEV_USER_DATA_PATH = '/tmp/capilot-dev-repro'
 
     try {
       configureDevUserDataPath(true)
@@ -194,19 +194,19 @@ describe('configureDevUserDataPath', () => {
       }
     }
 
-    expect(app.setPath).toHaveBeenCalledWith('userData', '/tmp/orca-dev-repro')
+    expect(app.setPath).toHaveBeenCalledWith('userData', '/tmp/capilot-dev-repro')
   })
 
-  it('moves dev runs onto an orca-dev userData path', async () => {
+  it('moves dev runs onto an capilot-dev userData path', async () => {
     const { app } = await import('electron')
     const { configureDevUserDataPath } = await import('./configure-process')
 
     delete process.env.ORCA_DEV_USER_DATA_PATH
     configureDevUserDataPath(true)
 
-    // Why: production code uses path.join(app.getPath('appData'), 'orca-dev')
+    // Why: production code uses path.join(app.getPath('appData'), 'capilot-dev')
     // which produces platform-specific separators.
-    expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'orca-dev'))
+    expect(app.setPath).toHaveBeenCalledWith('userData', join('/tmp/app-data', 'capilot-dev'))
   })
 
   it('leaves packaged runs on the default userData path', async () => {
@@ -233,8 +233,8 @@ describe('configureOrcaUserDataPathEnv', () => {
     const { app } = await import('electron')
     const { configureOrcaUserDataPathEnv } = await import('./configure-process')
     const originalUserDataPath = process.env.ORCA_USER_DATA_PATH
-    process.env.ORCA_USER_DATA_PATH = '/tmp/stale-orca-user-data'
-    app.setPath('userData', '/tmp/current-orca-user-data')
+    process.env.ORCA_USER_DATA_PATH = '/tmp/stale-capilot-user-data'
+    app.setPath('userData', '/tmp/current-capilot-user-data')
     let configuredUserDataPath: string | undefined
 
     try {
@@ -248,7 +248,7 @@ describe('configureOrcaUserDataPathEnv', () => {
       }
     }
 
-    expect(configuredUserDataPath).toBe('/tmp/current-orca-user-data')
+    expect(configuredUserDataPath).toBe('/tmp/current-capilot-user-data')
   })
 })
 
@@ -271,9 +271,9 @@ describe('configureElectronNetworkCompatibility', () => {
   const originalEnvValue = process.env.ORCA_DISABLE_HTTP2
 
   function createUserDataDir(settings: Record<string, unknown>): string {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-http1-compat-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-http1-compat-'))
     tempDirs.push(userDataPath)
-    writeFileSync(join(userDataPath, 'orca-data.json'), JSON.stringify({ settings }), 'utf-8')
+    writeFileSync(join(userDataPath, 'capilot-data.json'), JSON.stringify({ settings }), 'utf-8')
     return userDataPath
   }
 
@@ -559,7 +559,7 @@ describe('enableMainProcessGpuFeatures', () => {
     const { enableMainProcessGpuFeatures } = await import('./configure-process')
 
     setPlatform('linux')
-    process.env.ORCA_E2E_USER_DATA_DIR = '/tmp/orca-e2e'
+    process.env.ORCA_E2E_USER_DATA_DIR = '/tmp/capilot-e2e'
     vi.mocked(app.disableHardwareAcceleration).mockClear()
     vi.mocked(app.commandLine.appendSwitch).mockClear()
 

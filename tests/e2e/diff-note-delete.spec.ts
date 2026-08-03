@@ -17,7 +17,7 @@
  * store list is empty and the DOM zone is gone.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree } from './helpers/store'
 
 test.describe('Diff note delete', () => {

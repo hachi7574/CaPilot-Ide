@@ -1,5 +1,5 @@
 import type { Page } from '@stablyai/playwright-test'
-import { expect, test as base } from './helpers/orca-app'
+import { expect, test as base } from './helpers/capilot-app'
 import {
   cleanupDockerSshRelayTarget,
   dockerSshRelayRepoSentinel,
@@ -82,7 +82,7 @@ async function installProxyJumpFixture(
 ): Promise<void> {
   fixture.writeConfig(
     [
-      'Host orca-e2e-jump',
+      'Host capilot-e2e-jump',
       '  HostName 127.0.0.1',
       `  Port ${jump.port}`,
       '  User root',
@@ -91,13 +91,13 @@ async function installProxyJumpFixture(
       '  StrictHostKeyChecking no',
       '  UserKnownHostsFile /dev/null',
       '',
-      'Host orca-e2e-destination',
+      'Host capilot-e2e-destination',
       `  HostName ${destination.containerIp}`,
       '  Port 22',
       '  User root',
       `  IdentityFile ${destination.identityFile}`,
       '  IdentitiesOnly yes',
-      '  ProxyJump orca-e2e-jump',
+      '  ProxyJump capilot-e2e-jump',
       '  StrictHostKeyChecking no',
       '  UserKnownHostsFile /dev/null',
       ''

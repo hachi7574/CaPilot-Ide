@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getAllWorktreeIds,
@@ -204,7 +204,7 @@ test.describe('Terminal sleep wake restore', () => {
     const restoreMarker = `SLEEP_WAKE_RESTORE_${runId}`
     const freshMarker = `SLEEP_WAKE_FRESH_${runId}`
     const expectedMarkers = sleepWakeExpectedMarkers(runId)
-    const scriptPath = path.join(testRepoPath, `.orca-sleep-wake-restore-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-sleep-wake-restore-${runId}.mjs`)
     writeSleepWakePayloadScript(scriptPath, richSleepWakePayload(runId))
     try {
       await sendToTerminal(orcaPage, ptyId, `node ${JSON.stringify(scriptPath)}\r`)

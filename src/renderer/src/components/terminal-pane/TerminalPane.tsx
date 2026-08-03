@@ -1766,7 +1766,7 @@ function TerminalPane(
     macOptionAsAltRef,
     paneKittyKeyboardModesRef,
     keybindings,
-    terminalShortcutPolicy: settings?.terminalShortcutPolicy ?? 'orca-first'
+    terminalShortcutPolicy: settings?.terminalShortcutPolicy ?? 'capilot-first'
   })
 
   useTerminalPaneGlobalEffects({
@@ -2828,9 +2828,9 @@ function TerminalPane(
     // Why: split dividers overdraw into the pane, so overflow:hidden clips that pseudo-element paint at the terminal body.
     overflow: 'hidden',
     ...hiddenStartupStyle,
-    ['--orca-terminal-divider-color' as string]:
+    ['--capilot-terminal-divider-color' as string]:
       effectiveAppearance?.dividerColor ?? DEFAULT_TERMINAL_DIVIDER_DARK,
-    ['--orca-terminal-divider-color-strong' as string]: normalizeColor(
+    ['--capilot-terminal-divider-color-strong' as string]: normalizeColor(
       effectiveAppearance?.dividerColor,
       DEFAULT_TERMINAL_DIVIDER_DARK
     )

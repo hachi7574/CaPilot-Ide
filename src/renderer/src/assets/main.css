@@ -16,7 +16,7 @@
 }
 
 @font-face {
-  font-family: 'Orca Nerd Font Symbols';
+  font-family: 'CaPilot Nerd Font Symbols';
   src: url('./fonts/SymbolsNerdFontMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
@@ -130,23 +130,23 @@
     'SF Mono', SFMono-Regular, ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono',
     monospace;
   --radius: 0.625rem;
-  --orca-security-background: #fff;
-  --orca-security-foreground: #0a0a0a;
-  --orca-security-card: #fff;
-  --orca-security-card-foreground: #0a0a0a;
-  --orca-security-popover: #fff;
-  --orca-security-popover-foreground: #0a0a0a;
-  --orca-security-primary: #171717;
-  --orca-security-primary-foreground: #fafafa;
-  --orca-security-secondary: #f5f5f5;
-  --orca-security-secondary-foreground: #171717;
-  --orca-security-muted: #f5f5f5;
-  --orca-security-muted-foreground: #737373;
-  --orca-security-accent: #f5f5f5;
-  --orca-security-accent-foreground: #171717;
-  --orca-security-border: #e5e5e5;
-  --orca-security-input: #e5e5e5;
-  --orca-security-ring: #a1a1a1;
+  --capilot-security-background: #fff;
+  --capilot-security-foreground: #0a0a0a;
+  --capilot-security-card: #fff;
+  --capilot-security-card-foreground: #0a0a0a;
+  --capilot-security-popover: #fff;
+  --capilot-security-popover-foreground: #0a0a0a;
+  --capilot-security-primary: #171717;
+  --capilot-security-primary-foreground: #fafafa;
+  --capilot-security-secondary: #f5f5f5;
+  --capilot-security-secondary-foreground: #171717;
+  --capilot-security-muted: #f5f5f5;
+  --capilot-security-muted-foreground: #737373;
+  --capilot-security-accent: #f5f5f5;
+  --capilot-security-accent-foreground: #171717;
+  --capilot-security-border: #e5e5e5;
+  --capilot-security-input: #e5e5e5;
+  --capilot-security-ring: #a1a1a1;
   --background: #fff;
   --editor-surface: #ffffff;
   --foreground: #0a0a0a;
@@ -233,23 +233,23 @@
 /* ── Dark Mode ───────────────────────────────────────── */
 
 .dark {
-  --orca-security-background: #0a0a0a;
-  --orca-security-foreground: #fafafa;
-  --orca-security-card: #171717;
-  --orca-security-card-foreground: #fafafa;
-  --orca-security-popover: #171717;
-  --orca-security-popover-foreground: #fafafa;
-  --orca-security-primary: #e5e5e5;
-  --orca-security-primary-foreground: #171717;
-  --orca-security-secondary: #262626;
-  --orca-security-secondary-foreground: #fafafa;
-  --orca-security-muted: #262626;
-  --orca-security-muted-foreground: #a1a1a1;
-  --orca-security-accent: #404040;
-  --orca-security-accent-foreground: #fafafa;
-  --orca-security-border: rgb(255 255 255 / 0.07);
-  --orca-security-input: rgb(255 255 255 / 0.15);
-  --orca-security-ring: #737373;
+  --capilot-security-background: #0a0a0a;
+  --capilot-security-foreground: #fafafa;
+  --capilot-security-card: #171717;
+  --capilot-security-card-foreground: #fafafa;
+  --capilot-security-popover: #171717;
+  --capilot-security-popover-foreground: #fafafa;
+  --capilot-security-primary: #e5e5e5;
+  --capilot-security-primary-foreground: #171717;
+  --capilot-security-secondary: #262626;
+  --capilot-security-secondary-foreground: #fafafa;
+  --capilot-security-muted: #262626;
+  --capilot-security-muted-foreground: #a1a1a1;
+  --capilot-security-accent: #404040;
+  --capilot-security-accent-foreground: #fafafa;
+  --capilot-security-border: rgb(255 255 255 / 0.07);
+  --capilot-security-input: rgb(255 255 255 / 0.15);
+  --capilot-security-ring: #737373;
   --background: #0a0a0a;
   --editor-surface: #1e1e1e;
   --foreground: #fafafa;
@@ -338,23 +338,23 @@
 .plugin-security-chrome {
   /* Why: plugin themes may style the app, but provenance and consent must
      retain host-owned contrast so a pack cannot disguise a trust decision. */
-  --background: var(--orca-security-background);
-  --foreground: var(--orca-security-foreground);
-  --card: var(--orca-security-card);
-  --card-foreground: var(--orca-security-card-foreground);
-  --popover: var(--orca-security-popover);
-  --popover-foreground: var(--orca-security-popover-foreground);
-  --primary: var(--orca-security-primary);
-  --primary-foreground: var(--orca-security-primary-foreground);
-  --secondary: var(--orca-security-secondary);
-  --secondary-foreground: var(--orca-security-secondary-foreground);
-  --muted: var(--orca-security-muted);
-  --muted-foreground: var(--orca-security-muted-foreground);
-  --accent: var(--orca-security-accent);
-  --accent-foreground: var(--orca-security-accent-foreground);
-  --border: var(--orca-security-border);
-  --input: var(--orca-security-input);
-  --ring: var(--orca-security-ring);
+  --background: var(--capilot-security-background);
+  --foreground: var(--capilot-security-foreground);
+  --card: var(--capilot-security-card);
+  --card-foreground: var(--capilot-security-card-foreground);
+  --popover: var(--capilot-security-popover);
+  --popover-foreground: var(--capilot-security-popover-foreground);
+  --primary: var(--capilot-security-primary);
+  --primary-foreground: var(--capilot-security-primary-foreground);
+  --secondary: var(--capilot-security-secondary);
+  --secondary-foreground: var(--capilot-security-secondary-foreground);
+  --muted: var(--capilot-security-muted);
+  --muted-foreground: var(--capilot-security-muted-foreground);
+  --accent: var(--capilot-security-accent);
+  --accent-foreground: var(--capilot-security-accent-foreground);
+  --border: var(--capilot-security-border);
+  --input: var(--capilot-security-input);
+  --ring: var(--capilot-security-ring);
 }
 
 .linear-priority-bars {
@@ -413,7 +413,7 @@
 
 [data-sonner-toaster] [data-sonner-toast][data-styled='true'] [data-close-button] {
   /* Why: Sonner's dark-theme defaults can resolve the close icon and button
-     background to the same color; keep the X readable on both Orca themes. */
+     background to the same color; keep the X readable on both CaPilot themes. */
   color: var(--popover-foreground);
   background: var(--popover);
   border-color: rgb(0 0 0 / 0.14);
@@ -2082,41 +2082,41 @@ html.native-shell .app-layout {
 
 /* ── Git conflict decorations ───────────────────────────────────── */
 
-.monaco-editor .orca-conflict-marker-line {
+.monaco-editor .capilot-conflict-marker-line {
   background: color-mix(in srgb, var(--destructive) 12%, transparent);
 }
 
-.monaco-editor .orca-conflict-section-line {
+.monaco-editor .capilot-conflict-section-line {
   border-left: 3px solid transparent;
 }
 
-.monaco-editor .orca-conflict-current-line {
+.monaco-editor .capilot-conflict-current-line {
   background: color-mix(in srgb, var(--git-decoration-modified) 12%, transparent);
   border-left-color: color-mix(in srgb, var(--git-decoration-modified) 72%, transparent);
 }
 
-.monaco-editor .orca-conflict-base-line {
+.monaco-editor .capilot-conflict-base-line {
   background: color-mix(in srgb, var(--muted-foreground) 7%, transparent);
   border-left-color: color-mix(in srgb, var(--muted-foreground) 36%, transparent);
 }
 
-.monaco-editor .orca-conflict-incoming-line {
+.monaco-editor .capilot-conflict-incoming-line {
   background: color-mix(in srgb, var(--git-decoration-renamed) 11%, transparent);
   border-left-color: color-mix(in srgb, var(--git-decoration-renamed) 68%, transparent);
 }
 
-.monaco-editor .orca-conflict-line-decoration {
+.monaco-editor .capilot-conflict-line-decoration {
   width: 4px !important;
   margin-left: 3px;
   background: var(--destructive);
   border-radius: 999px;
 }
 
-.monaco-editor .orca-conflict-margin {
+.monaco-editor .capilot-conflict-margin {
   background: color-mix(in srgb, var(--destructive) 8%, transparent);
 }
 
-.monaco-editor .orca-conflict-marker-label {
+.monaco-editor .capilot-conflict-marker-label {
   color: var(--destructive);
   font-family: var(--font-sans, system-ui, sans-serif);
   font-size: 11px;
@@ -2655,12 +2655,12 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
   }
 }
 
-.orca-contextual-tour-target-rings {
+.capilot-contextual-tour-target-rings {
   border-radius: 9999px;
   pointer-events: none;
 }
 
-.orca-contextual-tour-target-rings::before {
+.capilot-contextual-tour-target-rings::before {
   content: '';
   position: absolute;
   inset: -2px;
@@ -2685,7 +2685,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orca-contextual-tour-target-rings::before {
+  .capilot-contextual-tour-target-rings::before {
     animation: none;
     opacity: 0.72;
     transform: scale(1.28);
@@ -3212,7 +3212,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
    useDiffCommentDecorator. Keep it visually subtle until hovered so it does
    not distract from the diff itself. Left position overlaps the glyph margin
    so the affordance reads as "add comment on this line". */
-.orca-diff-comment-add-btn {
+.capilot-diff-comment-add-btn {
   position: absolute;
   left: 4px;
   width: 18px;
@@ -3236,27 +3236,27 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     box-shadow 100ms ease;
 }
 
-.orca-diff-comment-add-btn:hover {
+.capilot-diff-comment-add-btn:hover {
   color: var(--primary);
   border-color: color-mix(in srgb, var(--primary) 52%, var(--border));
   background: color-mix(in srgb, var(--primary) 12%, var(--background));
   box-shadow: 0 1px 4px color-mix(in srgb, var(--foreground) 16%, transparent);
 }
 
-.orca-diff-comment-add-btn:focus-visible {
+.capilot-diff-comment-add-btn:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 1px;
 }
 
-.orca-diff-comment-range-highlight {
+.capilot-diff-comment-range-highlight {
   background: rgba(59, 130, 246, 0.14);
 }
 
-.dark .orca-diff-comment-range-highlight {
+.dark .capilot-diff-comment-range-highlight {
   background: rgba(96, 165, 250, 0.18);
 }
 
-.orca-diff-comment-inline {
+.capilot-diff-comment-inline {
   width: 100%;
   /* Why: Monaco's view-zone node already starts after the diff gutter. Avoid
      adding a second left inset so saved notes sit flush with the code column. */
@@ -3264,7 +3264,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
   box-sizing: border-box;
 }
 
-.orca-diff-comment-inline > .orca-diff-comment-card {
+.capilot-diff-comment-inline > .capilot-diff-comment-card {
   max-width: 420px;
 }
 
@@ -3276,7 +3276,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
    to produce roughly the same absolute luminance delta above its editor
    surface — the foreground color is different (white vs black) so equal
    percentages would not give equal contrast. Override lives in `.dark`. */
-.orca-diff-comment-card {
+.capilot-diff-comment-card {
   position: relative;
   /* Why: Monaco's view-lines overlay (data-mprt=8) is positioned absolutely on
      top of view-zone DOM. Without an explicit z-index here, clicks on
@@ -3300,7 +3300,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     background-color 150ms ease;
 }
 
-.dark .orca-diff-comment-card {
+.dark .capilot-diff-comment-card {
   border-color: color-mix(in srgb, var(--foreground) 12%, var(--border));
   background: color-mix(in srgb, var(--foreground) 2%, var(--editor-surface));
   box-shadow:
@@ -3309,7 +3309,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Content Column */
-.orca-diff-comment-content-col {
+.capilot-diff-comment-content-col {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
@@ -3318,7 +3318,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Header Row */
-.orca-diff-comment-header {
+.capilot-diff-comment-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -3327,7 +3327,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Meta Group (Name, line, timestamp) */
-.orca-diff-comment-meta-group {
+.capilot-diff-comment-meta-group {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -3340,7 +3340,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Action button pill: segmented control like Notion's Resolve / ... */
-.orca-diff-comment-actions-pill {
+.capilot-diff-comment-actions-pill {
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -3352,12 +3352,12 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
-.dark .orca-diff-comment-actions-pill {
+.dark .capilot-diff-comment-actions-pill {
   border-color: color-mix(in srgb, var(--foreground) 14%, var(--border));
   background: color-mix(in srgb, var(--foreground) 4%, var(--editor-surface));
 }
 
-.orca-diff-comment-pill-btn {
+.capilot-diff-comment-pill-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3375,24 +3375,24 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     color 100ms ease;
 }
 
-.orca-diff-comment-edit {
+.capilot-diff-comment-edit {
   min-width: 28px;
   height: 24px;
   padding: 4px 7px;
   border-radius: 4px;
 }
 
-.orca-diff-comment-pill-btn:hover {
+.capilot-diff-comment-pill-btn:hover {
   background: color-mix(in srgb, var(--foreground) 6%, transparent);
   color: var(--foreground);
 }
 
-.orca-diff-comment-pill-btn-danger:hover {
+.capilot-diff-comment-pill-btn-danger:hover {
   background: color-mix(in srgb, var(--destructive) 10%, transparent);
   color: var(--destructive);
 }
 
-.orca-diff-comment-pill-divider {
+.capilot-diff-comment-pill-divider {
   width: 1px;
   height: 12px;
   background: color-mix(in srgb, var(--foreground) 12%, var(--border));
@@ -3400,7 +3400,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Quote/Reference block: Warm, gorgeous Notion-like callout */
-.orca-diff-comment-quote {
+.capilot-diff-comment-quote {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -3412,7 +3412,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
   line-height: 1.35;
 }
 
-.orca-diff-comment-quote-text {
+.capilot-diff-comment-quote-text {
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -3421,7 +3421,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Comment Body */
-.orca-diff-comment-body {
+.capilot-diff-comment-body {
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--foreground);
@@ -3431,7 +3431,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Popover for adding new comment */
-.orca-diff-comment-popover {
+.capilot-diff-comment-popover {
   position: absolute;
   left: 56px;
   right: 24px;
@@ -3447,7 +3447,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.dark .orca-diff-comment-popover {
+.dark .capilot-diff-comment-popover {
   border-color: color-mix(in srgb, var(--foreground) 14%, var(--border));
   background: color-mix(in srgb, var(--foreground) 2%, var(--editor-surface));
   box-shadow:
@@ -3455,7 +3455,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.orca-diff-comment-popover-label {
+.capilot-diff-comment-popover-label {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -3464,7 +3464,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
   margin-bottom: 2px;
 }
 
-.orca-diff-comment-popover-textarea {
+.capilot-diff-comment-popover-textarea {
   width: 100%;
   min-height: 56px;
   max-height: 240px;
@@ -3484,36 +3484,36 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     box-shadow 150ms ease;
 }
 
-.dark .orca-diff-comment-popover-textarea {
+.dark .capilot-diff-comment-popover-textarea {
   border-color: color-mix(in srgb, var(--foreground) 10%, var(--border));
   background: color-mix(in srgb, var(--foreground) 3%, var(--editor-surface));
 }
 
-.orca-diff-comment-popover-textarea:focus {
+.capilot-diff-comment-popover-textarea:focus {
   border-color: color-mix(in srgb, var(--ring) 70%, var(--border));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 18%, transparent);
 }
 
-.dark .orca-diff-comment-popover-textarea:focus {
+.dark .capilot-diff-comment-popover-textarea:focus {
   border-color: color-mix(in srgb, var(--ring) 70%, var(--border));
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 12%, transparent);
 }
 
-.orca-diff-comment-popover-textarea::-webkit-scrollbar {
+.capilot-diff-comment-popover-textarea::-webkit-scrollbar {
   width: 12px;
 }
 
-.orca-diff-comment-popover-textarea::-webkit-scrollbar-track {
+.capilot-diff-comment-popover-textarea::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.orca-diff-comment-popover-textarea::-webkit-scrollbar-thumb {
+.capilot-diff-comment-popover-textarea::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--muted-foreground, #737373) 28%, transparent);
   border: 3px solid transparent;
   background-clip: padding-box;
 }
 
-.orca-diff-comment-popover-footer {
+.capilot-diff-comment-popover-footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -3522,7 +3522,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
 }
 
 /* Why: tours need a distinct item surface without highlighting the underlying target. */
-.orca-contextual-tour-panel {
+.capilot-contextual-tour-panel {
   --contextual-tour-panel-surface: color-mix(in srgb, var(--foreground) 7%, var(--popover));
   --contextual-tour-panel-border: color-mix(in srgb, var(--foreground) 14%, var(--border));
   background: var(--contextual-tour-panel-surface);
@@ -3532,7 +3532,7 @@ html.onboarding-tour-start-transition::view-transition-new(root) {
     0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
-.dark .orca-contextual-tour-panel {
+.dark .capilot-contextual-tour-panel {
   --contextual-tour-panel-surface: color-mix(in srgb, var(--foreground) 10%, var(--popover));
   --contextual-tour-panel-border: color-mix(in srgb, var(--foreground) 16%, var(--border));
   box-shadow:

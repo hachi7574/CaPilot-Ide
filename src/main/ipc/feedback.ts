@@ -75,7 +75,7 @@ type InternalFeedbackSubmitArgs = FeedbackSubmitArgs & {
 }
 
 // Why: the Slack notification and any follow-up investigation need to know
-// which Orca build and which OS the feedback came from. The main process is
+// which CaPilot build and which OS the feedback came from. The main process is
 // the only place with trusted access to these values (app.getVersion and the
 // node os module), so we enrich the payload here rather than trusting the
 // renderer.
@@ -171,7 +171,7 @@ function feedbackRequestBodyInit(body: FeedbackSubmitBody): Pick<RequestInit, 'b
     formData.append(
       'diagnosticBundleFile',
       new Blob([body.diagnosticBundle.content], { type: DIAGNOSTIC_BUNDLE_CONTENT_TYPE }),
-      `orca-diagnostics-${body.diagnosticBundle.bundleSubmissionId}.ndjson`
+      `capilot-diagnostics-${body.diagnosticBundle.bundleSubmissionId}.ndjson`
     )
   }
   appendFeedbackImagesToFormData(formData, body.images ?? [])

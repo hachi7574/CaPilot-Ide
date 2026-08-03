@@ -247,7 +247,7 @@ async function runOuter() {
     throw new Error('The native IBus Hangul E2E runner requires Linux/X11')
   }
 
-  const evidenceDir = mkdtempSync(path.join(os.tmpdir(), 'orca-terminal-ime-e2e-'))
+  const evidenceDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-terminal-ime-e2e-'))
   const runtimeDir = path.join(evidenceDir, 'runtime')
   mkdirSync(runtimeDir, { mode: 0o700 })
   mkdirSync(path.join(evidenceDir, 'config'))

@@ -1,4 +1,4 @@
-export const ORCA_PI_EXTENSION_FILE = 'orca-titlebar-spinner.ts'
+export const ORCA_PI_EXTENSION_FILE = 'capilot-titlebar-spinner.ts'
 
 export function getPiTitlebarExtensionSource(): string {
   return [

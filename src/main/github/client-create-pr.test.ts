@@ -148,7 +148,7 @@ describe('createGitHubPullRequest', () => {
     // run with --repo <fork> even though PR reads prefer upstream since #7331.
     getOwnerRepoForRemoteMock.mockImplementation(async (_repoPath: string, remoteName: string) =>
       remoteName === 'origin'
-        ? { owner: 'fsdwen', repo: 'orca' }
+        ? { owner: 'fsdwen', repo: 'capilot' }
         : { owner: 'stablyai', repo: 'orca' }
     )
     ghExecFileAsyncMock.mockResolvedValueOnce({
@@ -172,7 +172,7 @@ describe('createGitHubPullRequest', () => {
     })
 
     const [args] = ghExecFileAsyncMock.mock.calls[0]
-    expect(args[args.indexOf('--repo') + 1]).toBe('fsdwen/orca')
+    expect(args[args.indexOf('--repo') + 1]).toBe('fsdwen/capilot')
     expect(args[args.indexOf('--head') + 1]).toBe('my-branch')
   })
 
@@ -182,7 +182,7 @@ describe('createGitHubPullRequest', () => {
     getOwnerRepoMock.mockResolvedValueOnce(null)
     getEnterpriseGitHubRepoSlugMock.mockResolvedValueOnce({
       owner: 'team',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.acme-corp.com'
     })
     // gh prints the PR URL (not JSON); the GHES host must still parse directly.
@@ -206,7 +206,7 @@ describe('createGitHubPullRequest', () => {
     const [args, options] = ghExecFileAsyncMock.mock.calls[0]
     // The runner host-qualifies argv at spawn time from options.host, so the
     // mocked call sees a bare owner/repo plus the host in exec options.
-    expect(args[args.indexOf('--repo') + 1]).toBe('team/orca')
+    expect(args[args.indexOf('--repo') + 1]).toBe('team/capilot')
     expect(options).toMatchObject({ host: 'github.acme-corp.com' })
   })
 
@@ -214,7 +214,7 @@ describe('createGitHubPullRequest', () => {
     getOwnerRepoMock.mockResolvedValue(null)
     getEnterpriseGitHubRepoSlugMock.mockResolvedValue({
       owner: 'team',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.acme-corp.com'
     })
     // Create reports "already exists", forcing the pr-list fallback.
@@ -246,7 +246,7 @@ describe('createGitHubPullRequest', () => {
 
     const [listArgs, listOptions] = ghExecFileAsyncMock.mock.calls[1]
     expect(listArgs).toEqual(expect.arrayContaining(['pr', 'list']))
-    expect(listArgs[listArgs.indexOf('--repo') + 1]).toBe('team/orca')
+    expect(listArgs[listArgs.indexOf('--repo') + 1]).toBe('team/capilot')
     expect(listOptions).toMatchObject({ host: 'github.acme-corp.com' })
   })
 

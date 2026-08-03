@@ -39,7 +39,7 @@ async function startCanary(getStableActivityRevision: () => number | null): Prom
   let lastEventAt = 0
   const configuredCanaryDir = process.env.ORCA_WATCHER_CANARY_DIR
   try {
-    canaryDir = configuredCanaryDir ?? mkdtempSync(join(tmpdir(), 'orca-watcher-canary-'))
+    canaryDir = configuredCanaryDir ?? mkdtempSync(join(tmpdir(), 'capilot-watcher-canary-'))
     const watcher = await import('@parcel/watcher')
     // Why: pin the Windows backend like the main subscriptions do, so the
     // canary never probes for Watchman.

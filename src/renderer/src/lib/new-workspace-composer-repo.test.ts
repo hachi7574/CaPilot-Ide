@@ -100,8 +100,8 @@ describe('new-workspace-composer-repo', () => {
 
   describe('resolveComposerActiveRepoId', () => {
     const localOrca = makeRepo('local-orca', { upstream: { owner: 'stablyai', repo: 'orca' } })
-    const runtimeOrca = makeRepo('runtime-orca', {
-      connectionId: 'runtime-ssh-orca-1',
+    const runtimeOrca = makeRepo('runtime-capilot', {
+      connectionId: 'runtime-ssh-capilot-1',
       upstream: { owner: 'stablyai', repo: 'orca' }
     })
     const otherProject = makeRepo('noqa', { upstream: { owner: 'stablyai', repo: 'noqa' } })
@@ -109,11 +109,11 @@ describe('new-workspace-composer-repo', () => {
     const eligibleRepos = getComposerEligibleRepos(repos)
 
     it('maps an active runtime-owned SSH repo to its local same-project sibling', () => {
-      expect(resolveComposerActiveRepoId(repos, eligibleRepos, 'runtime-orca')).toBe('local-orca')
+      expect(resolveComposerActiveRepoId(repos, eligibleRepos, 'runtime-capilot')).toBe('local-capilot')
     })
 
     it('leaves a normal active repo unchanged', () => {
-      expect(resolveComposerActiveRepoId(repos, eligibleRepos, 'local-orca')).toBe('local-orca')
+      expect(resolveComposerActiveRepoId(repos, eligibleRepos, 'local-capilot')).toBe('local-capilot')
     })
 
     it('keeps the runtime repo id when no same-project sibling is eligible', () => {
@@ -122,9 +122,9 @@ describe('new-workspace-composer-repo', () => {
         resolveComposerActiveRepoId(
           onlyRuntime,
           getComposerEligibleRepos(onlyRuntime),
-          'runtime-orca'
+          'runtime-capilot'
         )
-      ).toBe('runtime-orca')
+      ).toBe('runtime-capilot')
     })
 
     it('passes through null/undefined active repo', () => {

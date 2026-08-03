@@ -4,7 +4,7 @@ import { getOrcaElectronLaunchArgs } from './electron-launch-args'
 
 describe('getOrcaElectronLaunchArgs', () => {
   it('launches the package root that owns the compiled main entry', () => {
-    const root = join('workspace', 'orca')
+    const root = join('workspace', 'capilot')
     const mainPath = join(root, 'out', 'main', 'index.js')
 
     expect(getOrcaElectronLaunchArgs(mainPath, true)).toEqual([root])

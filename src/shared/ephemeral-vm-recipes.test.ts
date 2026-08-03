@@ -61,7 +61,7 @@ describe('parseEphemeralVmRecipeResult', () => {
     }
   })
 
-  it('parses an orca-server connection result', () => {
+  it('parses an capilot-server connection result', () => {
     const pairingCode = makePairingCode()
 
     expect(
@@ -69,7 +69,7 @@ describe('parseEphemeralVmRecipeResult', () => {
         JSON.stringify({
           schemaVersion: 1,
           connection: {
-            type: 'orca-server',
+            type: 'capilot-server',
             pairingCode,
             projectRoot: '/workspace/repo'
           }
@@ -80,7 +80,7 @@ describe('parseEphemeralVmRecipeResult', () => {
       result: {
         schemaVersion: 1,
         connection: {
-          type: 'orca-server',
+          type: 'capilot-server',
           pairingCode,
           projectRoot: '/workspace/repo'
         }
@@ -184,7 +184,7 @@ describe('parseEphemeralVmRecipeResult', () => {
       )
     ).toEqual({
       ok: false,
-      error: 'Recipe result pairingCode is not a valid Orca pairing code.'
+      error: 'Recipe result pairingCode is not a valid CaPilot pairing code.'
     })
   })
 

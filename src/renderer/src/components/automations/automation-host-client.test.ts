@@ -57,7 +57,7 @@ function makeAutomation(overrides: Partial<Automation> = {}): Automation {
       hostId: 'runtime:gpu',
       projectHostSetupId: 'setup-gpu',
       repoId: 'repo-1',
-      path: '/srv/orca'
+      path: '/srv/capilot'
     },
     ...overrides
   }
@@ -138,7 +138,7 @@ describe('automation host client', () => {
         hostId: 'ssh:devbox',
         projectHostSetupId: 'setup-devbox',
         repoId: 'repo-1',
-        path: '/srv/orca'
+        path: '/srv/capilot'
       }
     })
     const sourceTarget = { kind: 'environment' as const, environmentId: 'gpu' }

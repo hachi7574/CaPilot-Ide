@@ -20,11 +20,11 @@ import {
 import { validatePluginManifestContributions } from './plugin-manifest-contribution-validation'
 
 /**
- * Plugin manifest v1 (`orca-plugin.json` at the plugin root). The
+ * Plugin manifest v1 (`capilot-plugin.json` at the plugin root). The
  * `contributes` key names deliberately mirror common Electron-ecosystem
  * manifest conventions so future adapters stay cheap.
  *
- * Lives in `shared` so the desktop app, the headless `orca serve` runtime,
+ * Lives in `shared` so the desktop app, the headless `capilot serve` runtime,
  * the relay, and the CLI validate manifests identically (SSH/remote parity).
  *
  * Everything here is EXPERIMENTAL: no compatibility promises until pluginApi
@@ -91,7 +91,7 @@ export const pluginManifestSchema = z
     repository: z.string().max(2048).optional(),
     icon: pluginRelativePathSchema.optional(),
     /** Minimum host version gate; the host refuses to load below it. */
-    engines: z.object({ orca: orcaEngineRangeSchema }),
+    engines: z.object({ capilot: orcaEngineRangeSchema }),
     /** Host-API major version this plugin targets. */
     pluginApi: z.literal(1),
     /** Node entry executed inside the out-of-process plugin worker. */
@@ -143,7 +143,7 @@ export {
   pluginCommandIdSchema
 } from './plugin-manifest-fields'
 
-export const PLUGIN_MANIFEST_FILENAME = 'orca-plugin.json'
+export const PLUGIN_MANIFEST_FILENAME = 'capilot-plugin.json'
 
 /** Canonical install identity: `<publisher>.<id>` (also the install dir name). */
 export function qualifiedPluginKey(manifest: Pick<PluginManifest, 'publisher' | 'id'>): string {

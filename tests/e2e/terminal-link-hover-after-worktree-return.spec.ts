@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getAllWorktreeIds,
@@ -81,7 +81,7 @@ async function locateHoverProbe(page: Page, needle: string): Promise<HoverProbe>
 /**
  * Dispatch a hover mousemove at the probe coordinates and return the text of
  * the link the linkifier considers active (or null). Callers poll this because
- * Orca's file-path provider resolves link candidates asynchronously.
+ * CaPilot's file-path provider resolves link candidates asynchronously.
  */
 async function hoverAndReadActiveLinkText(page: Page, probe: HoverProbe): Promise<string | null> {
   await page.evaluate(({ col, row, tabId }) => {
@@ -307,9 +307,9 @@ test.describe('Terminal link hover after worktree return', () => {
     await waitForPtyShellEcho(orcaPage, ptyId, 15_000)
 
     const worktreePath = await activeWorktreePath(orcaPage)
-    const fileName = `orca-linkfile-${randomUUID().slice(0, 8)}.txt`
+    const fileName = `capilot-linkfile-${randomUUID().slice(0, 8)}.txt`
     const filePath = path.join(worktreePath, fileName)
-    writeFileSync(filePath, 'orca file link target\n')
+    writeFileSync(filePath, 'capilot file link target\n')
     const needle = `./${fileName}`
 
     try {

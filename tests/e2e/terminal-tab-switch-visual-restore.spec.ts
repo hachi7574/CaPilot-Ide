@@ -1,5 +1,5 @@
 import type { Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   buildAltScreenFrame,
   describeAltScreenRenderPath,
@@ -368,7 +368,7 @@ async function startHiddenPtyOutputBurst(page: Page, ptyId: string, runId: strin
     '},30);'
   ].join('')
   // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
-  await runNodeScriptInTerminal(page, ptyId, script, { prefix: 'orca-tab-switch-burst' })
+  await runNodeScriptInTerminal(page, ptyId, script, { prefix: 'capilot-tab-switch-burst' })
 }
 
 async function writeStaticTabContent(

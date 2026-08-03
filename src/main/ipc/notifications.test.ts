@@ -106,7 +106,7 @@ describe('registerNotificationHandlers', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-03-28T16:00:00Z'))
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-notification-test-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-notification-test-'))
     removeHandlerMock.mockReset()
     handleMock.mockReset()
     notificationCtorMock.mockClear()
@@ -282,7 +282,7 @@ describe('registerNotificationHandlers', () => {
     expect(notificationCtorMock).not.toHaveBeenCalled()
   })
 
-  it('suppresses active-worktree notifications while Orca is focused', async () => {
+  it('suppresses active-worktree notifications while CaPilot is focused', async () => {
     getAllWindowsMock.mockReturnValue([
       {
         isDestroyed: () => false,
@@ -384,13 +384,13 @@ describe('registerNotificationHandlers', () => {
     expect(
       await handler(
         {},
-        { source: 'agent-task-complete', repoLabel: 'orca', worktreeLabel: 'feat/notis' }
+        { source: 'agent-task-complete', repoLabel: 'capilot', worktreeLabel: 'feat/notis' }
       )
     ).toEqual({ delivered: true })
     expect(notificationCtorMock).toHaveBeenCalledWith(
       expectedNativeNotificationOptions({
         title: 'Task complete in feat/notis',
-        body: 'orca'
+        body: 'capilot'
       })
     )
     expect(notificationShowMock).toHaveBeenCalledTimes(1)
@@ -415,8 +415,8 @@ describe('registerNotificationHandlers', () => {
       const handler = getDispatchHandler()
       expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
       expect(notificationCtorMock).toHaveBeenCalledWith({
-        title: 'Orca notifications are on',
-        body: 'This is a test notification from Orca.',
+        title: 'CaPilot notifications are on',
+        body: 'This is a test notification from CaPilot.',
         sound: 'default'
       })
     } finally {
@@ -443,8 +443,8 @@ describe('registerNotificationHandlers', () => {
       const handler = getDispatchHandler()
       expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
       expect(notificationCtorMock).toHaveBeenCalledWith({
-        title: 'Orca notifications are on',
-        body: 'This is a test notification from Orca.',
+        title: 'CaPilot notifications are on',
+        body: 'This is a test notification from CaPilot.',
         silent: true
       })
     } finally {
@@ -578,7 +578,7 @@ describe('registerNotificationHandlers', () => {
           source: 'agent-task-complete',
           worktreeId: 'repo::wt1',
           worktreeLabel: 'feat/notis',
-          repoLabel: 'orca',
+          repoLabel: 'capilot',
           terminalTitle: '* Claude done',
           agentType: 'codex',
           agentState: 'done',
@@ -616,7 +616,7 @@ describe('registerNotificationHandlers', () => {
           source: 'agent-task-complete',
           worktreeId: 'repo::wt1',
           worktreeLabel: 'feat/notis',
-          repoLabel: 'orca',
+          repoLabel: 'capilot',
           hasMultipleActiveRepos: true,
           agentType: 'codex',
           agentState: 'done',
@@ -627,7 +627,7 @@ describe('registerNotificationHandlers', () => {
 
     expect(notificationCtorMock).toHaveBeenCalledWith(
       expectedNativeNotificationOptions({
-        title: 'orca / feat/notis - Codex finished',
+        title: 'capilot / feat/notis - Codex finished',
         body: 'Updated the notification body.'
       })
     )
@@ -1091,8 +1091,8 @@ describe('registerNotificationHandlers', () => {
     const handler = getDispatchHandler()
     expect(await handler({}, { source: 'test' })).toEqual({ delivered: true })
     expect(notificationCtorMock).toHaveBeenCalledWith({
-      title: 'Orca notifications are on',
-      body: 'This is a test notification from Orca.',
+      title: 'CaPilot notifications are on',
+      body: 'This is a test notification from CaPilot.',
       silent: true
     })
   })
@@ -1619,8 +1619,8 @@ describe('triggerStartupNotificationRegistration', () => {
 
     expect(store.updateUI).toHaveBeenCalledWith({ notificationPermissionRequested: true })
     expect(notificationCtorMock).toHaveBeenCalledWith({
-      title: 'Orca is ready to notify you',
-      body: 'Allow notifications so Orca can alert you when agents finish or terminals need attention.'
+      title: 'CaPilot is ready to notify you',
+      body: 'Allow notifications so CaPilot can alert you when agents finish or terminals need attention.'
     })
     expect(notificationShowMock).toHaveBeenCalledTimes(1)
   })

@@ -28,10 +28,10 @@ import { deleteMobileRelayCredentialBundle } from './mobile-relay-credential-bun
 import { deleteMobileRelayDirectUpgradeJournal } from './mobile-relay-direct-upgrade-journal'
 import { scheduleOrphanedMobileRelayCleanup } from './mobile-relay-orphan-cleanup'
 
-const STORAGE_KEY = 'orca:hosts'
+const STORAGE_KEY = 'capilot:hosts'
 // Why: SecureStore keys must match [A-Za-z0-9._-] (colons rejected), so use dots as the separator.
-const TOKEN_KEY_PREFIX = 'orca.host-token.'
-const WEB_TOKEN_KEY_PREFIX = 'orca:web-host-token:'
+const TOKEN_KEY_PREFIX = 'capilot.host-token.'
+const WEB_TOKEN_KEY_PREFIX = 'capilot:web-host-token:'
 
 function tokenKey(hostId: string): string {
   return `${TOKEN_KEY_PREFIX}${hostId}`

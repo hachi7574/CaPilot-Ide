@@ -114,7 +114,7 @@ function createFakeRelay(): FakeRelay {
     }
   }))
   dispatcher.onRequest('session.resolveHome', async (params) => ({
-    resolvedPath: params.path === '~' ? '/home/orca' : params.path
+    resolvedPath: params.path === '~' ? '/home/capilot' : params.path
   }))
   dispatcher.onRequest('git.listWorktrees', async () => [])
   dispatcher.onRequest('ports.detect', async () => ({ ports: [], platform: 'linux' }))
@@ -123,7 +123,7 @@ function createFakeRelay(): FakeRelay {
     return { id: `remote-pty-${ptySpawnRequests.length}` }
   })
   dispatcher.onRequest(AGENT_HOOK_REQUEST_REPLAY_METHOD, async () => {
-    // Why: relay replay must arrive after Orca wires its listener and before
+    // Why: relay replay must arrive after CaPilot wires its listener and before
     // the request resolves, matching the real relay ordering contract.
     for (const envelope of replayEnvelopes) {
       dispatcher.notify(
@@ -259,7 +259,7 @@ describe('SshRelaySession agent hooks over a fake relay transport', () => {
     const spawn = await provider!.spawn({
       cols: 120,
       rows: 40,
-      cwd: '/home/orca/project',
+      cwd: '/home/capilot/project',
       env: {
         ORCA_PANE_KEY: `tab-ssh:${SSH_LEAF_ID}`,
         ORCA_TAB_ID: 'tab-ssh',
@@ -270,7 +270,7 @@ describe('SshRelaySession agent hooks over a fake relay transport', () => {
     expect(spawn.id).toBe(toAppSshPtyId('conn-fake', 'remote-pty-1'))
     expect(relay.ptySpawnRequests).toHaveLength(1)
     expect(relay.ptySpawnRequests[0]).toMatchObject({
-      cwd: '/home/orca/project',
+      cwd: '/home/capilot/project',
       env: {
         ORCA_PANE_KEY: `tab-ssh:${SSH_LEAF_ID}`,
         ORCA_TAB_ID: 'tab-ssh',
@@ -372,7 +372,7 @@ describe('SshRelaySession agent hooks over a fake relay transport', () => {
     })
   })
 
-  it('drops malformed remote hook notifications at Orca main before caching', async () => {
+  it('drops malformed remote hook notifications at CaPilot main before caching', async () => {
     relay = createFakeRelay()
     vi.mocked(deployAndLaunchRelay).mockResolvedValue({
       transport: relay.transport,

@@ -7,7 +7,7 @@
  * the overlay renders on first paint without any setup.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 import type { Page } from '@stablyai/playwright-test'
 import type { GlobalSettings, TuiAgent } from '../../src/shared/types'
@@ -502,9 +502,9 @@ test.describe('Onboarding flow', () => {
     await continueFromThemeToNotifications(orcaPage)
 
     await orcaPage.evaluate(() => {
-      localStorage.removeItem('orca.e2e.notificationPermissionRequested')
+      localStorage.removeItem('capilot.e2e.notificationPermissionRequested')
       window.api.notifications.requestPermission = async () => {
-        localStorage.setItem('orca.e2e.notificationPermissionRequested', '1')
+        localStorage.setItem('capilot.e2e.notificationPermissionRequested', '1')
         return { supported: true, platform: 'darwin', requested: true }
       }
     })
@@ -517,7 +517,7 @@ test.describe('Onboarding flow', () => {
     await expect
       .poll(
         async () =>
-          orcaPage.evaluate(() => localStorage.getItem('orca.e2e.notificationPermissionRequested')),
+          orcaPage.evaluate(() => localStorage.getItem('capilot.e2e.notificationPermissionRequested')),
         { timeout: 5_000 }
       )
       .toBeNull()

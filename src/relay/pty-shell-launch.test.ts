@@ -51,7 +51,7 @@ function expectZdotdirSourceContext(content: string, fileName: '.zprofile' | '.z
 }
 
 function expectFinalZdotdirRestoreContext(content: string) {
-  expect(content).toContain("after Orca's last wrapper file has loaded")
+  expect(content).toContain("after CaPilot's last wrapper file has loaded")
   expect(content).toContain('export ZDOTDIR="$_orca_home"')
 }
 
@@ -71,9 +71,9 @@ describe('getRelayShellLaunchConfig', () => {
     () => {
       const config = getRelayShellLaunchConfig('/bin/zsh', {
         HOME: homeDir,
-        ORCA_OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-overlay'
+        ORCA_OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-overlay'
       })
-      const zshRoot = join(homeDir, '.orca-relay', 'shell-ready', 'zsh')
+      const zshRoot = join(homeDir, '.capilot-relay', 'shell-ready', 'zsh')
 
       expect(config.args).toEqual(['-l'])
       expect(config.env.ZDOTDIR).toBe(zshRoot)
@@ -123,13 +123,13 @@ describe('getRelayShellLaunchConfig', () => {
   })
 
   it.skipIf(process.platform === 'win32')('rewrites stale persistent wrapper files', () => {
-    const zshRoot = join(homeDir, '.orca-relay', 'shell-ready', 'zsh')
+    const zshRoot = join(homeDir, '.capilot-relay', 'shell-ready', 'zsh')
     mkdirSync(zshRoot, { recursive: true })
     writeFileSync(join(zshRoot, '.zshenv'), '# stale relay wrapper\n')
 
     getRelayShellLaunchConfig('/bin/zsh', {
       HOME: homeDir,
-      ORCA_OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-overlay'
+      ORCA_OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-overlay'
     })
 
     expect(readFileSync(join(zshRoot, '.zshenv'), 'utf8')).toContain(
@@ -142,9 +142,9 @@ describe('getRelayShellLaunchConfig', () => {
     () => {
       const config = getRelayShellLaunchConfig('/bin/zsh', {
         HOME: homeDir,
-        ORCA_MIMOCODE_HOME: '/tmp/orca-mimocode-overlay'
+        ORCA_MIMOCODE_HOME: '/tmp/capilot-mimocode-overlay'
       })
-      const zshRoot = join(homeDir, '.orca-relay', 'shell-ready', 'zsh')
+      const zshRoot = join(homeDir, '.capilot-relay', 'shell-ready', 'zsh')
       const zshrc = readFileSync(join(zshRoot, '.zshrc'), 'utf8')
 
       expect(config.args).toEqual(['-l'])
@@ -159,7 +159,7 @@ describe('getRelayShellLaunchConfig', () => {
     'wraps bash even without overlay env for OSC 133 lifecycle markers',
     () => {
       const config = getRelayShellLaunchConfig('/bin/bash', { HOME: homeDir })
-      const rcfile = join(homeDir, '.orca-relay', 'shell-ready', 'bash', 'rcfile')
+      const rcfile = join(homeDir, '.capilot-relay', 'shell-ready', 'bash', 'rcfile')
       const bashRc = readFileSync(rcfile, 'utf8')
 
       expect(config.args).toEqual(['--rcfile', rcfile])
@@ -175,14 +175,14 @@ describe('getRelayShellLaunchConfig', () => {
       const config = getRelayShellLaunchConfig('/bin/zsh', { HOME: homeDir }, 'linux', {
         emitReadyMarker: true
       })
-      const zshRoot = join(homeDir, '.orca-relay', 'shell-ready', 'zsh')
+      const zshRoot = join(homeDir, '.capilot-relay', 'shell-ready', 'zsh')
       const zlogin = readFileSync(join(zshRoot, '.zlogin'), 'utf8')
 
       expect(config.args).toEqual(['-l'])
       expect(config.env.ZDOTDIR).toBe(zshRoot)
       expect(config.env.ORCA_SHELL_READY_MARKER).toBe('1')
       expect(zlogin).toContain('zle -N zle-line-init __orca_prompt_mark')
-      expect(zlogin).toContain('printf "\\033]777;orca-shell-ready\\007"')
+      expect(zlogin).toContain('printf "\\033]777;capilot-shell-ready\\007"')
     }
   )
 
@@ -196,7 +196,7 @@ describe('getRelayShellLaunchConfig', () => {
 
       expect(config.env.ORCA_SHELL_READY_MARKER).toBe('1')
       expect(bashRc).toContain('__orca_append_prompt_command "__orca_prompt_mark"')
-      expect(bashRc).toContain('printf "\\033]777;orca-shell-ready\\007"')
+      expect(bashRc).toContain('printf "\\033]777;capilot-shell-ready\\007"')
     }
   )
 
@@ -237,7 +237,7 @@ describe('getRelayShellLaunchConfig', () => {
 
   // Why: RHEL-family /etc/bashrc prepends "history -a; " to PROMPT_COMMAND
   // outside its BASHRCSOURCED guard (repeated across re-sources), so the value
-  // Orca inherits ends in a ";"+whitespace separator. Prepend/append must not
+  // CaPilot inherits ends in a ";"+whitespace separator. Prepend/append must not
   // splice an empty command (";;") that breaks the prompt with a syntax error.
   itWithBash('normalizes an inherited PROMPT_COMMAND ending in a separator', () => {
     writeFileSync(

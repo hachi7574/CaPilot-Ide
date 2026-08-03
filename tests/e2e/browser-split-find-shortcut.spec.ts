@@ -1,4 +1,4 @@
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import type { Page } from '@stablyai/playwright-test'
 import { focusActiveTerminalInput } from './helpers/terminal'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
@@ -84,7 +84,7 @@ async function createBrowserSplit(page: Page): Promise<BrowserSplitFixture> {
 
 function browserAddressBar(page: Page, browserTabId: string) {
   return page.locator(
-    `[data-browser-overlay-tab-id="${browserTabId}"] [data-orca-browser-address-bar="true"]`
+    `[data-browser-overlay-tab-id="${browserTabId}"] [data-capilot-browser-address-bar="true"]`
   )
 }
 
@@ -92,7 +92,7 @@ async function focusBrowserAddressBar(page: Page, browserTabId: string): Promise
   const browserOverlay = page.locator(`[data-browser-overlay-tab-id="${browserTabId}"]`)
   const addressBar = browserAddressBar(page, browserTabId)
   const addressBarForm = browserOverlay.locator(
-    'form:has(> [data-orca-browser-address-bar="true"])'
+    'form:has(> [data-capilot-browser-address-bar="true"])'
   )
   await expect(addressBarForm).toBeVisible()
   await addressBarForm.click()

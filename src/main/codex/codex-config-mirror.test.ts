@@ -47,8 +47,8 @@ function getRuntimeConfigPath(): string {
 }
 
 beforeEach(() => {
-  fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-config-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-config-user-data-'))
+  fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-config-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-config-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(fakeHomeDir)
@@ -380,7 +380,7 @@ describe('syncSystemConfigIntoManagedCodexHome', () => {
 
   it('deduplicates a CRLF system project header against an LF runtime header', () => {
     mkdirSync(join(userDataDir, 'codex-runtime-home', 'home'), { recursive: true })
-    const projectHeader = '[projects."C:/Users/jinwo/orca/workspaces/orca/repo"]'
+    const projectHeader = '[projects."C:/Users/jinwo/capilot/workspaces/capilot/repo"]'
     writeFileSync(
       getRuntimeConfigPath(),
       [projectHeader, 'trust_level = "trusted"', ''].join('\n'),
@@ -401,7 +401,7 @@ describe('syncSystemConfigIntoManagedCodexHome', () => {
 
   it('self-heals duplicate project tables in a CRLF runtime config', () => {
     mkdirSync(join(userDataDir, 'codex-runtime-home', 'home'), { recursive: true })
-    const projectHeader = '[projects."C:/Users/jinwo/orca/workspaces/orca/repo"]'
+    const projectHeader = '[projects."C:/Users/jinwo/capilot/workspaces/capilot/repo"]'
     writeFileSync(
       getRuntimeConfigPath(),
       [
@@ -753,7 +753,7 @@ describe('syncSystemConfigIntoManagedCodexHome', () => {
 describe('syncSystemConfigIntoLegacySharedCodexHome', () => {
   it('recovers an interrupted runtime config when the system source is missing', () => {
     const runtimeConfigPath = getRuntimeConfigPath()
-    const heldConfigPath = `${runtimeConfigPath}.orca-guarded`
+    const heldConfigPath = `${runtimeConfigPath}.capilot-guarded`
     mkdirSync(join(userDataDir, 'codex-runtime-home', 'home'), { recursive: true })
     writeFileSync(heldConfigPath, 'model = "retained"\n', 'utf-8')
 

@@ -1,7 +1,7 @@
 import os from 'node:os'
 
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   UUID_RE,
@@ -122,7 +122,7 @@ async function postCodexHook(
       '    sleep 0.1',
       '    if curl -sS -X POST "http://127.0.0.1:${ORCA_AGENT_HOOK_PORT}/hook/codex" \\',
       '      -H "Content-Type: application/x-www-form-urlencoded" \\',
-      '      -H "X-Orca-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \\',
+      '      -H "X-CaPilot-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \\',
       '      --data-urlencode "paneKey=${ORCA_PANE_KEY}" \\',
       '      --data-urlencode "tabId=${ORCA_TAB_ID}" \\',
       '      --data-urlencode "worktreeId=${ORCA_WORKTREE_ID}" \\',
@@ -306,8 +306,8 @@ test.describe('Localhost SSH', () => {
       orcaPage,
       ptyId,
       [
-        'opencode_status_file="$OPENCODE_CONFIG_DIR/plugins/orca-opencode-status.js"',
-        'pi_status_file="$HOME/.pi/agent/extensions/orca-agent-status.ts"',
+        'opencode_status_file="$OPENCODE_CONFIG_DIR/plugins/capilot-opencode-status.js"',
+        'pi_status_file="$HOME/.pi/agent/extensions/capilot-agent-status.ts"',
         'if [ -n "$OPENCODE_CONFIG_DIR" ] && [ -f "$opencode_status_file" ] && [ -f "$pi_status_file" ]; then',
         `  ${emitMarkerCommand(pluginOverlayMarker)}`,
         'else',
@@ -317,7 +317,7 @@ test.describe('Localhost SSH', () => {
     )
     await waitForTerminalOutput(orcaPage, pluginOverlayMarker, 20_000)
 
-    const prompt = `orca ssh e2e prompt ${Date.now()}`
+    const prompt = `capilot ssh e2e prompt ${Date.now()}`
     await postCodexHook(
       orcaPage,
       ptyId,
@@ -353,7 +353,7 @@ test.describe('Localhost SSH', () => {
       )
       .toBe(true)
 
-    const ctrlPrompt = `orca ssh ctrl-c interrupt ${Date.now()}`
+    const ctrlPrompt = `capilot ssh ctrl-c interrupt ${Date.now()}`
     await postCodexHook(
       orcaPage,
       ptyId,
@@ -427,7 +427,7 @@ test.describe('Localhost SSH', () => {
       )
       .toEqual({ state: 'working', interrupted: undefined, prompt: ctrlPrompt })
 
-    const escapePrompt = `orca ssh escape interrupt ${Date.now()}`
+    const escapePrompt = `capilot ssh escape interrupt ${Date.now()}`
     await postCodexHook(
       orcaPage,
       ptyId,

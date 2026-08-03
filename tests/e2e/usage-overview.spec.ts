@@ -1,4 +1,4 @@
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { getStoreState, waitForSessionReady } from './helpers/store'
 
 test.describe('usage overview', () => {

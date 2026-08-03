@@ -53,7 +53,7 @@ describe('OpenCode MessagePart flood benchmark', () => {
 
   beforeEach(async () => {
     getCohortAtEmitMock.mockReturnValue({ nth_repo_added: 2 })
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-hook-bench-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-hook-bench-'))
     server = new AgentHookServer()
     listenerEvents = 0
     server.setListener(() => {
@@ -72,7 +72,7 @@ describe('OpenCode MessagePart flood benchmark', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+        'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
       },
       body: JSON.stringify({
         paneKey: PANE,

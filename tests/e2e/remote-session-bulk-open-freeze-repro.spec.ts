@@ -4,7 +4,7 @@
  * Trigger: reopening many remote sessions on Remote Server / SSH with agents.
  *
  * Topology under test:
- *   R1: headless Remote Orca host + paired desktop web client (paired-remote-server)
+ *   R1: headless Remote CaPilot host + paired desktop web client (paired-remote-server)
  *
  * Measurement:
  *   renderer timer drift during hidden flood + bulk worktree/tab open.
@@ -20,7 +20,7 @@
  *   pnpm run test:e2e:remote-bulk-open-freeze
  */
 import path from 'node:path'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import { launchHeadlessPairedRuntimeHost } from './helpers/headless-paired-runtime-host'
 import {
   createRuntimeDesktopPairingOffer,

@@ -155,7 +155,7 @@ describe('getHostedReviewForBranch', () => {
   it('routes local WSL project branch lookup through provider detection and the selected provider', async () => {
     getProjectSlugMock.mockResolvedValue(null)
     getRepoSlugMock.mockResolvedValue(null)
-    getBitbucketRepoSlugMock.mockResolvedValue({ workspace: 'team', repoSlug: 'orca' })
+    getBitbucketRepoSlugMock.mockResolvedValue({ workspace: 'team', repoSlug: 'capilot' })
     getBitbucketPullRequestForBranchMock.mockResolvedValue({
       number: 22,
       title: 'Bitbucket WSL branch',
@@ -229,7 +229,7 @@ describe('getHostedReviewForBranch', () => {
   it('falls through to Bitbucket when origin is not GitLab or GitHub', async () => {
     getProjectSlugMock.mockResolvedValue(null)
     getRepoSlugMock.mockResolvedValue(null)
-    getBitbucketRepoSlugMock.mockResolvedValue({ workspace: 'team', repoSlug: 'orca' })
+    getBitbucketRepoSlugMock.mockResolvedValue({ workspace: 'team', repoSlug: 'capilot' })
     getBitbucketPullRequestForBranchMock.mockResolvedValue({
       number: 11,
       title: 'Bitbucket branch',
@@ -276,7 +276,7 @@ describe('getHostedReviewForBranch', () => {
     getGiteaRepoSlugMock.mockResolvedValue({
       host: 'git.example.com',
       owner: 'team',
-      repo: 'orca'
+      repo: 'capilot'
     })
     getGiteaPullRequestForBranchMock.mockResolvedValue({
       number: 14,
@@ -324,7 +324,7 @@ describe('getHostedReviewForBranch', () => {
       host: 'dev.azure.com',
       organization: 'team',
       project: 'Project',
-      repository: 'orca'
+      repository: 'capilot'
     })
     getAzureDevOpsPullRequestForBranchMock.mockResolvedValue({
       number: 21,

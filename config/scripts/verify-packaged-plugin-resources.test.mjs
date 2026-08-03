@@ -9,7 +9,7 @@ const { verifyPackagedPluginResources } = require('./verify-packaged-plugin-reso
 
 describe('verify packaged plugin resources', () => {
   it('accepts exact launch bytes copied into a packaged resources directory', async () => {
-    const resourcesDir = await mkdtemp(join(tmpdir(), 'orca-packaged-plugins-'))
+    const resourcesDir = await mkdtemp(join(tmpdir(), 'capilot-packaged-plugins-'))
     try {
       await cp(
         join(process.cwd(), 'resources', 'plugins', 'launch'),
@@ -24,7 +24,7 @@ describe('verify packaged plugin resources', () => {
   })
 
   it('rejects mutated bytes in the packaged output', async () => {
-    const resourcesDir = await mkdtemp(join(tmpdir(), 'orca-packaged-plugins-'))
+    const resourcesDir = await mkdtemp(join(tmpdir(), 'capilot-packaged-plugins-'))
     try {
       const launchRoot = join(resourcesDir, 'plugins', 'launch')
       await cp(join(process.cwd(), 'resources', 'plugins', 'launch'), launchRoot, {
@@ -51,7 +51,7 @@ describe('verify packaged plugin resources', () => {
   })
 
   it('rejects a CRLF checkout of the launch tree', async () => {
-    const resourcesDir = await mkdtemp(join(tmpdir(), 'orca-packaged-plugins-'))
+    const resourcesDir = await mkdtemp(join(tmpdir(), 'capilot-packaged-plugins-'))
     try {
       const launchRoot = join(resourcesDir, 'plugins', 'launch')
       await cp(join(process.cwd(), 'resources', 'plugins', 'launch'), launchRoot, {

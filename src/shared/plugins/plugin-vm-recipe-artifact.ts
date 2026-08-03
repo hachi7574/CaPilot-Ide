@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { ORCA_VM_RECIPE_ID_PATTERN, ORCA_VM_RECIPE_ID_RULE } from '../orca-yaml'
+import { ORCA_VM_RECIPE_ID_PATTERN, ORCA_VM_RECIPE_ID_RULE } from '../capilot-yaml'
 import type { OrcaVmRecipe } from '../types'
 
 const recipeCommandSchema = z

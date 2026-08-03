@@ -8,14 +8,14 @@ import { resolveWindowsShellLaunchArgs } from './providers/windows-shell-args'
 
 const WINDOWS_POWERSHELLS = ['powershell.exe', 'pwsh.exe'] as const
 const PROFILE_CODEX_HOME = 'C:\\Profile Custom\\codex'
-const MANAGED_CODEX_HOME = 'C:\\Orca Managed\\codex-runtime-home'
+const MANAGED_CODEX_HOME = 'C:\\CaPilot Managed\\codex-runtime-home'
 
 for (const shell of WINDOWS_POWERSHELLS) {
   describe.runIf(isAvailable(shell))(`${shell} managed home bootstrap`, () => {
     it.each(['FullLanguage', 'ConstrainedLanguage'] as const)(
       'restores CODEX_HOME and continues startup in %s mode',
       (languageMode) => {
-        const cwd = mkdtempSync(join(tmpdir(), 'orca-powershell-clm-'))
+        const cwd = mkdtempSync(join(tmpdir(), 'capilot-powershell-clm-'))
         try {
           expect(runBootstrap(shell, languageMode, cwd)).toContain(
             `mode=${languageMode};codexHome=${MANAGED_CODEX_HOME};orcaHome=${MANAGED_CODEX_HOME};startupCount=2;cwd=${cwd}`

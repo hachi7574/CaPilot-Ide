@@ -5,7 +5,7 @@ import { homedir } from 'node:os'
 import { getOpenCodeFamilyPluginSource } from '../opencode/hook-service'
 import { mirrorEntry, safeRemoveTree } from '../pty/overlay-mirror'
 
-const ORCA_MIMOCODE_PLUGIN_FILE = 'orca-mimocode-status.js'
+const ORCA_MIMOCODE_PLUGIN_FILE = 'capilot-mimocode-status.js'
 const MIMOCODE_HOOKS_DIR = 'mimocode-hooks'
 const MIMOCODE_SHARED_HOME = 'shared'
 

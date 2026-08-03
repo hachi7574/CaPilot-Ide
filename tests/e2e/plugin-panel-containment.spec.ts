@@ -12,7 +12,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { AddressInfo } from 'node:net'
 import type { ElectronApplication, FrameLocator, Page, TestInfo } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   readPanelNavigationObserver,
   startPanelNavigationObserver,
@@ -84,7 +84,7 @@ async function startPermissiveProbeServer(): Promise<ProbeServer> {
 }
 
 async function materializeHostilePlugin(origin: string): Promise<string> {
-  const tempRoot = await mkdtemp(join(tmpdir(), 'orca-hostile-panel-e2e-'))
+  const tempRoot = await mkdtemp(join(tmpdir(), 'capilot-hostile-panel-e2e-'))
   const pluginRoot = join(tempRoot, 'hostile-panel')
   await cp(join(process.cwd(), 'examples', 'plugins', 'hostile-panel'), pluginRoot, {
     recursive: true
@@ -258,7 +258,7 @@ test('contains hostile panel network and navigation probes', async ({
             if (
               event.source !== window.parent ||
               !data ||
-              data.type !== 'orca-panel-action-result' ||
+              data.type !== 'capilot-panel-action-result' ||
               data.requestId !== requestId
             ) {
               return
@@ -270,7 +270,7 @@ test('contains hostile panel network and navigation probes', async ({
           window.addEventListener('message', onMessage)
           window.parent.postMessage(
             {
-              type: 'orca-panel-action',
+              type: 'capilot-panel-action',
               requestId,
               action: 'invalid.hostileAction',
               params: {}
@@ -464,7 +464,7 @@ test('detects and suspends a busy-looping panel in an isolated renderer', async 
     const iframe = orcaPage.locator(`iframe[title="${panel.title}"]`)
     await iframe.evaluate((element) => {
       const panelWindow = (element as HTMLIFrameElement).contentWindow
-      panelWindow?.postMessage({ type: 'orca-hostile-busy-probe' }, '*')
+      panelWindow?.postMessage({ type: 'capilot-hostile-busy-probe' }, '*')
     })
 
     await expect(

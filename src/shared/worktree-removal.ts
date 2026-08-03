@@ -66,7 +66,7 @@ export function classifyWorktreeForceDeleteReason(
 ): WorktreeForceDeleteReason | null {
   if (isLockedWorktreeRemovalError(error)) {
     // Why: a Git lock can represent an external safety contract. It must be
-    // unlocked explicitly rather than folded into Orca's dirty-file force path.
+    // unlocked explicitly rather than folded into CaPilot's dirty-file force path.
     return null
   }
   // Why (#11960): this must be decided before the `force` guard below. The ordinary

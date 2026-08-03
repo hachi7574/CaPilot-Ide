@@ -307,7 +307,7 @@ test('native Windows reconnect cannot turn stale mirror exits into cross-generat
         (generation) =>
           generation.socketPath.startsWith('\\\\') &&
           generation.socketPath.includes(
-            `\\pipe\\orca-terminal-host-v${generation.protocolVersion}-`
+            `\\pipe\\capilot-terminal-host-v${generation.protocolVersion}-`
           )
       )
     ).toBe(true)

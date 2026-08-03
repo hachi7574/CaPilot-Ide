@@ -62,8 +62,8 @@ function formatRemoteRuntimeCloseMessage(code: number, reason: Buffer): string {
     suffixParts.push(reasonText)
   }
   return suffixParts.length > 0
-    ? `Remote Orca runtime closed the connection (${suffixParts.join(': ')}).`
-    : 'Remote Orca runtime closed the connection.'
+    ? `Remote CaPilot runtime closed the connection (${suffixParts.join(': ')}).`
+    : 'Remote CaPilot runtime closed the connection.'
 }
 
 export type RemoteRuntimeSubscription = {
@@ -137,7 +137,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
       socket.off('error', onError)
       socket.off('close', onClose)
       socket.off('message', onMessage)
-      // Why: the settled one-shot no longer needs Orca callbacks, but a ws
+      // Why: the settled one-shot no longer needs CaPilot callbacks, but a ws
       // can still report a late transport error after close is requested.
       if (socket.readyState !== WebSocket.CLOSED) {
         socket.on('error', ignoreSettledRemoteRuntimeSocketError)
@@ -151,7 +151,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
         ok: false,
         error: new RemoteRuntimeClientError(
           'runtime_timeout',
-          'Timed out waiting for the remote Orca runtime to respond.',
+          'Timed out waiting for the remote CaPilot runtime to respond.',
           { pairingStage: getPairingStage() }
         )
       })
@@ -217,7 +217,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
         ok: false,
         error: new RemoteRuntimeClientError(
           'remote_runtime_unavailable',
-          'Could not connect to the remote Orca runtime.',
+          'Could not connect to the remote CaPilot runtime.',
           { pairingStage: getPairingStage() }
         )
       })
@@ -248,7 +248,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an unexpected binary frame.',
+            'Remote CaPilot runtime returned an unexpected binary frame.',
             {
               pairingStage: state === 'awaiting_ready' ? 'host-identity' : getPairingStage()
             }
@@ -269,7 +269,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an undecryptable frame.',
+            'Remote CaPilot runtime returned an undecryptable frame.',
             {
               pairingStage: state === 'awaiting_authenticated' ? 'host-identity' : getPairingStage()
             }
@@ -300,7 +300,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid E2EE handshake frame.',
+            'Remote CaPilot runtime returned an invalid E2EE handshake frame.',
             { pairingStage: 'host-identity' }
           )
         })
@@ -315,7 +315,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an unexpected E2EE handshake frame.',
+            'Remote CaPilot runtime returned an unexpected E2EE handshake frame.',
             { pairingStage: 'host-identity' }
           )
         })
@@ -334,7 +334,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid E2EE auth frame.',
+            'Remote CaPilot runtime returned an invalid E2EE auth frame.',
             { pairingStage: 'host-identity' }
           )
         })
@@ -352,7 +352,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             code,
-            'Remote Orca runtime rejected the pairing token.',
+            'Remote CaPilot runtime rejected the pairing token.',
             { pairingStage: code === 'unauthorized' ? 'access-grant' : 'host-identity' }
           )
         })
@@ -366,7 +366,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'remote_runtime_unavailable',
-            'Remote Orca runtime request was released before it could be sent.'
+            'Remote CaPilot runtime request was released before it could be sent.'
           )
         })
         return
@@ -383,7 +383,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid response frame.',
+            'Remote CaPilot runtime returned an invalid response frame.',
             { pairingStage: 'runtime' }
           )
         })
@@ -399,7 +399,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid response frame.',
+            'Remote CaPilot runtime returned an invalid response frame.',
             { pairingStage: 'runtime' }
           )
         })
@@ -411,7 +411,7 @@ export async function sendRemoteRuntimeRequest<TResult>(
           ok: false,
           error: new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned a mismatched response id.',
+            'Remote CaPilot runtime returned a mismatched response id.',
             { pairingStage: 'runtime' }
           )
         })
@@ -467,7 +467,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
       socket.off('pong', onLivenessSignal)
       socket.off('ping', onLivenessSignal)
       ws = null
-      // Why: startup failures detach Orca callbacks before closing the ws,
+      // Why: startup failures detach CaPilot callbacks before closing the ws,
       // but ws can still emit a late transport error while close is in flight.
       if (socket.readyState !== WebSocket.CLOSED) {
         socket.on('error', ignoreSettledRemoteRuntimeSocketError)
@@ -488,7 +488,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
       fail(
         new RemoteRuntimeClientError(
           'runtime_timeout',
-          'Timed out waiting for the remote Orca runtime subscription to start.'
+          'Timed out waiting for the remote CaPilot runtime subscription to start.'
         )
       )
     }, timeoutMs)
@@ -519,7 +519,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
             fail(
               new RemoteRuntimeClientError(
                 'remote_runtime_unavailable',
-                'Remote Orca runtime send buffer overflow; reconnecting.'
+                'Remote CaPilot runtime send buffer overflow; reconnecting.'
               )
             )
         })
@@ -586,7 +586,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
       fail(
         new RemoteRuntimeClientError(
           'remote_runtime_unavailable',
-          'Could not connect to the remote Orca runtime.'
+          'Could not connect to the remote CaPilot runtime.'
         )
       )
     }
@@ -625,7 +625,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an undecryptable frame.'
+            'Remote CaPilot runtime returned an undecryptable frame.'
           )
         )
         return
@@ -667,7 +667,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'remote_runtime_unavailable',
-            'Remote Orca runtime stopped responding; the stream connection was reset.'
+            'Remote CaPilot runtime stopped responding; the stream connection was reset.'
           )
         )
         try {
@@ -688,7 +688,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid E2EE handshake frame.'
+            'Remote CaPilot runtime returned an invalid E2EE handshake frame.'
           )
         )
         return
@@ -701,7 +701,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an unexpected E2EE handshake frame.'
+            'Remote CaPilot runtime returned an unexpected E2EE handshake frame.'
           )
         )
         return
@@ -718,7 +718,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid E2EE auth frame.'
+            'Remote CaPilot runtime returned an invalid E2EE auth frame.'
           )
         )
         return
@@ -731,7 +731,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
           (authenticated as { error?: { code?: unknown } }).error?.code === 'unauthorized'
             ? 'unauthorized'
             : 'invalid_runtime_response'
-        fail(new RemoteRuntimeClientError(code, 'Remote Orca runtime rejected the pairing token.'))
+        fail(new RemoteRuntimeClientError(code, 'Remote CaPilot runtime rejected the pairing token.'))
         return
       }
       state = 'ready'
@@ -747,7 +747,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an invalid response frame.'
+            'Remote CaPilot runtime returned an invalid response frame.'
           )
         )
         return
@@ -761,7 +761,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned a mismatched response id.'
+            'Remote CaPilot runtime returned a mismatched response id.'
           )
         )
         return
@@ -774,7 +774,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned binary data before authentication.'
+            'Remote CaPilot runtime returned binary data before authentication.'
           )
         )
         return
@@ -784,7 +784,7 @@ export async function subscribeRemoteRuntimeRequest<TResult>(
         fail(
           new RemoteRuntimeClientError(
             'invalid_runtime_response',
-            'Remote Orca runtime returned an undecryptable binary frame.'
+            'Remote CaPilot runtime returned an undecryptable binary frame.'
           )
         )
         return

@@ -29,7 +29,7 @@ export const remoteRepo: Repo = {
 
 export const sshRepo: Repo = {
   id: 'ssh-repo',
-  path: '/home/orca/project',
+  path: '/home/capilot/project',
   displayName: 'SSH',
   badgeColor: '#222',
   addedAt: 3,

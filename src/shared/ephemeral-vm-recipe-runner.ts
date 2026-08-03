@@ -281,7 +281,7 @@ function buildRecipeContext(
 ): EphemeralVmRecipeContext {
   return {
     ...context,
-    instanceId: context.instanceId ?? `orca-${randomUUID()}`,
+    instanceId: context.instanceId ?? `capilot-${randomUUID()}`,
     recipeId: recipe.id,
     repoPath
   }

@@ -97,7 +97,7 @@ async function extractToTemporaryCatalog(root, tempDir) {
 }
 
 export async function main(root = process.cwd()) {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'orca-i18next-extraction-'))
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'capilot-i18next-extraction-'))
 
   try {
     const [extractedCatalog, englishCatalog] = await Promise.all([

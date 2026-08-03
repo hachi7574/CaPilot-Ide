@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron'
 import { z } from 'zod'
 import type { Store } from '../persistence'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import type {
   PluginPanelActionOutcome,
   PluginPanelEntry

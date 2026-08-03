@@ -34,7 +34,7 @@ import {
   DEFAULT_LOCAL_ORCA_PROFILE_ID,
   getOrcaProfileBrowserDefaultPartition,
   getOrcaProfileBrowserSessionPartition
-} from '../../shared/orca-profiles'
+} from '../../shared/capilot-profiles'
 
 describe('BrowserSessionRegistry', () => {
   beforeEach(() => {
@@ -74,7 +74,7 @@ describe('BrowserSessionRegistry', () => {
     const profile = browserSessionRegistry.createProfile('isolated', 'Test Isolated')
     expect(profile).not.toBeNull()
     expect(profile!.scope).toBe('isolated')
-    expect(profile!.partition).toMatch(/^persist:orca-browser-session-/)
+    expect(profile!.partition).toMatch(/^persist:capilot-browser-session-/)
     expect(profile!.partition).not.toBe(ORCA_BROWSER_PARTITION)
     expect(profile!.label).toBe('Test Isolated')
     expect(profile!.source).toBeNull()
@@ -95,7 +95,7 @@ describe('BrowserSessionRegistry', () => {
     const profile = browserSessionRegistry.createProfile('imported', 'My Import')
     expect(profile).not.toBeNull()
     expect(profile!.scope).toBe('imported')
-    expect(profile!.partition).toMatch(/^persist:orca-browser-session-/)
+    expect(profile!.partition).toMatch(/^persist:capilot-browser-session-/)
   })
 
   it('resolves partition for a known profile', () => {
@@ -190,7 +190,7 @@ describe('BrowserSessionRegistry', () => {
     const fakeProfile = {
       id: '00000000-0000-0000-0000-000000000001',
       scope: 'imported' as const,
-      partition: 'persist:orca-browser-session-00000000-0000-0000-0000-000000000001',
+      partition: 'persist:capilot-browser-session-00000000-0000-0000-0000-000000000001',
       label: 'Hydrated',
       source: { browserFamily: 'manual' as const, importedAt: 1000 }
     }
@@ -226,7 +226,7 @@ describe('BrowserSessionRegistry', () => {
     // Why: verify the parallel fix to the default partition — isolated/imported
     // profiles must also defer media permission checks to macOS instead of
     // denying outright, otherwise pages inside them still hit NotAllowedError
-    // after the user grants Camera/Microphone to Orca.
+    // after the user grants Camera/Microphone to CaPilot.
     browserSessionRegistry.createProfile('isolated', 'Media Test')
     const mockSession = sessionFromPartitionMock.mock.results[0]?.value
     const requestHandler = mockSession.setPermissionRequestHandler.mock.calls[0][0]
@@ -301,7 +301,7 @@ describe('BrowserSessionRegistry', () => {
     expect(webAuthnCallback).toHaveBeenCalledWith('credential-1')
   })
 
-  it('uses profile-owned partitions for non-default Orca profiles', () => {
+  it('uses profile-owned partitions for non-default CaPilot profiles', () => {
     const orcaProfileId = 'local-work'
     browserSessionRegistry.configureForOrcaProfile({
       orcaProfileId,

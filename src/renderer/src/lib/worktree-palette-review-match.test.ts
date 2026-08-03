@@ -4,7 +4,7 @@ import { searchWorktrees } from './worktree-palette-search'
 import type { Repo, Worktree } from '../../../shared/types'
 import type { HostedReviewInfo } from '../../../shared/hosted-review'
 
-// Regression tests for the production crash (report c5d87873, macOS, Orca 1.4.147):
+// Regression tests for the production crash (report c5d87873, macOS, CaPilot 1.4.147):
 //   TypeError: Cannot read properties of undefined (reading 'toLowerCase')
 //   at matchWorktreePaletteReview -> searchWorktrees -> WorktreeJumpPalette useMemo
 // A rehydrated review/PR cache entry can carry an undefined `title` even though the
@@ -40,7 +40,7 @@ const repoMap = new Map<string, Repo>([
     'repo-1',
     {
       id: 'repo-1',
-      path: '/repo/orca',
+      path: '/repo/capilot',
       displayName: 'stablyai/orca',
       badgeColor: '#22c55e',
       addedAt: 0

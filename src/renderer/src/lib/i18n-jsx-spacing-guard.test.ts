@@ -21,7 +21,7 @@ const CASES: GuardCase[] = [
   {
     file: 'components/sidebar/SetupScriptPromptCardViews.tsx',
     afterFallback: 'This repo ignores shared',
-    label: 'shared orca.yaml'
+    label: 'shared capilot.yaml'
   },
   {
     file: 'components/sidebar/SetupScriptPromptCardViews.tsx',
@@ -36,17 +36,17 @@ const CASES: GuardCase[] = [
   {
     file: 'components/settings/RepositoryHooksSection.tsx',
     afterFallback: 'Example',
-    label: 'Example orca.yaml template'
+    label: 'Example capilot.yaml template'
   },
   {
     file: 'components/settings/RepositoryHooksSection.tsx',
     afterFallback: 'Edit',
-    label: 'Edit orca.yaml'
+    label: 'Edit capilot.yaml'
   },
   {
     file: 'components/settings/RepositoryHooksSection.tsx',
     afterFallback: 'When both',
-    label: 'When both orca.yaml'
+    label: 'When both capilot.yaml'
   },
   {
     file: 'components/settings/GitPane.tsx',

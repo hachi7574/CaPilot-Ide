@@ -13,8 +13,8 @@ let previousUserDataPath: string | undefined
 
 beforeEach(() => {
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
-  isolatedUserDataDir = mkdtempSync(join(tmpdir(), 'orca-hook-stdin-user-data-'))
-  // Why: Orca-managed Codex hooks resolve through ORCA_USER_DATA_PATH before
+  isolatedUserDataDir = mkdtempSync(join(tmpdir(), 'capilot-hook-stdin-user-data-'))
+  // Why: CaPilot-managed Codex hooks resolve through ORCA_USER_DATA_PATH before
   // the mocked home; an inherited live path would let this test rewrite them.
   process.env.ORCA_USER_DATA_PATH = isolatedUserDataDir
 })
@@ -53,7 +53,7 @@ const { homedirMock } = vi.hoisted(() => ({
 
 vi.mock('electron', () => ({
   app: {
-    getPath: () => '/tmp/orca-user-data'
+    getPath: () => '/tmp/capilot-user-data'
   }
 }))
 
@@ -211,7 +211,7 @@ async function generatePosixScripts(): Promise<Map<string, string>> {
     const status = await entry.install(memory.sftp)
     expect(status.state, `${entry.agent} install status`).toBe('installed')
     const generated = [...memory.fs.files.entries()].filter(
-      ([path]) => path.includes('/.orca/agent-hooks/') && path.endsWith('.sh')
+      ([path]) => path.includes('/.capilot/agent-hooks/') && path.endsWith('.sh')
     )
     // Why: Claude ships a second managed script (the statusline usage feed); the stdin lifecycle contract applies to every generated script.
     expect(generated.length, `${entry.agent} generated scripts`).toBeGreaterThan(0)
@@ -236,7 +236,7 @@ function withPlatform<T>(platform: NodeJS.Platform, run: () => T): T {
 
 describe('Windows managed hook stdin structure', () => {
   it('routes every batch guard to a shared drain epilogue', () => {
-    const home = mkdtempSync(join(tmpdir(), 'orca-hook-stdin-windows-'))
+    const home = mkdtempSync(join(tmpdir(), 'capilot-hook-stdin-windows-'))
     homedirMock.mockReturnValue(home)
     const previousGrokHome = process.env.GROK_HOME
     const previousKimiHome = process.env.KIMI_CODE_HOME
@@ -248,7 +248,7 @@ describe('Windows managed hook stdin structure', () => {
           expect(entry.install().state, `${entry.agent} install status`).toBe('installed')
         }
       })
-      const hooksDir = join(home, '.orca', 'agent-hooks')
+      const hooksDir = join(home, '.capilot', 'agent-hooks')
       const fileNames = readdirSync(hooksDir)
       const mainBatchScripts = fileNames.filter(
         (name) => name.endsWith('-hook.cmd') && !name.startsWith('antigravity-')
@@ -302,14 +302,14 @@ describe('Windows managed hook stdin structure', () => {
   it.skipIf(process.platform !== 'win32')(
     'executes every local script and missing-script launcher without a broken writer',
     async () => {
-      const home = mkdtempSync(join(tmpdir(), 'orca-hook-stdin-windows-live-'))
+      const home = mkdtempSync(join(tmpdir(), 'capilot-hook-stdin-windows-live-'))
       homedirMock.mockReturnValue(home)
       try {
         const gitBash = findGitBash()
         for (const entry of LOCAL_INSTALLERS) {
           expect(entry.install().state, `${entry.agent} install status`).toBe('installed')
         }
-        const hooksDir = join(home, '.orca', 'agent-hooks')
+        const hooksDir = join(home, '.capilot', 'agent-hooks')
         const mainScripts = readdirSync(hooksDir).filter(
           (name) =>
             name === 'antigravity-hook.cmd' ||
@@ -341,7 +341,7 @@ describe('Windows managed hook stdin structure', () => {
           expect(result.stdinErrors, `${fileName} stdin errors`).toHaveLength(0)
         }
 
-        const missingScript = 'C:\\missing\\orca-hook.cmd'
+        const missingScript = 'C:\\missing\\capilot-hook.cmd'
         // Why: the cmd fast path is intentionally a bare, directly-spawnable .cmd
         // path (Codex/Antigravity/Devin launch it as argv[0], not via cmd.exe), so
         // it cannot own stdin for a missing script — a cmd-builtin drain would make
@@ -385,7 +385,7 @@ describe.skipIf(process.platform === 'win32')('managed hook stdin lifecycle', ()
     }
   })
 
-  it('accepts a large payload without Orca environment or a broken writer', async () => {
+  it('accepts a large payload without CaPilot environment or a broken writer', async () => {
     const scripts = await generatePosixScripts()
     for (const [agent, script] of scripts) {
       const extraEnv = agent.startsWith('command-code')
@@ -409,7 +409,7 @@ describe.skipIf(process.platform === 'win32')('managed hook stdin lifecycle', ()
       expect(result.stdinErrors, `${agent} stdin errors`).toHaveLength(0)
     }
 
-    const missing = await runPosixHook(wrapPosixHookCommand('/missing/orca-hook.sh'), { PATH: '' })
+    const missing = await runPosixHook(wrapPosixHookCommand('/missing/capilot-hook.sh'), { PATH: '' })
     expect(missing.exitCode, 'missing script launcher exit code').toBe(0)
     expect(missing.stdinErrors, 'missing script launcher stdin errors').toHaveLength(0)
   })
@@ -424,7 +424,7 @@ describe.skipIf(process.platform === 'win32')('managed hook stdin lifecycle', ()
     // Why: a worktree-local `cat` must never receive the hook payload.
     ['PATH whose first cat is a decoy', '']
   ])('captures the whole payload with %s', async (label, pathValue) => {
-    const decoyDir = mkdtempSync(join(tmpdir(), 'orca-hook-stdin-decoy-'))
+    const decoyDir = mkdtempSync(join(tmpdir(), 'capilot-hook-stdin-decoy-'))
     try {
       let effectivePath = pathValue
       if (label === 'PATH whose first cat is a decoy') {
@@ -454,7 +454,7 @@ describe.skipIf(process.platform === 'win32')('managed hook stdin lifecycle', ()
   })
 
   it('drains a large payload when the configured script is missing', async () => {
-    const result = await runPosixHook(wrapPosixHookCommand('/missing/orca-hook.sh'))
+    const result = await runPosixHook(wrapPosixHookCommand('/missing/capilot-hook.sh'))
     expect(result.exitCode).toBe(0)
     expect(result.stdinErrors).toHaveLength(0)
   })

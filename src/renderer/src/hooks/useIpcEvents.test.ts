@@ -1823,7 +1823,7 @@ describe('useIpcEvents updater integration', () => {
     const createFloatingWorkspaceTerminalTab = vi.fn()
     const createWebRuntimeSessionTerminal = vi.fn().mockResolvedValue({
       status: 'failed',
-      message: 'The workspace is not connected to a remote Orca host.'
+      message: 'The workspace is not connected to a remote CaPilot host.'
     })
     const focusRuntimeTerminalSurface = vi.fn(() => false)
     const focusTerminalTabSurface = vi.fn()
@@ -2365,7 +2365,7 @@ describe('useIpcEvents updater integration', () => {
     expect(focusTerminalTabSurface).toHaveBeenCalledWith('tab-new', undefined)
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-background-mount-terminal-worktree',
+        type: 'capilot-background-mount-terminal-worktree',
         detail: { worktreeId: 'wt-3', tabIds: ['tab-new'] }
       })
     )
@@ -2428,7 +2428,7 @@ describe('useIpcEvents updater integration', () => {
     expect(focusTerminalTabSurface).toHaveBeenCalledWith('tab-new', undefined)
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-background-mount-terminal-worktree',
+        type: 'capilot-background-mount-terminal-worktree',
         detail: { worktreeId: 'wt-2', tabIds: ['tab-new'] }
       })
     )
@@ -2637,7 +2637,7 @@ describe('useIpcEvents updater integration', () => {
     expect(revealWorktreeInSidebar).not.toHaveBeenCalled()
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-background-mount-terminal-worktree',
+        type: 'capilot-background-mount-terminal-worktree',
         detail: { worktreeId: 'wt-2', tabIds: ['tab-new'] }
       })
     )
@@ -2765,7 +2765,7 @@ describe('useIpcEvents updater integration', () => {
     expect(dispatchEvent).toHaveBeenCalledOnce()
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-background-mount-terminal-worktree',
+        type: 'capilot-background-mount-terminal-worktree',
         detail: { worktreeId: 'wt-2', tabIds: ['tab-cli-bg-reveal'] }
       })
     )
@@ -2802,7 +2802,7 @@ describe('useIpcEvents updater integration', () => {
     expect(dispatchEvent).toHaveBeenCalledOnce()
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-background-mount-terminal-worktree',
+        type: 'capilot-background-mount-terminal-worktree',
         detail: { worktreeId: 'wt-2', tabIds: ['tab-recovery-bg'] }
       })
     )
@@ -2944,7 +2944,7 @@ describe('useIpcEvents updater integration', () => {
     })
     expect(dispatchEvent).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'orca-split-terminal-pane',
+        type: 'capilot-split-terminal-pane',
         detail: {
           tabId: 'tab-existing',
           paneRuntimeId: -1,
@@ -8897,7 +8897,7 @@ describe('useIpcEvents silent terminal adoption (surfaceOwner: false)', () => {
     const harness = await loadIpcEventsHarness(storeState)
     harness.useIpcEvents()
 
-    // Control: `orca terminal create` (no surfaceOwner) keeps its reveal so the
+    // Control: `capilot terminal create` (no surfaceOwner) keeps its reveal so the
     // user can find the terminal they just asked for.
     harness.createTerminal({
       worktreeId: 'wt-2',

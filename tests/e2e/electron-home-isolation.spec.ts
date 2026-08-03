@@ -1,6 +1,6 @@
 import type { ElectronApplication } from '@stablyai/playwright-test'
 import path from 'node:path'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 
 test.use({ seedTestRepo: false })
 

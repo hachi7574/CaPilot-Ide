@@ -4,7 +4,7 @@ import { mkdtemp } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
 const tempRoots: string[] = []
@@ -91,7 +91,7 @@ test.describe('Windows project runtime smoke', () => {
     }))
     test.skip(!wsl.available || wsl.distros.length === 0, 'WSL distro is required for smoke')
     const wslDistro = wsl.distros[0]!
-    const wslRepoPath = await createGitRepo('orca-e2e-project-runtime-', 'wsl-runtime-project')
+    const wslRepoPath = await createGitRepo('capilot-e2e-project-runtime-', 'wsl-runtime-project')
 
     const smoke = await orcaPage.evaluate(
       async ({ hostRepoPath, wslRepoPath, wslDistro }) => {

@@ -129,12 +129,12 @@ describe.skipIf(!isWindows || !e2eOptIn)('computer-use Windows e2e (Notepad)', (
     expect(envelope.result.screenshot?.format).toBe('png')
     expect(envelope.result.screenshot?.data).toBeUndefined()
     expect(envelope.result.screenshot?.dataOmitted).toBe(true)
-    expect(envelope.result.screenshot?.path).toContain('orca-computer-use')
+    expect(envelope.result.screenshot?.path).toContain('capilot-computer-use')
   })
 
   test('paste-text mutates the test-owned document', async () => {
     const app = getNotepadAppSelector()
-    const marker = `orca-windows-paste-${Date.now()}`
+    const marker = `capilot-windows-paste-${Date.now()}`
     await focusNotepadDocument(app)
     const action = parseJsonOutput<{ result: ComputerActionResult }>(
       (
@@ -163,7 +163,7 @@ describe.skipIf(!isWindows || !e2eOptIn)('computer-use Windows e2e (Notepad)', (
 
   test('Unicode payloads survive paste-text', async () => {
     const app = getNotepadAppSelector()
-    const unicode = `orca unicode café Ω 漢字 ${Date.now()}`
+    const unicode = `capilot unicode café Ω 漢字 ${Date.now()}`
     await focusNotepadDocument(app)
     const pasted = parseJsonOutput<{ result: ComputerActionResult }>(
       (
@@ -185,7 +185,7 @@ describe.skipIf(!isWindows || !e2eOptIn)('computer-use Windows e2e (Notepad)', (
 
   test('hotkey and paste-text can replace the document selection', async () => {
     const app = getNotepadAppSelector()
-    const first = `orca-windows-first-${Date.now()}`
+    const first = `capilot-windows-first-${Date.now()}`
     await focusNotepadDocument(app)
     await runOrcaCli([
       'computer',
@@ -216,7 +216,7 @@ describe.skipIf(!isWindows || !e2eOptIn)('computer-use Windows e2e (Notepad)', (
     )
     expect(selectAll.result.action?.actionName).toBe('hotkey')
 
-    const marker = `orca-windows-replaced-${Date.now()}`
+    const marker = `capilot-windows-replaced-${Date.now()}`
     const second = parseJsonOutput<{ result: ComputerActionResult }>(
       (
         await runOrcaCli([

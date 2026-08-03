@@ -558,7 +558,7 @@ export class BrowserManager {
                 ${JSON.stringify(prev?.targetBrowserPageId)} &&
               typeof state.setActiveBrowserPage === 'function'
             ) {
-              // Why: Orca remembers the last browser workspace/page even when
+              // Why: CaPilot remembers the last browser workspace/page even when
               // the user is currently in terminal/editor view. Screenshot prep
               // temporarily switches that hidden browser selection state, so
               // restore it independently of the visible tab type.
@@ -629,7 +629,7 @@ export class BrowserManager {
     if (inheritedOwnerContext) {
       this.popupOwnerContextByGuestId.set(guest.id, inheritedOwnerContext)
     }
-    // Why: only the primary embedded browser converts new-tab clicks to Orca tabs; OAuth child windows keep native link behavior.
+    // Why: only the primary embedded browser converts new-tab clicks to CaPilot tabs; OAuth child windows keep native link behavior.
     const clickedLinkFrameName = inheritedOwnerContext
       ? null
       : `__orca_clicked_link_foreground_${randomUUID()}`
@@ -743,7 +743,7 @@ export class BrowserManager {
         if (browserTabId && browserUrl && this.openLinkInOrcaTab(browserTabId, browserUrl)) {
           this.forwardOrQueuePopupEvent(guest.id, {
             origin: safeOrigin(browserUrl),
-            action: 'opened-in-orca'
+            action: 'opened-in-capilot'
           })
         }
         // Why: a recognized gesture must never fall through to a native popup if its renderer vanished mid-click.
@@ -757,7 +757,7 @@ export class BrowserManager {
         return {
           action: 'allow',
           overrideBrowserWindowOptions: SAFE_POPUP_WINDOW_OPTIONS,
-          // Why: default child windows lack an address bar; host in an Orca origin-bar window so the destination is verifiable.
+          // Why: default child windows lack an address bar; host in an CaPilot origin-bar window so the destination is verifiable.
           createWindow: (options: PopupChildWindowOptions) =>
             this.createPopupChildWindowWithOriginBar(guest, url, options)
         }
@@ -923,7 +923,7 @@ export class BrowserManager {
     )
     this.forwardOrQueuePopupEvent(openerGuest.id, {
       origin: safeOrigin(targetUrl),
-      action: 'opened-in-orca'
+      action: 'opened-in-capilot'
     })
     // Why: match Electron's child-window lifecycle so closing the owning tab doesn't orphan session-bearing popups.
     const closePopupWithOpener = (): void => popup.close()
@@ -1087,7 +1087,7 @@ export class BrowserManager {
     this.annotationViewportBridgeOpsByTabId.delete(browserTabId)
   }
 
-  // Why: headless orca serve has no <webview> window; back pages with offscreen WebContents and skip the webview-only setup.
+  // Why: headless capilot serve has no <webview> window; back pages with offscreen WebContents and skip the webview-only setup.
   registerOffscreenGuest({
     browserPageId,
     worktreeId,
@@ -1123,7 +1123,7 @@ export class BrowserManager {
     // Cancel all active grab ops before tearing down registrations
     this.grabSessionController.cancelAll('evicted')
     for (const downloadId of this.downloadsById.keys()) {
-      this.cancelDownloadInternal(downloadId, 'Orca is shutting down.')
+      this.cancelDownloadInternal(downloadId, 'CaPilot is shutting down.')
     }
     browserDownloadDestinationReservations.clear()
     for (const browserTabId of this.webContentsIdByTabId.keys()) {
@@ -1407,7 +1407,7 @@ export class BrowserManager {
     return true
   }
 
-  // Why: guests are isolated from Orca's preload bridge, so main owns the devtools escape hatch after a tab→guest lookup.
+  // Why: guests are isolated from CaPilot's preload bridge, so main owns the devtools escape hatch after a tab→guest lookup.
   async openDevTools(browserTabId: string): Promise<boolean> {
     const webContentsId = this.webContentsIdByTabId.get(browserTabId)
     if (!webContentsId) {
@@ -2062,8 +2062,8 @@ export class BrowserManager {
     if (!normalizedUrl || normalizedUrl === ORCA_BROWSER_BLANK_URL) {
       return false
     }
-    // Why: only the renderer owns Orca's worktree/tab model; main forwards a validated URL, never letting guest content mutate it.
-    renderer.send('browser:open-link-in-orca-tab', {
+    // Why: only the renderer owns CaPilot's worktree/tab model; main forwards a validated URL, never letting guest content mutate it.
+    renderer.send('browser:open-link-in-capilot-tab', {
       browserPageId: browserTabId,
       url: normalizedUrl
     })

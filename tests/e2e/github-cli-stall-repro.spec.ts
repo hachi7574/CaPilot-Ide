@@ -2,10 +2,10 @@ import { execSync } from 'node:child_process'
 import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { test as base, expect } from './helpers/orca-app'
+import { test as base, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
-const fakeGhDir = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-fake-gh-'))
+const fakeGhDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-fake-gh-'))
 const fakeGhBody = `#!/usr/bin/env node
 const args = process.argv.slice(2)
 const joined = args.join(' ')

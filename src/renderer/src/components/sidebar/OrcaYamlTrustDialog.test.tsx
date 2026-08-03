@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
   state: {
-    activeModal: 'confirm-orca-yaml-hooks' as string | null,
+    activeModal: 'confirm-capilot-yaml-hooks' as string | null,
     modalData: {} as Record<string, unknown>,
     closeModal: vi.fn(),
     markOrcaHookScriptConfirmed: vi.fn(),
@@ -58,10 +58,10 @@ function decodeHtml(html: string): string {
 describe('OrcaYamlTrustDialog', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mocks.state.activeModal = 'confirm-orca-yaml-hooks'
+    mocks.state.activeModal = 'confirm-capilot-yaml-hooks'
     mocks.state.modalData = {
       repoId: 'repo-1',
-      repoName: 'orca',
+      repoName: 'capilot',
       scriptKind: 'setup',
       scriptContent: 'node config/scripts/run-internal-dev-setup.mjs\npnpm install',
       contentHash: 'hash-1',
@@ -69,20 +69,20 @@ describe('OrcaYamlTrustDialog', () => {
     }
   })
 
-  it('keeps spaces around orca.yaml and the repo name in the first-run copy', async () => {
+  it('keeps spaces around capilot.yaml and the repo name in the first-run copy', async () => {
     const { default: OrcaYamlTrustDialog } = await import('./OrcaYamlTrustDialog')
     const text = decodeHtml(renderToStaticMarkup(<OrcaYamlTrustDialog />)).replace(/<[^>]+>/g, '')
 
-    expect(text).toContain("This repository's orca.yaml runs on your machine")
-    expect(text).toContain('Only run if you trust orca.')
-    expect(text).toContain('Always trust orca.yaml in orca')
+    expect(text).toContain("This repository's capilot.yaml runs on your machine")
+    expect(text).toContain('Only run if you trust capilot.')
+    expect(text).toContain('Always trust capilot.yaml in capilot')
     expect(text).not.toContain("repository'sorca.yaml")
     expect(text).not.toContain('trustorca')
     expect(text).not.toContain('trustorca.yaml')
     expect(text).not.toContain('inorca')
   })
 
-  it('keeps spaces around orca.yaml when the script changed since last approval', async () => {
+  it('keeps spaces around capilot.yaml when the script changed since last approval', async () => {
     mocks.state.modalData = {
       ...mocks.state.modalData,
       previouslyApproved: true
@@ -90,8 +90,8 @@ describe('OrcaYamlTrustDialog', () => {
     const { default: OrcaYamlTrustDialog } = await import('./OrcaYamlTrustDialog')
     const text = decodeHtml(renderToStaticMarkup(<OrcaYamlTrustDialog />)).replace(/<[^>]+>/g, '')
 
-    expect(text).toContain('orca.yaml changed since you last approved')
-    expect(text).toContain('Always trust orca.yaml in orca')
+    expect(text).toContain('capilot.yaml changed since you last approved')
+    expect(text).toContain('Always trust capilot.yaml in capilot')
     expect(text).not.toContain('Always trustorca.yaml')
     expect(text).not.toContain('inorca')
   })

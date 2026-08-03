@@ -10,7 +10,7 @@ import {
 const tempDirs = []
 
 function makeTempDir() {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-terminal-perf-html-'))
+  const dir = mkdtempSync(join(tmpdir(), 'capilot-terminal-perf-html-'))
   tempDirs.push(dir)
   return dir
 }

@@ -15,7 +15,7 @@ import {
   type waitForWslRelaySentinel,
   type WslRelayStartupFailure
 } from './wsl-hook-relay-sentinel'
-import { addOrcaWslInteropEnv } from '../pty/wsl-orca-env'
+import { addOrcaWslInteropEnv } from '../pty/wsl-capilot-env'
 import {
   WSL_HOOK_RELAY_BUNDLE_NAME,
   WSL_HOOK_RELAY_DIR,
@@ -63,7 +63,7 @@ export function resolveWslHookRelayBundle(): WslHookRelayBundle | null {
   return null
 }
 
-// Why: the install dir is namespaced by bundle version so concurrent Orca
+// Why: the install dir is namespaced by bundle version so concurrent CaPilot
 // instances with different bundles (dev + prod) never reinstall over each
 // other; each instance launches exactly the version it shipped.
 function guestRelayDirExpr(version: string): string {

@@ -157,7 +157,7 @@ describe('listWorkItems', () => {
   })
 
   it('routes GHES work-item listing through the Enterprise host', async () => {
-    const ghes = { owner: 'team', repo: 'orca', host: 'github.acme-corp.com' }
+    const ghes = { owner: 'team', repo: 'capilot', host: 'github.acme-corp.com' }
     getIssueOwnerRepoMock.mockResolvedValue(ghes)
     getOwnerRepoMock.mockResolvedValue(ghes)
     ghExecFileAsyncMock.mockResolvedValue({ stdout: '[]' })

@@ -14,7 +14,7 @@ let dir: string
 let traceFile: string
 
 beforeEach(() => {
-  dir = mkdtempSync(join(tmpdir(), 'orca-bundle-'))
+  dir = mkdtempSync(join(tmpdir(), 'capilot-bundle-'))
   traceFile = join(dir, 'main.trace.ndjson')
 })
 afterEach(() => {

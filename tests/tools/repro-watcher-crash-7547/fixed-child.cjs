@@ -145,7 +145,7 @@ function subscribeLikeOrca(dir) {
       (err, events) => {
         if (err) {
           stats.watchErrors++
-          // Orca's error path: unsubscribe from inside the error callback.
+          // CaPilot's error path: unsubscribe from inside the error callback.
           if (subRef.current) {
             stats.unsubscribes++
             subRef.current.unsubscribe().catch(() => {})
@@ -274,7 +274,7 @@ let completed = false
 
 async function main() {
   const durationMs = Number(process.argv[2] || 15000)
-  const baseDir = path.join(os.tmpdir(), 'orca-7547-harness-fixed', `run-${process.pid}`)
+  const baseDir = path.join(os.tmpdir(), 'capilot-7547-harness-fixed', `run-${process.pid}`)
   fs.mkdirSync(baseDir, { recursive: true })
 
   // Watchdog: a stuck lane must fail loudly, and a premature natural exit

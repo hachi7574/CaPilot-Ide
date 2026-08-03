@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page, TestInfo } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getAllWorktreeIds,
@@ -270,7 +270,7 @@ async function readTerminalBoxTableWrapDiagnostics(page: Page): Promise<{
 async function closeFeatureTips(page: Page): Promise<void> {
   await page.evaluate(() => {
     const store = window.__store
-    store?.getState().markFeatureTipsSeen(['orca-cli', 'cmd-j-palette', 'voice-dictation'])
+    store?.getState().markFeatureTipsSeen(['capilot-cli', 'cmd-j-palette', 'voice-dictation'])
     if (store?.getState().activeModal === 'feature-tips') {
       store.getState().closeModal()
     }
@@ -347,7 +347,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await orcaPage.evaluate(() => {
       window.__store
         ?.getState()
-        .markFeatureTipsSeen(['orca-cli', 'cmd-j-palette', 'voice-dictation'])
+        .markFeatureTipsSeen(['capilot-cli', 'cmd-j-palette', 'voice-dictation'])
     })
     const firstWorktreeId = await waitForActiveWorktree(orcaPage)
     const secondWorktreeId = (await getAllWorktreeIds(orcaPage)).find(
@@ -364,7 +364,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await waitForPtyShellEcho(orcaPage, ptyId, 15_000)
     const runId = randomUUID()
     const marker = `LONG_TABLE_SCROLL_RESTORE_${runId}`
-    const scriptPath = path.join(testRepoPath, `.orca-long-table-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-long-table-${runId}.mjs`)
     writeFileSync(scriptPath, longMarkdownTableScript(runId))
 
     try {
@@ -409,7 +409,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await orcaPage.evaluate(() => {
       window.__store
         ?.getState()
-        .markFeatureTipsSeen(['orca-cli', 'cmd-j-palette', 'voice-dictation'])
+        .markFeatureTipsSeen(['capilot-cli', 'cmd-j-palette', 'voice-dictation'])
     })
     const firstWorktreeId = await waitForActiveWorktree(orcaPage)
     const secondWorktreeId = (await getAllWorktreeIds(orcaPage)).find(
@@ -428,7 +428,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await waitForPtyShellEcho(orcaPage, ptyId, 15_000)
     const runId = randomUUID()
     const marker = `NARROW_SIGNER_TABLE_RESTORE_${runId}`
-    const scriptPath = path.join(testRepoPath, `.orca-narrow-signer-table-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-narrow-signer-table-${runId}.mjs`)
     writeFileSync(scriptPath, narrowSignerMarkdownTableScript(runId))
 
     try {
@@ -482,7 +482,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await orcaPage.evaluate(() => {
       window.__store
         ?.getState()
-        .markFeatureTipsSeen(['orca-cli', 'cmd-j-palette', 'voice-dictation'])
+        .markFeatureTipsSeen(['capilot-cli', 'cmd-j-palette', 'voice-dictation'])
     })
     const firstWorktreeId = await waitForActiveWorktree(orcaPage)
     const secondWorktreeId = (await getAllWorktreeIds(orcaPage)).find(
@@ -504,7 +504,7 @@ test.describe('Terminal long table scroll restore repro', () => {
     await waitForPtyColumnsAtMost(orcaPage, ptyId, renderedTableTerminalCols)
     const runId = randomUUID()
     const marker = `EMOJI_FIXTURE_TABLE_RESTORE_${runId}`
-    const scriptPath = path.join(testRepoPath, `.orca-emoji-fixture-table-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-emoji-fixture-table-${runId}.mjs`)
     writeFileSync(scriptPath, emojiFixtureMarkdownTableScript(EMOJI_TABLE_FIXTURE, runId))
 
     try {

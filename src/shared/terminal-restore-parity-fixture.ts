@@ -22,7 +22,7 @@ export type ParityTerminal = {
 /** Builds an @xterm/headless terminal configured exactly like the renderer
  *  pane where buffer state is concerned: scrollback + kitty vtExtensions from
  *  buildDefaultTerminalOptions (pane-terminal-options.ts), Unicode11Addon
- *  (pane-dom-creation.ts) and the Orca ZWJ provider (pane-lifecycle.ts).
+ *  (pane-dom-creation.ts) and the CaPilot ZWJ provider (pane-lifecycle.ts).
  *  Font/cursor/render options are omitted — they never alter buffer cells. */
 export function createRendererParityTerminal(dims: { cols: number; rows: number }): ParityTerminal {
   const terminal = new Terminal({

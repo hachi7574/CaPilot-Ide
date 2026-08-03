@@ -25,7 +25,7 @@ function repo(id: string, overrides: Partial<Repo> = {}): Repo {
 function project(overrides: Partial<Project> = {}): Project {
   return {
     id: 'github:stablyai/orca',
-    displayName: 'orca',
+    displayName: 'capilot',
     badgeColor: '#111111',
     providerIdentity: { provider: 'github', owner: 'stablyai', repo: 'orca' },
     sourceRepoIds: ['local-repo', 'ssh-repo'],
@@ -41,8 +41,8 @@ function setup(overrides: Partial<ProjectHostSetup>): ProjectHostSetup {
     projectId: overrides.projectId ?? 'github:stablyai/orca',
     hostId: overrides.hostId ?? 'local',
     repoId: overrides.repoId ?? 'local-repo',
-    path: overrides.path ?? '/tmp/orca',
-    displayName: overrides.displayName ?? 'orca',
+    path: overrides.path ?? '/tmp/capilot',
+    displayName: overrides.displayName ?? 'capilot',
     setupState: overrides.setupState ?? 'ready',
     setupMethod: overrides.setupMethod ?? 'legacy-repo',
     createdAt: 1,
@@ -83,7 +83,7 @@ describe('buildNewWorkspaceProjectOptions', () => {
         id: 'github:stablyai/orca',
         kind: 'project',
         projectId: 'github:stablyai/orca',
-        displayName: 'orca',
+        displayName: 'capilot',
         badgeColor: '#111111',
         detail: 'stablyai/orca'
       }
@@ -363,9 +363,9 @@ describe('buildNewWorkspaceProjectOptions', () => {
     const options: NewWorkspaceProjectOption[] = [
       {
         kind: 'project',
-        id: 'orca',
-        projectId: 'orca',
-        displayName: 'Orca',
+        id: 'capilot',
+        projectId: 'capilot',
+        displayName: 'CaPilot',
         badgeColor: '#111111',
         detail: 'stablyai/orca'
       },
@@ -408,10 +408,10 @@ describe('buildNewWorkspaceProjectOptions', () => {
 describe('buildNewWorkspaceFolderSourceOptions', () => {
   it('keeps concrete source repos separate even when they are the same logical project', () => {
     const options = buildNewWorkspaceFolderSourceOptions([
-      repo('local-repo', { displayName: 'orca', path: '/tmp/orca' }),
+      repo('local-repo', { displayName: 'capilot', path: '/tmp/capilot' }),
       repo('ssh-repo', {
-        displayName: 'orca',
-        path: '/srv/orca',
+        displayName: 'capilot',
+        path: '/srv/capilot',
         connectionId: 'ssh:builder'
       })
     ])
@@ -420,7 +420,7 @@ describe('buildNewWorkspaceFolderSourceOptions', () => {
       'folder-source:local-repo',
       'folder-source:ssh-repo'
     ])
-    expect(options.map((option) => option.detail).sort()).toEqual(['/srv/orca', '/tmp/orca'])
+    expect(options.map((option) => option.detail).sort()).toEqual(['/srv/capilot', '/tmp/capilot'])
     expect(getRepoIdFromNewWorkspaceFolderSourceOptionId('folder-source:ssh-repo')).toBe('ssh-repo')
   })
 })

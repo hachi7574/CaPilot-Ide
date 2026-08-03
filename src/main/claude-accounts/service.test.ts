@@ -16,7 +16,7 @@ import {
   writeManagedClaudeKeychainCredentials
 } from './keychain'
 
-const CLAUDE_SERVICE_TEST_ROOT = join(tmpdir(), 'orca-claude-service-test')
+const CLAUDE_SERVICE_TEST_ROOT = join(tmpdir(), 'capilot-claude-service-test')
 
 vi.mock('electron', () => ({
   app: {
@@ -144,7 +144,7 @@ describe('ClaudeAccountService credential capture', () => {
   })
 
   it('falls back to captured credentials file on macOS', async () => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-claude-capture-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-claude-capture-'))
     writeFileSync(join(tempDir, '.credentials.json'), '{"token":"file"}\n', 'utf-8')
     vi.mocked(readActiveClaudeKeychainCredentialsStrict)
       .mockResolvedValueOnce(null)
@@ -178,7 +178,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, '.credentials.json'), '{"old":true}\n', 'utf-8')
     writeFileSync(join(managedAuthPath, 'oauth-account.json'), '{"oldOauth":true}\n', 'utf-8')
     let settings = {
@@ -248,7 +248,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, 'oauth-account.json'), '{"oldOauth":true}\n', 'utf-8')
     vi.mocked(readManagedClaudeKeychainCredentials).mockResolvedValue('{"old":true}\n')
     vi.mocked(writeManagedClaudeKeychainCredentials)
@@ -322,7 +322,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, 'oauth-account.json'), '{"oldOauth":true}\n', 'utf-8')
     vi.mocked(readManagedClaudeKeychainCredentials).mockResolvedValue('{"old":true}\n')
     vi.mocked(writeManagedClaudeKeychainCredentials)
@@ -401,7 +401,7 @@ describe('ClaudeAccountService credential capture', () => {
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     const oauthPath = join(managedAuthPath, 'oauth-account.json')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, '.credentials.json'), '{"old":true}\n', 'utf-8')
     writeFileSync(oauthPath, '{"oldOauth":true}\n', 'utf-8')
     let settings = {
@@ -472,7 +472,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, '.credentials.json'), '{"old":true}\n', 'utf-8')
     let settings = {
       claudeManagedAccounts: [
@@ -530,7 +530,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const managedAuthPath = join(tempDir, 'claude-accounts', 'account-1', 'auth')
     mkdirSync(managedAuthPath, { recursive: true })
-    writeFileSync(join(managedAuthPath, '.orca-managed-claude-auth'), 'account-1\n', 'utf-8')
+    writeFileSync(join(managedAuthPath, '.capilot-managed-claude-auth'), 'account-1\n', 'utf-8')
     writeFileSync(join(managedAuthPath, '.credentials.json'), '{"old":true}\n', 'utf-8')
     writeFileSync(join(managedAuthPath, 'oauth-account.json'), '{"oldOauth":true}\n', 'utf-8')
     let settings = {
@@ -768,7 +768,7 @@ describe('ClaudeAccountService credential capture', () => {
     rmSync(tempDir, { recursive: true, force: true })
     const existingAuthPath = join(tempDir, 'claude-accounts', 'existing-account', 'auth')
     mkdirSync(existingAuthPath, { recursive: true })
-    const existingMarkerPath = join(existingAuthPath, '.orca-managed-claude-auth')
+    const existingMarkerPath = join(existingAuthPath, '.capilot-managed-claude-auth')
     writeFileSync(existingMarkerPath, 'existing-account\n', 'utf-8')
     let settings = {
       claudeManagedAccounts: [
@@ -848,7 +848,7 @@ describe('ClaudeAccountService credential capture', () => {
     const existingAuthPath = join(tempDir, 'claude-accounts', 'existing-account', 'auth')
     mkdirSync(existingAuthPath, { recursive: true })
     writeFileSync(
-      join(existingAuthPath, '.orca-managed-claude-auth'),
+      join(existingAuthPath, '.capilot-managed-claude-auth'),
       'existing-account\n',
       'utf-8'
     )
@@ -1103,7 +1103,7 @@ describe('ClaudeAccountService credential capture', () => {
           managedAuthPath: wslAuthPath,
           managedAuthRuntime: 'wsl',
           wslDistro: 'Ubuntu',
-          wslLinuxAuthPath: '/home/jin/.local/share/orca/claude-accounts/wsl-account/auth',
+          wslLinuxAuthPath: '/home/jin/.local/share/capilot/claude-accounts/wsl-account/auth',
           authMethod: 'subscription-oauth',
           organizationUuid: null,
           organizationName: null,
@@ -1174,7 +1174,7 @@ describe('ClaudeAccountService credential capture', () => {
           managedAuthPath: wslAuthPath,
           managedAuthRuntime: 'wsl',
           wslDistro: 'Ubuntu',
-          wslLinuxAuthPath: '/home/jin/.local/share/orca/claude-accounts/wsl-account/auth',
+          wslLinuxAuthPath: '/home/jin/.local/share/capilot/claude-accounts/wsl-account/auth',
           authMethod: 'subscription-oauth',
           organizationUuid: null,
           organizationName: null,
@@ -1219,7 +1219,7 @@ describe('ClaudeAccountService credential capture', () => {
     const wslAuthPath = join(tempDir, 'claude-accounts', 'wsl-account', 'auth')
     mkdirSync(hostAuthPath, { recursive: true })
     mkdirSync(wslAuthPath, { recursive: true })
-    writeFileSync(join(wslAuthPath, '.orca-managed-claude-auth'), 'wsl-account\n', 'utf-8')
+    writeFileSync(join(wslAuthPath, '.capilot-managed-claude-auth'), 'wsl-account\n', 'utf-8')
     let settings = {
       claudeManagedAccounts: [
         {
@@ -1242,7 +1242,7 @@ describe('ClaudeAccountService credential capture', () => {
           managedAuthPath: wslAuthPath,
           managedAuthRuntime: 'wsl',
           wslDistro: 'Ubuntu',
-          wslLinuxAuthPath: '/home/jin/.local/share/orca/claude-accounts/wsl-account/auth',
+          wslLinuxAuthPath: '/home/jin/.local/share/capilot/claude-accounts/wsl-account/auth',
           authMethod: 'subscription-oauth',
           organizationUuid: null,
           organizationName: null,
@@ -1447,7 +1447,7 @@ describe('ClaudeAccountService credential capture', () => {
         ['auth', 'status', '--json'],
         {
           windowsPath: 'C:\\tmp\\claude-auth',
-          linuxPath: '/home/user/.config/orca auth',
+          linuxPath: '/home/user/.config/capilot auth',
           wslDistro: 'Ubuntu Test'
         },
         1000
@@ -1462,7 +1462,7 @@ describe('ClaudeAccountService credential capture', () => {
           '--',
           'bash',
           '-lc',
-          "export CLAUDE_CONFIG_DIR='/home/user/.config/orca auth'; exec claude 'auth' 'status' '--json'"
+          "export CLAUDE_CONFIG_DIR='/home/user/.config/capilot auth'; exec claude 'auth' 'status' '--json'"
         ],
         expect.objectContaining({ shell: false, windowsVerbatimArguments: false })
       )
@@ -1862,7 +1862,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
   }
 
   it('registers a managed account by capturing an authenticated config dir', async () => {
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-'))
     writeFileSync(
       join(sourceDir, '.credentials.json'),
       '{"claudeAiOauth":{"accessToken":"tok"}}\n',
@@ -1900,7 +1900,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
 
   it('captures only the config-scoped macOS Keychain credential', async () => {
     setPlatform('darwin')
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-keychain-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-keychain-'))
     vi.mocked(readActiveClaudeKeychainCredentialsStrict).mockImplementation(async (configDir) =>
       configDir ? '{"claudeAiOauth":{"accessToken":"scoped"}}' : 'legacy-credentials'
     )
@@ -1926,7 +1926,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
 
   it('does not mistake an unchanged legacy Keychain credential for the temp login', async () => {
     setPlatform('darwin')
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-keychain-empty-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-keychain-empty-'))
     vi.mocked(readActiveClaudeKeychainCredentialsStrict).mockImplementation(async (configDir) =>
       configDir ? null : 'legacy-credentials'
     )
@@ -1949,7 +1949,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
 
   it('captures a legacy Keychain credential that changed after login began', async () => {
     setPlatform('darwin')
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-keychain-legacy-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-keychain-legacy-'))
     const previousCredentials = '{"claudeAiOauth":{"accessToken":"previous"}}'
     const newCredentials = '{"claudeAiOauth":{"accessToken":"new","email":"new@example.com"}}'
     vi.mocked(readActiveClaudeKeychainCredentialsStrict).mockImplementation(async (configDir) =>
@@ -1982,7 +1982,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
   it('still registers when the daemon cannot spawn `claude auth status`', async () => {
     // Why: `allowFailure` covers a non-zero exit but not a spawn error, so a daemon
     // started with a minimal PATH would hard-fail an add the user already signed in for.
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-nostatus-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-nostatus-'))
     writeFileSync(
       join(sourceDir, '.credentials.json'),
       '{"claudeAiOauth":{"accessToken":"tok"}}\n',
@@ -2016,7 +2016,7 @@ describe('ClaudeAccountService.addAccountFromConfigDir', () => {
   })
 
   it('rejects and rolls back when the config dir has no credentials', async () => {
-    sourceDir = mkdtempSync(join(tmpdir(), 'orca-claude-source-empty-'))
+    sourceDir = mkdtempSync(join(tmpdir(), 'capilot-claude-source-empty-'))
     const deps = makeDeps()
     const { ClaudeAccountService } = await import('./service')
     const service = new ClaudeAccountService(

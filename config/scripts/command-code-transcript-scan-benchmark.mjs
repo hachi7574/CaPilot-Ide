@@ -347,7 +347,7 @@ function measure(fn, path) {
   return samples[1]
 }
 
-const dir = mkdtempSync(join(tmpdir(), 'orca-cc-transcript-bench-'))
+const dir = mkdtempSync(join(tmpdir(), 'capilot-cc-transcript-bench-'))
 try {
   const rows = []
   for (const priorTurns of [250, 1000, 3000, 6000]) {

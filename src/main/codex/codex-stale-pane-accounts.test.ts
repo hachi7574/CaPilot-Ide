@@ -29,7 +29,7 @@ function settingsWithSelection(
 
 beforeEach(() => {
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
-  userDataPath = mkdtempSync(join(tmpdir(), 'orca-codex-pane-accounts-'))
+  userDataPath = mkdtempSync(join(tmpdir(), 'capilot-codex-pane-accounts-'))
   process.env.ORCA_USER_DATA_PATH = userDataPath
   _internals.resetCache()
 })

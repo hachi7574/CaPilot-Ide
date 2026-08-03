@@ -1,6 +1,6 @@
 import type { Page } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import { parkHiddenTabBehindDecoy } from './helpers/terminal-hidden-parking'
 import {

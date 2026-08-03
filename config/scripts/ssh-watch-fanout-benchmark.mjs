@@ -96,7 +96,7 @@ const REPO_PATHS = execFileSync('git', ['ls-files'], {
 // A remote host running several worktrees: each is its own watch root, and the
 // file explorer plus the worktree-base-directory watcher both register.
 function makeRoots(count) {
-  return Array.from({ length: count }, (_, index) => `/home/dev/worktrees/orca-${index}`)
+  return Array.from({ length: count }, (_, index) => `/home/dev/worktrees/capilot-${index}`)
 }
 
 function makeEvents(roots, count) {

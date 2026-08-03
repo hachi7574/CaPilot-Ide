@@ -3,7 +3,7 @@
 
 /* eslint-disable max-lines -- Why: splitting the entrypoint's startup/reconnect/registration would hide the startup order, the key invariant here. */
 
-// Orca Relay — lightweight daemon deployed to remote hosts over SCP and launched via an SSH exec channel.
+// CaPilot Relay — lightweight daemon deployed to remote hosts over SCP and launched via an SSH exec channel.
 // Communicates over stdin/stdout using the framed JSON-RPC protocol.
 // On client disconnect it enters a grace period, keeping PTYs alive on a Unix domain socket; a later launch
 // reconnects via `relay.js --connect`, bridging the new SSH channel's stdio to the existing relay's socket.
@@ -140,7 +140,7 @@ function parseArgs(argv: string[]): {
       i++
     } else if (argv[i] === '--connect') {
       connectMode = true
-    } else if (argv[i] === '--orca-cli') {
+    } else if (argv[i] === '--capilot-cli') {
       cliMode = true
     } else if (argv[i] === '--detached') {
       detached = true
@@ -323,7 +323,7 @@ async function runOrcaCliMode(
       {
         jsonrpc: '2.0',
         id: requestId,
-        method: 'orca.cli',
+        method: 'capilot.cli',
         params: {
           argv,
           cwd: process.cwd(),
@@ -348,7 +348,7 @@ async function runOrcaCliMode(
         {
           jsonrpc: '2.0',
           id: postOutputRequestId,
-          method: 'orca.cli.postOutput',
+          method: 'capilot.cli.postOutput',
           params: { postOutput, env: pickRemoteCliEnv(process.env) }
         },
         nextSeq++,
@@ -444,7 +444,7 @@ async function runOrcaCliMode(
   })
 
   const connectTimeout = setTimeout(() => {
-    process.stderr.write(`[orca-cli] Relay connection timed out after ${CONNECT_TIMEOUT_MS}ms\n`)
+    process.stderr.write(`[capilot-cli] Relay connection timed out after ${CONNECT_TIMEOUT_MS}ms\n`)
     sock.destroy()
     process.exit(1)
   }, CONNECT_TIMEOUT_MS)
@@ -471,7 +471,7 @@ async function runOrcaCliMode(
 
   sock.on('error', (err) => {
     clearTimeout(connectTimeout)
-    process.stderr.write(`[orca-cli] Relay socket error: ${err.message}\n`)
+    process.stderr.write(`[capilot-cli] Relay socket error: ${err.message}\n`)
     process.exit(1)
   })
 }
@@ -507,7 +507,7 @@ async function main(): Promise<void> {
     return
   }
   if (cliMode) {
-    const marker = process.argv.indexOf('--orca-cli')
+    const marker = process.argv.indexOf('--capilot-cli')
     await runOrcaCliMode(
       sockPath,
       marker >= 0 ? process.argv.slice(marker + 1) : [],
@@ -671,14 +671,14 @@ async function main(): Promise<void> {
     () => ({ grantedCapabilities: null, services: null })
   )
 
-  dispatcher.onRequest('orca.cli', async (params, context) => {
-    return await dispatcher.requestAnyClient('orca.cli', params, {
+  dispatcher.onRequest('capilot.cli', async (params, context) => {
+    return await dispatcher.requestAnyClient('capilot.cli', params, {
       excludeClientId: context.clientId,
       timeoutMs: remoteCliRequestTimeoutMs(params)
     })
   })
-  dispatcher.onRequest('orca.cli.postOutput', async (params, context) => {
-    return await dispatcher.requestAnyClient('orca.cli.postOutput', params, {
+  dispatcher.onRequest('capilot.cli.postOutput', async (params, context) => {
+    return await dispatcher.requestAnyClient('capilot.cli.postOutput', params, {
       excludeClientId: context.clientId,
       timeoutMs: remoteCliRequestTimeoutMs(params)
     })
@@ -703,7 +703,7 @@ async function main(): Promise<void> {
   )
 
   // ── Agent-hook server ─────────────────────────────────────────────
-  // Why: loopback HTTP receiver so remote-PTY agent CLIs post hook events locally, forwarded to Orca as agent.hook notifications. See docs/design/agent-status-over-ssh.md §2-§5.
+  // Why: loopback HTTP receiver so remote-PTY agent CLIs post hook events locally, forwarded to CaPilot as agent.hook notifications. See docs/design/agent-status-over-ssh.md §2-§5.
   const hookServer = new RelayAgentHookServer({
     // Why: scope endpoint.env/cmd by socket path so multiple relay daemons on one account can't overwrite each other's hook tokens.
     endpointDir: endpointDir ?? endpointDirForRelaySocket(sockPath),
@@ -740,7 +740,7 @@ async function main(): Promise<void> {
       }
     }
     if (pluginOverlay.hasPiSource()) {
-      // Why: install Orca's guarded extension into the launched agent's (Pi vs OMP) real remote dir without redirecting PI_CODING_AGENT_DIR.
+      // Why: install CaPilot's guarded extension into the launched agent's (Pi vs OMP) real remote dir without redirecting PI_CODING_AGENT_DIR.
       const launchCommandHint = resolveSetupAgentSequenceLaunchCommand(ctx.env, ctx.command)
       const explicitKind = isPiCompatibleAgentType(ctx.launchAgent)
         ? ctx.launchAgent
@@ -801,8 +801,8 @@ async function main(): Promise<void> {
   // Why: relay-local installers collapse hundreds of SFTP request/response RTTs to one RPC.
   registerManagedHookInstaller(dispatcher)
 
-  // Why: plugin sources ship over the wire so an Orca update doesn't force a relay redeploy; cache them per spawn. See docs/design/agent-status-over-ssh.md §4.
-  // Why: bound per-source size so a buggy/hostile Orca can't OOM the relay by pushing a giant string.
+  // Why: plugin sources ship over the wire so an CaPilot update doesn't force a relay redeploy; cache them per spawn. See docs/design/agent-status-over-ssh.md §4.
+  // Why: bound per-source size so a buggy/hostile CaPilot can't OOM the relay by pushing a giant string.
   dispatcher.onRequest(AGENT_HOOK_INSTALL_PLUGINS_METHOD, async (params) => {
     const opencode = params.opencodePluginSource
     const pi = params.piExtensionSource

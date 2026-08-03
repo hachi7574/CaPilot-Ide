@@ -2,7 +2,7 @@ import type { Page, TestInfo } from '@stablyai/playwright-test'
 import { randomUUID } from 'node:crypto'
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveWorktreeId,
@@ -427,7 +427,7 @@ async function measureCrossWorkspaceTypingDuringHiddenLoad({
   const typingPtyId = await waitForActivePanePtyId(orcaPage)
 
   const runId = randomUUID()
-  const scriptPath = path.join(testRepoPath, `.orca-opencode-cross-${hiddenPaneCount}-${runId}.mjs`)
+  const scriptPath = path.join(testRepoPath, `.capilot-opencode-cross-${hiddenPaneCount}-${runId}.mjs`)
   writeInteractivePromptScript(scriptPath, runId)
   await resetTerminalPtyOutputDebug(orcaPage)
   const load = await startSyntheticOpenCodeInjection({
@@ -521,7 +521,7 @@ test.describe('Artificial OpenCode terminal load', () => {
     const typingPtyId = await waitForActivePanePtyId(orcaPage)
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-opencode-baseline-typing-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-opencode-baseline-typing-${runId}.mjs`)
     writeInteractivePromptScript(scriptPath, runId)
     await resetTerminalPtyOutputDebug(orcaPage)
     try {
@@ -558,7 +558,7 @@ test.describe('Artificial OpenCode terminal load', () => {
     await focusPane(orcaPage, typingPane.paneKey)
 
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-opencode-typing-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-opencode-typing-${runId}.mjs`)
     writeInteractivePromptScript(scriptPath, runId)
     await resetTerminalPtyOutputDebug(orcaPage)
     const load = await startSyntheticOpenCodeInjection({
@@ -657,7 +657,7 @@ test.describe('Artificial OpenCode terminal load', () => {
       await focusPane(orcaPage, typingPane.paneKey)
 
       const runId = randomUUID()
-      const scriptPath = path.join(testRepoPath, `.orca-opencode-scale-${paneCount}-${runId}.mjs`)
+      const scriptPath = path.join(testRepoPath, `.capilot-opencode-scale-${paneCount}-${runId}.mjs`)
       writeInteractivePromptScript(scriptPath, runId)
       await resetTerminalPtyOutputDebug(orcaPage)
       const load = await startSyntheticOpenCodeInjection({

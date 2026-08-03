@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { z } from 'zod'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ORCHESTRATION_CONTRACT_VERSION } from '../../../shared/protocol-version'
-import { OrcaRuntimeService } from '../orca-runtime'
+import { OrcaRuntimeService } from '../capilot-runtime'
 import { OrchestrationDb } from '../orchestration/db'
 import { defineMethod, type RpcRequest } from './core'
 import { RpcDispatcher } from './dispatcher'
@@ -157,7 +157,7 @@ describe('durable orchestration mutation ledger', () => {
   })
 
   it('replays a completed receipt after database and dispatcher restart', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'orca-mutation-ledger-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-mutation-ledger-'))
     paths.push(dir)
     const dbPath = join(dir, 'orchestration.db')
     const first = createHarness(dbPath)
@@ -243,7 +243,7 @@ describe('durable orchestration mutation ledger', () => {
         data: {
           requestId: 'mutation_worker_start',
           dispatchId: started.dispatch.id,
-          recoveryCommand: `orca orchestration worker-show --dispatch ${started.dispatch.id} --json`
+          recoveryCommand: `capilot orchestration worker-show --dispatch ${started.dispatch.id} --json`
         }
       }
     })
@@ -252,7 +252,7 @@ describe('durable orchestration mutation ledger', () => {
   })
 
   it('recovers a lost ask acceptance without creating a second question', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'orca-mutation-ask-recovery-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-mutation-ask-recovery-'))
     paths.push(dir)
     const dbPath = join(dir, 'orchestration.db')
     const db = new OrchestrationDb(dbPath)

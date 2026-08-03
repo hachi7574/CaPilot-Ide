@@ -7,13 +7,13 @@ import { getRuntimePathBasename } from '../shared/cross-platform-path'
 import { resolveHookCommandSourcePolicy } from '../shared/hook-command-source-policy'
 import { shouldWaitForSetupBeforeAgentStartup } from '../shared/setup-agent-startup-policy'
 import { TERMINAL_GIT_CREDENTIAL_GUARD_POLICY_ENV } from '../shared/terminal-git-credential-guard'
-import { parseOrcaYaml } from '../shared/orca-yaml'
+import { parseOrcaYaml } from '../shared/capilot-yaml'
 import { nativeWindowsPathToPosixShellPath } from '../shared/setup-runner-command'
 import { resolveWindowsShellStartupFamily } from '../shared/windows-terminal-shell'
 import { resolveWindowsGitBashShellPath } from './git-bash'
 import { gitExecFileSync, promptGuardShellEnv } from './git/runner'
 import { isWslPath, parseWslPath, toWindowsWslPath, toLinuxPath } from './wsl'
-import { addWorktreeSetupWslInteropEnv } from './pty/wsl-orca-env'
+import { addWorktreeSetupWslInteropEnv } from './pty/wsl-capilot-env'
 import type {
   HookCommandSourcePolicy,
   OrcaHooks,
@@ -45,10 +45,10 @@ function getHookShell(): string | undefined {
 export { parseOrcaYaml }
 
 /**
- * Load hooks from orca.yaml in the given repo root.
+ * Load hooks from capilot.yaml in the given repo root.
  */
 export function loadHooks(repoPath: string): OrcaHooks | null {
-  const yamlPath = join(repoPath, 'orca.yaml')
+  const yamlPath = join(repoPath, 'capilot.yaml')
   if (!existsSync(yamlPath)) {
     return null
   }
@@ -62,10 +62,10 @@ export function loadHooks(repoPath: string): OrcaHooks | null {
 }
 
 /**
- * Check whether an orca.yaml exists for a repo.
+ * Check whether an capilot.yaml exists for a repo.
  */
 export function hasHooksFile(repoPath: string): boolean {
-  return existsSync(join(repoPath, 'orca.yaml'))
+  return existsSync(join(repoPath, 'capilot.yaml'))
 }
 
 // Why: detect unrecognised keys so the UI can suggest an update instead of showing a "could not be parsed" error.
@@ -77,10 +77,10 @@ const RECOGNIZED_ORCA_YAML_KEYS = new Set([
   'worktree'
 ])
 
-/** True when `orca.yaml` has a top-level key this version of Orca does not handle. */
+/** True when `capilot.yaml` has a top-level key this version of CaPilot does not handle. */
 export function hasUnrecognizedOrcaYamlKeys(repoPath: string): boolean {
   try {
-    const content = readFileSync(join(repoPath, 'orca.yaml'), 'utf-8')
+    const content = readFileSync(join(repoPath, 'capilot.yaml'), 'utf-8')
     for (const line of iterateLfScriptLines(content)) {
       // Why: match bare `key:` at end-of-line too, since a mapping with a block value on the next line is valid YAML.
       const m = line.match(/^([A-Za-z][A-Za-z0-9_-]*):(\s|$)/)
@@ -95,9 +95,9 @@ export function hasUnrecognizedOrcaYamlKeys(repoPath: string): boolean {
 }
 
 // ─── Issue command files ────────────────────────────────────────────────
-// Why: `.orca/issue-command` is the per-user override; `orca.yaml` is the tracked project default.
+// Why: `.capilot/issue-command` is the per-user override; `capilot.yaml` is the tracked project default.
 
-const ORCA_DIR = '.orca'
+const ORCA_DIR = '.capilot'
 const ISSUE_COMMAND_FILENAME = 'issue-command'
 
 export function getIssueCommandFilePath(repoPath: string): string {
@@ -145,8 +145,8 @@ export function readIssueCommand(repoPath: string): ResolvedIssueCommand {
 }
 
 /**
- * Write the per-user issue command override to `{repoRoot}/.orca/issue-command`.
- * Empty content deletes the override so the shared `orca.yaml` command applies again.
+ * Write the per-user issue command override to `{repoRoot}/.capilot/issue-command`.
+ * Empty content deletes the override so the shared `capilot.yaml` command applies again.
  */
 export function writeIssueCommand(repoPath: string, content: string): void {
   const filePath = getIssueCommandFilePath(repoPath)
@@ -171,22 +171,22 @@ export function writeIssueCommand(repoPath: string, content: string): void {
   }
 }
 
-/** Ensure `.orca` is in `.gitignore` so the per-user directory is never committed. */
+/** Ensure `.capilot` is in `.gitignore` so the per-user directory is never committed. */
 function ensureOrcaDirIgnored(repoPath: string): void {
   const gitignorePath = join(repoPath, '.gitignore')
   try {
     if (existsSync(gitignorePath)) {
       const content = readFileSync(gitignorePath, 'utf-8')
-      if (/^\.orca\/?$/m.test(content)) {
+      if (/^\.capilot\/?$/m.test(content)) {
         return
       }
       const separator = content.endsWith('\n') ? '' : '\n'
-      writeFileSync(gitignorePath, `${content}${separator}.orca\n`, 'utf-8')
+      writeFileSync(gitignorePath, `${content}${separator}.capilot\n`, 'utf-8')
     } else {
-      writeFileSync(gitignorePath, '.orca\n', 'utf-8')
+      writeFileSync(gitignorePath, '.capilot\n', 'utf-8')
     }
   } catch {
-    console.warn('[hooks] Could not update .gitignore to exclude .orca')
+    console.warn('[hooks] Could not update .gitignore to exclude .capilot')
   }
 }
 
@@ -229,7 +229,7 @@ export function getEffectiveHooksFromConfig(
     return null
   }
 
-  // Why: committed `orca.yaml` and local Settings can coexist; the source policy decides which is authoritative.
+  // Why: committed `capilot.yaml` and local Settings can coexist; the source policy decides which is authoritative.
   return {
     scripts: {
       ...(setup ? { setup } : {}),
@@ -293,7 +293,7 @@ export function getDefaultTabsLaunch(
       hasLocalScript: Boolean(repo.hookSettings?.scripts.setup?.trim())
     }
   )
-  // Why: local-only repos may use shared tab titles/colors but must not run the committed orca.yaml commands.
+  // Why: local-only repos may use shared tab titles/colors but must not run the committed capilot.yaml commands.
   const canRunSharedCommands = sharedCommandPolicy !== 'local-only'
   const runCommands =
     hasCommands && canRunSharedCommands ? shouldRunSetupForCreate(repo, decision) : false
@@ -328,7 +328,7 @@ export function getSetupCommandSource(
   return null
 }
 
-// Why: kept in sync with pty/wsl-orca-env.ts, which path-translates the same keys for WSL.
+// Why: kept in sync with pty/wsl-capilot-env.ts, which path-translates the same keys for WSL.
 // ORCA_WORKSPACE_NAME is a display name and the credential-guard policy is an enum — never paths.
 const SETUP_RUNNER_PATH_ENV_KEYS = [
   'ORCA_ROOT_PATH',
@@ -538,7 +538,7 @@ function createWorktreeRunnerScript(args: {
       : undefined
   // Why: linked worktrees use a `.git` file, so resolve the real per-worktree gitdir via git rev-parse --git-path.
   const runnerExtension = runnerShell.family === 'cmd' ? 'cmd' : 'sh'
-  const gitRelPath = `orca/${runnerBaseName}.${runnerExtension}`
+  const gitRelPath = `capilot/${runnerBaseName}.${runnerExtension}`
   let runnerScriptPath = getGitPath(worktreePath, gitRelPath, runtimeTarget)
 
   // Why: git runs inside WSL and returns a Linux path; convert to a UNC path so the Windows fs calls can reach it.
@@ -615,14 +615,14 @@ export function resolveSetupRunnerShell(
       options.resolveGitBashShellPath ??
       ((shell: string) => resolveWindowsGitBashShellPath(shell, { platform }))
     if (resolveGitBashShellPath(configuredShell)) {
-      // Note: Git Bash users with batch-syntax orca.yaml setup content get a bash
+      // Note: Git Bash users with batch-syntax capilot.yaml setup content get a bash
       // interpreter from here on. The flip is intentional and documented in
       // docs/reference/windows-setup-shell.md.
       return { family: 'posix' }
     }
   }
 
-  // Why: existing Windows setup scripts were authored for Orca's cmd runner;
+  // Why: existing Windows setup scripts were authored for CaPilot's cmd runner;
   // PowerShell, wsl.exe-as-terminal, and Windows-host projects can invoke it
   // without changing syntax, so they intentionally stay on the cmd runner.
   return { family: 'cmd' }

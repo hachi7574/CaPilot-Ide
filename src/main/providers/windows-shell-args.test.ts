@@ -179,7 +179,7 @@ describe('resolveWindowsShellLaunchArgs', () => {
 
   it('preserves complex PowerShell startup command text through EncodedCommand', () => {
     const startupCommand =
-      '& "C:\\Program Files\\Orca CLI\\orca.exe" "--label" "quoted value"; $env:ORCA_VALUE = "nested"'
+      '& "C:\\Program Files\\CaPilot CLI\\capilot.exe" "--label" "quoted value"; $env:ORCA_VALUE = "nested"'
     const result = resolveWindowsShellLaunchArgs(
       'powershell.exe',
       'C:\\Users\\alice',
@@ -200,7 +200,7 @@ describe('resolveWindowsShellLaunchArgs', () => {
       'C:\\Users\\alice',
       'C:\\Users\\alice',
       undefined,
-      `orca ${'x'.repeat(7000)}`
+      `capilot ${'x'.repeat(7000)}`
     )
 
     expect(result.startupCommandDeliveredInShellArgs).toBeUndefined()
@@ -281,7 +281,7 @@ describe('resolveWindowsShellLaunchArgs', () => {
     expect(existsSync(join(userDataPath, 'shell-ready', 'zsh', '.zshenv'))).toBe(true)
 
     // Why: the point of materializing wrappers for WSL is that a typed `omp`
-    // picks up Orca's status extension; pin that shim end to end.
+    // picks up CaPilot's status extension; pin that shim end to end.
     const bashRcfile = readFileSync(join(userDataPath, 'shell-ready', 'bash', 'rcfile'), 'utf8')
     const zshLogin = readFileSync(join(userDataPath, 'shell-ready', 'zsh', '.zlogin'), 'utf8')
     for (const wrapperFile of [bashRcfile, zshLogin]) {
@@ -394,7 +394,7 @@ describe('resolveWindowsShellLaunchArgs', () => {
 // never be re-parsed as an open string.
 describe('issue #7236: PowerShell setup-runner command delivery', () => {
   // git rev-parse hands back a forward-slash Windows-absolute path for the runner.
-  const runnerPath = 'C:/Users/alice/repo/.git/orca/setup-runner.cmd'
+  const runnerPath = 'C:/Users/alice/repo/.git/capilot/setup-runner.cmd'
 
   it('wraps the setup runner in balanced double quotes', () => {
     const { command } = resolveSetupRunnerCommand(runnerPath, 'windows')

@@ -10,13 +10,13 @@ describe.runIf(process.platform !== 'win32')('resolveRelayGrokHome', () => {
     vi.stubEnv('SHELL', '/bin/sh')
     vi.stubEnv('GROK_HOME', '/srv/grok///')
 
-    await expect(resolveRelayGrokHome('/home/orca')).resolves.toBe('/srv/grok')
+    await expect(resolveRelayGrokHome('/home/capilot')).resolves.toBe('/srv/grok')
   })
 
   it('falls back when the login-shell GROK_HOME is not an absolute POSIX path', async () => {
     vi.stubEnv('SHELL', '/bin/sh')
     vi.stubEnv('GROK_HOME', '../relative')
 
-    await expect(resolveRelayGrokHome('/home/orca')).resolves.toBe('/home/orca/.grok')
+    await expect(resolveRelayGrokHome('/home/capilot')).resolves.toBe('/home/capilot/.grok')
   })
 })

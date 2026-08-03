@@ -20,14 +20,14 @@ async function tempRoot(prefix: string): Promise<string> {
 
 async function writePlugin(root: string, publisher: string, id: string): Promise<void> {
   await writeFile(
-    join(root, 'orca-plugin.json'),
+    join(root, 'capilot-plugin.json'),
     JSON.stringify({
       manifestVersion: 1,
       id,
       publisher,
       name: 'Plugin',
       version: '1.0.0',
-      engines: { orca: '>=1.0.0' },
+      engines: { capilot: '>=1.0.0' },
       pluginApi: 1,
       capabilities: []
     })
@@ -57,12 +57,12 @@ describe('plugin install trust', () => {
       null
     ]
   ])('enforces reserved source organization', (source, expected) => {
-    expect(pluginInstallTrustError('community.orca-secrets', source)).toBe(expected)
+    expect(pluginInstallTrustError('community.capilot-secrets', source)).toBe(expected)
   })
 
   it('rejects locally installed reserved identities before publication', async () => {
-    const sourcePath = await tempRoot('orca-reserved-plugin-')
-    const pluginsDir = await tempRoot('orca-plugin-installs-')
+    const sourcePath = await tempRoot('capilot-reserved-plugin-')
+    const pluginsDir = await tempRoot('capilot-plugin-installs-')
     await writePlugin(sourcePath, 'stablyai', 'orca-skills')
 
     await expect(
@@ -75,8 +75,8 @@ describe('plugin install trust', () => {
   })
 
   it('allows the app-bundled path only for the complete official identity', async () => {
-    const sourcePath = await tempRoot('orca-bundled-plugin-')
-    const pluginsDir = await tempRoot('orca-plugin-installs-')
+    const sourcePath = await tempRoot('capilot-bundled-plugin-')
+    const pluginsDir = await tempRoot('capilot-plugin-installs-')
     await writePlugin(sourcePath, 'stablyai', 'orca-skills')
 
     const result = await installBundledPlugin({
@@ -95,8 +95,8 @@ describe('plugin install trust', () => {
   })
 
   it('blocks a killed plugin even when the caller bypasses marketplace UI', async () => {
-    const sourcePath = await tempRoot('orca-killed-plugin-')
-    const pluginsDir = await tempRoot('orca-plugin-installs-')
+    const sourcePath = await tempRoot('capilot-killed-plugin-')
+    const pluginsDir = await tempRoot('capilot-plugin-installs-')
     await writePlugin(sourcePath, 'community', 'unsafe')
 
     await expect(
@@ -109,7 +109,7 @@ describe('plugin install trust', () => {
       })
     ).resolves.toEqual({
       ok: false,
-      error: "plugin is blocked by Orca's safety list: Security incident"
+      error: "plugin is blocked by CaPilot's safety list: Security incident"
     })
   })
 })

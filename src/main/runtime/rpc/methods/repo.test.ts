@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { REPO_METHODS } from './repo'
 
 function makeRequest(method: string, params?: unknown): RpcRequest {
@@ -88,7 +88,7 @@ describe('repo RPC methods', () => {
       getRuntimeId: () => 'test-runtime',
       cloneRepo: vi.fn().mockResolvedValue({
         id: 'repo-1',
-        path: '/srv/projects/orca',
+        path: '/srv/projects/capilot',
         kind: 'git'
       })
     } as unknown as OrcaRuntimeService
@@ -107,7 +107,7 @@ describe('repo RPC methods', () => {
     )
     expect(response).toMatchObject({
       ok: true,
-      result: { repo: { id: 'repo-1', path: '/srv/projects/orca' } }
+      result: { repo: { id: 'repo-1', path: '/srv/projects/capilot' } }
     })
   })
 
@@ -116,7 +116,7 @@ describe('repo RPC methods', () => {
       getRuntimeId: () => 'test-runtime',
       showRepo: vi.fn().mockResolvedValue({
         id: 'repo-1',
-        path: '/srv/projects/orca',
+        path: '/srv/projects/capilot',
         kind: 'git'
       })
     } as unknown as OrcaRuntimeService
@@ -127,7 +127,7 @@ describe('repo RPC methods', () => {
     expect(runtime.showRepo).toHaveBeenCalledWith('repo-1')
     expect(response).toMatchObject({
       ok: true,
-      result: { repo: { id: 'repo-1', path: '/srv/projects/orca' } }
+      result: { repo: { id: 'repo-1', path: '/srv/projects/capilot' } }
     })
   })
 
@@ -197,7 +197,7 @@ describe('repo RPC methods', () => {
         hasHooksFile: true,
         hooks: { scripts: { setup: 'pnpm install' } },
         setupRunPolicy: 'run-by-default',
-        source: 'orca.yaml',
+        source: 'capilot.yaml',
         setupTrust: {
           contentHash: 'hash-1',
           scriptContent: 'pnpm install'
@@ -220,7 +220,7 @@ describe('repo RPC methods', () => {
         localContent: null,
         sharedContent: 'Fix {{artifact_url}}',
         effectiveContent: 'Fix {{artifact_url}}',
-        localFilePath: '/srv/repo/.orca/issue-command',
+        localFilePath: '/srv/repo/.capilot/issue-command',
         source: 'shared'
       }),
       writeRepoIssueCommand: vi.fn().mockResolvedValue({ ok: true })

@@ -6,14 +6,14 @@ import {
 } from './github-project-repo-match'
 
 const repos = [
-  { id: 'repo-1', path: '/Users/me/orca', displayName: 'orca' },
+  { id: 'repo-1', path: '/Users/me/capilot', displayName: 'capilot' },
   { id: 'repo-2', path: '/Users/me/other', displayName: 'other' }
 ]
 
 describe('GitHub project repo matching', () => {
   it('normalizes owner/repo slugs case-insensitively', () => {
-    expect(normalizeGitHubRepositorySlug(' StablyAI/Orca ')).toBe('stablyai/orca')
-    expect(normalizeGitHubRepositorySlug('orca')).toBeNull()
+    expect(normalizeGitHubRepositorySlug(' StablyAI/CaPilot ')).toBe('stablyai/orca')
+    expect(normalizeGitHubRepositorySlug('capilot')).toBeNull()
     expect(normalizeGitHubRepositorySlug('stablyai/orca/extra')).toBeNull()
   })
 
@@ -21,7 +21,7 @@ describe('GitHub project repo matching', () => {
     expect(
       findRepoForGitHubProjectRepository('stablyai/orca', repos, {
         'repo-1': {
-          path: '/Users/me/orca',
+          path: '/Users/me/capilot',
           repository: { owner: 'stablyai', repo: 'orca' }
         }
       })
@@ -32,7 +32,7 @@ describe('GitHub project repo matching', () => {
     expect(
       findRepoForGitHubProjectRepository('stablyai/orca', repos, {
         'repo-1': {
-          path: '/Users/me/orca',
+          path: '/Users/me/capilot',
           repository: { owner: 'stablyai', repo: 'orca' }
         },
         'repo-2': {
@@ -67,7 +67,7 @@ describe('GitHub project repo matching', () => {
         {
           'repo-1': {
             path: '/Users/me/stablyai/orca',
-            repository: { owner: 'fork', repo: 'orca' }
+            repository: { owner: 'fork', repo: 'capilot' }
           }
         }
       )
@@ -84,7 +84,7 @@ describe('GitHub project repo matching', () => {
     expect(
       filterGitHubProjectRowsForRepos(rows, repos, {
         'repo-1': {
-          path: '/Users/me/orca',
+          path: '/Users/me/capilot',
           repository: { owner: 'stablyai', repo: 'orca' }
         }
       }).map((row) => row.id)
@@ -98,14 +98,14 @@ describe('GitHub project repo matching', () => {
         repos,
         {
           'repo-1': {
-            path: '/Users/me/orca',
+            path: '/Users/me/capilot',
             repository: { owner: 'stablyai', repo: 'orca', host: 'github.com' }
           },
           'repo-2': {
             path: '/Users/me/other',
             repository: {
               owner: 'stablyai',
-              repo: 'orca',
+              repo: 'capilot',
               host: 'github.acme-corp.com'
             }
           }

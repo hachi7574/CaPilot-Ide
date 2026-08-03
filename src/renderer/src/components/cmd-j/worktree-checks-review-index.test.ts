@@ -8,8 +8,8 @@ import { buildWorktreeChecksReviewIndex } from './worktree-checks-review-index'
 
 const repo: Repo = {
   id: 'repo-1',
-  path: '/remote/orca',
-  displayName: 'orca',
+  path: '/remote/capilot',
+  displayName: 'capilot',
   badgeColor: '#000000',
   addedAt: 0,
   executionHostId: 'ssh:staging'
@@ -18,7 +18,7 @@ const repo: Repo = {
 const worktree: Worktree = {
   id: 'worktree-1',
   repoId: repo.id,
-  path: '/remote/orca-worktrees/search',
+  path: '/remote/capilot-worktrees/search',
   head: 'abc123',
   branch: 'refs/heads/feature/search',
   isBare: false,
@@ -148,7 +148,7 @@ describe('buildWorktreeChecksReviewIndex', () => {
   it('keeps same-id worktrees isolated across execution hosts', () => {
     const localRepo: Repo = {
       ...repo,
-      path: '/local/orca',
+      path: '/local/capilot',
       executionHostId: 'local'
     }
     const localWorktree: Worktree = { ...worktree, hostId: 'local' }

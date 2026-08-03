@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 // fetch evicts its Map entry AND does not advance the freshness timestamp,
 // and that two concurrent callers serialize on a single underlying fetch.
 // They live in a dedicated file so we can mock `gitExecFileAsync` cleanly
-// without disturbing the large orca-runtime.test.ts mock surface.
+// without disturbing the large capilot-runtime.test.ts mock surface.
 
 const gitExecFileAsyncMock = vi.hoisted(() => vi.fn())
 
@@ -17,10 +17,10 @@ vi.mock('../git/runner', async (importOriginal) => {
   }
 })
 
-// Why: orca-runtime.ts imports heavy modules (hooks, ipc/*, etc.) at top
+// Why: capilot-runtime.ts imports heavy modules (hooks, ipc/*, etc.) at top
 // level. We only exercise the fetch cache, so we let those imports load
 // normally — none of them trigger IO until a runtime method is called.
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 
 function isFetchArgs(argv: unknown): argv is string[] {
   if (!Array.isArray(argv)) {

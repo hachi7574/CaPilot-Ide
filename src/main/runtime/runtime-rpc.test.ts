@@ -8,7 +8,7 @@ import { EventEmitter } from 'node:events'
 import { describe, expect, it, vi } from 'vitest'
 import WebSocket from 'ws'
 import Database from '../sqlite/sync-database'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import { OrchestrationDb } from './orchestration/db'
 import * as runtimeMetadataModule from './runtime-metadata'
 import { readRuntimeMetadata, writeRuntimeMetadata } from './runtime-metadata'
@@ -344,7 +344,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('writes runtime metadata with transport details when started', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -364,9 +364,9 @@ describe('OrcaRuntimeRpcServer', () => {
 
   it('reclaims runtime metadata clobbered by a second instance that has since died', async () => {
     // Why: #7848 — a launch that slips past the single-instance lock republishes
-    // orca-runtime.json with its own pid, so the CLI reports stale_bootstrap
+    // capilot-runtime.json with its own pid, so the CLI reports stale_bootstrap
     // against this still-serving runtime once that instance exits.
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
     await server.start()
@@ -387,7 +387,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('leaves runtime metadata owned by a live sibling runtime untouched', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     // Why: a synthetic owned pid frees the always-alive process.pid to stand in for
     // the sibling — Windows never assigns pid 1, so hardcoding it there reads as dead.
     const server = new OrcaRuntimeRpcServer({
@@ -412,7 +412,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('stops reclaiming runtime metadata after the server is stopped', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({ runtime: new OrcaRuntimeService(), userDataPath })
     await server.start()
     const watch = server['metadataOwnershipWatch']
@@ -438,7 +438,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('creates a pairing offer for the active WebSocket transport', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -468,7 +468,7 @@ describe('OrcaRuntimeRpcServer', () => {
   it('reports why pairing is unavailable before the WebSocket listener is ready', () => {
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
-      userDataPath: mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-')),
+      userDataPath: mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-')),
       enableWebSocket: true,
       wsPort: 0
     })
@@ -481,7 +481,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('reports an E2EE identity initialization failure after the local transport starts', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     mkdirSync(join(userDataPath, E2EE_KEYPAIR_FILENAME))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
@@ -505,7 +505,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('reports a registry persistence failure without retaining a ghost credential', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -530,7 +530,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects wildcard advertised addresses before minting a device credential', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -555,7 +555,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('includes a web client URL when the web bundle is served by the runtime', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -585,7 +585,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('preserves proxy path prefixes in web client URLs', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -612,7 +612,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('formats pairing-address overrides for IPv6 and host-port tunnel endpoints', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -655,7 +655,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('creates mobile-scoped pairing offers for headless mobile pairing', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -689,7 +689,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('adds only the exact optional relay object to GUI mobile pairing offers', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -747,7 +747,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('queues the old Relay binding when a stable provider changes accounts', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -814,7 +814,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('refuses a silent LAN QR when relay invite minting fails under Anywhere', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -848,7 +848,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('reports a missing Relay provider without creating a fallback QR', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -865,7 +865,7 @@ describe('OrcaRuntimeRpcServer', () => {
         relayFailure: {
           code: 'relay_provider_unavailable',
           stage: 'provider_missing',
-          message: 'Orca Relay is not available on this desktop'
+          message: 'CaPilot Relay is not available on this desktop'
         }
       })
       expect(server.getDeviceRegistry()?.getPendingDevice('mobile')).toBeNull()
@@ -875,7 +875,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('preserves an existing Relay QR when a same-mode remint fails', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -926,7 +926,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('coalesces concurrent mobile Relay mints for the shared pending credential', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -985,7 +985,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('supersedes an older concurrent Relay rotation for a different address', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1056,7 +1056,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('supersedes an older concurrent Relay mint for a different address without rotate', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1120,7 +1120,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('lets LAN supersede a pending Relay mint without waiting for it', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1186,7 +1186,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('revokes a Relay invite when binding persistence throws', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1236,7 +1236,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('revokes a Relay result from a provider replaced during minting', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1296,7 +1296,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('retains a minted Relay binding on the device when cleanup cannot be queued', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1364,7 +1364,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('queues cloud cleanup when a minted Relay binding cannot be persisted', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1407,7 +1407,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('persists local-only pairing and never mints or later binds Relay', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1451,7 +1451,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('normalizes untrusted pairing modes to automatic at the runtime boundary', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1500,7 +1500,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('revokes and rotates a pending Relay code when switching it to local-only', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1556,7 +1556,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rotates a pending local-only code when switching it back to Anywhere', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1613,7 +1613,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('reuses the pending token when the requested mode is unchanged', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1666,7 +1666,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('records cloud cleanup before rotating or deleting the local mobile credential', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1724,7 +1724,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('binds pairing RPC providers to the immutable authenticated socket context', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const server = new OrcaRuntimeRpcServer({
       runtime: new OrcaRuntimeService(),
       userDataPath,
@@ -1794,7 +1794,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('cleans up pre-auth E2EE WebSocket state when the socket closes', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -1841,7 +1841,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('terminates active WebSockets for a revoked mobile device', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -1882,7 +1882,7 @@ describe('OrcaRuntimeRpcServer', () => {
   }, 15_000)
 
   it('does not revoke runtime-scoped devices through mobile revocation', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -1912,7 +1912,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('terminates active WebSockets for a revoked runtime access grant', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -1951,7 +1951,7 @@ describe('OrcaRuntimeRpcServer', () => {
   }, 15_000)
 
   it('rotates unused runtime pairing links without revoking already-used grants', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -2007,7 +2007,7 @@ describe('OrcaRuntimeRpcServer', () => {
   }, 15_000)
 
   it('caps WebSocket long-polls and aborts them when the socket closes', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)
@@ -2082,7 +2082,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('applies the ask sub-cap on the WebSocket path and releases both counters on close', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)
@@ -2171,7 +2171,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('shares one socket close listener across concurrent WebSocket dispatches', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = { getRuntimeId: () => 'test-runtime' } as unknown as OrcaRuntimeService
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath, enableWebSocket: false })
     server['deviceRegistry'] = new DeviceRegistry(userDataPath)
@@ -2241,7 +2241,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('limits mobile-scoped WebSocket tokens to the mobile RPC surface', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const pushRuntimeGit = vi.fn().mockResolvedValue({ ok: true })
     const selectClaudeAccount = vi.fn().mockResolvedValue({ ok: true })
     const selectCodexAccount = vi.fn().mockResolvedValue({ ok: true })
@@ -2488,7 +2488,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           number: 123,
           updates: { title: 'New title' }
         }
@@ -2503,7 +2503,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           number: 123,
           issueTypeId: 'type-1'
         }
@@ -2547,7 +2547,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           number: 456,
           updates: { state: 'closed' }
         }
@@ -2562,7 +2562,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           number: 123,
           body: 'done'
         }
@@ -2577,7 +2577,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           commentId: 101,
           body: 'edited'
         }
@@ -2592,7 +2592,7 @@ describe('OrcaRuntimeRpcServer', () => {
         deviceToken: mobile.token,
         params: {
           owner: 'stablyai',
-          repo: 'orca',
+          repo: 'capilot',
           commentId: 101
         }
       }),
@@ -3262,50 +3262,50 @@ describe('OrcaRuntimeRpcServer', () => {
     })
     expect(listGitHubIssueTypesBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca'
+      repo: 'capilot'
     })
     expect(listGitHubLabelsBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca'
+      repo: 'capilot'
     })
     expect(listGitHubAssignableUsersBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       seedLogins: ['alex']
     })
     expect(updateGitHubIssueBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       number: 123,
       updates: { title: 'New title' }
     })
     expect(updateGitHubIssueTypeBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       number: 123,
       issueTypeId: 'type-1'
     })
     expect(updateGitHubPullRequestBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       number: 456,
       updates: { state: 'closed' }
     })
     expect(addGitHubIssueCommentBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       number: 123,
       body: 'done'
     })
     expect(updateGitHubIssueCommentBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       commentId: 101,
       body: 'edited'
     })
     expect(deleteGitHubIssueCommentBySlug).toHaveBeenCalledWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       commentId: 101
     })
     expect(updateRepoIssue).toHaveBeenCalledWith('id:repo-1', 123, {
@@ -3386,7 +3386,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects WebSocket requests whose request token differs from the authenticated channel token', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = {
       getRuntimeId: () => 'test-runtime',
       getStatus: vi.fn().mockResolvedValue({ graphStatus: 'ok' })
@@ -3420,7 +3420,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects unpaired terminal creates before runtime dispatch', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const createMobileSessionTerminal = vi.fn()
     const runtime = {
       getRuntimeId: () => 'test-runtime',
@@ -3461,7 +3461,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('allows runtime-scoped WebSocket tokens to use the full RPC surface', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const pushRuntimeGit = vi.fn().mockResolvedValue({ ok: true })
     const runtime = {
       getRuntimeId: () => 'test-runtime',
@@ -3488,7 +3488,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('leaves the last published metadata in place when a runtime stops', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({
       runtime,
@@ -3508,7 +3508,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('closes the socket if metadata publication fails during startup', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
     const writeMetadataSpy = vi
@@ -3533,7 +3533,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('serves status.get for authenticated callers', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -3559,7 +3559,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('stamps the authenticated device scope onto status.get for WebSocket clients', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath, enableWebSocket: false })
     server['deviceRegistry'] = new DeviceRegistry(userDataPath)
@@ -3599,7 +3599,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects requests with the wrong auth token', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -3624,7 +3624,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects malformed requests before dispatch', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -3648,7 +3648,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('serves terminal.list and terminal.show for live runtime terminals', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore() as never)
     const writes: string[] = []
     runtime.setPtyController({
@@ -3786,7 +3786,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('serves terminal.list with visual split-group and pane nesting', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore() as never)
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
     const worktreeId = 'repo-1::/tmp/worktree-a'
@@ -4035,7 +4035,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('mirrors laptop-created remote runtime terminals into phone session tabs over RPC', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore() as never)
     const spawn = vi.fn().mockResolvedValue({ id: 'laptop-created-pty' })
     runtime.setPtyController({
@@ -4145,7 +4145,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('streams laptop-created runtime terminals to a paired phone WebSocket client', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const writes: string[] = []
     const runtime = new OrcaRuntimeService(makeStore() as never)
     const spawn = vi.fn().mockResolvedValue({ id: 'paired-laptop-pty' })
@@ -4288,7 +4288,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('authorizes a mobile artifact tap after first-connect backfill even once the raw window scrolls', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore() as never)
     runtime.setPtyController({
       spawn: vi.fn().mockResolvedValue({ id: 'pty-1' }),
@@ -4304,7 +4304,7 @@ describe('OrcaRuntimeRpcServer', () => {
       wsPort: 0
     })
     // Real artifact under the temp root so the grant path stats it.
-    const artifactPath = join(tmpdir(), `orca-artifact-${process.pid}-${Date.now()}.json`)
+    const artifactPath = join(tmpdir(), `capilot-artifact-${process.pid}-${Date.now()}.json`)
     await writeFile(artifactPath, '{"ok":true}')
 
     runtime.attachWindow(1)
@@ -4392,7 +4392,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('completes remote E2EE authentication against a runtime proxy without activateRecentPtyPathCandidateTracking', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     // Why: a remote-host runtime proxy only implements RPC-forwarded methods;
     // activation is a local-host concern, so the proxy legitimately lacks
     // activateRecentPtyPathCandidateTracking and onReady must not throw.
@@ -4444,7 +4444,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('keeps active runtime multiplex streams responsive while a background stream is ACK-limited over WebSocket', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const writes: { terminal: string; text: string }[] = []
     const runtime = new OrcaRuntimeService(makeStore() as never)
     const spawn = vi
@@ -4644,7 +4644,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('serves worktree.ps from the runtime summary builder', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore({ isUnread: true }) as never)
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -4709,7 +4709,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('bounds worktree.list responses with limit metadata', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService(makeStore({ isUnread: true }) as never)
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -4738,7 +4738,7 @@ describe('OrcaRuntimeRpcServer', () => {
   })
 
   it('rejects oversized RPC frames instead of buffering them indefinitely', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
     const runtime = new OrcaRuntimeService()
     const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
 
@@ -4779,7 +4779,7 @@ describe('OrcaRuntimeRpcServer', () => {
   // that a unit-level test would miss.
   describe('long-poll transport (§3.1)', () => {
     it('emits keepalive frames while a check --wait handler blocks', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -4820,7 +4820,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('emits keepalive frames while orchestration.ask blocks for a reply', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -4876,7 +4876,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('emits keepalive frames while terminal.wait blocks and returns its structured timeout', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const server = new OrcaRuntimeRpcServer({
         runtime,
@@ -4947,7 +4947,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('releases terminal.wait long-poll slot when the client closes mid-wait', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const server = new OrcaRuntimeRpcServer({
         runtime,
@@ -5022,7 +5022,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('releases long-poll slot when client closes mid-wait', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -5082,7 +5082,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('destroys active Unix socket connections when the runtime stops', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -5122,7 +5122,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('responds runtime_busy once the long-poll cap is saturated', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -5179,7 +5179,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('reserves long-poll headroom for terminal.wait when orchestration.ask floods', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -5291,7 +5291,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('keeps the full cap available to terminal.wait and check --wait', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const db = new OrchestrationDb(':memory:')
       runtime.setOrchestrationDb(db)
@@ -5340,7 +5340,7 @@ describe('OrcaRuntimeRpcServer', () => {
     })
 
     it('does not emit keepalive frames for short RPCs', async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       // Why: a 10ms interval means any frame in the first ~100ms of a short
       // RPC would show up; `status.get` returns in <10ms so no keepalive
@@ -5379,7 +5379,7 @@ describe('OrcaRuntimeRpcServer', () => {
       // Without the `.catch` on handleMessage's promise, a throw would leave
       // the client hanging until the 30s idle timer and leak the dispatch's
       // AbortController in the transport's in-flight set.
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-rpc-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-rpc-'))
       const runtime = new OrcaRuntimeService()
       const server = new OrcaRuntimeRpcServer({ runtime, userDataPath })
       await server.start()
@@ -5416,7 +5416,7 @@ describe('OrcaRuntimeRpcServer', () => {
       const db1 = new OrchestrationDb(':memory:')
       db1.close()
       // File path reuse is meaningless with :memory:, so use a tmp file.
-      const tmpPath = join(mkdtempSync(join(tmpdir(), 'orca-orch-mig-')), 'orch.sqlite')
+      const tmpPath = join(mkdtempSync(join(tmpdir(), 'capilot-orch-mig-')), 'orch.sqlite')
       const a = new OrchestrationDb(tmpPath)
       a.close()
       // Second construction must not throw "duplicate column name".
@@ -5437,7 +5437,7 @@ describe('OrcaRuntimeRpcServer', () => {
       // To exercise the hard-fail path we need a DB that actually has work
       // to migrate — a v2-shape file without the delivered_at column — so
       // the guarded ALTER runs and the stub can fire.
-      const tmpPath = join(mkdtempSync(join(tmpdir(), 'orca-orch-mig-')), 'orch.sqlite')
+      const tmpPath = join(mkdtempSync(join(tmpdir(), 'capilot-orch-mig-')), 'orch.sqlite')
       const seed = new Database(tmpPath)
       seed.exec(`
         CREATE TABLE messages (

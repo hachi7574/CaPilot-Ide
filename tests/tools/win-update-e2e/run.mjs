@@ -1,6 +1,6 @@
 // win-update-e2e — packaged NSIS update proof harness.
 //
-// Given two Orca Windows installers (version N and N+1), proves what happens to
+// Given two CaPilot Windows installers (version N and N+1), proves what happens to
 // the terminal daemon and its sessions across a real silent update, with
 // machine-checkable assertions. Windows-only. See README.md for usage and the
 // design context in docs/windows-terminal-update-survival-plan.md (Phase 0).
@@ -58,7 +58,7 @@ async function main() {
 
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const canary = `ORCA-E2E-CANARY-${runId}`
-  const runDir = mkdtempSync(path.join(tmpdir(), `orca-win-update-e2e-${runId}-`))
+  const runDir = mkdtempSync(path.join(tmpdir(), `capilot-win-update-e2e-${runId}-`))
   const userDataDir = path.join(runDir, 'userData')
   const baselinePath = path.join(runDir, 'baseline.json')
   const watchOut = path.join(runDir, 'window-watch.jsonl')
@@ -378,7 +378,7 @@ function resolveScopedDaemon(userDataDir) {
     startedAtMs: primary?.startedAtMs ?? null,
     // Why: the daemon's exe path (first token of its command line) tells us
     // whether it was forked from the relocated userData/daemon-host copy or the
-    // install-dir Orca.exe — the key survival signal.
+    // install-dir CaPilot.exe — the key survival signal.
     exePath: daemonExePath(scanEntry?.commandLine),
     pids: [...pids]
   }
@@ -569,7 +569,7 @@ async function teardown({
   // — uninstalling would remove a build we did not put there.
   if (hadPreexistingInstall) {
     console.log(
-      '\n*** NOTE: an Orca install existed before this run. It was OVERWRITTEN and the\n' +
+      '\n*** NOTE: an CaPilot install existed before this run. It was OVERWRITTEN and the\n' +
         '    --to version is now installed. Your prior build was NOT restored — reinstall\n' +
         '    your intended build if needed. Skipping uninstall. ***\n'
     )

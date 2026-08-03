@@ -548,7 +548,7 @@ describe('launchWorkItemDirect', () => {
     mocks.store.repos = [
       {
         id: 'repo-ssh',
-        path: '/home/orca/repo',
+        path: '/home/capilot/repo',
         displayName: 'Remote Repo',
         badgeColor: '#000',
         addedAt: 0,
@@ -567,7 +567,7 @@ describe('launchWorkItemDirect', () => {
       launchConfig: { agentArgs: '', agentEnv: {} }
     })
     mocks.store.createWorktree.mockResolvedValue({
-      worktree: { id: 'wt-ssh', path: '/home/orca/repo-worktrees/issue-77' }
+      worktree: { id: 'wt-ssh', path: '/home/capilot/repo-worktrees/issue-77' }
     })
 
     await launchWorkItemDirect({
@@ -587,7 +587,7 @@ describe('launchWorkItemDirect', () => {
     expect(mocks.store.ensureRemoteDetectedAgents).toHaveBeenCalledWith('ssh-1')
     expect(mockApi.agentTrust.markTrusted).toHaveBeenCalledWith({
       preset: 'cursor',
-      workspacePath: '/home/orca/repo-worktrees/issue-77',
+      workspacePath: '/home/capilot/repo-worktrees/issue-77',
       connectionId: 'ssh-1'
     })
     expect(buildAgentDraftLaunchPlan).toHaveBeenCalledWith({

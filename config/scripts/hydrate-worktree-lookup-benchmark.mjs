@@ -141,7 +141,7 @@ console.log(
   `${pad('repos', 6)} ${pad('worktrees', 10)} ${pad('ids', 5)} ${pad('flatten', 11)} ${pad('indexed', 11)} ${pad('speedup', 9)}`
 )
 
-// Row shapes are synthetic, sized against a real orca-data.json on a heavy machine
+// Row shapes are synthetic, sized against a real capilot-data.json on a heavy machine
 // (10 repos / 423 worktrees / 188 pending reconnect). They are not that dataset: the
 // generator spreads worktrees evenly and injects one duplicate id, so treat the counts
 // as "about this scale", not a replay.

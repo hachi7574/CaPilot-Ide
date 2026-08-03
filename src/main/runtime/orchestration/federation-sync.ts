@@ -4,7 +4,7 @@ import {
   type MessageType,
   type WorkerReportOutcome
 } from './types'
-import type { OrcaRuntimeService } from '../orca-runtime'
+import type { OrcaRuntimeService } from '../capilot-runtime'
 import { OrchestrationError } from './orchestration-error'
 
 const MESSAGE_TYPE_SET = new Set<MessageType>(MESSAGE_TYPES)
@@ -49,7 +49,7 @@ export async function syncFederatedDispatch(
   if (currentServer.peerFingerprint !== federated.peer_fingerprint) {
     throw new OrchestrationError(
       'peer_changed',
-      `Saved environment ${federated.environment_name} now identifies a different Orca server.`
+      `Saved environment ${federated.environment_name} now identifies a different CaPilot server.`
     )
   }
 

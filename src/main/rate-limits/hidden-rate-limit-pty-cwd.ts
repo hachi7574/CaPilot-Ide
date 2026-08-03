@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { isRootLikePath } from '../providers/pty-path-safety'
 
 const HIDDEN_RATE_LIMIT_PTY_CWD_DIR = 'rate-limit-pty-cwd'
-const WSL_RATE_LIMIT_PTY_CWD_DIR = 'orca-rate-limit-pty-cwd'
+const WSL_RATE_LIMIT_PTY_CWD_DIR = 'capilot-rate-limit-pty-cwd'
 
 // Why: the hidden usage PTY must run in a bounded, never-root directory so
 // Claude's discovery cannot walk a whole filesystem — reject a root-like user
@@ -15,7 +15,7 @@ function resolveUserDataRoot(userDataPath?: string | null): string {
   if (root && !isRootLikePath(root)) {
     return root
   }
-  return join(tmpdir(), 'orca-rate-limit-pty')
+  return join(tmpdir(), 'capilot-rate-limit-pty')
 }
 
 export function resolveHiddenRateLimitPtyCwd(options?: { userDataPath?: string | null }): string {

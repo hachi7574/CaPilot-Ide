@@ -97,7 +97,7 @@ describe('task source context', () => {
       projectId: 'project-1',
       hostId: 'local',
       repoId: 'repo-1',
-      providerIdentity: { provider: 'github', owner: 'other', repo: 'orca' }
+      providerIdentity: { provider: 'github', owner: 'other', repo: 'capilot' }
     })
     const enterpriseRepo = getTaskSourceCacheScope({
       provider: 'github',
@@ -107,7 +107,7 @@ describe('task source context', () => {
       providerIdentity: {
         provider: 'github',
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.acme.test'
       }
     })
@@ -128,9 +128,9 @@ describe('task source context', () => {
       getTaskSourceCacheScope({
         ...base,
         provider: 'gitlab',
-        providerIdentity: { provider: 'gitlab', namespace: 'stably', project: 'orca' }
+        providerIdentity: { provider: 'gitlab', namespace: 'stably', project: 'capilot' }
       })
-    ).toContain(encodeURIComponent('stably/orca'))
+    ).toContain(encodeURIComponent('stably/capilot'))
     expect(
       getTaskSourceCacheScope({
         ...base,
@@ -268,7 +268,7 @@ describe('areTaskSourceContextsEqual', () => {
     const github: TaskSourceContext = {
       ...base,
       provider: 'github',
-      providerIdentity: { provider: 'github', owner: 'acme', repo: 'orca' }
+      providerIdentity: { provider: 'github', owner: 'acme', repo: 'capilot' }
     }
     expect(areTaskSourceContextsEqual(github, { ...github, provider: 'gitlab' })).toBe(false)
   })

@@ -35,8 +35,8 @@ const LOCAL_HOST_LABEL = getExecutionHostLabel('local')
 
 const repo: Repo = {
   id: 'repo-1',
-  path: '/tmp/orca',
-  displayName: 'orca',
+  path: '/tmp/capilot',
+  displayName: 'capilot',
   badgeColor: '#000000',
   addedAt: 0
 }
@@ -44,7 +44,7 @@ const repo: Repo = {
 const worktree: Worktree = {
   id: 'wt-1',
   repoId: repo.id,
-  path: '/tmp/orca-feature',
+  path: '/tmp/capilot-feature',
   branch: 'refs/heads/feature/super-critical',
   head: 'abc123',
   isBare: false,
@@ -69,8 +69,8 @@ function readWorktreeListSource(): string {
 
 const remoteRepo: Repo = {
   id: 'repo-remote',
-  path: '/home/alice/orca',
-  displayName: 'orca',
+  path: '/home/alice/capilot',
+  displayName: 'capilot',
   badgeColor: '#111111',
   addedAt: 1,
   connectionId: 'gpu-vm'
@@ -80,13 +80,13 @@ const remoteWorktree: Worktree = {
   ...worktree,
   id: 'wt-remote',
   repoId: remoteRepo.id,
-  path: '/home/alice/orca-feature',
+  path: '/home/alice/capilot-feature',
   displayName: 'remote feature'
 }
 
 const project: Project = {
   id: 'github:stablyai/orca',
-  displayName: 'Orca',
+  displayName: 'CaPilot',
   badgeColor: '#737373',
   sourceRepoIds: [repo.id, remoteRepo.id],
   createdAt: 1,
@@ -146,7 +146,7 @@ describe('getPRGroupKey', () => {
 
   it('prefers repo-scoped PR status over stale legacy path-scoped status', () => {
     const prCache = {
-      '/tmp/orca::feature/super-critical': {
+      '/tmp/capilot::feature/super-critical': {
         data: { state: 'closed' }
       },
       'repo-1::feature/super-critical': {
@@ -159,7 +159,7 @@ describe('getPRGroupKey', () => {
 
   it('falls back to legacy path-scoped PR status when no repo-scoped entry exists', () => {
     const prCache = {
-      '/tmp/orca::feature/super-critical': {
+      '/tmp/capilot::feature/super-critical': {
         data: { state: 'closed' }
       }
     }
@@ -431,7 +431,7 @@ describe('buildRows with pinned worktrees', () => {
     )
 
     expect(rows).toMatchObject([
-      { type: 'header', key: 'project:github:stablyai/orca', label: 'Orca', count: 2 },
+      { type: 'header', key: 'project:github:stablyai/orca', label: 'CaPilot', count: 2 },
       { type: 'item', worktree: { id: worktree.id }, hostContextLabel: LOCAL_HOST_LABEL },
       { type: 'item', worktree: { id: remoteWorktree.id }, hostContextLabel: 'gpu-vm' }
     ])
@@ -704,12 +704,12 @@ describe('buildRows with pinned worktrees', () => {
   })
 
   it('splits same-host checkouts of one project into separate per-setup groups', () => {
-    const repoB: Repo = { ...repo, id: 'repo-2', path: '/tmp/orca-2', displayName: 'orca-2' }
+    const repoB: Repo = { ...repo, id: 'repo-2', path: '/tmp/capilot-2', displayName: 'capilot-2' }
     const worktreeB: Worktree = {
       ...worktree,
       id: 'wt-2',
       repoId: repoB.id,
-      path: '/tmp/orca-2-feature',
+      path: '/tmp/capilot-2-feature',
       displayName: 'feature-b'
     }
     const localSetupB: ProjectHostSetup = {
@@ -755,11 +755,11 @@ describe('buildRows with pinned worktrees', () => {
       expect.arrayContaining([
         expect.objectContaining({
           key: 'project:github:stablyai/orca::setup:repo-1',
-          label: 'orca'
+          label: 'capilot'
         }),
         expect.objectContaining({
           key: 'project:github:stablyai/orca::setup:repo-2',
-          label: 'orca-2'
+          label: 'capilot-2'
         })
       ])
     )
@@ -769,14 +769,14 @@ describe('buildRows with pinned worktrees', () => {
     const localRepoB: Repo = {
       ...repo,
       id: 'repo-local-b',
-      path: '/tmp/orca-b',
-      displayName: 'orca-b'
+      path: '/tmp/capilot-b',
+      displayName: 'capilot-b'
     }
     const localWorktreeB: Worktree = {
       ...worktree,
       id: 'wt-local-b',
       repoId: localRepoB.id,
-      path: '/tmp/orca-b-feature',
+      path: '/tmp/capilot-b-feature',
       displayName: 'feature-b'
     }
     const localSetupB: ProjectHostSetup = {
@@ -831,7 +831,7 @@ describe('buildRows with pinned worktrees', () => {
     const runtimeRepo: Repo = {
       ...remoteRepo,
       id: 'repo-runtime',
-      path: '/home/alice/orca-runtime',
+      path: '/home/alice/capilot-runtime',
       connectionId: undefined,
       executionHostId: runtimeHostId
     }
@@ -839,7 +839,7 @@ describe('buildRows with pinned worktrees', () => {
       ...remoteWorktree,
       id: 'wt-runtime',
       repoId: runtimeRepo.id,
-      path: '/home/alice/orca-runtime-feature'
+      path: '/home/alice/capilot-runtime-feature'
     }
     const runtimeSetup: ProjectHostSetup = {
       ...projectHostSetups[1]!,
@@ -894,7 +894,7 @@ describe('buildRows with pinned worktrees', () => {
     const windowsRepo: Repo = {
       ...repo,
       id: 'repo-windows',
-      path: 'C:\\Users\\neil\\orca\\orca',
+      path: 'C:\\Users\\neil\\capilot\\capilot',
       executionHostId: windowsHostId
     }
     const folderRepoA: Repo = {
@@ -963,14 +963,14 @@ describe('buildRows with pinned worktrees', () => {
     const runtimeRepoB: Repo = {
       ...repo,
       id: 'repo-runtime-b',
-      path: '/tmp/orca-runtime-b',
-      displayName: 'orca-runtime-b'
+      path: '/tmp/capilot-runtime-b',
+      displayName: 'capilot-runtime-b'
     }
     const runtimeWorktreeB: Worktree = {
       ...worktree,
       id: 'wt-runtime-b',
       repoId: runtimeRepoB.id,
-      path: '/tmp/orca-runtime-b-feature',
+      path: '/tmp/capilot-runtime-b-feature',
       displayName: 'feature-runtime-b'
     }
     // Why: a `provisioned` (recipe-created ephemeral) copy shares the project's
@@ -1018,7 +1018,7 @@ describe('buildRows with pinned worktrees', () => {
     expect(headers).toHaveLength(1)
     expect(headers[0]).toMatchObject({
       key: 'project:github:stablyai/orca',
-      label: 'Orca',
+      label: 'CaPilot',
       count: 2
     })
   })
@@ -1031,14 +1031,14 @@ describe('buildRows with pinned worktrees', () => {
     const localRepoB: Repo = {
       ...repo,
       id: 'repo-local-b',
-      path: '/tmp/orca-b',
-      displayName: 'orca-b'
+      path: '/tmp/capilot-b',
+      displayName: 'capilot-b'
     }
     const localWorktreeB: Worktree = {
       ...worktree,
       id: 'wt-local-b',
       repoId: localRepoB.id,
-      path: '/tmp/orca-b-feature',
+      path: '/tmp/capilot-b-feature',
       displayName: 'feature-b'
     }
     const localSetupB: ProjectHostSetup = {
@@ -1051,14 +1051,14 @@ describe('buildRows with pinned worktrees', () => {
     const runtimeRepoB: Repo = {
       ...repo,
       id: 'repo-runtime-b',
-      path: '/tmp/orca-runtime-b',
-      displayName: 'orca-runtime-b'
+      path: '/tmp/capilot-runtime-b',
+      displayName: 'capilot-runtime-b'
     }
     const runtimeWorktreeB: Worktree = {
       ...worktree,
       id: 'wt-runtime-b',
       repoId: runtimeRepoB.id,
-      path: '/tmp/orca-runtime-b-feature',
+      path: '/tmp/capilot-runtime-b-feature',
       displayName: 'feature-runtime-b'
     }
     const runtimeSetupB: ProjectHostSetup = {
@@ -1123,28 +1123,28 @@ describe('buildRows with pinned worktrees', () => {
     const windowsRepo: Repo = {
       ...repo,
       id: 'repo-windows',
-      path: String.raw`C:\Users\alice\git\orca`,
-      displayName: 'orca',
+      path: String.raw`C:\Users\alice\git\capilot`,
+      displayName: 'capilot',
       executionHostId: runtimeHostId
     }
     const wslRepo: Repo = {
       ...repo,
       id: 'repo-wsl',
-      path: String.raw`\\wsl.localhost\Ubuntu\home\alice\git\orca`,
-      displayName: 'orca',
+      path: String.raw`\\wsl.localhost\Ubuntu\home\alice\git\capilot`,
+      displayName: 'capilot',
       executionHostId: runtimeHostId
     }
     const windowsWorktree: Worktree = {
       ...worktree,
       id: 'wt-windows',
       repoId: windowsRepo.id,
-      path: String.raw`C:\Users\alice\git\orca\feature`
+      path: String.raw`C:\Users\alice\git\capilot\feature`
     }
     const wslWorktree: Worktree = {
       ...worktree,
       id: 'wt-wsl',
       repoId: wslRepo.id,
-      path: String.raw`\\wsl.localhost\Ubuntu\home\alice\git\orca\feature`
+      path: String.raw`\\wsl.localhost\Ubuntu\home\alice\git\capilot\feature`
     }
     const windowsSetup: ProjectHostSetup = {
       ...projectHostSetups[0]!,
@@ -1193,7 +1193,7 @@ describe('buildRows with pinned worktrees', () => {
     expect(rows.filter((row) => row.type === 'header')).toMatchObject([
       {
         key: 'project:github:stablyai/orca',
-        label: 'Orca',
+        label: 'CaPilot',
         count: 2
       }
     ])
@@ -1203,7 +1203,7 @@ describe('buildRows with pinned worktrees', () => {
     const runtimeRepo: Repo = {
       ...remoteRepo,
       id: 'repo-runtime',
-      path: '/Users/alice/runtime-orca',
+      path: '/Users/alice/runtime-capilot',
       connectionId: null,
       executionHostId: 'runtime:03ef704c-b180-4b10-998d-e28fbd5de9a3'
     }
@@ -1252,13 +1252,13 @@ describe('buildRows with pinned worktrees', () => {
     )
 
     expect(rows).toMatchObject([
-      { type: 'header', key: 'project:github:stablyai/orca', label: 'Orca', count: 2 },
+      { type: 'header', key: 'project:github:stablyai/orca', label: 'CaPilot', count: 2 },
       { type: 'item', worktree: { id: worktree.id }, hostContextLabel: LOCAL_HOST_LABEL },
       { type: 'item', worktree: { id: runtimeWorktree.id }, hostContextLabel: 'dev box' }
     ])
   })
 
-  it('shows distinct Orca server names when status grouping mixes runtime hosts', () => {
+  it('shows distinct CaPilot server names when status grouping mixes runtime hosts', () => {
     const firstRepo: Repo = {
       ...repo,
       id: 'repo-runtime-a',
@@ -1351,7 +1351,7 @@ describe('buildRows with pinned worktrees', () => {
     )
 
     expect(rows).toMatchObject([
-      { type: 'header', key: 'project:github:stablyai/orca', label: 'Orca', count: 2 },
+      { type: 'header', key: 'project:github:stablyai/orca', label: 'CaPilot', count: 2 },
       { type: 'item', worktree: { id: worktree.id } },
       { type: 'item', worktree: { id: secondLocalWorktree.id } }
     ])
@@ -1367,8 +1367,8 @@ describe('buildRows with pinned worktrees', () => {
       'repo',
       [worktree, remoteWorktree],
       new Map([
-        [repo.id, { ...repo, displayName: 'orca' }],
-        [remoteRepo.id, { ...remoteRepo, displayName: 'orca' }]
+        [repo.id, { ...repo, displayName: 'capilot' }],
+        [remoteRepo.id, { ...remoteRepo, displayName: 'capilot' }]
       ]),
       null,
       new Set()
@@ -1505,7 +1505,7 @@ describe('buildRows with pinned worktrees', () => {
     )
 
     expect(rows).toMatchObject([
-      { type: 'header', key: 'repo:repo-1', label: 'orca' },
+      { type: 'header', key: 'repo:repo-1', label: 'capilot' },
       {
         type: 'imported-worktrees-card',
         key: 'imported-worktrees-card:repo-group:repo-1',
@@ -3600,11 +3600,11 @@ describe('buildRows workspace lineage nesting', () => {
 
   it('nests stable-update resolved legacy lineage when generalized lineage is absent', () => {
     const parentId =
-      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/orca/workspaces/orca/assigned-issues'
+      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/capilot/workspaces/capilot/assigned-issues'
     const childId =
-      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/orca/workspaces/orca/issue-9276-nested-ssh-runtime-routing'
+      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/capilot/workspaces/capilot/issue-9276-nested-ssh-runtime-routing'
     const secondChildId =
-      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/orca/workspaces/orca/issue-9744-terminal-close-lifecycle'
+      '32a0226d-9f33-42e8-8b7b-24867dea06d4::/Users/jinwoo/capilot/workspaces/capilot/issue-9744-terminal-close-lifecycle'
     const resolvedParent: ResolvedLineageWorktree = {
       ...parent,
       id: parentId,

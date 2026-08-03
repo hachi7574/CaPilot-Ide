@@ -11,7 +11,7 @@ import {
 type ExecMock = Mock<GitRemoteExec>
 
 const REPO = '/repo-root'
-const FORK_SSH = 'git@github.com:contributor/orca.git'
+const FORK_SSH = 'git@github.com:contributor/capilot.git'
 const FORK_HTTPS = 'https://github.com/contributor/orca.git'
 
 // A stateful fake git: `remotes` maps name -> url. `remote add` mutates it so
@@ -44,7 +44,7 @@ function callsMatching(exec: ExecMock, head: string[]): string[][] {
 
 function forkTarget(overrides: Partial<GitPushTarget> = {}): GitPushTarget {
   return {
-    remoteName: 'pr-contributor-orca',
+    remoteName: 'pr-contributor-capilot',
     branchName: 'contributor/fix',
     remoteUrl: FORK_SSH,
     ...overrides
@@ -58,17 +58,17 @@ describe('prepareWorktreePushTargetWithExec', () => {
     const result = await prepareWorktreePushTargetWithExec(exec, REPO, forkTarget(), () => false)
 
     expect(callsMatching(exec, ['remote', 'add'])).toEqual([
-      ['remote', 'add', 'pr-contributor-orca', FORK_SSH]
+      ['remote', 'add', 'pr-contributor-capilot', FORK_SSH]
     ])
     expect(callsMatching(exec, ['fetch'])).toEqual([
       [
         'fetch',
-        'pr-contributor-orca',
-        '+refs/heads/contributor/fix:refs/remotes/pr-contributor-orca/contributor/fix'
+        'pr-contributor-capilot',
+        '+refs/heads/contributor/fix:refs/remotes/pr-contributor-capilot/contributor/fix'
       ]
     ])
     expect(result).toEqual({
-      remoteName: 'pr-contributor-orca',
+      remoteName: 'pr-contributor-capilot',
       branchName: 'contributor/fix',
       remoteUrl: FORK_SSH,
       remoteCreated: true
@@ -78,7 +78,7 @@ describe('prepareWorktreePushTargetWithExec', () => {
   it('reuses an existing remote pointing at the same fork (SSH vs HTTPS) without adding', async () => {
     const exec = makeRepoExec({
       origin: 'git@github.com:stablyai/orca.git',
-      'pr-contributor-orca': FORK_HTTPS
+      'pr-contributor-capilot': FORK_HTTPS
     })
 
     const result = await prepareWorktreePushTargetWithExec(exec, REPO, forkTarget(), () => false)
@@ -87,13 +87,13 @@ describe('prepareWorktreePushTargetWithExec', () => {
     expect(callsMatching(exec, ['fetch'])).toEqual([
       [
         'fetch',
-        'pr-contributor-orca',
-        '+refs/heads/contributor/fix:refs/remotes/pr-contributor-orca/contributor/fix'
+        'pr-contributor-capilot',
+        '+refs/heads/contributor/fix:refs/remotes/pr-contributor-capilot/contributor/fix'
       ]
     ])
     // remoteCreated omitted because the predicate says no known worktree owns it.
     expect(result).toEqual({
-      remoteName: 'pr-contributor-orca',
+      remoteName: 'pr-contributor-capilot',
       branchName: 'contributor/fix',
       remoteUrl: FORK_SSH
     })
@@ -109,14 +109,14 @@ describe('prepareWorktreePushTargetWithExec', () => {
   })
 
   it('disambiguates with a numeric suffix when the preferred remote name is taken by a different URL', async () => {
-    const exec = makeRepoExec({ 'pr-contributor-orca': 'git@github.com:someone-else/orca.git' })
+    const exec = makeRepoExec({ 'pr-contributor-capilot': 'git@github.com:someone-else/capilot.git' })
 
     const result = await prepareWorktreePushTargetWithExec(exec, REPO, forkTarget(), () => false)
 
     expect(callsMatching(exec, ['remote', 'add'])).toEqual([
-      ['remote', 'add', 'pr-contributor-orca-2', FORK_SSH]
+      ['remote', 'add', 'pr-contributor-capilot-2', FORK_SSH]
     ])
-    expect(result.remoteName).toBe('pr-contributor-orca-2')
+    expect(result.remoteName).toBe('pr-contributor-capilot-2')
     expect(result.remoteCreated).toBe(true)
   })
 
@@ -178,7 +178,7 @@ describe('configureCreatedWorktreePushTargetWithExec', () => {
     )
 
     expect(exec).toHaveBeenCalledWith(
-      ['branch', '--set-upstream-to', 'pr-contributor-orca/contributor/fix', 'local-branch'],
+      ['branch', '--set-upstream-to', 'pr-contributor-capilot/contributor/fix', 'local-branch'],
       '/wt/path'
     )
     expect(result).toBe(target)

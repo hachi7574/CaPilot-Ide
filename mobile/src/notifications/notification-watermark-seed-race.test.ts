@@ -96,8 +96,8 @@ function makeHostClient() {
   }
 }
 
-const WATERMARK_KEY = 'orca:mobileNotificationsWatermark:host-1'
-const LEGACY_KEY = 'orca:mobileNotificationsLastSeq:host-1'
+const WATERMARK_KEY = 'capilot:mobileNotificationsWatermark:host-1'
+const LEGACY_KEY = 'capilot:mobileNotificationsLastSeq:host-1'
 
 describe('#8591 watermark seeding races a cold open', () => {
   beforeEach(() => {

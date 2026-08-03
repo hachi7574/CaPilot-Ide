@@ -6,7 +6,7 @@ import { dirname, join, resolve } from 'node:path'
 
 if (process.platform !== 'win32') {
   // Why: electron-builder treats a skipped native build like success and can
-  // continue toward a Windows package whose declared orca.exe does not exist.
+  // continue toward a Windows package whose declared capilot.exe does not exist.
   throw new Error(
     'Windows CLI launcher compilation requires a Windows host; refusing to package without it.'
   )
@@ -18,7 +18,7 @@ const outputPath = readArg('--output') ?? defaultOutputPath(repoRoot)
 const compilerPath = findFrameworkCompiler(process.env)
 
 if (!compilerPath) {
-  throw new Error('Unable to find the .NET Framework C# compiler required for orca.exe.')
+  throw new Error('Unable to find the .NET Framework C# compiler required for capilot.exe.')
 }
 
 mkdirSync(dirname(outputPath), { recursive: true })
@@ -39,7 +39,7 @@ if (result.status !== 0) {
 }
 
 function defaultOutputPath(projectRoot) {
-  return join(projectRoot, 'native', 'windows-cli-launcher', '.build', 'orca.exe')
+  return join(projectRoot, 'native', 'windows-cli-launcher', '.build', 'capilot.exe')
 }
 
 function findFrameworkCompiler(env) {

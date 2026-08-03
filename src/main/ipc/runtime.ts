@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import type {
   RuntimeBrowserDriverState,
   RuntimeStatus,

@@ -37,7 +37,7 @@ vi.mock('../runtime-client', () => {
 import { main } from '../index'
 import { okFixture, queueFixtures } from '../test-fixtures'
 
-describe('orca computer get-app-state formatting', () => {
+describe('capilot computer get-app-state formatting', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     callMock.mockReset()
@@ -74,7 +74,7 @@ describe('orca computer get-app-state formatting', () => {
       expiresAt: expect.any(String)
     })
     expect(String(parsed.result.screenshot.path).replaceAll('\\', '/')).toContain(
-      'orca-computer-use/req_state-screenshot.png'
+      'capilot-computer-use/req_state-screenshot.png'
     )
   })
 

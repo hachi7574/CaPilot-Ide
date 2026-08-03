@@ -7,7 +7,7 @@ import {
   ORCHESTRATION_FEDERATION_RUNTIME_CAPABILITY
 } from '../../../../shared/protocol-version'
 import { orchestrationMigrationData } from '../../../../shared/orchestration-rpc-contract'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import type { OrchestrationDb } from '../../orchestration/db'
 import { OrchestrationError } from '../../orchestration/orchestration-error'
 import type { WorkerStartInput } from './orchestration-worker-start-schema'
@@ -285,8 +285,8 @@ function federatedUnknownReceipt(
     effects: [],
     residualResources: [],
     nextCommands: [
-      `orca orchestration worker-show --dispatch ${worker.dispatch_id} --json`,
-      `orca orchestration worker-abandon --dispatch ${worker.dispatch_id} --json`
+      `capilot orchestration worker-show --dispatch ${worker.dispatch_id} --json`,
+      `capilot orchestration worker-abandon --dispatch ${worker.dispatch_id} --json`
     ]
   }
 }

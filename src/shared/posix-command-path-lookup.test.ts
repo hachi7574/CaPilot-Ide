@@ -280,7 +280,7 @@ function withExecutableFixture(
   name: string,
   run: (directory: string, executable: string, root: string) => void
 ): void {
-  const root = mkdtempSync(join(tmpdir(), 'orca-path-lookup-'))
+  const root = mkdtempSync(join(tmpdir(), 'capilot-path-lookup-'))
   const directory = join(root, 'bin')
   const executable = join(directory, name)
   try {

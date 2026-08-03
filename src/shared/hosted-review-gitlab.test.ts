@@ -21,7 +21,7 @@ describe('hostedReviewSummaryFromGitLabInfo', () => {
       provider: 'gitlab',
       host: 'gitlab.acme.internal',
       owner: 'group/subgroup',
-      repo: 'orca',
+      repo: 'capilot',
       number: 12
     })
     expect(summary.checksStatus).toBe('pending')

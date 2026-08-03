@@ -11,7 +11,7 @@ export function getTerminalFileOpenHint(): string {
 }
 
 export function getTerminalOrcaFileOpenHint(): string {
-  return isMacPlatform() ? '⌘+click to open in Orca' : 'Ctrl+click to open in Orca'
+  return isMacPlatform() ? '⌘+click to open in CaPilot' : 'Ctrl+click to open in CaPilot'
 }
 
 // Why: detected local .html/.htm file paths keep the same modifier gate as
@@ -27,8 +27,8 @@ export type TerminalUrlOpenHintOptions = {
   modifierInverts?: boolean
 }
 
-// Why: openHttpLink only routes to Orca when the source is local, so a remote pane
-// pins every link to the system browser and inverting cannot reach Orca there. The
+// Why: openHttpLink only routes to CaPilot when the source is local, so a remote pane
+// pins every link to the system browser and inverting cannot reach CaPilot there. The
 // clicked pane's owner decides that, not the global active runtime — a workspace-bound
 // remote pane is remote even when no runtime is globally active.
 export function terminalUrlOpenHintOptionsFor(
@@ -57,8 +57,8 @@ export function getTerminalUrlOpenHint(options: TerminalUrlOpenHintOptions = {})
   const invertsToOrca = options.modifierInverts === true && options.openLinksInApp !== true
   if (invertsToOrca) {
     return isMacPlatform()
-      ? '⌘+click to open or ⇧⌘+click to open in Orca'
-      : 'Ctrl+click to open or Shift+Ctrl+click to open in Orca'
+      ? '⌘+click to open or ⇧⌘+click to open in CaPilot'
+      : 'Ctrl+click to open or Shift+Ctrl+click to open in CaPilot'
   }
   return isMacPlatform()
     ? '⌘+click to open or ⇧⌘+click for system browser'
@@ -72,7 +72,7 @@ export function getTerminalUrlSystemBrowserHint(): string {
 // Why: the mirror of the system-browser hint for surfaces where inverting sends the
 // modifier the other way; a plain click there already opens the system browser.
 export function getTerminalUrlOrcaBrowserHint(): string {
-  return isMacPlatform() ? '⇧⌘+click to open in Orca' : 'Shift+Ctrl+click to open in Orca'
+  return isMacPlatform() ? '⇧⌘+click to open in CaPilot' : 'Shift+Ctrl+click to open in CaPilot'
 }
 
 export function getTerminalWorktreePathOpenHint(canOpenWithSystemDefault: boolean): string {

@@ -12,10 +12,10 @@ vi.mock('../persistence', () => ({
 }))
 
 import { OrchestrationDb } from '../runtime/orchestration/db'
-import { OrcaRuntimeService } from '../runtime/orca-runtime'
+import { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import type Database from '../sqlite/sync-database'
 import type { HostCliPassthroughOptions } from './ssh-remote-cli-host-passthrough'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-capilot-cli'
 import { acknowledgeRemoteOrcaCliPostOutput } from './ssh-remote-orchestration-post-output'
 
 const LEGACY_FALLBACK_OPTIONS: HostCliPassthroughOptions = {

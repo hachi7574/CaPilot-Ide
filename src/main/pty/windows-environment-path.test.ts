@@ -245,13 +245,13 @@ describe('mergePersistedWindowsPath', () => {
   it('expands variables already present in the inherited PATH', () => {
     const execFileSync = vi.fn().mockReturnValue('    Path    REG_SZ    \r\n')
     const env = {
-      ORCA_PATH_ROOT: 'C:\\Users\\orca\\AppData\\Local',
+      ORCA_PATH_ROOT: 'C:\\Users\\capilot\\AppData\\Local',
       Path: '%orca_path_root%\\agy\\bin;C:\\Windows'
     }
 
     mergePersistedWindowsPath(env, { platform: 'win32', execFileSync, env })
 
-    expect(env.Path).toBe('C:\\Users\\orca\\AppData\\Local\\agy\\bin;C:\\Windows')
+    expect(env.Path).toBe('C:\\Users\\capilot\\AppData\\Local\\agy\\bin;C:\\Windows')
   })
 
   it('appends missing persisted segments without reordering the inherited PATH', () => {
@@ -269,7 +269,7 @@ describe('mergePersistedWindowsPath', () => {
         [
           '',
           'HKEY_CURRENT_USER\\Environment',
-          '    Path    REG_EXPAND_SZ    C:\\Users\\me\\AppData\\Local\\Orca\\bin;C:\\Existing',
+          '    Path    REG_EXPAND_SZ    C:\\Users\\me\\AppData\\Local\\CaPilot\\bin;C:\\Existing',
           ''
         ].join('\r\n')
       )
@@ -278,7 +278,7 @@ describe('mergePersistedWindowsPath', () => {
     mergePersistedWindowsPath(env, { platform: 'win32', execFileSync })
 
     expect(env.Path).toBe(
-      'C:\\Existing;C:\\Windows\\System32;C:\\Users\\me\\AppData\\Local\\Orca\\bin'
+      'C:\\Existing;C:\\Windows\\System32;C:\\Users\\me\\AppData\\Local\\CaPilot\\bin'
     )
   })
 

@@ -257,7 +257,7 @@ async function runInternal() {
   }
   const { app } = await import('electron')
   const boundary = process.env[BOUNDARY_ENV]
-  const profileDir = mkdtempSync(path.join(tmpdir(), 'orca-watchdog-bench-'))
+  const profileDir = mkdtempSync(path.join(tmpdir(), 'capilot-watchdog-bench-'))
   app.setPath('userData', profileDir)
   try {
     await app.whenReady()
@@ -317,10 +317,10 @@ function runTrial(executable, boundary) {
   for (let attempt = 1; attempt <= MAX_LAUNCH_ATTEMPTS; attempt += 1) {
     const env = { ...process.env, [INTERNAL_ENV]: '1', [BOUNDARY_ENV]: boundary }
     delete env.ELECTRON_RUN_AS_NODE
-    const launcherDir = mkdtempSync(path.join(tmpdir(), 'orca-watchdog-bench-launcher-'))
+    const launcherDir = mkdtempSync(path.join(tmpdir(), 'capilot-watchdog-bench-launcher-'))
     writeFileSync(
       path.join(launcherDir, 'package.json'),
-      JSON.stringify({ name: 'orca-watchdog-benchmark', main: 'main.cjs' })
+      JSON.stringify({ name: 'capilot-watchdog-benchmark', main: 'main.cjs' })
     )
     writeFileSync(
       path.join(launcherDir, 'main.cjs'),

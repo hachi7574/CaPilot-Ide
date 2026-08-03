@@ -131,7 +131,7 @@ describe.skipIf(process.platform === 'win32')(
         readFileSync(join(home, '.claude', 'settings.json'), 'utf8')
       )
       expect(claudeSettings.hooks).toBeTruthy()
-      const script = readFileSync(join(home, '.orca', 'agent-hooks', 'claude-hook.sh'), 'utf8')
+      const script = readFileSync(join(home, '.capilot', 'agent-hooks', 'claude-hook.sh'), 'utf8')
       expect(script).toContain('/hook/claude')
     }, 20_000)
   }
@@ -142,7 +142,7 @@ describe('WslHookRelayManager', () => {
   // hosts — installHooks is mocked here, so the fs bridge only ever serves
   // the wslfs.home request and never touches the real filesystem.
   const home = '/home/wsl-test-user'
-  const opencodeOverlayDir = `${home}/.orca-relay/opencode-overlays/deadbeefcafe`
+  const opencodeOverlayDir = `${home}/.capilot-relay/opencode-overlays/deadbeefcafe`
   let harnesses: GuestHarness[]
 
   beforeEach(() => {
@@ -239,14 +239,14 @@ describe('WslHookRelayManager', () => {
     manager.ensureForDistro('Ubuntu')
     await vi.waitFor(() => expect(deps.installHooks).toHaveBeenCalledTimes(1))
     expect(deps.spawnRelay).toHaveBeenCalledTimes(1)
-    // Codex is the one agent whose home Orca redirects for WSL sessions.
+    // Codex is the one agent whose home CaPilot redirects for WSL sessions.
     expect(deps.installHooks).toHaveBeenCalledWith(expect.anything(), home, {
-      codexHomeDir: `${home}/.local/share/orca/codex-runtime-home/home`,
+      codexHomeDir: `${home}/.local/share/capilot/codex-runtime-home/home`,
       agents: ['codex']
     })
 
     expect(manager.getGuestEndpointFilePath('Ubuntu')).toBe(
-      `${home}/.orca-wsl/agent-hooks/instance-testinstance/endpoint.env`
+      `${home}/.capilot-wsl/agent-hooks/instance-testinstance/endpoint.env`
     )
 
     const guest = harnesses[0].guestDispatcher
@@ -306,7 +306,7 @@ describe('WslHookRelayManager', () => {
     await new Promise((resolve) => setTimeout(resolve, 20))
     expect(deps.spawnRelay).toHaveBeenCalledTimes(1)
     expect(manager.getGuestEndpointFilePath(null)).toBe(
-      `${home}/.orca-wsl/agent-hooks/instance-testinstance/endpoint.env`
+      `${home}/.capilot-wsl/agent-hooks/instance-testinstance/endpoint.env`
     )
     manager.disposeAll()
   })

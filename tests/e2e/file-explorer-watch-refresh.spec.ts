@@ -1,6 +1,6 @@
 import { renameSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { openFileExplorer } from './helpers/file-explorer'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 
@@ -43,7 +43,7 @@ test('refreshes the visible tree after external Windows file changes', async ({ 
     await expect(row('README.md')).toBeVisible({ timeout: 10_000 })
     await orcaPage.waitForTimeout(2_000)
 
-    writeFileSync(originalPath, 'created outside Orca\n')
+    writeFileSync(originalPath, 'created outside CaPilot\n')
     await expect(row(originalName)).toBeVisible({ timeout: 10_000 })
 
     renameSync(originalPath, renamedPath)

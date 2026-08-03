@@ -92,13 +92,13 @@ vi.mock('node:fs/promises', async () => {
         throw error
       }
       // Simulate a target filesystem with no hardlink support: even the
-      // same-volume staged-copy install link (.orca-backfill-*.tmp) fails.
-      if (fsMockState.failInstallLink && String(args[0]).includes('.orca-backfill-')) {
+      // same-volume staged-copy install link (.capilot-backfill-*.tmp) fails.
+      if (fsMockState.failInstallLink && String(args[0]).includes('.capilot-backfill-')) {
         const error = new Error('EPERM: hardlinks unsupported') as NodeJS.ErrnoException
         error.code = 'EPERM'
         throw error
       }
-      if (fsMockState.failInstallLinkTransiently && String(args[0]).includes('.orca-backfill-')) {
+      if (fsMockState.failInstallLinkTransiently && String(args[0]).includes('.capilot-backfill-')) {
         const error = new Error('EIO: transient install failure') as NodeJS.ErrnoException
         error.code = 'EIO'
         throw error
@@ -191,8 +191,8 @@ beforeEach(() => {
   fsMockState.failAuditWrites = false
   fsMockState.failDirectoryPath = null
   fsMockState.failLstatPath = null
-  fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-backfill-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-backfill-user-data-'))
+  fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-backfill-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-backfill-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(fakeHomeDir)

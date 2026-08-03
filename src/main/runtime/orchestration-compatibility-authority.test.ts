@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
 import { describe, expect, it, vi } from 'vitest'
 import { AgentHookServer } from '../agent-hooks/server'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 
 const PANE_KEY = '11111111-1111-4111-8111-111111111111:22222222-2222-4222-8222-222222222222'
 const TOKEN = 'launch-secret'

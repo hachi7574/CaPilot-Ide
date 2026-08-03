@@ -1,4 +1,4 @@
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import type { OrchestrationDb } from '../../orchestration/db'
 import { applyWaitForSetupOutcome, type WorkerSetupReceipt } from './orchestration-worker-topology'
 import {

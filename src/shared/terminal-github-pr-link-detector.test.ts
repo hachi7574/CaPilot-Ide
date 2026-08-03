@@ -14,7 +14,7 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     expect(observe('Created https://github.com/acme/orca/pull/42\r\n')).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 42
       }
     ])
@@ -86,7 +86,7 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     expect(observe('2\r\n')).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 42
       }
     ])
@@ -96,10 +96,10 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     const observe = createTerminalGitHubPRLinkDetector()
 
     expect(observe('created https://gith')).toEqual([])
-    expect(observe('ub.com/acme/orca/pull/42\n')).toEqual([
+    expect(observe('ub.com/acme/capilot/pull/42\n')).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 42
       }
     ])
@@ -171,7 +171,7 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     expect(observe(`${noise}Created https://github.com/acme/orca/pull/42\r\n`)).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 42
       }
     ])
@@ -196,7 +196,7 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     expect(observe('7\r\n')).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/7',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 7
       }
     ])
@@ -286,7 +286,7 @@ describe('createTerminalGitHubPRLinkDetector', () => {
     expect(observe('://github.com/acme/orca/pull/12\n')).toEqual([
       {
         url: 'https://github.com/acme/orca/pull/12',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 12
       }
     ])

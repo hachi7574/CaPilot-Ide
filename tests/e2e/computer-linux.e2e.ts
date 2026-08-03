@@ -30,7 +30,7 @@ describe.skipIf(!isLinux || !e2eOptIn)('computer-use Linux e2e (gedit)', () => {
     expect(envelope.result.snapshot.coordinateSpace).toBe('window')
     expect(envelope.result.snapshot.truncation?.truncated).toBe(false)
     expect(envelope.result.screenshot?.data).toBeUndefined()
-    expect(envelope.result.screenshot?.path).toContain('orca-computer-use')
+    expect(envelope.result.screenshot?.path).toContain('capilot-computer-use')
   })
 
   test('click and type-text send synthetic input to the document', async () => {
@@ -65,7 +65,7 @@ describe.skipIf(!isLinux || !e2eOptIn)('computer-use Linux e2e (gedit)', () => {
       '--json'
     ])
 
-    const marker = ` orca-linux-type-${Date.now()}`
+    const marker = ` capilot-linux-type-${Date.now()}`
     const typed = parseJsonOutput<{ result: ComputerActionResult }>(
       (
         await runOrcaCli([
@@ -86,7 +86,7 @@ describe.skipIf(!isLinux || !e2eOptIn)('computer-use Linux e2e (gedit)', () => {
   })
 
   test('paste-text mutates the test-owned document', async () => {
-    const marker = `orca-linux-paste-${Date.now()}`
+    const marker = `capilot-linux-paste-${Date.now()}`
     const action = parseJsonOutput<{ result: ComputerActionResult }>(
       (
         await runOrcaCli([

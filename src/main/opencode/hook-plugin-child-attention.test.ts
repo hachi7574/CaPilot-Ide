@@ -49,7 +49,7 @@ describe('OpenCode plugin child attention', () => {
   let pluginFactory: PluginFactory | undefined
 
   beforeEach(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-opencode-child-attention-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-opencode-child-attention-'))
     posts = []
     savedEnv = {}
     for (const key of ENV_KEYS) {
@@ -88,7 +88,7 @@ describe('OpenCode plugin child attention', () => {
     })
   ): Promise<PluginHooks> {
     if (!pluginFactory) {
-      const pluginPath = join(tempDir, 'orca-opencode-status.mjs')
+      const pluginPath = join(tempDir, 'capilot-opencode-status.mjs')
       writeFileSync(pluginPath, _internals.getOpenCodePluginSource())
       const module = (await import(pathToFileURL(pluginPath).href)) as {
         OrcaOpenCodeStatusPlugin: PluginFactory

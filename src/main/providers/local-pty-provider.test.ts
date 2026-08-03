@@ -39,7 +39,7 @@ vi.mock('fs', () => ({
 
 vi.mock('electron', () => ({
   app: {
-    getPath: vi.fn(() => '/tmp/orca-user-data')
+    getPath: vi.fn(() => '/tmp/capilot-user-data')
   }
 }))
 
@@ -233,13 +233,13 @@ describe('LocalPtyProvider', () => {
         cwd: 'C:\\repo',
         env: {
           ORCA_AGENT_TEAMS_TEAM_ID: 'team-test',
-          ORCA_PATH_ROOT: 'C:\\Users\\orca\\AppData\\Local',
+          ORCA_PATH_ROOT: 'C:\\Users\\capilot\\AppData\\Local',
           PATH: '%orca_path_root%\\agy\\bin;C:\\Windows'
         }
       })
 
       expect(spawnMock.mock.calls.at(-1)?.[2].env.PATH).toBe(
-        'C:\\Users\\orca\\AppData\\Local\\agy\\bin;C:\\Windows'
+        'C:\\Users\\capilot\\AppData\\Local\\agy\\bin;C:\\Windows'
       )
     })
 
@@ -477,8 +477,8 @@ describe('LocalPtyProvider', () => {
       expect(spawnCall[2].env.CUSTOM_VAR).toBe('custom-value')
     })
 
-    it('does not inherit NODE_ENV from the Orca process env', async () => {
-      // Why: NODE_ENV in Orca's process is Orca's build mode (electron-vite sets
+    it('does not inherit NODE_ENV from the CaPilot process env', async () => {
+      // Why: NODE_ENV in CaPilot's process is CaPilot's build mode (electron-vite sets
       // `development` in dev runs); leaking it breaks `next build` and Vitest.
       const previous = process.env.NODE_ENV
       process.env.NODE_ENV = 'development'
@@ -562,7 +562,7 @@ describe('LocalPtyProvider', () => {
         expect(mockProc.write).not.toHaveBeenCalled()
 
         const dataCallback = mockProc.onData.mock.calls[0]?.[0] as (data: string) => void
-        dataCallback('\x1b]777;orca-shell-ready\x07user@host % ')
+        dataCallback('\x1b]777;capilot-shell-ready\x07user@host % ')
         await Promise.resolve()
         vi.advanceTimersByTime(29)
         await Promise.resolve()
@@ -584,7 +584,7 @@ describe('LocalPtyProvider', () => {
         await provider.spawn({ cols: 80, rows: 24, command: 'printf ready' })
         const dataCallback = mockProc.onData.mock.calls[0]?.[0] as (data: string) => void
 
-        dataCallback('\x1b]777;orca-shell-ready')
+        dataCallback('\x1b]777;capilot-shell-ready')
         expect(onData).not.toHaveBeenCalled()
 
         vi.advanceTimersByTime(1500)
@@ -592,7 +592,7 @@ describe('LocalPtyProvider', () => {
 
         expect(onData).toHaveBeenCalledWith(
           expect.any(String),
-          '\x1b]777;orca-shell-ready',
+          '\x1b]777;capilot-shell-ready',
           expect.any(Number)
         )
         expect(mockProc.write).not.toHaveBeenCalled()
@@ -612,14 +612,14 @@ describe('LocalPtyProvider', () => {
       await provider.spawn({ cols: 80, rows: 24, command: 'printf ready' })
       const dataCallback = mockProc.onData.mock.calls[0]?.[0] as (data: string) => void
 
-      dataCallback('\x1b]777;orca-shell-ready')
+      dataCallback('\x1b]777;capilot-shell-ready')
       expect(onData).not.toHaveBeenCalled()
 
       exitCb?.({ exitCode: 0 })
 
       expect(onData).toHaveBeenCalledWith(
         expect.any(String),
-        '\x1b]777;orca-shell-ready',
+        '\x1b]777;capilot-shell-ready',
         expect.any(Number)
       )
     })
@@ -627,9 +627,9 @@ describe('LocalPtyProvider', () => {
     it('honors explicit terminal env overrides after deleting requested defaults', async () => {
       provider.configure({
         buildSpawnEnv: (_id, env) => {
-          env.TERM_PROGRAM = 'Orca'
-          env.ORCA_ATTRIBUTION_SHIM_DIR = '/tmp/orca-attribution'
-          env.PATH = `/tmp/orca-attribution:${env.PATH ?? ''}`
+          env.TERM_PROGRAM = 'CaPilot'
+          env.ORCA_ATTRIBUTION_SHIM_DIR = '/tmp/capilot-attribution'
+          env.PATH = `/tmp/capilot-attribution:${env.PATH ?? ''}`
           return env
         }
       })
@@ -639,7 +639,7 @@ describe('LocalPtyProvider', () => {
         rows: 24,
         env: {
           TERM: 'screen-256color',
-          PATH: '/tmp/orca-agent-teams-bin:/usr/bin',
+          PATH: '/tmp/capilot-agent-teams-bin:/usr/bin',
           ORCA_AGENT_TEAMS_TEAM_ID: 'team-test'
         },
         envToDelete: ['TERM_PROGRAM', 'ORCA_ATTRIBUTION_SHIM_DIR']
@@ -648,7 +648,7 @@ describe('LocalPtyProvider', () => {
       const spawnCall = spawnMock.mock.calls.at(-1)!
       expect(spawnCall[2].name).toBe('screen-256color')
       expect(spawnCall[2].env.TERM).toBe('screen-256color')
-      expect(spawnCall[2].env.PATH.split(':')[0]).toBe('/tmp/orca-agent-teams-bin')
+      expect(spawnCall[2].env.PATH.split(':')[0]).toBe('/tmp/capilot-agent-teams-bin')
       expect(spawnCall[2].env.TERM_PROGRAM).toBeUndefined()
       expect(spawnCall[2].env.ORCA_ATTRIBUTION_SHIM_DIR).toBeUndefined()
     })
@@ -705,9 +705,9 @@ describe('LocalPtyProvider', () => {
         PATH: process.env.PATH,
         LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
       }
-      process.env.APPIMAGE = '/data/apps/orca.appimage'
+      process.env.APPIMAGE = '/data/apps/capilot.appimage'
       process.env.APPDIR = '/tmp/.mount_orca123'
-      process.env.ARGV0 = '/data/apps/orca.appimage'
+      process.env.ARGV0 = '/data/apps/capilot.appimage'
       process.env.OWD = '/home/user/project'
       process.env.APPIMAGE_LIBRARY_PATH = '/tmp/.mount_orca123/usr/lib'
       process.env.PATH = ['/tmp/.mount_orca123', '/tmp/.mount_orca123/usr/sbin', '/usr/bin'].join(
@@ -742,8 +742,8 @@ describe('LocalPtyProvider', () => {
     it('uses shell wrapper when MiMo home must survive shell startup', async () => {
       provider.configure({
         buildSpawnEnv: (_id, env) => {
-          env.MIMOCODE_HOME = '/tmp/orca-mimocode-overlay'
-          env.ORCA_MIMOCODE_HOME = '/tmp/orca-mimocode-overlay'
+          env.MIMOCODE_HOME = '/tmp/capilot-mimocode-overlay'
+          env.ORCA_MIMOCODE_HOME = '/tmp/capilot-mimocode-overlay'
           return env
         }
       })
@@ -783,9 +783,9 @@ describe('LocalPtyProvider', () => {
       provider.configure({
         buildSpawnEnv: (_id, env) => {
           env.CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           env.ORCA_CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           return env
         }
       })
@@ -827,9 +827,9 @@ describe('LocalPtyProvider', () => {
       provider.configure({
         buildSpawnEnv: (_id, env) => {
           env.CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           env.ORCA_CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           return env
         }
       })
@@ -842,9 +842,9 @@ describe('LocalPtyProvider', () => {
 
       const spawnCall = spawnMock.mock.calls.at(-1)!
       expect(spawnCall[0]).toBe('wsl.exe')
-      expect(spawnCall[2].env.CODEX_HOME).toBe('/home/jin/.local/share/orca/codex-accounts/a/home')
+      expect(spawnCall[2].env.CODEX_HOME).toBe('/home/jin/.local/share/capilot/codex-accounts/a/home')
       expect(spawnCall[2].env.ORCA_CODEX_HOME).toBe(
-        '/home/jin/.local/share/orca/codex-accounts/a/home'
+        '/home/jin/.local/share/capilot/codex-accounts/a/home'
       )
       expect(spawnCall[2].env.WSLENV).toContain('CODEX_HOME')
       expect(spawnCall[2].env.WSLENV).toContain('ORCA_CODEX_HOME')
@@ -855,9 +855,9 @@ describe('LocalPtyProvider', () => {
       provider.configure({
         buildSpawnEnv: (_id, env) => {
           env.CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           env.ORCA_CODEX_HOME =
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
           return env
         }
       })
@@ -960,7 +960,7 @@ describe('LocalPtyProvider', () => {
       expect(pwshAvailable).not.toHaveBeenCalled()
     })
 
-    it('marks Orca terminal handle for WSL import when buildSpawnEnv opts in', async () => {
+    it('marks CaPilot terminal handle for WSL import when buildSpawnEnv opts in', async () => {
       Object.defineProperty(process, 'platform', { configurable: true, value: 'win32' })
       const savedCodexHome = process.env.CODEX_HOME
       const savedOrcaCodexHome = process.env.ORCA_CODEX_HOME
@@ -1024,7 +1024,7 @@ describe('LocalPtyProvider', () => {
       expect(spawnCall[2].env.WSLENV ?? '').not.toContain(POWERLEVEL10K_WIZARD_DISABLE_ENV)
     })
 
-    it('does not inherit parent Orca pane identity when caller omits pane env', async () => {
+    it('does not inherit parent CaPilot pane identity when caller omits pane env', async () => {
       const saved = {
         ORCA_PANE_KEY: process.env.ORCA_PANE_KEY,
         ORCA_TAB_ID: process.env.ORCA_TAB_ID,
@@ -1052,7 +1052,7 @@ describe('LocalPtyProvider', () => {
       expect(spawnCall[2].env.ORCA_WORKTREE_ID).toBeUndefined()
     })
 
-    it('preserves explicit child Orca pane identity over parent env', async () => {
+    it('preserves explicit child CaPilot pane identity over parent env', async () => {
       const saved = {
         ORCA_PANE_KEY: process.env.ORCA_PANE_KEY,
         ORCA_TAB_ID: process.env.ORCA_TAB_ID,
@@ -1097,7 +1097,7 @@ describe('LocalPtyProvider', () => {
       Object.defineProperty(process, 'platform', { value: 'win32' })
       delete process.env.USERPROFILE
       process.env.HOMEDRIVE = 'D:'
-      process.env.HOMEPATH = '\\Users\\orca'
+      process.env.HOMEPATH = '\\Users\\capilot'
 
       try {
         await provider.spawn({ cols: 80, rows: 24 })
@@ -1125,7 +1125,7 @@ describe('LocalPtyProvider', () => {
       expect(spawnMock).toHaveBeenCalledWith(
         expect.any(String),
         expect.any(Array),
-        expect.objectContaining({ cwd: 'D:\\Users\\orca' })
+        expect.objectContaining({ cwd: 'D:\\Users\\capilot' })
       )
     })
 

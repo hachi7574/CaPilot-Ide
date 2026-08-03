@@ -183,7 +183,7 @@ function replaceSymlinkSessionBridgeWithHardlink(
       return false
     }
 
-    replacementPath = `${targetPath}.orca-link-${process.pid}-${Date.now()}`
+    replacementPath = `${targetPath}.capilot-link-${process.pid}-${Date.now()}`
     if (!tryHardlinkCodexSessionFile(sourcePath, replacementPath)) {
       return false
     }
@@ -227,7 +227,7 @@ function migrateLegacyCopiedSessionBridge(
     if (!fileStatsMatchMarker(targetStat, marker, 'target')) {
       return
     }
-    replacementPath = `${targetPath}.orca-link-${process.pid}-${Date.now()}`
+    replacementPath = `${targetPath}.capilot-link-${process.pid}-${Date.now()}`
     if (!linkCodexSessionFile(sourcePath, replacementPath)) {
       return
     }
@@ -292,7 +292,7 @@ export function getLegacyCopiedCodexSessionBridgeScanPreference(
  * Returns the marker path for a legacy copied session bridge.
  */
 function getLegacySessionCopyMarkerPath(relativePath: string): string {
-  return join(getOrcaManagedCodexHomePath(), '.orca-session-copies', `${relativePath}.json`)
+  return join(getOrcaManagedCodexHomePath(), '.capilot-session-copies', `${relativePath}.json`)
 }
 
 /**

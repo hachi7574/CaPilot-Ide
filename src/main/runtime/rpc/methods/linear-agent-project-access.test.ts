@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { OrcaRuntimeService } from '../../orca-runtime'
+import { OrcaRuntimeService } from '../../capilot-runtime'
 import type * as LinearIssuesModule from '../../../linear/issues'
 
 type LinearProjectResolverTester = {
@@ -228,7 +228,7 @@ describe('Linear agent project access helpers', () => {
       return { ...actual, createIssueForAgent }
     })
     try {
-      const { OrcaRuntimeService: RuntimeService } = await import('../../orca-runtime')
+      const { OrcaRuntimeService: RuntimeService } = await import('../../capilot-runtime')
       const runtime = new RuntimeService()
       const tester = runtime as unknown as LinearCreateTester
       vi.spyOn(tester, 'resolveLinearCreateTeam').mockResolvedValue({

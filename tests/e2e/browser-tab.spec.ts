@@ -5,7 +5,7 @@
  * - Browser works and also retains state when switching tabs etc.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { createServer, type Server } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import {
@@ -593,7 +593,7 @@ test.describe('Browser Tab', () => {
             throw new Error(`Missing webview for browser tab ${browserTabId}`)
           }
           window.dispatchEvent(
-            new CustomEvent('orca:browser-page-zoom', {
+            new CustomEvent('capilot:browser-page-zoom', {
               detail: { browserPageId, direction: 'in' }
             })
           )
@@ -652,7 +652,7 @@ test.describe('Browser Tab', () => {
           // Zoom only tab B through the real renderer zoom path (also writes the shared setting).
           for (let step = 0; step < 2; step += 1) {
             window.dispatchEvent(
-              new CustomEvent('orca:browser-page-zoom', {
+              new CustomEvent('capilot:browser-page-zoom', {
                 detail: { browserPageId: pageBId, direction: 'in' }
               })
             )
@@ -680,7 +680,7 @@ test.describe('Browser Tab', () => {
     }
   })
 
-  test('plain links stay current while explicit new-tab gestures activate Orca tabs', async ({
+  test('plain links stay current while explicit new-tab gestures activate CaPilot tabs', async ({
     electronApp,
     orcaPage
   }) => {

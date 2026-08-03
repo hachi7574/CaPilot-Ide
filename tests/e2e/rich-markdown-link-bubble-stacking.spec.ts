@@ -9,7 +9,7 @@
  * - Maturity: experimental pending CI soak history.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   cleanupMarkdownFixture,
@@ -63,7 +63,7 @@ test.describe('Rich markdown link bubble stacking', () => {
         })
       })
 
-      const explorer = orcaPage.locator('[data-orca-explorer-shell]')
+      const explorer = orcaPage.locator('[data-capilot-explorer-shell]')
       const link = orcaPage.locator(`.rich-markdown-editor a[href="${LINK_HREF}"]`)
       await expect(explorer).toBeVisible()
       await expect(link).toBeVisible()
@@ -76,7 +76,7 @@ test.describe('Rich markdown link bubble stacking', () => {
 
       const overlap = await orcaPage.evaluate((): OverlapHitTest => {
         const bubble = document.querySelector<HTMLElement>('.rich-markdown-link-bubble')
-        const explorer = document.querySelector<HTMLElement>('[data-orca-explorer-shell]')
+        const explorer = document.querySelector<HTMLElement>('[data-capilot-explorer-shell]')
         if (!bubble || !explorer) {
           throw new Error('Link bubble or Explorer was not rendered')
         }

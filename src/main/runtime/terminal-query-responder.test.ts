@@ -4,7 +4,7 @@
  * the main-side replay guard, and the ingestion-time capture race.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import { HeadlessEmulator } from '../daemon/headless-emulator'
 import {
   _resetHiddenRendererPtyDeliveryGateForTest,

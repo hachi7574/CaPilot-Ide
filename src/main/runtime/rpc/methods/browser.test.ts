@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import {
   CLIPBOARD_TEXT_MEASURE_YIELD_CODE_UNITS,
   CLIPBOARD_TEXT_WRITE_MAX_BYTES,
@@ -191,7 +191,7 @@ describe('browser RPC methods', () => {
       makeRequest('browser.storage.local.set', {
         worktree: 'id:wt-1',
         page: 'page-1',
-        key: 'orca',
+        key: 'capilot',
         value: 'enabled'
       })
     )
@@ -215,7 +215,7 @@ describe('browser RPC methods', () => {
     expect(runtime.browserStorageLocalSet).toHaveBeenCalledWith({
       worktree: 'id:wt-1',
       page: 'page-1',
-      key: 'orca',
+      key: 'capilot',
       value: 'enabled'
     })
   })

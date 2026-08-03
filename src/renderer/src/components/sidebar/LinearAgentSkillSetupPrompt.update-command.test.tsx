@@ -55,11 +55,11 @@ let container: HTMLDivElement | null = null
 function cliStatus(): CliInstallStatus {
   return {
     platform: 'darwin',
-    commandName: 'orca',
+    commandName: 'capilot',
     commandPath: null,
     pathDirectory: null,
     pathConfigured: false,
-    launcherPath: '/Applications/Orca.app/Contents/MacOS/Orca',
+    launcherPath: '/Applications/CaPilot.app/Contents/MacOS/CaPilot',
     installMethod: null,
     supported: true,
     state: 'not_installed',
@@ -72,14 +72,14 @@ function cliStatus(): CliInstallStatus {
 function discoveredSkill(overrides: Partial<DiscoveredSkill>): DiscoveredSkill {
   return {
     id: 'skill-1',
-    name: 'orca-linear',
+    name: 'capilot-linear',
     description: null,
     providers: ['agent-skills'],
     sourceKind: 'home',
     sourceLabel: 'Agent skills home',
     rootPath: '/Users/test/.agents/skills',
-    directoryPath: '/Users/test/.agents/skills/orca-linear',
-    skillFilePath: '/Users/test/.agents/skills/orca-linear/SKILL.md',
+    directoryPath: '/Users/test/.agents/skills/capilot-linear',
+    skillFilePath: '/Users/test/.agents/skills/capilot-linear/SKILL.md',
     installed: true,
     fileCount: 1,
     updatedAt: null,
@@ -152,12 +152,12 @@ describe('LinearAgentSkillSetupPrompt update command', () => {
   })
 
   it('uses the canonical update command when the canonical Linear skill is installed', async () => {
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' })]
+    mocks.skillState.skills = [discoveredSkill({ name: 'capilot-linear' })]
 
     await renderPrompt()
 
     expect(mocks.panelProps.at(-1)).toEqual(
-      expect.objectContaining({ installedCommand: 'npx skills update orca-linear --global' })
+      expect.objectContaining({ installedCommand: 'npx skills update capilot-linear --global' })
     )
   })
 
@@ -172,12 +172,12 @@ describe('LinearAgentSkillSetupPrompt update command', () => {
   })
 
   it('prefers the canonical update command when both Linear skill names are installed', async () => {
-    mocks.skillState.skills = [discoveredSkill({ name: 'orca-linear' }), legacyLinearSkillPath()]
+    mocks.skillState.skills = [discoveredSkill({ name: 'capilot-linear' }), legacyLinearSkillPath()]
 
     await renderPrompt()
 
     expect(mocks.panelProps.at(-1)).toEqual(
-      expect.objectContaining({ installedCommand: 'npx skills update orca-linear --global' })
+      expect.objectContaining({ installedCommand: 'npx skills update capilot-linear --global' })
     )
   })
 })

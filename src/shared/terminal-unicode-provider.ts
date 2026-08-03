@@ -9,7 +9,7 @@ type XtermTerminalWithUnicodeCore = {
   }
 }
 
-const ORCA_UNICODE_VERSION = 'orca-11-zwj'
+const ORCA_UNICODE_VERSION = 'capilot-11-zwj'
 const UNICODE11_VERSION = '11'
 const ZERO_WIDTH_JOINER = 0x200d
 

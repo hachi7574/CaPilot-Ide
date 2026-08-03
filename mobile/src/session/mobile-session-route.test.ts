@@ -9,14 +9,14 @@ describe('mobile session route', () => {
     expect(
       createMobileSessionHref({
         hostId: 'host/one',
-        worktreeId: 'repo::/Users/ada/orca/workspaces/fix #1',
+        worktreeId: 'repo::/Users/ada/capilot/workspaces/fix #1',
         name: 'Fix #1'
       })
     ).toEqual({
       pathname: '/h/[hostId]/session/[worktreeId]',
       params: {
         hostId: 'host/one',
-        worktreeId: 'repo::/Users/ada/orca/workspaces/fix #1',
+        worktreeId: 'repo::/Users/ada/capilot/workspaces/fix #1',
         name: 'Fix #1'
       }
     })

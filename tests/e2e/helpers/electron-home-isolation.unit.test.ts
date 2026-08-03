@@ -17,7 +17,7 @@ afterEach(() => {
 })
 
 function createUserDataDir(): string {
-  const tempDir = mkdtempSync(path.join(os.tmpdir(), 'orca-home-isolation-test-'))
+  const tempDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-home-isolation-test-'))
   tempDirs.push(tempDir)
   return tempDir
 }
@@ -30,7 +30,7 @@ describe('createElectronHomeIsolation', () => {
         HOME: '/real/home',
         USERPROFILE: '/real/home',
         CODEX_HOME: '/real/codex',
-        ORCA_CODEX_HOME: '/real/orca-codex',
+        ORCA_CODEX_HOME: '/real/capilot-codex',
         ZDOTDIR: '/real/zdotdir',
         PATH: '/bin'
       },

@@ -25,7 +25,7 @@ vi.mock('../git/worktree', () => ({
 import { BrowserManager } from './browser-manager'
 import { CdpBridge } from './cdp-bridge'
 import { BROWSER_TEXT_INSERT_CHUNK_BYTES } from './browser-text-insertion'
-import { OrcaRuntimeService } from '../runtime/orca-runtime'
+import { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { OrcaRuntimeRpcServer } from '../runtime/runtime-rpc'
 import { readRuntimeMetadata } from '../runtime/runtime-metadata'
 

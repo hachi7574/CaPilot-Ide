@@ -9,7 +9,7 @@ import {
 } from '../../../shared/runtime-rpc-feature-interaction-source'
 import { RpcDispatcher } from './dispatcher'
 import { defineMethod, defineStreamingMethod, type RpcRequest } from './core'
-import type { OrcaRuntimeService } from '../orca-runtime'
+import type { OrcaRuntimeService } from '../capilot-runtime'
 
 function makeRequest(method: string, params: unknown = {}): RpcRequest {
   return {

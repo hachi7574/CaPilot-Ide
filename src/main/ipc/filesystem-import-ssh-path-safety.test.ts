@@ -38,7 +38,7 @@ function createProvider(uploadSession: FileUploadSession): IFilesystemProvider {
 
 describe('SSH import remote path safety', () => {
   const connectionId = 'ssh-windows'
-  const destDir = 'C:/Users/me/project/.orca/drops'
+  const destDir = 'C:/Users/me/project/.capilot/drops'
   let provider: IFilesystemProvider
   let uploadSession: FileUploadSession
 
@@ -76,7 +76,7 @@ describe('SSH import remote path safety', () => {
     }
   )
 
-  it.each(['report.txt:orca', 'NUL', 'trailing.', 'question?.txt'])(
+  it.each(['report.txt:capilot', 'NUL', 'trailing.', 'question?.txt'])(
     'rejects Windows-special top-level name %j before remote stat',
     async (name) => {
       const { results } = await importExternalPathsSsh([`/tmp/${name}`], destDir, connectionId)

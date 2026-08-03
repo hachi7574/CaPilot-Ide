@@ -89,7 +89,7 @@ describe('useGitHubSlugMetadata', () => {
     expect(labels).toEqual(['bug'])
     expect(apiMocks.listLabelsBySlug).toHaveBeenCalledExactlyOnceWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.com'
     })
     expect(renders).toBeLessThanOrEqual(4)
@@ -118,7 +118,7 @@ describe('useGitHubSlugMetadata', () => {
     expect(assigneeLogins).toEqual(['jinwoo'])
     expect(apiMocks.listAssignableUsersBySlug).toHaveBeenCalledExactlyOnceWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.com',
       seedLogins: ['jinwoo']
     })
@@ -159,7 +159,7 @@ describe('useGitHubSlugMetadata', () => {
     function LabelsProbe(): null {
       useRepoLabelsBySlug(
         'stablyai',
-        'orca',
+        'capilot',
         { activeRuntimeEnvironmentId: null },
         'ghe.example.com'
       )
@@ -171,7 +171,7 @@ describe('useGitHubSlugMetadata', () => {
 
     expect(apiMocks.listLabelsBySlug).toHaveBeenCalledExactlyOnceWith({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'ghe.example.com'
     })
   })

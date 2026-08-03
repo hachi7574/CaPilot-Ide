@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import type { CommandHandler } from '../dispatch'
 import { RuntimeClientError } from '../runtime-client'
-import { parseOrcaYaml } from '../../shared/orca-yaml'
+import { parseOrcaYaml } from '../../shared/capilot-yaml'
 import {
   getEphemeralVmRecipeResultProjectRoot,
   type EphemeralVmRecipeDoctorCheck,
@@ -44,7 +44,7 @@ export const VM_HANDLERS: Record<string, CommandHandler> = {
 }
 
 function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
-  const yamlPath = join(repoPath, 'orca.yaml')
+  const yamlPath = join(repoPath, 'capilot.yaml')
   if (!existsSync(yamlPath)) {
     return {
       recipeId,
@@ -54,8 +54,8 @@ function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
         {
           id: 'orca_yaml.exists',
           status: 'fail',
-          message: `No orca.yaml found at ${yamlPath}`,
-          remediation: 'Add environmentRecipes to the repo orca.yaml.'
+          message: `No capilot.yaml found at ${yamlPath}`,
+          remediation: 'Add environmentRecipes to the repo capilot.yaml.'
         }
       ]
     }
@@ -65,8 +65,8 @@ function doctorRecipe(repoPath: string, recipeId: string): DoctorResult {
   const parseCheck: EphemeralVmRecipeDoctorCheck = {
     id: 'orca_yaml.parse',
     status: hooks ? 'pass' : 'fail',
-    message: hooks ? 'orca.yaml parsed successfully.' : 'orca.yaml has no supported Orca config.',
-    ...(hooks ? {} : { remediation: 'Add an environmentRecipes entry to orca.yaml.' })
+    message: hooks ? 'capilot.yaml parsed successfully.' : 'capilot.yaml has no supported CaPilot config.',
+    ...(hooks ? {} : { remediation: 'Add an environmentRecipes entry to capilot.yaml.' })
   }
   const result = doctorEphemeralVmRecipe({
     repoPath,
@@ -261,7 +261,7 @@ function buildProvisionFailureRemediation(stderr: string, stdout: string): strin
 }
 
 function loadRecipe(repoPath: string, recipeId: string): OrcaVmRecipe | null {
-  const hooks = parseOrcaYaml(readTextFile(join(repoPath, 'orca.yaml')))
+  const hooks = parseOrcaYaml(readTextFile(join(repoPath, 'capilot.yaml')))
   return hooks?.environmentRecipes?.find((entry) => entry.id === recipeId) ?? null
 }
 

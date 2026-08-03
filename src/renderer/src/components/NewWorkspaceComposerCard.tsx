@@ -238,7 +238,7 @@ async function withUiConnectTimeout<T>(promise: Promise<T>): Promise<T> {
 }
 
 function SetupCommandPreview({ setupConfig }: { setupConfig: SetupConfig }): React.JSX.Element {
-  // Why: just the script in a quiet monochrome card — the source label (orca.yaml / local) and
+  // Why: just the script in a quiet monochrome card — the source label (capilot.yaml / local) and
   // the run-setup toggle live in the section header above, so the card carries no chrome of its
   // own. Neutral foreground avoids the colored-terminal look. max-h keeps long scripts from
   // growing the dialog past the viewport.
@@ -1038,18 +1038,18 @@ export default function NewWorkspaceComposerCard({
                     <label className="text-xs font-medium text-muted-foreground">
                       {setupConfigLabel}
                     </label>
-                    {/* Why: a quiet monospace filename chip (not an uppercase tag) — orca.yaml is a
+                    {/* Why: a quiet monospace filename chip (not an uppercase tag) — capilot.yaml is a
                         literal filename, so it reads as code, matching the app's path styling. */}
                     <span className="rounded border border-border/50 bg-muted/30 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
                       {setupConfig.source === 'yaml'
                         ? translate(
                             'auto.components.NewWorkspaceComposerCard.23bb365554',
-                            'orca.yaml'
+                            'capilot.yaml'
                           )
                         : setupConfig.source === 'both'
                           ? translate(
                               'auto.components.NewWorkspaceComposerCard.326a578923',
-                              'orca.yaml + local'
+                              'capilot.yaml + local'
                             )
                           : translate(
                               'auto.components.NewWorkspaceComposerCard.92e34f0311',
@@ -1058,7 +1058,7 @@ export default function NewWorkspaceComposerCard({
                     </span>
                   </div>
 
-                  {/* Why: `orca.yaml` is the committed source of truth for shared setup,
+                  {/* Why: `capilot.yaml` is the committed source of truth for shared setup,
                       so the preview reconstructs the real YAML shape instead of showing a raw
                       shell blob that hides where the command came from. */}
                   <SetupCommandPreview setupConfig={setupConfig} />

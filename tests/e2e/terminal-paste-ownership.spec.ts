@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { ElectronApplication, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   focusActiveTerminalInput,
   sendToTerminal,
@@ -197,7 +197,7 @@ test.describe('terminal paste ownership', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-paste-ownership-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-ownership-${runId}.mjs`)
     writeFileSync(scriptPath, pasteEchoScript(runId))
     let scriptStarted = false
 
@@ -240,7 +240,7 @@ test.describe('terminal paste ownership', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-paste-blur-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-blur-${runId}.mjs`)
     writeFileSync(scriptPath, pasteEchoScript(runId))
     let scriptStarted = false
 
@@ -283,7 +283,7 @@ test.describe('terminal paste ownership', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-paste-context-menu-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-context-menu-${runId}.mjs`)
     writeFileSync(scriptPath, pasteEchoScript(runId))
     let scriptStarted = false
 
@@ -337,9 +337,9 @@ test.describe('terminal paste ownership', () => {
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
     // Why: xterm translates clipboard line endings to terminal Enter bytes;
-    // Orca's direct Windows bracketed-paste path must produce the same bytes.
+    // CaPilot's direct Windows bracketed-paste path must produce the same bytes.
     const terminalText = payload.replace(/\r?\n/g, '\r')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-multiline-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-multiline-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, terminalText))
     let scriptStarted = false
 
@@ -381,7 +381,7 @@ test.describe('terminal paste ownership', () => {
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-paste-right-click-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-right-click-${runId}.mjs`)
     writeFileSync(scriptPath, pasteEchoScript(runId))
     let scriptStarted = false
 

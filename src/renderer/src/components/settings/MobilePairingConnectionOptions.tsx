@@ -206,7 +206,7 @@ export function MobilePairingConnectionOptions({
           onSelect={() => onChange('automatic')}
           title={translate(
             'auto.components.settings.MobilePairingConnectionOptions.anywhereTitle',
-            'Orca Relay'
+            'CaPilot Relay'
           )}
           description={translate(
             'auto.components.settings.MobilePairingConnectionOptions.anywhereDescription',
@@ -257,7 +257,7 @@ export function MobilePairingConnectionOptions({
           <p className="min-w-0 flex-1 text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.MobilePairingConnectionOptions.signInRequired',
-              'Sign in to use Orca Mobile Relay.'
+              'Sign in to use CaPilot Mobile Relay.'
             )}
           </p>
           <Button
@@ -291,7 +291,7 @@ export function MobilePairingConnectionOptions({
           <p className="min-w-0 flex-1 text-xs text-muted-foreground">
             {translate(
               'auto.components.settings.MobilePairingConnectionOptions.relayUnavailable',
-              'Orca Relay isn’t available in this build. Use LAN.'
+              'CaPilot Relay isn’t available in this build. Use LAN.'
             )}
           </p>
           <Badge variant="outline" className="shrink-0">

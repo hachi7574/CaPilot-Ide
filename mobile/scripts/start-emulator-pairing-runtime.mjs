@@ -22,7 +22,7 @@ export async function startHeadlessPairingRuntime({
   }
 
   logStep('0', 'Starting temporary desktop runtime for mobile pairing...')
-  const runDir = mkdtempSync(path.join(os.tmpdir(), 'orca-mobile-run.'))
+  const runDir = mkdtempSync(path.join(os.tmpdir(), 'capilot-mobile-run.'))
   const userData = path.join(runDir, 'userData')
   // Why: the main-process E2E boot guard refuses to start with the real user
   // home, so the pairing runtime must hand it a matching disposable HOME.
@@ -53,7 +53,7 @@ export async function registerWorktreeForPairingRuntime(runtime, worktree, tools
     return
   }
   tools.logStep('0.1', 'Registering current worktree in temporary runtime...')
-  await tools.orca(['repo', 'add', '--path', worktree, '--json'], {
+  await tools.capilot(['repo', 'add', '--path', worktree, '--json'], {
     cwd: worktree,
     env: runtime.env,
     timeout: 60000
@@ -86,9 +86,9 @@ async function waitForPairingRuntime({ child, userData, pairingAddress, logSucce
     env: {
       ...process.env,
       ORCA_USER_DATA_PATH: userData,
-      // Why: `orca-dev` derives its own profile and ignores ORCA_USER_DATA_PATH, so
-      // without this an ORCA_CLI=orca-dev run would address the dev profile instead
-      // of this disposable runtime. Plain `orca` ignores it.
+      // Why: `capilot-dev` derives its own profile and ignores ORCA_USER_DATA_PATH, so
+      // without this an ORCA_CLI=capilot-dev run would address the dev profile instead
+      // of this disposable runtime. Plain `capilot` ignores it.
       ORCA_DEV_USER_DATA_PATH: userData
     },
     stop

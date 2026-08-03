@@ -8,7 +8,7 @@ import {
   type RpcAnyMethod
 } from '../core'
 import { OptionalFiniteNumber, OptionalString, requiredString } from '../schemas'
-import type { DriverState, OrcaRuntimeService } from '../../orca-runtime'
+import type { DriverState, OrcaRuntimeService } from '../../capilot-runtime'
 import {
   TerminalStreamOpcode,
   decodeTerminalStreamJson,

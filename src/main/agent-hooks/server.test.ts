@@ -507,7 +507,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2200,7 +2200,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody({ hook_event_name: 'UserPromptSubmit', prompt }))
         })
@@ -2229,7 +2229,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload, { launchToken: 'retired-launch-token' }))
         })
@@ -2311,7 +2311,7 @@ describe('AgentHookServer listener replay', () => {
   })
 
   it('hydrates cached statuses as not observed in the current runtime', async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'orca-agent-hooks-'))
+    const dir = mkdtempSync(join(tmpdir(), 'capilot-agent-hooks-'))
     const firstServer = new AgentHookServer()
     const secondServer = new AgentHookServer()
     try {
@@ -2355,7 +2355,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -2400,7 +2400,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2409,7 +2409,7 @@ describe('AgentHookServer listener replay', () => {
         postClaudeHook({
           hook_event_name: 'PermissionRequest',
           tool_name: 'Bash',
-          tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+          tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
         })
       ).resolves.toMatchObject({ status: 204 })
       await expect(
@@ -2426,7 +2426,7 @@ describe('AgentHookServer listener replay', () => {
           state: 'waiting',
           agentType: 'claude',
           toolName: 'Bash',
-          toolInput: 'rm -rf /tmp/orca-subagent-repro'
+          toolInput: 'rm -rf /tmp/capilot-subagent-repro'
         })
       ])
     } finally {
@@ -2444,7 +2444,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2452,12 +2452,12 @@ describe('AgentHookServer listener replay', () => {
       await postClaudeHook({
         hook_event_name: 'PermissionRequest',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
       })
       await postClaudeHook({
         hook_event_name: 'PreToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
       })
 
       expect(server.getStatusSnapshot()).toEqual([
@@ -2466,7 +2466,7 @@ describe('AgentHookServer listener replay', () => {
           state: 'waiting',
           agentType: 'claude',
           toolName: 'Bash',
-          toolInput: 'rm -rf /tmp/orca-subagent-repro'
+          toolInput: 'rm -rf /tmp/capilot-subagent-repro'
         })
       ])
     } finally {
@@ -2484,7 +2484,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2492,12 +2492,12 @@ describe('AgentHookServer listener replay', () => {
       await postClaudeHook({
         hook_event_name: 'PermissionRequest',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
       })
       await postClaudeHook({
         hook_event_name: 'PreToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' },
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' },
         tool_use_id: 'toolu-approved-1'
       })
 
@@ -2507,7 +2507,7 @@ describe('AgentHookServer listener replay', () => {
           state: 'waiting',
           agentType: 'claude',
           toolName: 'Bash',
-          toolInput: 'rm -rf /tmp/orca-subagent-repro'
+          toolInput: 'rm -rf /tmp/capilot-subagent-repro'
         })
       ])
     } finally {
@@ -2525,7 +2525,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2533,18 +2533,18 @@ describe('AgentHookServer listener replay', () => {
       await postClaudeHook({
         hook_event_name: 'PreToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' },
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' },
         tool_use_id: 'toolu-approved-by-claude'
       })
       await postClaudeHook({
         hook_event_name: 'PermissionRequest',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' }
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' }
       })
       await postClaudeHook({
         hook_event_name: 'PostToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' },
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' },
         tool_use_id: 'toolu-approved-by-claude'
       })
 
@@ -2554,7 +2554,7 @@ describe('AgentHookServer listener replay', () => {
           state: 'working',
           agentType: 'claude',
           toolName: 'Bash',
-          toolInput: 'rm -rf /tmp/orca-2824-permission-target'
+          toolInput: 'rm -rf /tmp/capilot-2824-permission-target'
         })
       ])
     } finally {
@@ -2572,7 +2572,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2618,7 +2618,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2664,7 +2664,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2711,7 +2711,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2761,7 +2761,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2770,13 +2770,13 @@ describe('AgentHookServer listener replay', () => {
         hook_event_name: 'PermissionRequest',
         agent_type: 'main',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
       })
       await postClaudeHook({
         hook_event_name: 'PreToolUse',
         agent_type: 'main',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' },
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' },
         tool_use_id: 'toolu-approved-1'
       })
 
@@ -2786,7 +2786,7 @@ describe('AgentHookServer listener replay', () => {
           state: 'working',
           agentType: 'claude',
           toolName: 'Bash',
-          toolInput: 'rm -rf /tmp/orca-subagent-repro'
+          toolInput: 'rm -rf /tmp/capilot-subagent-repro'
         })
       ])
     } finally {
@@ -2804,7 +2804,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2849,7 +2849,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2894,7 +2894,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2939,7 +2939,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2979,7 +2979,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -2987,7 +2987,7 @@ describe('AgentHookServer listener replay', () => {
       await postClaudeHook({
         hook_event_name: 'PermissionRequest',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-subagent-repro' }
+        tool_input: { command: 'rm -rf /tmp/capilot-subagent-repro' }
       })
       await postClaudeHook({
         hook_event_name: 'UserPromptSubmit',
@@ -3018,7 +3018,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -3055,7 +3055,7 @@ describe('AgentHookServer listener replay', () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+              'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
             },
             body: JSON.stringify(buildBody(payload))
           }
@@ -3107,7 +3107,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(buildBody(payload))
         })
@@ -3149,7 +3149,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody(
@@ -3192,7 +3192,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody(
@@ -3349,7 +3349,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: params
       })
@@ -3398,7 +3398,7 @@ describe('AgentHookServer listener replay', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: params
         })
@@ -3491,7 +3491,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -3535,7 +3535,7 @@ describe('AgentHookServer listener replay', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -3892,7 +3892,7 @@ describe('AgentHookServer prompt-sent telemetry', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -4328,7 +4328,7 @@ describe('AgentHookServer prompt-sent telemetry', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -4345,7 +4345,7 @@ describe('AgentHookServer prompt-sent telemetry', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+            'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
           },
           body: JSON.stringify(
             buildBody({
@@ -4732,7 +4732,7 @@ describe('Claude hook normalization', () => {
     let transcriptPath: string
 
     beforeEach(() => {
-      tmpDir = mkdtempSync(join(tmpdir(), 'orca-hook-test-'))
+      tmpDir = mkdtempSync(join(tmpdir(), 'capilot-hook-test-'))
       transcriptPath = join(tmpDir, 'transcript.jsonl')
     })
 
@@ -6077,13 +6077,13 @@ describe('Copilot hook normalization', () => {
       buildBody({
         hook_event_name: 'PermissionRequest',
         tool_name: 'bash',
-        tool_input: { command: 'rm -rf /tmp/orca-test' }
+        tool_input: { command: 'rm -rf /tmp/capilot-test' }
       }),
       'production'
     )
     expect(result?.payload.state).toBe('working')
     expect(result?.payload.toolName).toBe('bash')
-    expect(result?.payload.toolInput).toBe('rm -rf /tmp/orca-test')
+    expect(result?.payload.toolInput).toBe('rm -rf /tmp/capilot-test')
   })
 
   it('surfaces lowercase Copilot file tool input previews', () => {
@@ -6175,7 +6175,7 @@ describe('Copilot hook normalization', () => {
   })
 
   it('Stop reads the final assistant message from Copilot transcript events', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-copilot-transcript-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-copilot-transcript-'))
     const transcriptPath = join(tmpDir, 'events.jsonl')
     try {
       const lines = [
@@ -6226,7 +6226,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({ hook_event_name: 'Notification', notificationType: 'permission_prompt' })
@@ -6247,7 +6247,7 @@ describe('Copilot hook normalization', () => {
 
   it('updates Copilot Stop with final transcript text after a non-blocking retry', async () => {
     const server = new AgentHookServer()
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-copilot-transcript-retry-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-copilot-transcript-retry-'))
     const transcriptPath = join(tmpDir, 'events.jsonl')
     writeFileSync(transcriptPath, '')
     await server.start({ env: 'production' })
@@ -6260,7 +6260,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({
@@ -6273,7 +6273,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(
           buildBody({ hook_event_name: 'Stop', transcript_path: transcriptPath })
@@ -6285,7 +6285,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(buildBody({ hook_event_name: 'SessionEnd', reason: 'complete' }))
       })
@@ -6325,7 +6325,7 @@ describe('Copilot hook normalization', () => {
 
   it('updates Grok Stop with final chat-history text after a non-blocking retry', async () => {
     const server = new AgentHookServer()
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-chat-history-retry-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-chat-history-retry-'))
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf528'
     const cwd = join(tmpDir, 'workspace')
     const sessionDir = join(tmpDir, '.grok', 'sessions', encodeURIComponent(cwd), sessionId)
@@ -6343,7 +6343,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(buildBody({ hookEventName: 'user_prompt_submit', prompt: 'hihi' }))
       })
@@ -6351,7 +6351,7 @@ describe('Copilot hook normalization', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+          'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
         },
         body: JSON.stringify(buildBody({ hookEventName: 'Stop', sessionId, cwd }))
       })
@@ -6392,7 +6392,7 @@ describe('Endpoint file lifecycle', () => {
   let userDataPath: string
 
   beforeEach(() => {
-    userDataPath = mkdtempSync(join(tmpdir(), 'orca-endpoint-'))
+    userDataPath = mkdtempSync(join(tmpdir(), 'capilot-endpoint-'))
   })
 
   afterEach(() => {
@@ -6463,7 +6463,7 @@ describe('Endpoint file lifecycle', () => {
   })
 
   it('leaves the endpoint file in place on stop()', async () => {
-    // Why: stop() leaves the file (stale = fail-open); unlinking would race a concurrent Orca instance rewriting it between token-check and unlink (TOCTOU).
+    // Why: stop() leaves the file (stale = fail-open); unlinking would race a concurrent CaPilot instance rewriting it between token-check and unlink (TOCTOU).
     const server = new AgentHookServer()
     await server.start({ env: 'production', userDataPath })
     const filePath = server.endpointFilePath!
@@ -6661,7 +6661,7 @@ describe('Last-status persistence', () => {
   let userDataPath: string
 
   beforeEach(() => {
-    userDataPath = mkdtempSync(join(tmpdir(), 'orca-laststatus-'))
+    userDataPath = mkdtempSync(join(tmpdir(), 'capilot-laststatus-'))
   })
 
   afterEach(() => {
@@ -6687,7 +6687,7 @@ describe('Last-status persistence', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Orca-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
+        'X-CaPilot-Agent-Hook-Token': env.ORCA_AGENT_HOOK_TOKEN
       },
       body: JSON.stringify(body)
     })
@@ -8238,7 +8238,7 @@ describe('AgentHookServer ingestRemote', () => {
 
 describe('AgentHookServer ingestTerminalStatus', () => {
   // Why: the OSC 9999 payload cannot carry a provider session, so letting it overwrite the row
-  // erased the session id from persisted rows and from headless `orca serve` — which serves these
+  // erased the session id from persisted rows and from headless `capilot serve` — which serves these
   // rows straight to mobile — leaving Chat UI with no transcript to subscribe to (#10630).
   it('keeps the cached provider session when an OSC status completes the turn', () => {
     const server = new AgentHookServer()

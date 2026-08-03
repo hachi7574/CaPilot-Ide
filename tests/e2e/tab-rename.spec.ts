@@ -5,7 +5,7 @@
  * - double-click a tab to rename it inline
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   waitForSessionReady,
   waitForActiveWorktree,

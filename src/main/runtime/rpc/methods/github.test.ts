@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { GITHUB_METHODS } from './github'
 
 function makeRequest(method: string, params?: unknown): RpcRequest {
@@ -12,7 +12,7 @@ describe('github RPC methods', () => {
   it('resolves the repo slug on the runtime server', async () => {
     const runtime = {
       getRuntimeId: () => 'test-runtime',
-      getRepoSlug: vi.fn().mockResolvedValue({ owner: 'acme', repo: 'orca' })
+      getRepoSlug: vi.fn().mockResolvedValue({ owner: 'acme', repo: 'capilot' })
     } as unknown as OrcaRuntimeService
     const dispatcher = new RpcDispatcher({ runtime, methods: GITHUB_METHODS })
 
@@ -21,7 +21,7 @@ describe('github RPC methods', () => {
     expect(runtime.getRepoSlug).toHaveBeenCalledWith('repo-1')
     expect(response).toMatchObject({
       ok: true,
-      result: { owner: 'acme', repo: 'orca' }
+      result: { owner: 'acme', repo: 'capilot' }
     })
   })
 
@@ -99,7 +99,7 @@ describe('github RPC methods', () => {
       makeRequest('github.workItemByOwnerRepo', {
         repo: 'repo-1',
         owner: 'acme',
-        ownerRepo: 'orca',
+        ownerRepo: 'capilot',
         number: 12,
         type: 'pr'
       })
@@ -107,7 +107,7 @@ describe('github RPC methods', () => {
 
     expect(runtime.getRepoWorkItemByOwnerRepo).toHaveBeenCalledWith(
       'repo-1',
-      { owner: 'acme', repo: 'orca' },
+      { owner: 'acme', repo: 'capilot' },
       12,
       'pr'
     )
@@ -659,26 +659,26 @@ describe('github RPC methods', () => {
     const dispatcher = new RpcDispatcher({ runtime, methods: GITHUB_METHODS })
 
     const labels = await dispatcher.dispatch(
-      makeRequest('github.project.listLabelsBySlug', { owner: 'acme', repo: 'orca' })
+      makeRequest('github.project.listLabelsBySlug', { owner: 'acme', repo: 'capilot' })
     )
     const users = await dispatcher.dispatch(
       makeRequest('github.project.listAssignableUsersBySlug', {
         owner: 'acme',
-        repo: 'orca',
+        repo: 'capilot',
         seedLogins: ['octo']
       })
     )
     const issueTypes = await dispatcher.dispatch(
-      makeRequest('github.project.listIssueTypesBySlug', { owner: 'acme', repo: 'orca' })
+      makeRequest('github.project.listIssueTypesBySlug', { owner: 'acme', repo: 'capilot' })
     )
 
-    expect(runtime.listGitHubLabelsBySlug).toHaveBeenCalledWith({ owner: 'acme', repo: 'orca' })
+    expect(runtime.listGitHubLabelsBySlug).toHaveBeenCalledWith({ owner: 'acme', repo: 'capilot' })
     expect(runtime.listGitHubAssignableUsersBySlug).toHaveBeenCalledWith({
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       seedLogins: ['octo']
     })
-    expect(runtime.listGitHubIssueTypesBySlug).toHaveBeenCalledWith({ owner: 'acme', repo: 'orca' })
+    expect(runtime.listGitHubIssueTypesBySlug).toHaveBeenCalledWith({ owner: 'acme', repo: 'capilot' })
     expect(labels).toMatchObject({ ok: true, result: { ok: true, labels: ['bug'] } })
     expect(users).toMatchObject({ ok: true, result: { ok: true, users: [{ login: 'octo' }] } })
     expect(issueTypes).toMatchObject({ ok: true, result: { ok: true, types: [{ id: 'it-1' }] } })
@@ -726,7 +726,7 @@ describe('github RPC methods', () => {
     const response = await dispatcher.dispatch(
       makeRequest('github.project.workItemDetailsBySlug', {
         owner: 'acme',
-        repo: 'orca',
+        repo: 'capilot',
         number: 9,
         type: 'issue'
       })
@@ -734,7 +734,7 @@ describe('github RPC methods', () => {
 
     expect(runtime.getGitHubProjectWorkItemDetailsBySlug).toHaveBeenCalledWith({
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       number: 9,
       type: 'issue'
     })
@@ -779,7 +779,7 @@ describe('github RPC methods', () => {
     const response = await dispatcher.dispatch(
       makeRequest('github.project.updateIssueTypeBySlug', {
         owner: 'acme',
-        repo: 'orca',
+        repo: 'capilot',
         number: 9,
         issueTypeId: null
       })
@@ -787,7 +787,7 @@ describe('github RPC methods', () => {
 
     expect(runtime.updateGitHubIssueTypeBySlug).toHaveBeenCalledWith({
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       number: 9,
       issueTypeId: null
     })

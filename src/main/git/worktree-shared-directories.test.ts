@@ -33,12 +33,12 @@ describe('resolveWorktreeSharedDirectories', () => {
   let warn: ReturnType<typeof vi.spyOn>
 
   const writeOrcaYaml = (body: string): void => {
-    writeFileSync(join(repo, 'orca.yaml'), body)
+    writeFileSync(join(repo, 'capilot.yaml'), body)
   }
 
   beforeEach(() => {
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()
-    repo = mkdtempSync(join(tmpdir(), 'orca-shared-dirs-'))
+    repo = mkdtempSync(join(tmpdir(), 'capilot-shared-dirs-'))
     git(['init', '-q'], repo)
     git(['config', 'user.email', 'test@example.com'], repo)
     git(['config', 'user.name', 'Test'], repo)
@@ -62,13 +62,13 @@ describe('resolveWorktreeSharedDirectories', () => {
     expect(await resolveWorktreeSharedDirectories(repo)).toEqual(['.cache', 'node_modules'])
   })
 
-  it('returns [] when orca.yaml is absent', async () => {
+  it('returns [] when capilot.yaml is absent', async () => {
     mkdirSync(join(repo, 'node_modules'))
 
     expect(await resolveWorktreeSharedDirectories(repo)).toEqual([])
   })
 
-  it('returns [] when orca.yaml has no worktree key', async () => {
+  it('returns [] when capilot.yaml has no worktree key', async () => {
     mkdirSync(join(repo, 'node_modules'))
     writeOrcaYaml('scripts:\n  setup: pnpm install\n')
 
@@ -145,7 +145,7 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
 
   beforeEach(() => {
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()
-    repo = mkdtempSync(join(tmpdir(), 'orca-shared-dirs-config-'))
+    repo = mkdtempSync(join(tmpdir(), 'capilot-shared-dirs-config-'))
   })
 
   afterEach(() => {
@@ -156,7 +156,7 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
     // Why: neither directory exists, yet removal still needs both names to
     // recognize and unlink the symlinks a previous creation left behind.
     writeFileSync(
-      join(repo, 'orca.yaml'),
+      join(repo, 'capilot.yaml'),
       'worktree:\n  sharedDirectories:\n    - node_modules\n    - .cache\n'
     )
 
@@ -164,7 +164,7 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
   })
 
   it('combines live per-user paths with cached repo configuration', () => {
-    writeFileSync(join(repo, 'orca.yaml'), 'worktree:\n  sharedDirectories:\n    - node_modules\n')
+    writeFileSync(join(repo, 'capilot.yaml'), 'worktree:\n  sharedDirectories:\n    - node_modules\n')
 
     expect(getWorktreeSharedLinkPaths({ path: repo, symlinkPaths: ['.cache'] })).toEqual([
       '.cache',
@@ -172,10 +172,10 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
     ])
   })
 
-  it('returns [] when orca.yaml is absent or has no worktree key', () => {
+  it('returns [] when capilot.yaml is absent or has no worktree key', () => {
     expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual([])
 
-    writeFileSync(join(repo, 'orca.yaml'), 'scripts:\n  setup: pnpm install\n')
+    writeFileSync(join(repo, 'capilot.yaml'), 'scripts:\n  setup: pnpm install\n')
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()
     expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual([])
   })
@@ -184,12 +184,12 @@ describe('getConfiguredWorktreeSharedDirectories', () => {
     vi.useFakeTimers()
     try {
       writeFileSync(
-        join(repo, 'orca.yaml'),
+        join(repo, 'capilot.yaml'),
         'worktree:\n  sharedDirectories:\n    - node_modules\n'
       )
       expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual(['node_modules'])
 
-      writeFileSync(join(repo, 'orca.yaml'), 'worktree:\n  sharedDirectories:\n    - .cache\n')
+      writeFileSync(join(repo, 'capilot.yaml'), 'worktree:\n  sharedDirectories:\n    - .cache\n')
 
       expect(getConfiguredWorktreeSharedDirectories(repo)).toEqual(['node_modules'])
       vi.advanceTimersByTime(30_001)
@@ -210,7 +210,7 @@ describe('shared directories and worktree removal', () => {
   let worktree: string
 
   beforeEach(() => {
-    root = mkdtempSync(join(tmpdir(), 'orca-shared-dirs-removal-'))
+    root = mkdtempSync(join(tmpdir(), 'capilot-shared-dirs-removal-'))
     primary = join(root, 'primary')
     worktree = join(root, 'worktree')
     mkdirSync(primary)
@@ -219,7 +219,7 @@ describe('shared directories and worktree removal', () => {
     git(['config', 'user.name', 'Test'], primary)
     writeFileSync(join(primary, '.gitignore'), 'node_modules/\n')
     writeFileSync(
-      join(primary, 'orca.yaml'),
+      join(primary, 'capilot.yaml'),
       'worktree:\n  sharedDirectories:\n    - node_modules\n'
     )
     git(['add', '-A'], primary)
@@ -305,7 +305,7 @@ describe('shared directories and worktree removal', () => {
     }
     writeFileSync(join(primary, '.gitignore'), `node_modules/\n${names.join('\n')}\n`)
     writeFileSync(
-      join(primary, 'orca.yaml'),
+      join(primary, 'capilot.yaml'),
       `worktree:\n  sharedDirectories:\n${names.map((name) => `    - ${name}`).join('\n')}\n`
     )
     clearConfiguredWorktreeSharedDirectoriesCacheForTests()

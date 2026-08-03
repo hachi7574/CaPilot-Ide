@@ -14,7 +14,7 @@ let userDataDir: string
 let previousUserDataPath: string | undefined
 
 beforeEach(() => {
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-trust-ledger-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-trust-ledger-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
 })
@@ -65,10 +65,10 @@ describe('codex trust grant ledger', () => {
   })
 
   it('treats Windows path-case variants as the same home', () => {
-    const home = 'C:\\Users\\Alice\\AppData\\Roaming\\orca\\codex-runtime-home\\home'
+    const home = 'C:\\Users\\Alice\\AppData\\Roaming\\capilot\\codex-runtime-home\\home'
     writeCodexTrustGrantLedgerHome(home, { binary: null, entries: {} })
     expect(
-      readCodexTrustGrantLedgerHome('c:/users/alice/appdata/roaming/orca/codex-runtime-home/home')
+      readCodexTrustGrantLedgerHome('c:/users/alice/appdata/roaming/capilot/codex-runtime-home/home')
     ).not.toBeNull()
   })
 

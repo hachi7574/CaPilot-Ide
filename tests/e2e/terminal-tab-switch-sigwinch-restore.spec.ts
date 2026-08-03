@@ -1,5 +1,5 @@
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { stageNodeScriptForTerminal } from './helpers/run-node-script-in-terminal'
 import {
   ensureTerminalVisible,
@@ -58,7 +58,7 @@ function buildSigwinchResetProbeCommand(): string {
     'setInterval(()=>{},1000)'
   ].join(';')
   // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
-  return stageNodeScriptForTerminal(script, { prefix: 'orca-sigwinch-probe' }).command
+  return stageNodeScriptForTerminal(script, { prefix: 'capilot-sigwinch-probe' }).command
 }
 
 function buildSigwinchResetProbeSnapshot(label: string): string {

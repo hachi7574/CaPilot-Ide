@@ -16,7 +16,7 @@ const {
   callMock: vi.fn(),
   runtimeClientConstructorMock: vi.fn(),
   serveOrcaAppMock: vi.fn(),
-  getDefaultUserDataPathMock: vi.fn(() => '/tmp/orca-user-data'),
+  getDefaultUserDataPathMock: vi.fn(() => '/tmp/capilot-user-data'),
   addEnvironmentFromPairingCodeMock: vi.fn(),
   listEnvironmentsMock: vi.fn(),
   spawnMock: vi.fn()
@@ -231,7 +231,7 @@ describe('unknown command surfaces a suggestion', () => {
     expect(process.exitCode).toBe(1)
     const stderr = errorSpy.mock.calls.map((call) => String(call[0])).join('\n')
     expect(stderr).toContain('Unknown command: worktree remov')
-    expect(stderr).toContain('orca worktree')
+    expect(stderr).toContain('capilot worktree')
   })
 
   it('reports a mistyped pre-command flag without swallowing the command', async () => {
@@ -290,13 +290,13 @@ describe('unknown help command surfaces a suggestion', () => {
     await main(argv, '/tmp/repo')
 
     expect(process.exitCode).toBe(1)
-    expect(logSpy.mock.calls.flat().join('\n')).toContain('Did you mean: orca worktree')
+    expect(logSpy.mock.calls.flat().join('\n')).toContain('Did you mean: capilot worktree')
     logSpy.mockRestore()
     process.exitCode = 0
   })
 })
 
-describe('orca root help', () => {
+describe('capilot root help', () => {
   it('advertises machine-readable agent discovery', async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
@@ -312,10 +312,10 @@ describe('orca root help', () => {
     await main([], '/tmp/repo')
 
     expect(logSpy.mock.calls.flat().join('\n')).toContain(
-      'account add               Add a managed Claude or Codex account on this Orca host'
+      'account add               Add a managed Claude or Codex account on this CaPilot host'
     )
     expect(logSpy.mock.calls.flat().join('\n')).toContain(
-      'account list              List managed Claude and Codex accounts on this Orca host'
+      'account list              List managed Claude and Codex accounts on this CaPilot host'
     )
     logSpy.mockRestore()
   })
@@ -351,10 +351,10 @@ describe('orca root help', () => {
       '`worktree create --agent` creates a new checkout with an agent.'
     )
     expect(logSpy.mock.calls[0][0]).toContain(
-      'orca terminal create --worktree active --command "codex"'
+      'capilot terminal create --worktree active --command "codex"'
     )
     expect(logSpy.mock.calls[0][0]).toContain(
-      'orchestration worker-start Start a supervised worker locally or on a connected Orca server'
+      'orchestration worker-start Start a supervised worker locally or on a connected CaPilot server'
     )
     expect(logSpy.mock.calls[0][0]).toContain(
       'orchestration ask         Ask the coordinator a blocking question'
@@ -380,7 +380,7 @@ describe('orca root help', () => {
     await main(['linear', '--help'], '/tmp/repo')
 
     const groupHelp = String(logSpy.mock.calls[0][0])
-    expect(groupHelp).toContain('orca linear')
+    expect(groupHelp).toContain('capilot linear')
     expect(groupHelp).toContain('issue')
     expect(groupHelp).toContain('search')
     expect(groupHelp).not.toContain('--comments')
@@ -390,7 +390,7 @@ describe('orca root help', () => {
     await main(['linear', 'issue', '--help'], '/tmp/repo')
 
     const issueHelp = String(logSpy.mock.calls[0][0])
-    expect(issueHelp).toContain('orca linear issue [<id>]')
+    expect(issueHelp).toContain('capilot linear issue [<id>]')
     expect(issueHelp).toContain('--comments             Include threaded Linear comments')
     expect(issueHelp).toContain('--attachments          Include attachment metadata and URLs')
     expect(issueHelp).toContain('--activity             Include issue field-change history')
@@ -401,7 +401,7 @@ describe('orca root help', () => {
     await main(['linear', 'search', '--help'], '/tmp/repo')
 
     const searchHelp = String(logSpy.mock.calls[0][0])
-    expect(searchHelp).toContain('orca linear search <query>')
+    expect(searchHelp).toContain('capilot linear search <query>')
     expect(searchHelp).toContain('--workspace <id|all>  Connected Linear workspace id, or all')
     expect(searchHelp).toContain('--query <text>        Text to search across Linear issues')
 
@@ -479,13 +479,13 @@ describe('orca root help', () => {
     expect(createHelp).not.toContain('checkout/workspace')
     expect(createHelp).not.toContain('caller workspace')
     expect(createHelp).not.toContain('current workspace')
-    expect(createHelp).not.toContain('active Orca workspace')
+    expect(createHelp).not.toContain('active CaPilot workspace')
     expect(createHelp).not.toContain('folderWorkspaceId')
     expect(createHelp).toContain('folder:<id>')
     expect(createHelp).toContain('folder:<folderId>')
     expect(createHelp).toContain('worktree:<worktreeId>')
     expect(createHelp).toContain(
-      '--no-parent only affects Orca lineage; omit --base-branch to use the repo default base'
+      '--no-parent only affects CaPilot lineage; omit --base-branch to use the repo default base'
     )
 
     logSpy.mockClear()
@@ -506,7 +506,7 @@ describe('orca root help', () => {
 
     expect(String(logSpy.mock.calls[0][0])).toContain('This creates a new checkout.')
     expect(String(logSpy.mock.calls[0][0])).toContain(
-      'orca terminal create --worktree active --command "codex"'
+      'capilot terminal create --worktree active --command "codex"'
     )
 
     logSpy.mockClear()
@@ -515,13 +515,13 @@ describe('orca root help', () => {
     const terminalHelp = String(logSpy.mock.calls[0][0])
     expect(terminalHelp).toContain('Use this, not worktree create')
     expect(terminalHelp).toContain(
-      'orca terminal create --worktree active --command "codex" --json'
+      'capilot terminal create --worktree active --command "codex" --json'
     )
     expect(callMock).not.toHaveBeenCalled()
   })
 })
 
-describe('orca cli worktree awareness', () => {
+describe('capilot cli worktree awareness', () => {
   const originalTerminalHandle = process.env.ORCA_TERMINAL_HANDLE
   const originalUserDataPath = process.env.ORCA_USER_DATA_PATH
   const originalDevCliInvocation = process.env.ORCA_DEV_CLI_INVOCATION
@@ -657,7 +657,7 @@ describe('orca cli worktree awareness', () => {
   })
 
   it('resolves the invocation cwd from ORCA_CLI_CWD when no cwd is passed', async () => {
-    // Why: the SSH relay bridge runs the CLI on the Orca host with the remote
+    // Why: the SSH relay bridge runs the CLI on the CaPilot host with the remote
     // shell's cwd carried in ORCA_CLI_CWD (#7716); cwd-based selectors must
     // resolve against it, not the host process cwd.
     process.env.ORCA_CLI_CWD = '/tmp/repo/feature/src'
@@ -689,7 +689,7 @@ describe('orca cli worktree awareness', () => {
   })
 
   it.skipIf(process.platform === 'win32')(
-    'prepares and starts Claude Agent Teams in the current Orca terminal',
+    'prepares and starts Claude Agent Teams in the current CaPilot terminal',
     async () => {
       process.env.ORCA_PANE_KEY = 'tab-1:11111111-1111-4111-8111-111111111111'
       queueFixtures(
@@ -698,9 +698,9 @@ describe('orca cli worktree awareness', () => {
           launch: {
             env: {
               CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
-              TMUX: '/tmp/orca-claude-agent-teams/team-1,0,1',
+              TMUX: '/tmp/capilot-claude-agent-teams/team-1,0,1',
               TMUX_PANE: '%1',
-              PATH: '/tmp/orca-shim:/usr/bin'
+              PATH: '/tmp/capilot-shim:/usr/bin'
             }
           }
         })
@@ -734,9 +734,9 @@ describe('orca cli worktree awareness', () => {
           launch: {
             env: {
               CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
-              TMUX: '/tmp/orca-claude-agent-teams/team-1,0,1',
+              TMUX: '/tmp/capilot-claude-agent-teams/team-1,0,1',
               TMUX_PANE: '%1',
-              PATH: '/tmp/orca-shim:/usr/bin'
+              PATH: '/tmp/capilot-shim:/usr/bin'
             }
           }
         })
@@ -771,9 +771,9 @@ describe('orca cli worktree awareness', () => {
           launch: {
             env: {
               CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
-              TMUX: '/tmp/orca-claude-agent-teams/team-1,0,1',
+              TMUX: '/tmp/capilot-claude-agent-teams/team-1,0,1',
               TMUX_PANE: '%1',
-              PATH: '/tmp/orca-shim:/usr/bin'
+              PATH: '/tmp/capilot-shim:/usr/bin'
             }
           }
         })
@@ -1377,8 +1377,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'local',
             repoId: 'repo-local',
-            path: '/tmp/orca',
-            displayName: 'Orca',
+            path: '/tmp/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -1389,8 +1389,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: 'repo-gpu',
-            path: '/srv/orca',
-            displayName: 'Orca',
+            path: '/srv/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -1399,7 +1399,7 @@ describe('orca cli worktree awareness', () => {
         ]
       }),
       okFixture('req_create', {
-        worktree: buildWorktree('/srv/orca/feature', 'feature', 'abc', 'repo-gpu'),
+        worktree: buildWorktree('/srv/capilot/feature', 'feature', 'abc', 'repo-gpu'),
         lineage: null,
         warnings: []
       })
@@ -1448,8 +1448,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: 'repo-gpu',
-            path: '/srv/orca',
-            displayName: 'Orca',
+            path: '/srv/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -1458,7 +1458,7 @@ describe('orca cli worktree awareness', () => {
         ]
       }),
       okFixture('req_create', {
-        worktree: buildWorktree('/srv/orca/feature', 'feature', 'abc', 'repo-gpu'),
+        worktree: buildWorktree('/srv/capilot/feature', 'feature', 'abc', 'repo-gpu'),
         lineage: null,
         warnings: []
       })
@@ -2159,23 +2159,23 @@ describe('orca cli worktree awareness', () => {
   })
 
   it('runs vm recipe doctor locally without contacting the app runtime', async () => {
-    const repoPath = mkdtempSync(path.join(tmpdir(), 'orca-vm-doctor-'))
+    const repoPath = mkdtempSync(path.join(tmpdir(), 'capilot-vm-doctor-'))
     try {
-      mkdirSync(path.join(repoPath, 'scripts', 'orca-vm'), { recursive: true })
-      const startScript = path.join(repoPath, 'scripts', 'orca-vm', 'start.sh')
-      const cleanupScript = path.join(repoPath, 'scripts', 'orca-vm', 'cleanup.sh')
+      mkdirSync(path.join(repoPath, 'scripts', 'capilot-vm'), { recursive: true })
+      const startScript = path.join(repoPath, 'scripts', 'capilot-vm', 'start.sh')
+      const cleanupScript = path.join(repoPath, 'scripts', 'capilot-vm', 'cleanup.sh')
       writeFileSync(startScript, '#!/bin/sh\n')
       writeFileSync(cleanupScript, '#!/bin/sh\n')
       chmodSync(startScript, 0o755)
       chmodSync(cleanupScript, 0o755)
       writeFileSync(
-        path.join(repoPath, 'orca.yaml'),
+        path.join(repoPath, 'capilot.yaml'),
         [
           'environmentRecipes:',
           '  - id: cloud-sandbox',
           '    name: Cloud Sandbox',
-          '    create: ./scripts/orca-vm/start.sh',
-          '    destroy: ./scripts/orca-vm/cleanup.sh'
+          '    create: ./scripts/capilot-vm/start.sh',
+          '    destroy: ./scripts/capilot-vm/cleanup.sh'
         ].join('\n')
       )
       const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
@@ -2205,17 +2205,17 @@ describe('orca cli worktree awareness', () => {
   })
 
   it('warns when vm recipe doctor finds no cleanup hook', async () => {
-    const repoPath = mkdtempSync(path.join(tmpdir(), 'orca-vm-doctor-'))
+    const repoPath = mkdtempSync(path.join(tmpdir(), 'capilot-vm-doctor-'))
     try {
-      mkdirSync(path.join(repoPath, 'scripts', 'orca-vm'), { recursive: true })
-      writeFileSync(path.join(repoPath, 'scripts', 'orca-vm', 'start.sh'), '#!/bin/sh\n')
+      mkdirSync(path.join(repoPath, 'scripts', 'capilot-vm'), { recursive: true })
+      writeFileSync(path.join(repoPath, 'scripts', 'capilot-vm', 'start.sh'), '#!/bin/sh\n')
       writeFileSync(
-        path.join(repoPath, 'orca.yaml'),
+        path.join(repoPath, 'capilot.yaml'),
         [
           'environmentRecipes:',
           '  - id: manual-sandbox',
           '    name: Manual Sandbox',
-          '    create: ./scripts/orca-vm/start.sh'
+          '    create: ./scripts/capilot-vm/start.sh'
         ].join('\n')
       )
       const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
@@ -2243,7 +2243,7 @@ describe('orca cli worktree awareness', () => {
   })
 
   it('runs vm recipe doctor provision mode and invokes cleanup', async () => {
-    const repoPath = mkdtempSync(path.join(tmpdir(), 'orca-vm-doctor-provision-'))
+    const repoPath = mkdtempSync(path.join(tmpdir(), 'capilot-vm-doctor-provision-'))
     const pairingCode = encodePairingOffer({
       v: PAIRING_OFFER_VERSION,
       endpoint: 'ws://sandbox.example.com:6767',
@@ -2251,9 +2251,9 @@ describe('orca cli worktree awareness', () => {
       publicKeyB64: 'public-key'
     })
     try {
-      mkdirSync(path.join(repoPath, 'scripts', 'orca-vm'), { recursive: true })
+      mkdirSync(path.join(repoPath, 'scripts', 'capilot-vm'), { recursive: true })
       writeFileSync(
-        path.join(repoPath, 'scripts', 'orca-vm', 'start.js'),
+        path.join(repoPath, 'scripts', 'capilot-vm', 'start.js'),
         [
           'console.log(JSON.stringify({',
           '  schemaVersion: 1,',
@@ -2263,7 +2263,7 @@ describe('orca cli worktree awareness', () => {
         ].join('\n')
       )
       writeFileSync(
-        path.join(repoPath, 'scripts', 'orca-vm', 'cleanup.js'),
+        path.join(repoPath, 'scripts', 'capilot-vm', 'cleanup.js'),
         [
           "const fs = require('fs')",
           "const input = fs.readFileSync(0, 'utf8')",
@@ -2272,13 +2272,13 @@ describe('orca cli worktree awareness', () => {
         ].join('\n')
       )
       writeFileSync(
-        path.join(repoPath, 'orca.yaml'),
+        path.join(repoPath, 'capilot.yaml'),
         [
           'environmentRecipes:',
           '  - id: cloud-sandbox',
           '    name: Cloud Sandbox',
-          `    create: ${JSON.stringify(`${process.execPath} ./scripts/orca-vm/start.js`)}`,
-          `    destroy: ${JSON.stringify(`${process.execPath} ./scripts/orca-vm/cleanup.js`)}`
+          `    create: ${JSON.stringify(`${process.execPath} ./scripts/capilot-vm/start.js`)}`,
+          `    destroy: ${JSON.stringify(`${process.execPath} ./scripts/capilot-vm/cleanup.js`)}`
         ].join('\n')
       )
       const { EventEmitter } = await import('node:events')
@@ -2366,17 +2366,17 @@ describe('orca cli worktree awareness', () => {
   })
 
   it('returns the full create transcript when provision fails so the agent can self-diagnose', async () => {
-    const repoPath = mkdtempSync(path.join(tmpdir(), 'orca-vm-doctor-provision-fail-'))
+    const repoPath = mkdtempSync(path.join(tmpdir(), 'capilot-vm-doctor-provision-fail-'))
     try {
-      mkdirSync(path.join(repoPath, 'scripts', 'orca-vm'), { recursive: true })
-      writeFileSync(path.join(repoPath, 'scripts', 'orca-vm', 'start.js'), 'process.exit(0)')
+      mkdirSync(path.join(repoPath, 'scripts', 'capilot-vm'), { recursive: true })
+      writeFileSync(path.join(repoPath, 'scripts', 'capilot-vm', 'start.js'), 'process.exit(0)')
       writeFileSync(
-        path.join(repoPath, 'orca.yaml'),
+        path.join(repoPath, 'capilot.yaml'),
         [
           'environmentRecipes:',
           '  - id: cloud-sandbox',
           '    name: Cloud Sandbox',
-          `    create: ${JSON.stringify(`${process.execPath} ./scripts/orca-vm/start.js`)}`,
+          `    create: ${JSON.stringify(`${process.execPath} ./scripts/capilot-vm/start.js`)}`,
           '    destroy: none'
         ].join('\n')
       )
@@ -2529,7 +2529,7 @@ describe('orca cli worktree awareness', () => {
 
     await main(['environment', 'list', '--json'], '/tmp/repo')
 
-    expect(listEnvironmentsMock).toHaveBeenCalledWith('/tmp/orca-user-data')
+    expect(listEnvironmentsMock).toHaveBeenCalledWith('/tmp/capilot-user-data')
     expect(callMock).not.toHaveBeenCalled()
     expect(logSpy.mock.calls[0]?.[0]).not.toContain('token')
     expect(logSpy.mock.calls[0]?.[0]).not.toContain('publicKeyB64')
@@ -2544,7 +2544,7 @@ describe('orca cli worktree awareness', () => {
       '/tmp/repo'
     )
 
-    expect(addEnvironmentFromPairingCodeMock).toHaveBeenCalledWith('/tmp/orca-user-data', {
+    expect(addEnvironmentFromPairingCodeMock).toHaveBeenCalledWith('/tmp/capilot-user-data', {
       name: 'desk',
       pairingCode: 'orca://pair#abc'
     })
@@ -2580,12 +2580,12 @@ describe('orca cli worktree awareness', () => {
         projects: [
           {
             id: 'github:stablyai/orca',
-            displayName: 'Orca',
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             providerIdentity: {
               provider: 'github',
               owner: 'stablyai',
-              repo: 'orca'
+              repo: 'capilot'
             },
             sourceRepoIds: ['repo-1'],
             createdAt: 1,
@@ -2611,8 +2611,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'local',
             repoId: 'repo-local',
-            path: '/tmp/orca',
-            displayName: 'Orca',
+            path: '/tmp/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -2623,8 +2623,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: 'repo-remote',
-            path: '/srv/orca',
-            displayName: 'Orca',
+            path: '/srv/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -2652,7 +2652,7 @@ describe('orca cli worktree awareness', () => {
         result: {
           project: {
             id: 'github:stablyai/orca',
-            displayName: 'Orca',
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             sourceRepoIds: ['repo-1'],
             createdAt: 1,
@@ -2663,8 +2663,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'local',
             repoId: 'repo-1',
-            path: path.resolve('/tmp/orca'),
-            displayName: 'Orca',
+            path: path.resolve('/tmp/capilot'),
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'imported-existing-folder',
             createdAt: 1,
@@ -2672,8 +2672,8 @@ describe('orca cli worktree awareness', () => {
           },
           repo: {
             id: 'repo-1',
-            path: path.resolve('/tmp/orca'),
-            displayName: 'Orca',
+            path: path.resolve('/tmp/capilot'),
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             addedAt: 1
           }
@@ -2695,18 +2695,18 @@ describe('orca cli worktree awareness', () => {
         '--kind',
         'git',
         '--display-name',
-        'Orca',
+        'CaPilot',
         '--json'
       ],
-      '/tmp/orca/worktrees/feature'
+      '/tmp/capilot/worktrees/feature'
     )
 
     expect(callMock).toHaveBeenCalledWith('projectHostSetup.setupExistingFolder', {
       projectId: 'github:stablyai/orca',
       hostId: 'local',
-      path: path.resolve('/tmp/orca/worktrees'),
+      path: path.resolve('/tmp/capilot/worktrees'),
       kind: 'git',
-      displayName: 'Orca'
+      displayName: 'CaPilot'
     })
   })
 
@@ -2724,7 +2724,7 @@ describe('orca cli worktree awareness', () => {
         '--host',
         'runtime:gpu',
         '--path',
-        './orca',
+        './capilot',
         '--pairing-code',
         'remote-runtime',
         '--json'
@@ -2766,7 +2766,7 @@ describe('orca cli worktree awareness', () => {
       okFixture('req_repo_add', {
         repo: {
           id: 'repo-1',
-          path: '/srv/orca/web',
+          path: '/srv/capilot/web',
           displayName: 'web'
         }
       })
@@ -2774,12 +2774,12 @@ describe('orca cli worktree awareness', () => {
     vi.spyOn(console, 'log').mockImplementation(() => {})
 
     await main(
-      ['repo', 'add', '--path', '/srv/orca/web', '--pairing-code', 'remote-runtime', '--json'],
+      ['repo', 'add', '--path', '/srv/capilot/web', '--pairing-code', 'remote-runtime', '--json'],
       '/tmp/repo'
     )
 
     expect(callMock).toHaveBeenCalledWith('repo.add', {
-      path: '/srv/orca/web'
+      path: '/srv/capilot/web'
     })
   })
 
@@ -3627,7 +3627,7 @@ describe('orca cli worktree awareness', () => {
 
   it('passes dev mode to injected orchestration dispatches', async () => {
     process.env.ORCA_TERMINAL_HANDLE = 'term_sender'
-    process.env.ORCA_USER_DATA_PATH = '/tmp/orca-dev'
+    process.env.ORCA_USER_DATA_PATH = '/tmp/capilot-dev'
     callMock.mockResolvedValueOnce({
       id: 'req_dispatch',
       ok: true,
@@ -3722,7 +3722,7 @@ describe('orca cli worktree awareness', () => {
       okFixture('req_terminal_create', {
         terminal: {
           handle: 'term_1',
-          worktreeId: 'repo-1::/srv/orca/feature',
+          worktreeId: 'repo-1::/srv/capilot/feature',
           title: 'Server terminal'
         }
       })
@@ -3734,7 +3734,7 @@ describe('orca cli worktree awareness', () => {
         'terminal',
         'create',
         '--worktree',
-        'id:repo-1::/srv/orca/feature',
+        'id:repo-1::/srv/capilot/feature',
         '--pairing-code',
         'remote-runtime',
         '--json'
@@ -3743,7 +3743,7 @@ describe('orca cli worktree awareness', () => {
     )
 
     expect(callMock).toHaveBeenCalledWith('terminal.create', {
-      worktree: 'id:repo-1::/srv/orca/feature',
+      worktree: 'id:repo-1::/srv/capilot/feature',
       command: undefined,
       title: undefined,
       focus: false
@@ -3767,7 +3767,7 @@ describe('orca cli worktree awareness', () => {
             worktreeId: 'repo::/tmp/repo/feature',
             worktreeName: 'feature',
             repoId: 'repo',
-            repoName: 'Orca',
+            repoName: 'CaPilot',
             cpu: 2.5,
             memory: 1024 * 1024,
             sessions: [
@@ -3858,7 +3858,7 @@ describe('orca cli worktree awareness', () => {
       okFixture('req_terminal_create', {
         terminal: {
           handle: 'term_1',
-          worktreeId: 'repo-1::/srv/orca/feature',
+          worktreeId: 'repo-1::/srv/capilot/feature',
           title: 'Codex'
         }
       })
@@ -3870,7 +3870,7 @@ describe('orca cli worktree awareness', () => {
         'terminal',
         'create',
         '--worktree',
-        'id:repo-1::/srv/orca/feature',
+        'id:repo-1::/srv/capilot/feature',
         '--command',
         'codex',
         '--title',
@@ -3883,7 +3883,7 @@ describe('orca cli worktree awareness', () => {
     )
 
     expect(callMock).toHaveBeenCalledWith('terminal.create', {
-      worktree: 'id:repo-1::/srv/orca/feature',
+      worktree: 'id:repo-1::/srv/capilot/feature',
       command: 'codex',
       title: 'Codex',
       focus: false
@@ -3900,7 +3900,7 @@ describe('orca cli worktree awareness', () => {
           url: 'https://example.com',
           title: 'Example',
           active: true,
-          worktreeId: 'repo-1::/srv/orca/feature'
+          worktreeId: 'repo-1::/srv/capilot/feature'
         }
       })
     )
@@ -4077,8 +4077,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'local',
             repoId: 'repo-local',
-            path: '/tmp/orca',
-            displayName: 'Orca',
+            path: '/tmp/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -4089,8 +4089,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: 'repo-gpu',
-            path: '/srv/orca',
-            displayName: 'Orca',
+            path: '/srv/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -4137,7 +4137,7 @@ describe('orca cli worktree awareness', () => {
           hostId: 'runtime:gpu',
           projectHostSetupId: 'setup-gpu',
           repoId: 'repo-gpu',
-          path: '/srv/orca'
+          path: '/srv/capilot'
         },
         workspace: undefined,
         workspaceMode: 'new_per_run'
@@ -4155,8 +4155,8 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: 'repo-gpu',
-            path: '/srv/orca',
-            displayName: 'Orca',
+            path: '/srv/capilot',
+            displayName: 'CaPilot',
             setupState: 'ready',
             setupMethod: 'legacy-repo',
             createdAt: 1,
@@ -4189,7 +4189,7 @@ describe('orca cli worktree awareness', () => {
             hostId: 'runtime:gpu',
             projectHostSetupId: 'setup-gpu',
             repoId: 'repo-gpu',
-            path: '/srv/orca'
+            path: '/srv/capilot'
           }
         })
       })
@@ -4784,7 +4784,7 @@ describe('orca cli worktree awareness', () => {
         result: {
           project: {
             id: 'github:stablyai/orca',
-            displayName: 'Orca',
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             sourceRepoIds: [],
             createdAt: 1,
@@ -4795,7 +4795,7 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: '',
-            path: '/srv/orca',
+            path: '/srv/capilot',
             displayName: 'GPU VM',
             setupState: 'ready',
             setupMethod: 'imported-existing-folder',
@@ -4816,7 +4816,7 @@ describe('orca cli worktree awareness', () => {
         '--display-name',
         'GPU VM',
         '--path',
-        '/srv/orca',
+        '/srv/capilot',
         '--worktree-base-path',
         '../worktrees',
         '--state',
@@ -4832,7 +4832,7 @@ describe('orca cli worktree awareness', () => {
       setupId: 'setup-gpu',
       updates: {
         displayName: 'GPU VM',
-        path: path.resolve('/tmp/repo', '/srv/orca'),
+        path: path.resolve('/tmp/repo', '/srv/capilot'),
         worktreeBasePath: '../worktrees',
         gitUsername: undefined,
         kind: undefined,
@@ -4849,7 +4849,7 @@ describe('orca cli worktree awareness', () => {
         result: {
           project: {
             id: 'github:stablyai/orca',
-            displayName: 'Orca',
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             sourceRepoIds: [],
             createdAt: 1,
@@ -4914,7 +4914,7 @@ describe('orca cli worktree awareness', () => {
         result: {
           project: {
             id: 'github:stablyai/orca',
-            displayName: 'Orca',
+            displayName: 'CaPilot',
             badgeColor: '#7c3aed',
             sourceRepoIds: [],
             createdAt: 1,
@@ -4925,7 +4925,7 @@ describe('orca cli worktree awareness', () => {
             projectId: 'github:stablyai/orca',
             hostId: 'runtime:gpu',
             repoId: '',
-            path: '/srv/orca',
+            path: '/srv/capilot',
             displayName: 'GPU VM',
             setupState: 'ready',
             setupMethod: 'imported-existing-folder',

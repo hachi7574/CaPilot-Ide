@@ -22,7 +22,7 @@ describe('getDeleteWorktreeToastCopy', () => {
     ).toEqual({
       title: 'Failed to delete workspace feature/foo',
       description:
-        'Orca could not confirm every terminal in this workspace has exited, so it stopped before deleting any files. Use Force Delete to remove it anyway.',
+        'CaPilot could not confirm every terminal in this workspace has exited, so it stopped before deleting any files. Use Force Delete to remove it anyway.',
       isDestructive: false
     })
   })
@@ -51,7 +51,7 @@ describe('getDeleteWorktreeToastCopy', () => {
       )
     ).toEqual({
       title: 'Failed to delete workspace feature/foo',
-      description: 'Git already removed this workspace. Use Force Delete to clear it from Orca.',
+      description: 'Git already removed this workspace. Use Force Delete to clear it from CaPilot.',
       isDestructive: false
     })
   })

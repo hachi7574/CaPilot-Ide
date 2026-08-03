@@ -15,13 +15,13 @@ describe('buildGitHubRepoUrl', () => {
   })
 
   it('encodes path segments', () => {
-    expect(buildGitHubRepoUrl({ owner: 'stably ai', repo: 'orca/tools' })).toBe(
+    expect(buildGitHubRepoUrl({ owner: 'stably ai', repo: 'capilot/tools' })).toBe(
       'https://github.com/stably%20ai/orca%2Ftools'
     )
   })
 
   it('links hosted slugs to their GitHub Enterprise server', () => {
-    expect(buildGitHubRepoUrl({ owner: 'team', repo: 'orca', host: 'github.acme-corp.com' })).toBe(
+    expect(buildGitHubRepoUrl({ owner: 'team', repo: 'capilot', host: 'github.acme-corp.com' })).toBe(
       'https://github.acme-corp.com/team/orca'
     )
   })

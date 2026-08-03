@@ -186,13 +186,13 @@ async function main() {
   let tempRoot
   let relay
   try {
-    tempRoot = await mkdtemp(join(tmpdir(), 'orca-relay-watcher-fault-'))
+    tempRoot = await mkdtemp(join(tmpdir(), 'capilot-relay-watcher-fault-'))
     const watchRoot = await realpath(tempRoot)
     const pidFile = join(tempRoot, 'watcher.pid')
     const protocol = await loadProtocol(tempRoot)
     const socketPath =
       process.platform === 'win32'
-        ? `\\\\.\\pipe\\orca-relay-watcher-fault-${process.pid}-${Date.now()}`
+        ? `\\\\.\\pipe\\capilot-relay-watcher-fault-${process.pid}-${Date.now()}`
         : join(tempRoot, 'relay.sock')
     relay = createRelayClient(
       relayEntry,

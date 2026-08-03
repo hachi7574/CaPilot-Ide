@@ -1,7 +1,7 @@
 import type { AppState } from '@/store/types'
 import type { OrcaHooks } from '../../../shared/types'
 import { resolveHookCommandSourcePolicy } from '../../../shared/hook-command-source-policy'
-import { hashOrcaHookScript, type OrcaHookScriptKind } from './orca-hook-trust'
+import { hashOrcaHookScript, type OrcaHookScriptKind } from './capilot-hook-trust'
 import { checkRuntimeHooks, readRuntimeIssueCommand } from '@/runtime/runtime-hooks-client'
 import { getRuntimeEnvironmentIdForRepo } from './repo-runtime-owner'
 import {
@@ -104,7 +104,7 @@ export async function ensureHooksConfirmed(
     let scriptContent = ''
     try {
       if (scriptKind === 'issueCommand') {
-        // Local overrides are user-owned; only shared orca.yaml commands need repo trust.
+        // Local overrides are user-owned; only shared capilot.yaml commands need repo trust.
         // Why: hostId disambiguates duplicate repo ids on the local IPC path,
         // matching the checkRuntimeHooks call below.
         const result = await readRuntimeIssueCommand(
@@ -168,11 +168,11 @@ export async function ensureHooksConfirmed(
     const repo = findHookRepo(state, repoId, hostId)
     const repoName = repo?.displayName ?? 'this repository'
     // A non-empty existingHash that didn't match means the user approved a previous
-    // version of this script; the prompt is reappearing because orca.yaml changed.
+    // version of this script; the prompt is reappearing because capilot.yaml changed.
     const previouslyApproved = Boolean(existingHash)
 
     return new Promise<'run' | 'skip'>((resolve) => {
-      state.openModal('confirm-orca-yaml-hooks', {
+      state.openModal('confirm-capilot-yaml-hooks', {
         repoId,
         repoName,
         scriptKind,

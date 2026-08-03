@@ -25,7 +25,7 @@ export { ensureOrcaRuntimeLaunched, parseJsonOutput, runOrcaCli, stopOrcaRuntime
 
 export async function ensureTextEditLaunched(): Promise<void> {
   await killTextEdit()
-  textEditTempDir = await mkdtemp(join(tmpdir(), 'orca-computer-e2e-'))
+  textEditTempDir = await mkdtemp(join(tmpdir(), 'capilot-computer-e2e-'))
   const filePath = join(textEditTempDir, 'textedit-target.txt')
   await writeFile(filePath, 'seed', 'utf8')
   await execFileAsync('open', ['-F', '-a', 'TextEdit', '-n', filePath])
@@ -52,8 +52,8 @@ export type SafariDraftFixture = {
 
 export async function ensureSafariDraftFixtureLaunched(): Promise<SafariDraftFixture> {
   await closeSafariDraftFixture()
-  safariDraftTempDir = await mkdtemp(join(tmpdir(), 'orca-computer-safari-e2e-'))
-  safariDraftTitle = `Orca Computer Use Draft Fixture ${Date.now()}`
+  safariDraftTempDir = await mkdtemp(join(tmpdir(), 'capilot-computer-safari-e2e-'))
+  safariDraftTitle = `CaPilot Computer Use Draft Fixture ${Date.now()}`
   const filePath = join(safariDraftTempDir, 'index.html')
   await writeFile(filePath, safariDraftFixtureHtml(safariDraftTitle), 'utf8')
   await execFileAsync('open', ['-F', '-a', 'Safari', filePath])
@@ -152,7 +152,7 @@ async function waitForComputerWindowTitle(
 
 export async function ensureGeditLaunched(): Promise<void> {
   await killGedit()
-  linuxTempDir = await mkdtemp(join(tmpdir(), 'orca-computer-linux-e2e-'))
+  linuxTempDir = await mkdtemp(join(tmpdir(), 'capilot-computer-linux-e2e-'))
   const fileName = 'gedit-target.txt'
   const filePath = join(linuxTempDir, fileName)
   await writeFile(filePath, 'seed', 'utf8')
@@ -178,8 +178,8 @@ export async function killGedit(): Promise<void> {
 
 export async function ensureNotepadLaunched(): Promise<void> {
   await killNotepad()
-  windowsTempDir = await mkdtemp(join(tmpdir(), 'orca-computer-windows-e2e-'))
-  const filePath = join(windowsTempDir, `orca-notepad-${Date.now()}.txt`)
+  windowsTempDir = await mkdtemp(join(tmpdir(), 'capilot-computer-windows-e2e-'))
+  const filePath = join(windowsTempDir, `capilot-notepad-${Date.now()}.txt`)
   await writeFile(filePath, 'seed', 'utf8')
   await execFileAsync('powershell.exe', [
     '-NoProfile',

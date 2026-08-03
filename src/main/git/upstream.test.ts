@@ -170,15 +170,15 @@ describe('getUpstreamStatus', () => {
       if (args[0] === 'remote' && args[1] === 'get-url' && args[2] === 'origin') {
         return Promise.resolve({ stdout: 'https://github.com/stablyai/orca.git\n' })
       }
-      if (args[0] === 'remote' && args[1] === 'get-url' && args[2] === 'pr-pynickle-orca') {
+      if (args[0] === 'remote' && args[1] === 'get-url' && args[2] === 'pr-pynickle-capilot') {
         return Promise.resolve({ stdout: 'https://github.com/pynickle/orca.git\n' })
       }
       if (args[0] === 'remote') {
-        return Promise.resolve({ stdout: 'origin\npr-pynickle-orca\n' })
+        return Promise.resolve({ stdout: 'origin\npr-pynickle-capilot\n' })
       }
       if (
         args[0] === 'rev-parse' &&
-        args.includes('refs/remotes/pr-pynickle-orca/imp/chinese-translation')
+        args.includes('refs/remotes/pr-pynickle-capilot/imp/chinese-translation')
       ) {
         return Promise.resolve({ stdout: 'fork-head\n' })
       }
@@ -192,7 +192,7 @@ describe('getUpstreamStatus', () => {
 
     expect(result).toEqual({
       hasUpstream: true,
-      upstreamName: 'pr-pynickle-orca/imp/chinese-translation',
+      upstreamName: 'pr-pynickle-capilot/imp/chinese-translation',
       ahead: 2,
       behind: 0
     })

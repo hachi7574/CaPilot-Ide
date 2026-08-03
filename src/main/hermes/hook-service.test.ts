@@ -17,7 +17,7 @@ describe('HermesHookService', () => {
 
   beforeEach(() => {
     previousHermesHome = process.env.HERMES_HOME
-    homeDir = mkdtempSync(join(tmpdir(), 'orca-hermes-hooks-'))
+    homeDir = mkdtempSync(join(tmpdir(), 'capilot-hermes-hooks-'))
     process.env.HERMES_HOME = homeDir
   })
 
@@ -48,7 +48,7 @@ describe('HermesHookService', () => {
     expect(config.plugins.enabled).toContain(_internals.HERMES_PLUGIN_NAME)
   })
 
-  it('preserves other enabled plugins and removes Orca from disabled list', () => {
+  it('preserves other enabled plugins and removes CaPilot from disabled list', () => {
     writeFileSync(
       join(homeDir, 'config.yaml'),
       [
@@ -123,7 +123,7 @@ describe('HermesHookService', () => {
     expect(output.toLowerCase()).toContain('enabled')
   }, 20_000)
 
-  it('registered plugin hooks post normalized JSON to Orca', async () => {
+  it('registered plugin hooks post normalized JSON to CaPilot', async () => {
     const pythonAvailable = spawnSync('python3', ['--version'], { encoding: 'utf-8' }).status === 0
     if (!pythonAvailable) {
       return
@@ -137,7 +137,7 @@ describe('HermesHookService', () => {
         req.on('end', () => {
           try {
             expect(req.url).toBe('/hook/hermes')
-            expect(req.headers['x-orca-agent-hook-token']).toBe('token-1')
+            expect(req.headers['x-capilot-agent-hook-token']).toBe('token-1')
             res.writeHead(204)
             res.end()
             clearTimeout(timeout)

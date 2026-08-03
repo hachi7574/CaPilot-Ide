@@ -523,7 +523,7 @@ function createOutOfProcessLauncher(
           // Why: detached+unref outlives Electron; stdout 'ignore' (else blocks exit), stderr 'pipe' captures startup crashes lost in v1.4.129-rc.1.
           detached: true,
           stdio: ['ignore', 'ignore', 'pipe', 'ipc'],
-          // Why: run the byte-identical relocated Orca.exe so the image path sits outside the updater's kill zone.
+          // Why: run the byte-identical relocated CaPilot.exe so the image path sits outside the updater's kill zone.
           ...(relocatedHost ? { execPath: relocatedHost.execPath } : {}),
           // Why: run the fork as plain Node so Electron's GPU/display init can't interfere with node-pty's posix_spawn of the spawn-helper.
           env: {
@@ -1013,7 +1013,7 @@ async function runRestartDaemon(): Promise<RestartDaemonResult> {
 }
 
 // Disconnect without killing: the daemon survives app quit so sessions stay warm for reattach.
-// Leave history sessions marked "unclean" so a daemon crash while Orca is closed stays recoverable.
+// Leave history sessions marked "unclean" so a daemon crash while CaPilot is closed stays recoverable.
 export async function disconnectDaemon(): Promise<void> {
   await adapter?.disconnectOnly()
   adapter = null

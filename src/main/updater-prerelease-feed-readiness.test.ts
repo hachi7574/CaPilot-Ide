@@ -23,9 +23,9 @@ function buildManifest(tag: string): string {
   return [
     `version: ${version}`,
     'files:',
-    `  - url: Orca-${version}-arm64-mac.zip`,
+    `  - url: CaPilot-${version}-arm64-mac.zip`,
     '    sha512: test',
-    `path: Orca-${version}-arm64-mac.zip`
+    `path: CaPilot-${version}-arm64-mac.zip`
   ].join('\n')
 }
 
@@ -218,11 +218,11 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
               [
                 `version: ${version}`,
                 'files:',
-                '  - url: orca-windows-setup.exe',
+                '  - url: capilot-windows-setup.exe',
                 '    sha512: test',
-                `  - url: Orca-${version}-mac.zip`,
+                `  - url: CaPilot-${version}-mac.zip`,
                 '    sha512: test',
-                `path: Orca-${version}-mac.zip`
+                `path: CaPilot-${version}-mac.zip`
               ].join('\n')
             )
         })
@@ -230,8 +230,8 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
 
       if (init?.method === 'HEAD') {
         const latest = url.includes('/v1.4.28/')
-        const unavailable = latest && url.endsWith('/Orca-1.4.28-mac.zip')
-        const missing = latest && url.endsWith('/orca-windows-setup.exe')
+        const unavailable = latest && url.endsWith('/CaPilot-1.4.28-mac.zip')
+        const missing = latest && url.endsWith('/capilot-windows-setup.exe')
         return Promise.resolve({
           ok: !missing && !unavailable,
           status: missing ? publishingIncident.missingWindowsAssetStatus : unavailable ? 503 : 200,
@@ -271,16 +271,16 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
               [
                 'version: 1.4.28',
                 'files:',
-                '  - url: orca-windows-setup.exe',
+                '  - url: capilot-windows-setup.exe',
                 '    sha512: test',
-                '  - url: Orca-1.4.28-mac.zip',
+                '  - url: CaPilot-1.4.28-mac.zip',
                 '    sha512: test'
               ].join('\n')
             )
         })
       }
       if (init?.method === 'HEAD') {
-        const isWindowsAsset = url.endsWith('/orca-windows-setup.exe')
+        const isWindowsAsset = url.endsWith('/capilot-windows-setup.exe')
         return Promise.resolve({
           ok: false,
           status: isWindowsAsset ? publishingIncident.missingWindowsAssetStatus : 503,
@@ -317,7 +317,7 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
               [
                 'version: 1.4.27',
                 'files:',
-                '  - url: https://downloads.example.com/Orca-1.4.27-arm64-mac.zip',
+                '  - url: https://downloads.example.com/CaPilot-1.4.27-arm64-mac.zip',
                 '    sha512: test'
               ].join('\n')
             )
@@ -335,7 +335,7 @@ describe('fetchNewerReleaseTagsWithReadiness', () => {
     const { fetchNewerReleaseTag } = await import('./updater-prerelease-feed')
 
     expect(await fetchNewerReleaseTag('1.4.26')).toBe('v1.4.27')
-    expect(assetUrls).toEqual(['https://downloads.example.com/Orca-1.4.27-arm64-mac.zip'])
+    expect(assetUrls).toEqual(['https://downloads.example.com/CaPilot-1.4.27-arm64-mac.zip'])
   })
 
   it('treats malformed updater manifests as not ready', async () => {

@@ -28,7 +28,7 @@ describe('prepareEphemeralVmWorkspaceTarget', () => {
   it('provisions a recipe and imports the returned project root on the runtime host', async () => {
     vi.mocked(window.api.ephemeralVm.provision).mockResolvedValue({
       ok: true,
-      connectionType: 'orca-server',
+      connectionType: 'capilot-server',
       stderr: 'creating sandbox',
       warnings: [],
       environment: {
@@ -171,11 +171,11 @@ describe('prepareEphemeralVmWorkspaceTarget', () => {
 
   it('cleans up the runtime when required project setup capability is missing', async () => {
     vi.mocked(assertRuntimeEnvironmentCapability).mockRejectedValue(
-      new Error('The recipe-created Orca server does not support project setup.')
+      new Error('The recipe-created CaPilot server does not support project setup.')
     )
     vi.mocked(window.api.ephemeralVm.provision).mockResolvedValue({
       ok: true,
-      connectionType: 'orca-server',
+      connectionType: 'capilot-server',
       stderr: 'creating sandbox',
       warnings: [],
       environment: {
@@ -218,13 +218,13 @@ describe('prepareEphemeralVmWorkspaceTarget', () => {
     expect(assertRuntimeEnvironmentCapability).toHaveBeenCalledWith(
       'env-1',
       'project-host-setup.v1',
-      'The recipe-created Orca server does not support project setup.'
+      'The recipe-created CaPilot server does not support project setup.'
     )
     expect(setupExistingFolder).not.toHaveBeenCalled()
     expect(window.api.ephemeralVm.cleanup).toHaveBeenCalledWith({ runtimeId: 'runtime-1' })
     expect(result).toEqual({
       ok: false,
-      error: 'The recipe-created Orca server does not support project setup.',
+      error: 'The recipe-created CaPilot server does not support project setup.',
       stderr: 'creating sandbox'
     })
   })
@@ -259,7 +259,7 @@ describe('prepareEphemeralVmWorkspaceTarget', () => {
   it('cleans up the runtime when importing the project root fails', async () => {
     vi.mocked(window.api.ephemeralVm.provision).mockResolvedValue({
       ok: true,
-      connectionType: 'orca-server',
+      connectionType: 'capilot-server',
       stderr: 'creating sandbox',
       warnings: [],
       environment: {
@@ -311,7 +311,7 @@ describe('prepareEphemeralVmWorkspaceTarget', () => {
   it('cleans up the runtime when the returned project root is not a git repo', async () => {
     vi.mocked(window.api.ephemeralVm.provision).mockResolvedValue({
       ok: true,
-      connectionType: 'orca-server',
+      connectionType: 'capilot-server',
       stderr: 'creating sandbox',
       warnings: [],
       environment: {

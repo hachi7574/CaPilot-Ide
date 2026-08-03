@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { LINEAR_WRITE_BODY_CAP } from '../../shared/linear-agent-access'
 import * as linearTeams from '../linear/teams'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 
 const issue = {
   id: 'issue-1',

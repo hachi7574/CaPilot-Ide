@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from 'nod
 import os from 'node:os'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
 type CombinedDiffScrollRepo = {
@@ -48,7 +48,7 @@ function buildModifiedFile(fileIndex: number): string {
 }
 
 function createCombinedDiffScrollRepo(): CombinedDiffScrollRepo {
-  const repoPath = realpathSync(mkdtempSync(path.join(os.tmpdir(), 'orca-combined-diff-scroll-')))
+  const repoPath = realpathSync(mkdtempSync(path.join(os.tmpdir(), 'capilot-combined-diff-scroll-')))
   runGit(repoPath, ['init'])
   runGit(repoPath, ['config', 'user.email', 'e2e@test.local'])
   runGit(repoPath, ['config', 'user.name', 'E2E Test'])

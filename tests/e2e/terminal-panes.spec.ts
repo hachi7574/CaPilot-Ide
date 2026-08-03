@@ -10,7 +10,7 @@
  */
 
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   UUID_RE,
   discoverActivePtyId,
@@ -376,7 +376,7 @@ test.describe('Terminal Panes', () => {
     await expect(orcaPage.locator('.pane-title-text', { hasText: title })).toHaveCount(1)
   })
 
-  test('Set Title editor renders in Orca overlay while terminal reserves title space', async ({
+  test('Set Title editor renders in CaPilot overlay while terminal reserves title space', async ({
     orcaPage
   }) => {
     const title = `Reserved overlay title ${Date.now()}`
@@ -466,7 +466,7 @@ test.describe('Terminal Panes', () => {
 
     await titleBar.evaluate((element, path) => {
       const dataTransfer = new DataTransfer()
-      dataTransfer.setData('text/x-orca-file-path', path)
+      dataTransfer.setData('text/x-capilot-file-path', path)
       element.dispatchEvent(
         new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer })
       )
@@ -889,7 +889,7 @@ test.describe('Terminal Panes', () => {
       { targetTabId: tabId, title: runtimeTitle }
     )
 
-    // Why: active agents continuously write OSC titles. Set Title is Orca's
+    // Why: active agents continuously write OSC titles. Set Title is CaPilot's
     // pane-local overlay and must remain visible while the tab runtime title
     // continues to follow the active PTY.
     await expect(orcaPage.locator('.pane-title-text', { hasText: paneTitle })).toBeVisible()

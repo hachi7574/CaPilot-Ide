@@ -206,7 +206,7 @@ describe('browserManager', () => {
       }
     })
     // Why: the custom createWindow is what swaps the chrome-less native child
-    // for Orca's origin-bar window without losing the popup contents.
+    // for CaPilot's origin-bar window without losing the popup contents.
     expect(typeof response.createWindow).toBe('function')
 
     expect(shellOpenExternalMock).not.toHaveBeenCalled()
@@ -251,7 +251,7 @@ describe('browserManager', () => {
     expect(shellOpenExternalMock).not.toHaveBeenCalled()
   })
 
-  it('keeps plain links current and routes explicit new-tab gestures to Orca tabs', async () => {
+  it('keeps plain links current and routes explicit new-tab gestures to CaPilot tabs', async () => {
     const rendererSendMock = vi.fn()
     const executeJavaScriptInIsolatedWorldMock = vi.fn().mockResolvedValue(undefined)
     const guest = {
@@ -319,14 +319,14 @@ describe('browserManager', () => {
       })
     ).toEqual({ action: 'deny' })
 
-    expect(rendererSendMock).toHaveBeenCalledWith('browser:open-link-in-orca-tab', {
+    expect(rendererSendMock).toHaveBeenCalledWith('browser:open-link-in-capilot-tab', {
       browserPageId: 'browser-1',
       url: 'https://docs.example.com/guide'
     })
     expect(rendererSendMock).toHaveBeenCalledWith('browser:popup', {
       browserPageId: 'browser-1',
       origin: 'https://docs.example.com',
-      action: 'opened-in-orca'
+      action: 'opened-in-capilot'
     })
     expect(openPopupWithOriginBarMock).not.toHaveBeenCalled()
     expect(shellOpenExternalMock).not.toHaveBeenCalled()
@@ -400,7 +400,7 @@ describe('browserManager', () => {
         frameName: foregroundFrameName
       })
     ).toEqual({ action: 'deny' })
-    expect(rendererSendMock).toHaveBeenCalledWith('browser:open-link-in-orca-tab', {
+    expect(rendererSendMock).toHaveBeenCalledWith('browser:open-link-in-capilot-tab', {
       browserPageId: 'browser-frame',
       url: 'https://docs.example.com/from-frame'
     })
@@ -485,7 +485,7 @@ describe('browserManager', () => {
     expect(rendererSendMock).toHaveBeenCalledWith('browser:popup', {
       browserPageId: 'browser-1',
       origin: 'https://sso.example.com',
-      action: 'opened-in-orca'
+      action: 'opened-in-capilot'
     })
 
     // Opener-lifecycle parity: destroying the owning guest closes the popup.
@@ -548,7 +548,7 @@ describe('browserManager', () => {
 
     expect(shellOpenExternalMock).not.toHaveBeenCalled()
     expect(rendererSendMock).not.toHaveBeenCalledWith(
-      'browser:open-link-in-orca-tab',
+      'browser:open-link-in-capilot-tab',
       expect.anything()
     )
     expect(rendererSendMock).toHaveBeenCalledWith('browser:popup', {
@@ -1045,7 +1045,7 @@ describe('browserManager', () => {
     expect(restoreScript).toContain('state.setActiveTabType("terminal");')
   })
 
-  it('does not focus the Orca window while preparing a screenshot', async () => {
+  it('does not focus the CaPilot window while preparing a screenshot', async () => {
     const rendererExecuteJavaScriptMock = vi.fn().mockResolvedValueOnce({
       prevTabType: 'terminal',
       prevActiveWorktreeId: 'wt-1',
@@ -1095,7 +1095,7 @@ describe('browserManager', () => {
     expect(browserWindowFromWebContentsMock).not.toHaveBeenCalled()
   })
 
-  it('offers opening a link in another Orca browser tab from the guest context menu', () => {
+  it('offers opening a link in another CaPilot browser tab from the guest context menu', () => {
     const rendererSendMock = vi.fn()
     const guest = {
       id: 104,
@@ -2821,7 +2821,7 @@ describe('browserManager', () => {
         getType: vi.fn(() => 'webview'),
         getUserAgent: vi.fn(
           () =>
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) orca/1.0.0 Chrome/134.0.0.0 Electron/30.0.0 Safari/537.36'
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) capilot/1.0.0 Chrome/134.0.0.0 Electron/30.0.0 Safari/537.36'
         ),
         setBackgroundThrottling: guestSetBackgroundThrottlingMock,
         setWindowOpenHandler: guestSetWindowOpenHandlerMock,

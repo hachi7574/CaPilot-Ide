@@ -25,15 +25,15 @@ beforeEach(() => {
 
 describe('joinRemotePath', () => {
   it('joins POSIX remote paths', () => {
-    expect(joinRemotePath(getRemoteHostPlatform('linux-x64'), '/home/me', '.orca-remote')).toBe(
-      '/home/me/.orca-remote'
+    expect(joinRemotePath(getRemoteHostPlatform('linux-x64'), '/home/me', '.capilot-remote')).toBe(
+      '/home/me/.capilot-remote'
     )
   })
 
   it('normalizes and joins Windows remote paths with forward slashes for SFTP and Node', () => {
     expect(
-      joinRemotePath(getRemoteHostPlatform('win32-x64'), 'C:\\Users\\me', '.orca-remote', 'relay')
-    ).toBe('C:/Users/me/.orca-remote/relay')
+      joinRemotePath(getRemoteHostPlatform('win32-x64'), 'C:\\Users\\me', '.capilot-remote', 'relay')
+    ).toBe('C:/Users/me/.capilot-remote/relay')
   })
 })
 
@@ -61,7 +61,7 @@ describe('assertSafeRemotePathSegment', () => {
 
   it.each([
     '..\\..\\.ssh\\orca_drop',
-    'report.txt:orca',
+    'report.txt:capilot',
     'question?.txt',
     'trailing.',
     'trailing ',

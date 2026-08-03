@@ -209,7 +209,7 @@ describe('createPtySubprocess', () => {
         cwd: 'C:\\repo',
         env: {
           ORCA_AGENT_TEAMS_TEAM_ID: 'team-test',
-          ORCA_PATH_ROOT: 'C:\\Users\\orca\\AppData\\Local',
+          ORCA_PATH_ROOT: 'C:\\Users\\capilot\\AppData\\Local',
           PATH: '%orca_path_root%\\agy\\bin;C:\\Windows'
         }
       })
@@ -220,7 +220,7 @@ describe('createPtySubprocess', () => {
     }
 
     expect(spawnMock.mock.calls.at(-1)?.[2].env.PATH).toBe(
-      'C:\\Users\\orca\\AppData\\Local\\agy\\bin;C:\\Windows'
+      'C:\\Users\\capilot\\AppData\\Local\\agy\\bin;C:\\Windows'
     )
   })
 
@@ -416,7 +416,7 @@ describe('createPtySubprocess', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     Object.defineProperty(process, 'platform', { configurable: true, value: 'linux' })
     delete process.env.SHELL
-    // Why: the test runner itself can execute inside an Orca-wrapped shell
+    // Why: the test runner itself can execute inside an CaPilot-wrapped shell
     // whose exported wrapper vars would leak through the process.env spread.
     delete process.env.ORCA_SHELL_READY_MARKER
     delete process.env.ZDOTDIR
@@ -536,7 +536,7 @@ describe('createPtySubprocess', () => {
     spawnMock.mockReturnValue(proc)
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')
     const originalCwd = process.cwd()
-    const deletedDaemonCwd = mkdtempSync(join(tmpdir(), 'orca-deleted-daemon-cwd-'))
+    const deletedDaemonCwd = mkdtempSync(join(tmpdir(), 'capilot-deleted-daemon-cwd-'))
     Object.defineProperty(process, 'platform', { value: 'darwin' })
 
     try {
@@ -573,7 +573,7 @@ describe('createPtySubprocess', () => {
     spawnMock.mockReturnValue(proc)
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')
     const originalCwd = process.cwd()
-    const deletedDaemonCwd = mkdtempSync(join(tmpdir(), 'orca-deleted-daemon-cwd-'))
+    const deletedDaemonCwd = mkdtempSync(join(tmpdir(), 'capilot-deleted-daemon-cwd-'))
     Object.defineProperty(process, 'platform', { value: 'linux' })
 
     try {
@@ -1006,7 +1006,7 @@ describe('createPtySubprocess', () => {
         sessionId: 'test',
         cols: 80,
         rows: 24,
-        cwd: 'C:\\repo\\orca',
+        cwd: 'C:\\repo\\capilot',
         command: 'codex'
       })
 
@@ -1050,10 +1050,10 @@ describe('createPtySubprocess', () => {
 
     try {
       const handle = createPtySubprocess({
-        sessionId: 'repo::C:\\repo\\orca@@deadbeef',
+        sessionId: 'repo::C:\\repo\\capilot@@deadbeef',
         cols: 80,
         rows: 24,
-        cwd: 'C:\\repo\\orca',
+        cwd: 'C:\\repo\\capilot',
         command: 'codex'
       })
 
@@ -1062,7 +1062,7 @@ describe('createPtySubprocess', () => {
         proc.pid,
         'powershell.exe',
         expect.objectContaining({
-          contextPaths: expect.arrayContaining(['C:\\repo\\orca'])
+          contextPaths: expect.arrayContaining(['C:\\repo\\capilot'])
         })
       )
 
@@ -1155,7 +1155,7 @@ describe('createPtySubprocess', () => {
     }
   })
 
-  it('does not inherit parent Orca pane identity when caller omits pane env', () => {
+  it('does not inherit parent CaPilot pane identity when caller omits pane env', () => {
     const proc = mockPtyProcess()
     spawnMock.mockReturnValue(proc)
     const saved = {
@@ -1185,7 +1185,7 @@ describe('createPtySubprocess', () => {
     expect(env.ORCA_WORKTREE_ID).toBeUndefined()
   })
 
-  it('preserves explicit child Orca pane identity over parent env', () => {
+  it('preserves explicit child CaPilot pane identity over parent env', () => {
     const proc = mockPtyProcess()
     spawnMock.mockReturnValue(proc)
     const saved = {
@@ -1247,8 +1247,8 @@ describe('createPtySubprocess', () => {
   })
 
   it('does not inherit NODE_ENV from the daemon process env', () => {
-    // Why: a dev-mode Orca forks the daemon with NODE_ENV=development; leaking
-    // Orca's build mode into user shells breaks `next build` and Vitest.
+    // Why: a dev-mode CaPilot forks the daemon with NODE_ENV=development; leaking
+    // CaPilot's build mode into user shells breaks `next build` and Vitest.
     const proc = mockPtyProcess()
     spawnMock.mockReturnValue(proc)
     const previous = process.env.NODE_ENV
@@ -1309,9 +1309,9 @@ describe('createPtySubprocess', () => {
       LD_LIBRARY_PATH: process.env.LD_LIBRARY_PATH
     }
     Object.defineProperty(process, 'platform', { value: 'linux' })
-    process.env.APPIMAGE = '/data/apps/orca.appimage'
+    process.env.APPIMAGE = '/data/apps/capilot.appimage'
     process.env.APPDIR = '/tmp/.mount_orca123'
-    process.env.ARGV0 = '/data/apps/orca.appimage'
+    process.env.ARGV0 = '/data/apps/capilot.appimage'
     process.env.OWD = '/home/user/project'
     process.env.APPIMAGE_LIBRARY_PATH = '/tmp/.mount_orca123/usr/lib'
     process.env.PATH = ['/tmp/.mount_orca123', '/tmp/.mount_orca123/usr/sbin', '/usr/bin'].join(
@@ -1702,9 +1702,9 @@ describe('createPtySubprocess', () => {
           sessionId: 'test',
           cols: 80,
           rows: 24,
-          cwd: '/definitely-missing-orca-cwd'
+          cwd: '/definitely-missing-capilot-cwd'
         })
-      ).toThrow(/definitely-missing-orca-cwd/)
+      ).toThrow(/definitely-missing-capilot-cwd/)
     } finally {
       if (platform) {
         Object.defineProperty(process, 'platform', platform)
@@ -1743,7 +1743,7 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          ORCA_ATTRIBUTION_SHIM_DIR: '/tmp/orca-terminal-attribution/posix'
+          ORCA_ATTRIBUTION_SHIM_DIR: '/tmp/capilot-terminal-attribution/posix'
         }
       })
     } finally {
@@ -1771,8 +1771,8 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-overlay',
-          ORCA_OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-overlay'
+          OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-overlay',
+          ORCA_OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-overlay'
         }
       })
     } finally {
@@ -1800,8 +1800,8 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          MIMOCODE_HOME: '/tmp/orca-mimocode-overlay',
-          ORCA_MIMOCODE_HOME: '/tmp/orca-mimocode-overlay'
+          MIMOCODE_HOME: '/tmp/capilot-mimocode-overlay',
+          ORCA_MIMOCODE_HOME: '/tmp/capilot-mimocode-overlay'
         }
       })
     } finally {
@@ -1829,7 +1829,7 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          ORCA_OMP_STATUS_EXTENSION: '/tmp/.omp/agent/extensions/orca-agent-status.ts'
+          ORCA_OMP_STATUS_EXTENSION: '/tmp/.omp/agent/extensions/capilot-agent-status.ts'
         }
       })
     } finally {
@@ -1857,8 +1857,8 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          CODEX_HOME: '/tmp/orca-codex-home',
-          ORCA_CODEX_HOME: '/tmp/orca-codex-home'
+          CODEX_HOME: '/tmp/capilot-codex-home',
+          ORCA_CODEX_HOME: '/tmp/capilot-codex-home'
         }
       })
     } finally {
@@ -1886,9 +1886,9 @@ describe('createPtySubprocess', () => {
         rows: 24,
         env: {
           SHELL: '/bin/zsh',
-          PATH: '/tmp/orca-agent-teams-bin:/usr/bin',
+          PATH: '/tmp/capilot-agent-teams-bin:/usr/bin',
           ORCA_AGENT_TEAMS_TEAM_ID: 'team-test',
-          ORCA_AGENT_TEAMS_SHIM_DIR: '/tmp/orca-agent-teams-bin'
+          ORCA_AGENT_TEAMS_SHIM_DIR: '/tmp/capilot-agent-teams-bin'
         }
       })
     } finally {
@@ -2045,13 +2045,13 @@ describe('createPtySubprocess', () => {
     expect(env.ORCA_CODEX_HOME).toBeUndefined()
   })
 
-  it('strips an inherited per-account self-contained CODEX_HOME overlay in a nested Orca (#5370)', () => {
+  it('strips an inherited per-account self-contained CODEX_HOME overlay in a nested CaPilot (#5370)', () => {
     const proc = mockPtyProcess()
     spawnMock.mockReturnValue(proc)
     const previousCodexHome = process.env.CODEX_HOME
     const previousOrcaCodexHome = process.env.ORCA_CODEX_HOME
     // A per-account home is injected as CODEX_HOME === ORCA_CODEX_HOME, so the
-    // nested-Orca strip must clear it exactly as it does the shared mirror.
+    // nested-CaPilot strip must clear it exactly as it does the shared mirror.
     const perAccountHome = '/daemon/managed/codex-accounts/019f0000-aaaa/home'
     process.env.CODEX_HOME = perAccountHome
     process.env.ORCA_CODEX_HOME = perAccountHome
@@ -2132,7 +2132,7 @@ describe('createPtySubprocess', () => {
       env: {
         SHELL: '/bin/bash',
         TERM: 'screen-256color',
-        PATH: '/tmp/orca-agent-teams-bin:/usr/bin',
+        PATH: '/tmp/capilot-agent-teams-bin:/usr/bin',
         ORCA_AGENT_TEAMS_TEAM_ID: 'team-test'
       },
       envToDelete: ['TERM_PROGRAM', 'ORCA_ATTRIBUTION_SHIM_DIR']
@@ -2141,7 +2141,7 @@ describe('createPtySubprocess', () => {
     const lastCall = spawnMock.mock.calls.at(-1)!
     expect(lastCall[2].name).toBe('screen-256color')
     expect(lastCall[2].env.TERM).toBe('screen-256color')
-    expect(lastCall[2].env.PATH.split(':')[0]).toBe('/tmp/orca-agent-teams-bin')
+    expect(lastCall[2].env.PATH.split(':')[0]).toBe('/tmp/capilot-agent-teams-bin')
     expect(lastCall[2].env.TERM_PROGRAM).toBeUndefined()
     expect(lastCall[2].env.ORCA_ATTRIBUTION_SHIM_DIR).toBeUndefined()
   })
@@ -2157,7 +2157,7 @@ describe('createPtySubprocess', () => {
     Object.defineProperty(process, 'platform', { value: 'win32' })
     delete process.env.USERPROFILE
     process.env.HOMEDRIVE = 'D:'
-    process.env.HOMEPATH = '\\Users\\orca'
+    process.env.HOMEPATH = '\\Users\\capilot'
 
     try {
       createPtySubprocess({ sessionId: 'test', cols: 80, rows: 24 })
@@ -2185,7 +2185,7 @@ describe('createPtySubprocess', () => {
     expect(spawnMock).toHaveBeenCalledWith(
       expect.any(String),
       expect.any(Array),
-      expect.objectContaining({ cwd: 'D:\\Users\\orca' })
+      expect.objectContaining({ cwd: 'D:\\Users\\capilot' })
     )
   })
 
@@ -2349,7 +2349,7 @@ describe('createPtySubprocess', () => {
         sessionId: 'test',
         cols: 80,
         rows: 24,
-        cwd: 'C:\\repo\\orca',
+        cwd: 'C:\\repo\\capilot',
         shellOverride: 'powershell.exe',
         command: "& 'codex' '--no-alt-screen'"
       })
@@ -2379,7 +2379,7 @@ describe('createPtySubprocess', () => {
         sessionId: 'test',
         cols: 80,
         rows: 24,
-        cwd: 'C:\\repo\\orca',
+        cwd: 'C:\\repo\\capilot',
         shellOverride: 'cmd.exe',
         command: `codex ${'x'.repeat(7000)}`
       })
@@ -2438,10 +2438,10 @@ describe('createPtySubprocess', () => {
           sessionId: 'test',
           cols: 80,
           rows: 24,
-          cwd: 'C:\\definitely-missing-orca-cwd',
+          cwd: 'C:\\definitely-missing-capilot-cwd',
           shellOverride: 'powershell.exe'
         })
-      ).toThrow(/Working directory "C:\\definitely-missing-orca-cwd" does not exist/)
+      ).toThrow(/Working directory "C:\\definitely-missing-capilot-cwd" does not exist/)
     } finally {
       if (platform) {
         Object.defineProperty(process, 'platform', platform)
@@ -2493,10 +2493,10 @@ describe('createPtySubprocess', () => {
           sessionId: 'test',
           cols: 80,
           rows: 24,
-          cwd: 'C:\\definitely-missing-orca-wsl-cwd',
+          cwd: 'C:\\definitely-missing-capilot-wsl-cwd',
           shellOverride: 'wsl.exe'
         })
-      ).toThrow(/Working directory "C:\\definitely-missing-orca-wsl-cwd" does not exist/)
+      ).toThrow(/Working directory "C:\\definitely-missing-capilot-wsl-cwd" does not exist/)
     } finally {
       if (platform) {
         Object.defineProperty(process, 'platform', platform)
@@ -2674,9 +2674,9 @@ describe('createPtySubprocess', () => {
         cwd: 'C:\\Users\\jin\\repo',
         env: {
           CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home',
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home',
           ORCA_CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
         }
       })
     } finally {
@@ -2714,9 +2714,9 @@ describe('createPtySubprocess', () => {
         shellOverride: 'wsl.exe',
         env: {
           CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home',
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home',
           ORCA_CODEX_HOME:
-            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\orca\\codex-accounts\\a\\home'
+            '\\\\wsl.localhost\\Ubuntu\\home\\jin\\.local\\share\\capilot\\codex-accounts\\a\\home'
         }
       })
     } finally {
@@ -2737,8 +2737,8 @@ describe('createPtySubprocess', () => {
       ['-d', 'Ubuntu', '--', 'sh', '-c', expect.stringContaining(`cd '${expectedLinuxCwd}'`)],
       expect.objectContaining({
         env: expect.objectContaining({
-          CODEX_HOME: '/home/jin/.local/share/orca/codex-accounts/a/home',
-          ORCA_CODEX_HOME: '/home/jin/.local/share/orca/codex-accounts/a/home',
+          CODEX_HOME: '/home/jin/.local/share/capilot/codex-accounts/a/home',
+          ORCA_CODEX_HOME: '/home/jin/.local/share/capilot/codex-accounts/a/home',
           WSLENV: expect.stringContaining('CODEX_HOME')
         })
       })
@@ -2775,7 +2775,7 @@ describe('createPtySubprocess', () => {
     )
   })
 
-  it('marks Orca terminal handles for WSL env import in daemon WSL terminals', () => {
+  it('marks CaPilot terminal handles for WSL env import in daemon WSL terminals', () => {
     const proc = mockPtyProcess()
     spawnMock.mockReturnValue(proc)
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')

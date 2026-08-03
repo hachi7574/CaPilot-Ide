@@ -102,7 +102,7 @@ beforeEach(() => {
                           repoId: detectedRepoId,
                           path: detectedPath
                         }),
-                        ownership: 'orca-managed',
+                        ownership: 'capilot-managed',
                         selectedCheckout: true,
                         visible: true
                       }
@@ -129,7 +129,7 @@ beforeEach(() => {
           repoId: 'repo-env-1',
           path: '/env-1/repo'
         }),
-        ownership: 'orca-managed',
+        ownership: 'capilot-managed',
         selectedCheckout: true,
         visible: true
       }
@@ -608,7 +608,7 @@ describe('createSettingsSlice runtime switching', () => {
 
   it('keeps the current environment when the selected remote server is unreachable', async () => {
     runtimeEnvironmentGetStatus.mockRejectedValueOnce(
-      new Error('Remote Orca runtime closed the connection.')
+      new Error('Remote CaPilot runtime closed the connection.')
     )
     const store = createTestStore()
     store.setState({
@@ -635,7 +635,7 @@ describe('createSettingsSlice runtime switching', () => {
     expect(store.getState().repos.map((repo) => repo.id)).toEqual(['repo-env-1'])
     expect(store.getState().ptyIdsByTabId).toEqual({ tab1: ['remote:env-1@@terminal-a'] })
     expect(toast.error).toHaveBeenCalledWith('Failed to switch servers', {
-      description: 'Remote Orca runtime closed the connection.'
+      description: 'Remote CaPilot runtime closed the connection.'
     })
   })
 

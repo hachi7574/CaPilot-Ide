@@ -30,7 +30,7 @@ const expectedArgs = [
   'bang!value',
   '한글-λ'
 ]
-const tempRoot = await mkdtemp(join(tmpdir(), 'orca-claude-spawn-'))
+const tempRoot = await mkdtemp(join(tmpdir(), 'capilot-claude-spawn-'))
 const reportedDir = join(tempRoot, 'Profile with spaces 한글')
 const reportedCapturePath = join(reportedDir, 'capture.json')
 const reportedPidPath = join(reportedDir, 'pids.json')

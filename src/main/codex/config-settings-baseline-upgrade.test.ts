@@ -20,8 +20,8 @@ let userDataDir: string
 let previousUserDataPath: string | undefined
 
 beforeEach(() => {
-  tmpHome = mkdtempSync(join(tmpdir(), 'orca-codex-settings-upgrade-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-settings-upgrade-data-'))
+  tmpHome = mkdtempSync(join(tmpdir(), 'capilot-codex-settings-upgrade-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-settings-upgrade-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(tmpHome)
@@ -54,7 +54,7 @@ function runtimeConfigPath(): string {
 }
 
 function baselinePath(): string {
-  return join(runtimeHomePath(), '.orca-config-settings-baseline.json')
+  return join(runtimeHomePath(), '.capilot-config-settings-baseline.json')
 }
 
 function prepareLegacyState(systemConfig: string, runtimeConfig: string): void {

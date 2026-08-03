@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 
 test.describe('floating Markdown filesystem aliases', () => {
   test.skip(process.platform !== 'darwin', 'Requires native APFS alias behavior')

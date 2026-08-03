@@ -10,9 +10,9 @@ import { shouldDeferParkedPtyExitTabClose } from './terminal-parked-tab-watchers
 
 const HAS_CSS_ANCHOR_POSITIONING =
   typeof CSS !== 'undefined' &&
-  CSS.supports('position-anchor', '--orca-terminal-overlay-probe') &&
-  CSS.supports('top', 'anchor(--orca-terminal-overlay-probe top)') &&
-  CSS.supports('width', 'anchor-size(--orca-terminal-overlay-probe width)')
+  CSS.supports('position-anchor', '--capilot-terminal-overlay-probe') &&
+  CSS.supports('top', 'anchor(--capilot-terminal-overlay-probe top)') &&
+  CSS.supports('width', 'anchor-size(--capilot-terminal-overlay-probe width)')
 const MIN_OVERLAY_FIT_WIDTH_PX = 48
 const MIN_OVERLAY_FIT_HEIGHT_PX = 24
 const FALLBACK_RECT_MIN_CHANGE_PX = 1

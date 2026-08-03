@@ -34,7 +34,7 @@ describe('getAutomationProjectGroups', () => {
         repo({
           id: 'ssh',
           displayName: 'claude-swap',
-          path: '/home/orca/claude-swap',
+          path: '/home/capilot/claude-swap',
           connectionId: 'docker',
           repoIcon: { type: 'image', source: 'github', label: 'realiti4/claude-swap', src: '' }
         }),

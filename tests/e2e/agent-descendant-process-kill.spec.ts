@@ -1,7 +1,7 @@
 import { chmodSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 
 function isProcessAlive(pid: number): boolean {
@@ -22,7 +22,7 @@ function isProcessAlive(pid: number): boolean {
 test('killing an agent PTY terminates its detached-pgid descendants', async ({ orcaPage }) => {
   test.skip(process.platform === 'win32', 'descendant tree-kill is POSIX-only for now')
 
-  const stage = mkdtempSync(join(tmpdir(), 'orca-agent-descendant-'))
+  const stage = mkdtempSync(join(tmpdir(), 'capilot-agent-descendant-'))
   const markerPath = join(stage, 'detached-child.pid')
   const spawnerPath = join(stage, 'spawn-detached.cjs')
   writeFileSync(

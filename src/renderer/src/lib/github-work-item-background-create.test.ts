@@ -28,7 +28,7 @@ import { createGitHubWorkItemWorkspaceInBackground } from './github-work-item-ba
 const repo: Repo = {
   id: 'repo-1',
   path: '/repo',
-  displayName: 'orca',
+  displayName: 'capilot',
   badgeColor: 'blue',
   addedAt: 1
 }
@@ -728,7 +728,7 @@ describe('createGitHubWorkItemWorkspaceInBackground', () => {
       effectiveContent: 'echo {{issue}}',
       localContent: 'echo {{issue}}',
       sharedContent: null,
-      localFilePath: '/repo/.orca/issue-command',
+      localFilePath: '/repo/.capilot/issue-command',
       source: 'local'
     })
     // Why: the setup confirmHooks call resolves 'skip', which mirrors the
@@ -766,7 +766,7 @@ describe('createGitHubWorkItemWorkspaceInBackground', () => {
       effectiveContent: 'echo {{issue}}',
       localContent: 'echo {{issue}}',
       sharedContent: null,
-      localFilePath: '/repo/.orca/issue-command',
+      localFilePath: '/repo/.capilot/issue-command',
       source: 'local'
     })
 
@@ -851,7 +851,7 @@ describe('createGitHubWorkItemWorkspaceInBackground', () => {
       effectiveContent: 'echo {{issue}}',
       localContent: 'echo {{issue}}',
       sharedContent: null,
-      localFilePath: '/repo/.orca/issue-command',
+      localFilePath: '/repo/.capilot/issue-command',
       source: 'local'
     })
 

@@ -1,5 +1,5 @@
 import type { ElectronApplication, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 import type {
   DiscoveredSkill,
@@ -14,7 +14,7 @@ type MockSkillDiscoveryGlobal = typeof globalThis & {
 
 function makeSkill(sourceKind: SkillSourceKind, directoryPath: string): DiscoveredSkill {
   return {
-    id: `${sourceKind}-orca-cli`,
+    id: `${sourceKind}-capilot-cli`,
     name: 'orchestration',
     description: null,
     providers: ['agent-skills'],
@@ -108,7 +108,7 @@ test.describe('Settings skill detection', () => {
 
     await expect(section.getByText('Not installed', { exact: true })).toBeVisible()
     await expect(
-      section.getByText('Enables agents to hand off context and coordinate work through Orca.')
+      section.getByText('Enables agents to hand off context and coordinate work through CaPilot.')
     ).toBeVisible()
 
     await setMockSkillDiscovery(
@@ -119,7 +119,7 @@ test.describe('Settings skill detection', () => {
 
     await expect(section.getByText('Installed', { exact: true })).toBeVisible()
     await expect(
-      section.getByText('Enables agents to hand off context and coordinate work through Orca.')
+      section.getByText('Enables agents to hand off context and coordinate work through CaPilot.')
     ).toBeVisible()
   })
 })

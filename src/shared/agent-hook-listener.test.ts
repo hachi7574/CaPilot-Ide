@@ -769,7 +769,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('normalizes Command Code hooks and reads turn text from the transcript', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-transcript-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-transcript-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       writeFileSync(
@@ -908,7 +908,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('reads newline-heavy Command Code transcripts without line-array splitting', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-large-transcript-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-large-transcript-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       const filler = Array.from({ length: 6_000 }, (_value, index) =>
@@ -972,7 +972,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('reads the last assistant message behind an oversized line without quadratic copying', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-assistant-huge-line-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-assistant-huge-line-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     const originalConcat = Buffer.concat
     let concatenatedBytes = 0
@@ -1026,7 +1026,7 @@ describe('shared agent-hook-listener', () => {
   // boundary, a later prompt that must win over an earlier one, and the byte
   // offset in interactionKey, which the old forward pass computed absolutely.
   it('reads a Command Code prompt that straddles the backward-scan chunk boundary', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-chunk-straddle-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-chunk-straddle-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       const promptLine = JSON.stringify({
@@ -1081,7 +1081,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('reads a prompt behind one oversized line without quadratic carry copying', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-huge-line-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-huge-line-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     const originalConcat = Buffer.concat
     let concatenatedBytes = 0
@@ -1136,7 +1136,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('reads a Command Code prompt line that spans several read blocks', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-long-line-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-long-line-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       // A prompt longer than one 64 KiB block: the scan sees consecutive blocks
@@ -1175,7 +1175,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('ignores a Command Code prompt older than the transcript scan cap', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-over-cap-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-over-cap-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       // The only user line sits beyond the 4 MB cap, so the bounded scan must not
@@ -1219,7 +1219,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('resolves the last Command Code prompt, not an earlier one', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-last-prompt-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-last-prompt-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       writeFileSync(
@@ -1257,7 +1257,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('keys the Command Code interaction by the absolute prompt line offset', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-command-code-offset-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-command-code-offset-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       const prompt = JSON.stringify({
@@ -1805,7 +1805,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('reads Antigravity user requests from the transcript', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-antigravity-prompt-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-antigravity-prompt-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       writeFileSync(
@@ -1842,7 +1842,7 @@ describe('shared agent-hook-listener', () => {
 
   it('reads newline-heavy Antigravity user requests without wrapper regex matching', () => {
     const matchSpy = vi.spyOn(String.prototype, 'match')
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-antigravity-large-prompt-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-antigravity-large-prompt-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     const requestText = 'Fix the failing test\n'.repeat(300)
     try {
@@ -1882,7 +1882,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('keeps the cached Antigravity prompt instead of rescanning the transcript', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-antigravity-cached-prompt-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-antigravity-cached-prompt-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       writeFileSync(
@@ -2014,7 +2014,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('normalizes Antigravity Stop hooks and reads final text from the transcript', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-antigravity-transcript-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-antigravity-transcript-'))
     const transcriptPath = join(tmpDir, 'transcript.jsonl')
     try {
       writeFileSync(
@@ -2526,7 +2526,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('enriches Grok Stop from chat history despite a generic status message', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-session-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-session-'))
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf528'
     const cwd = join(tmpDir, 'workspace')
     const sessionDir = join(tmpDir, '.grok', 'sessions', encodeURIComponent(cwd), sessionId)
@@ -2564,7 +2564,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('uses the hook envelope Grok home instead of the listener service environment', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-envelope-home-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-envelope-home-'))
     const serviceGrokHome = join(tmpDir, 'service-grok')
     const hookGrokHome = join(tmpDir, 'hook-grok')
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf529'
@@ -2600,7 +2600,7 @@ describe('shared agent-hook-listener', () => {
     join(tmpdir(), 'x'.repeat(4096)),
     `${join(tmpdir(), 'grok-home')}\ninvalid`
   ])('ignores invalid hook-envelope Grok home %s', (grokHome) => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-invalid-home-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-invalid-home-'))
     const serviceGrokHome = join(tmpDir, 'service-grok')
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf530'
     const cwd = join(tmpDir, 'workspace')
@@ -2631,7 +2631,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('does not let Grok sessionId escape the chat-history directory', () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-session-escape-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-session-escape-'))
     const cwd = join(tmpDir, 'workspace')
     const escapedDir = join(tmpDir, '.grok', 'sessions', 'escaped')
     try {
@@ -2673,7 +2673,7 @@ describe('shared agent-hook-listener', () => {
   })
 
   it('enriches a long-cwd Grok result after async discovery completes', async () => {
-    const tmpDir = mkdtempSync(join(tmpdir(), 'orca-grok-pending-home-'))
+    const tmpDir = mkdtempSync(join(tmpdir(), 'capilot-grok-pending-home-'))
     const hookGrokHome = join(tmpDir, 'hook-grok')
     const sessionId = '019e37f4-5135-7b63-a4ab-6d13aa6bf531'
     const cwd = `/${'long-workspace/'.repeat(30)}`

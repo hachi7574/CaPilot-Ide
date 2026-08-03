@@ -64,7 +64,7 @@ export function runTerminalScalePerfReportGate({
   spawnSyncImpl = spawnSync
 } = {}) {
   const { passthroughArgs, reportPath } = parseReportGateArgs(argv, env)
-  const tempDir = mkdtempSync(join(tmpdir(), 'orca-terminal-scale-perf-'))
+  const tempDir = mkdtempSync(join(tmpdir(), 'capilot-terminal-scale-perf-'))
   const tempReportPath = join(tempDir, 'report.json')
 
   let scaleExitCode

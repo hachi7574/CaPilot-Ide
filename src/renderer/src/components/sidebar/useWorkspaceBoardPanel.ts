@@ -26,7 +26,7 @@ const WORKSPACE_BOARD_ESCAPE_BLOCKING_OVERLAY_SELECTOR = [
   '[role="listbox"][data-state="open"]'
 ].join(', ')
 
-export const OPEN_WORKSPACE_BOARD_EVENT = 'orca:open-workspace-board'
+export const OPEN_WORKSPACE_BOARD_EVENT = 'capilot:open-workspace-board'
 
 export type WorkspaceBoardPanelState = {
   workspaceBoardOpen: boolean

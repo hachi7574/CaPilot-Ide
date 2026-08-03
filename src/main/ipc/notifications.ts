@@ -22,7 +22,7 @@ import type {
   NotificationSoundDataResult
 } from '../../shared/types'
 import { getRepoIdFromWorktreeId } from '../../shared/worktree-id'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { buildNotificationOptions } from './notification-options'
 import { readNotificationAuthorizationStatus } from './notification-authorization-status'
 import { parsePaneKey } from '../../shared/stable-pane-id'
@@ -119,8 +119,8 @@ function probeNotificationDelivery(): Promise<NotificationDeliveryProbeResult> {
   permissionDialogTriggeredThisSession = true
 
   const probe = new Notification({
-    title: 'Orca notifications are on',
-    body: 'Orca will alert you when agents finish or terminals need attention.',
+    title: 'CaPilot notifications are on',
+    body: 'CaPilot will alert you when agents finish or terminals need attention.',
     silent: true
   })
   activeNotifications.add(probe)
@@ -643,8 +643,8 @@ export function triggerStartupNotificationRegistration(store: Store): void {
   store.updateUI({ notificationPermissionRequested: true })
 
   const notification = new Notification({
-    title: 'Orca is ready to notify you',
-    body: 'Allow notifications so Orca can alert you when agents finish or terminals need attention.'
+    title: 'CaPilot is ready to notify you',
+    body: 'Allow notifications so CaPilot can alert you when agents finish or terminals need attention.'
   })
 
   // Why: prevent GC from collecting the notification and its click handler while it's still visible.

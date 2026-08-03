@@ -41,7 +41,7 @@ afterEach(() => {
   }
 })
 
-function makeHome(prefix = 'orca-ssh-config-'): string {
+function makeHome(prefix = 'capilot-ssh-config-'): string {
   const home = mkdtempSync(join(tmpdir(), prefix))
   tempDirs.push(home)
   homedirMock.mockReturnValue(home)

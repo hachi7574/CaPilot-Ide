@@ -16,7 +16,7 @@ const WORKTREE = '/workspace/repo'
 let tempDirs: string[] = []
 
 function createTempDb(): { db: Database.Database; path: string } {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-opencode-usage-'))
+  const dir = mkdtempSync(join(tmpdir(), 'capilot-opencode-usage-'))
   tempDirs.push(dir)
   const path = join(dir, 'opencode.db')
   return { db: new Database(path), path }
@@ -389,7 +389,7 @@ describe('scanOpenCodeUsageDatabases', () => {
   let previousOpenCodeDb: string | undefined
 
   beforeEach(() => {
-    dataRoot = mkdtempSync(join(tmpdir(), 'orca-opencode-usage-scan-'))
+    dataRoot = mkdtempSync(join(tmpdir(), 'capilot-opencode-usage-scan-'))
     openCodeDir = join(dataRoot, 'opencode')
     mkdirSync(openCodeDir, { recursive: true })
     previousXdgDataHome = process.env.XDG_DATA_HOME

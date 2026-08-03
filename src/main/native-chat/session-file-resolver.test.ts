@@ -28,7 +28,7 @@ function restoreEnv(key: string, previous: string | undefined): void {
 
 describe('resolveSessionFilePath', () => {
   it('globs Claude project subdirs for <sessionId>.jsonl', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-claude-')
+    const root = await makeRoot('capilot-native-chat-resolve-claude-')
     const claudeProjectsDir = join(root, 'claude-projects')
     const projectDir = join(claudeProjectsDir, '-Users-ada-repo')
     await mkdir(projectDir, { recursive: true })
@@ -40,7 +40,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('resolves OpenClaude sessions from the Claude transcript layout', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-openclaude-')
+    const root = await makeRoot('capilot-native-chat-resolve-openclaude-')
     const claudeProjectsDir = join(root, 'claude-projects')
     const projectDir = join(claudeProjectsDir, '-Users-ada-repo')
     await mkdir(projectDir, { recursive: true })
@@ -53,7 +53,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('resolves Grok chat_history.jsonl under encodeURIComponent(cwd)/sessionId', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-grok-')
+    const root = await makeRoot('capilot-native-chat-resolve-grok-')
     const grokSessionsDir = join(root, 'grok-sessions')
     const sessionDir = join(grokSessionsDir, encodeURIComponent('/tmp/work'), 'sess-grok-1')
     await mkdir(sessionDir, { recursive: true })
@@ -65,7 +65,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('resolves Grok chat_history by session id under a long-cwd slug group', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-grok-long-')
+    const root = await makeRoot('capilot-native-chat-resolve-grok-long-')
     const grokSessionsDir = join(root, 'grok-sessions')
     const sessionDir = join(grokSessionsDir, 'slug-hash-ab12', 'sess-long-1')
     await mkdir(sessionDir, { recursive: true })
@@ -79,7 +79,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('ignores nested Grok decoys outside the direct group/session layout', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-grok-decoy-')
+    const root = await makeRoot('capilot-native-chat-resolve-grok-decoy-')
     const grokSessionsDir = join(root, 'grok-sessions')
     const decoy = join(
       grokSessionsDir,
@@ -98,7 +98,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('rejects unsafe Grok session ids before filesystem discovery', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-grok-invalid-')
+    const root = await makeRoot('capilot-native-chat-resolve-grok-invalid-')
     const grokSessionsDir = join(root, 'grok-sessions')
     await mkdir(grokSessionsDir, { recursive: true })
 
@@ -108,7 +108,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('resolves Grok sessions under GROK_HOME when no override is passed', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-grok-home-')
+    const root = await makeRoot('capilot-native-chat-resolve-grok-home-')
     const sessionsDir = join(root, 'sessions')
     const sessionDir = join(sessionsDir, encodeURIComponent('/repo'), 'sess-env-1')
     await mkdir(sessionDir, { recursive: true })
@@ -124,7 +124,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('matches Codex rollout files by session id suffix', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-codex-')
+    const root = await makeRoot('capilot-native-chat-resolve-codex-')
     const codexSessionsDir = join(root, 'codex-sessions')
     const dayDir = join(codexSessionsDir, '2026', '06', '04')
     await mkdir(dayDir, { recursive: true })
@@ -137,10 +137,10 @@ describe('resolveSessionFilePath', () => {
     expect(resolved).toBe(target)
   })
 
-  it('resolves a rollout from the orca-managed Codex home (ORCA_USER_DATA_PATH)', async () => {
-    // Orca launches Codex with its own managed CODEX_HOME, so rollout files land
+  it('resolves a rollout from the capilot-managed Codex home (ORCA_USER_DATA_PATH)', async () => {
+    // CaPilot launches Codex with its own managed CODEX_HOME, so rollout files land
     // under <userData>/codex-runtime-home/home/sessions, NOT ~/.codex/sessions.
-    const root = await makeRoot('orca-native-chat-resolve-managed-')
+    const root = await makeRoot('capilot-native-chat-resolve-managed-')
     const managedSessionsDir = join(root, 'codex-runtime-home', 'home', 'sessions')
     const dayDir = join(managedSessionsDir, '2026', '06', '19')
     await mkdir(dayDir, { recursive: true })
@@ -162,7 +162,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('falls back to CODEX_HOME when the managed home has no match', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-codex-home-')
+    const root = await makeRoot('capilot-native-chat-resolve-codex-home-')
     const managedRoot = join(root, 'managed-userdata')
     await mkdir(managedRoot, { recursive: true })
     const codexHome = join(root, 'custom-codex-home')
@@ -186,7 +186,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('returns null when no transcript matches', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-missing-')
+    const root = await makeRoot('capilot-native-chat-resolve-missing-')
     const claudeProjectsDir = join(root, 'claude-projects')
     await mkdir(claudeProjectsDir, { recursive: true })
     expect(await resolveSessionFilePath('claude', 'nope', { claudeProjectsDir })).toBeNull()
@@ -199,7 +199,7 @@ describe('resolveSessionFilePath', () => {
   it('prefers the hook transcriptPath when it exists (Claude id != file name)', async () => {
     // Recent Claude Code names the file with a UUID that differs from the hook
     // session_id, so the id glob would miss it — but transcript_path is exact.
-    const root = await makeRoot('orca-native-chat-resolve-path-')
+    const root = await makeRoot('capilot-native-chat-resolve-path-')
     const claudeProjectsDir = join(root, 'claude-projects')
     const projectDir = join(claudeProjectsDir, '-Users-ada-repo')
     await mkdir(projectDir, { recursive: true })
@@ -215,7 +215,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('falls back to the id glob when the hook transcriptPath does not exist', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-path-stale-')
+    const root = await makeRoot('capilot-native-chat-resolve-path-stale-')
     const claudeProjectsDir = join(root, 'claude-projects')
     const projectDir = join(claudeProjectsDir, '-Users-ada-repo')
     await mkdir(projectDir, { recursive: true })
@@ -230,7 +230,7 @@ describe('resolveSessionFilePath', () => {
   })
 
   it('ignores a non-jsonl transcriptPath and falls back to the glob', async () => {
-    const root = await makeRoot('orca-native-chat-resolve-path-ext-')
+    const root = await makeRoot('capilot-native-chat-resolve-path-ext-')
     const claudeProjectsDir = join(root, 'claude-projects')
     const projectDir = join(claudeProjectsDir, '-Users-ada-repo')
     await mkdir(projectDir, { recursive: true })

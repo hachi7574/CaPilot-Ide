@@ -1,6 +1,6 @@
 import type { Page } from '@stablyai/playwright-test'
 
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveWorktreeId,
@@ -184,7 +184,7 @@ test.describe('local HTTPS certificate trust', () => {
       await expect.poll(firstServer.assetRequestCount).toBe(2)
       await expect.poll(firstServer.webSocketConnectionCount).toBe(2)
 
-      const firstAddressBar = firstSlot.locator('[data-orca-browser-address-bar="true"]')
+      const firstAddressBar = firstSlot.locator('[data-capilot-browser-address-bar="true"]')
       await firstAddressBar.fill(secondPortServer.secureUrl)
       await firstAddressBar.press('Enter')
       await expect(

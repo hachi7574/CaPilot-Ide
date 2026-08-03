@@ -43,7 +43,7 @@ export function resolvePiSourceAgentDir(
     return startupDir
   }
 
-  // Why: a mismatched Orca overlay shadow means this shell inherited the other
+  // Why: a mismatched CaPilot overlay shadow means this shell inherited the other
   // Pi-compatible agent's PTY overlay. Do not remirror that overlay into this
   // launch; let plugin-overlay default to the selected kind's own home dir.
   if (

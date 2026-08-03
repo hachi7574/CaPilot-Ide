@@ -47,7 +47,7 @@ async function exerciseCatalogAndFilesystem(client: WebRuntimeClient): Promise<v
       relativePath: 'package.json'
     })
   )
-  expect(preview.content).toContain('"name": "orca"')
+  expect(preview.content).toContain('"name": "capilot"')
 
   const ports = requireResult<WorkspacePortScanResult>(await client.call('workspacePorts.scan', {}))
   expect(Array.isArray(ports.ports)).toBe(true)

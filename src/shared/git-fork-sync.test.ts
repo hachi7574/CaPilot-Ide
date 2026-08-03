@@ -158,7 +158,7 @@ describe('syncForkDefaultBranch', () => {
 
   it('blocks when the upstream remote no longer matches the expected fork metadata', async () => {
     const { runGit, calls } = createRunner({
-      upstreamUrl: 'git@github.com:someone-else/orca.git\n'
+      upstreamUrl: 'git@github.com:someone-else/capilot.git\n'
     })
 
     await expect(
@@ -195,7 +195,7 @@ describe('syncForkDefaultBranch', () => {
 
     await expect(
       syncForkDefaultBranch(runGit, {
-        expectedUpstream: { owner: '   ', repo: 'orca' }
+        expectedUpstream: { owner: '   ', repo: 'capilot' }
       })
     ).rejects.toThrow('Invalid expected upstream.')
   })

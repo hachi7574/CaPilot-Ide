@@ -80,7 +80,7 @@ describe('Bitbucket hosted review integration', () => {
     })
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-    const repoPath = await mkdtemp(join(tmpdir(), 'orca-bitbucket-review-'))
+    const repoPath = await mkdtemp(join(tmpdir(), 'capilot-bitbucket-review-'))
     try {
       const address = server.address()
       if (!address || typeof address === 'string') {
@@ -162,7 +162,7 @@ describe('Bitbucket hosted review integration', () => {
     })
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-    const repoPath = await mkdtemp(join(tmpdir(), 'orca-bitbucket-review-recovery-'))
+    const repoPath = await mkdtemp(join(tmpdir(), 'capilot-bitbucket-review-recovery-'))
     try {
       const address = server.address()
       if (!address || typeof address === 'string') {

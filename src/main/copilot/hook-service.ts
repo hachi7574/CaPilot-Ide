@@ -25,7 +25,7 @@ import {
 import { buildPosixHookPayloadCapture } from '../agent-hooks/hook-stdin-contract'
 
 // Why: Copilot's user-level hook files can use VS Code-compatible PascalCase
-// names, which match the event vocabulary already normalized by Orca's hook
+// names, which match the event vocabulary already normalized by CaPilot's hook
 // server and avoid wrapper-side event remapping.
 const COPILOT_EVENTS = [
   'SessionStart',
@@ -36,7 +36,7 @@ const COPILOT_EVENTS = [
   'PostToolUseFailure',
   // Why: GitHub's current reference documents subagentStart with only the
   // camelCase payload shape. The wrapper passes the event name separately, so
-  // Orca can normalize it without depending on a PascalCase payload.
+  // CaPilot can normalize it without depending on a PascalCase payload.
   'subagentStart',
   'SubagentStop',
   'PreCompact',
@@ -52,7 +52,7 @@ function getCopilotHome(): string {
 }
 
 function getConfigPath(): string {
-  return join(getCopilotHome(), 'hooks', 'orca.json')
+  return join(getCopilotHome(), 'hooks', 'capilot.json')
 }
 
 function getManagedScriptFileName(): string {
@@ -119,7 +119,7 @@ function getManagedScript(target: 'local' | 'posix' = 'local'): string {
       "Write-Output '{}'",
       '$inputData = [Console]::In.ReadToEnd()',
       // Why: endpoint.cmd is cmd syntax, not PowerShell. Parse its `set KEY=...`
-      // lines so surviving PTYs can refresh to the current Orca server.
+      // lines so surviving PTYs can refresh to the current CaPilot server.
       'if ($env:ORCA_AGENT_HOOK_ENDPOINT -and (Test-Path -LiteralPath $env:ORCA_AGENT_HOOK_ENDPOINT)) {',
       '  try {',
       '    Get-Content -LiteralPath $env:ORCA_AGENT_HOOK_ENDPOINT | ForEach-Object {',
@@ -143,7 +143,7 @@ function getManagedScript(target: 'local' | 'posix' = 'local'): string {
       '    version = $env:ORCA_AGENT_HOOK_VERSION',
       '    payload = $payload',
       '  } | ConvertTo-Json -Depth 100',
-      "  Invoke-WebRequest -UseBasicParsing -Method Post -Uri ('http://127.0.0.1:' + $env:ORCA_AGENT_HOOK_PORT + '/hook/copilot') -Headers @{ 'Content-Type'='application/json'; 'X-Orca-Agent-Hook-Token'=$env:ORCA_AGENT_HOOK_TOKEN } -Body $body -TimeoutSec 2 | Out-Null",
+      "  Invoke-WebRequest -UseBasicParsing -Method Post -Uri ('http://127.0.0.1:' + $env:ORCA_AGENT_HOOK_PORT + '/hook/copilot') -Headers @{ 'Content-Type'='application/json'; 'X-CaPilot-Agent-Hook-Token'=$env:ORCA_AGENT_HOOK_TOKEN } -Body $body -TimeoutSec 2 | Out-Null",
       '} catch {}',
       'exit 0',
       ''
@@ -168,7 +168,7 @@ function getManagedScript(target: 'local' | 'posix' = 'local'): string {
     'printf \'%s\' "$payload" | curl -sS -X POST "http://127.0.0.1:${ORCA_AGENT_HOOK_PORT}/hook/copilot" \\',
     '  --connect-timeout 0.5 --max-time 1.5 \\',
     '  -H "Content-Type: application/x-www-form-urlencoded" \\',
-    '  -H "X-Orca-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \\',
+    '  -H "X-CaPilot-Agent-Hook-Token: ${ORCA_AGENT_HOOK_TOKEN}" \\',
     '  --data-urlencode "paneKey=${ORCA_PANE_KEY}" \\',
     '  --data-urlencode "tabId=${ORCA_TAB_ID}" \\',
     '  --data-urlencode "launchToken=${ORCA_AGENT_LAUNCH_TOKEN}" \\',
@@ -193,7 +193,7 @@ export class CopilotHookService {
         state: 'error',
         configPath,
         managedHooksPresent: false,
-        detail: 'Could not parse Copilot hooks/orca.json'
+        detail: 'Could not parse Copilot hooks/capilot.json'
       }
     }
 
@@ -260,7 +260,7 @@ export class CopilotHookService {
         state: 'error',
         configPath,
         managedHooksPresent: false,
-        detail: 'Could not parse Copilot hooks/orca.json'
+        detail: 'Could not parse Copilot hooks/capilot.json'
       }
     }
 
@@ -299,8 +299,8 @@ export class CopilotHookService {
 
   async installRemote(sftp: SFTPWrapper, remoteHome: string): Promise<AgentHookInstallStatus> {
     const home = remoteHome.replace(/\/$/, '')
-    const remoteConfigPath = `${home}/.copilot/hooks/orca.json`
-    const remoteScriptPath = `${home}/.orca/agent-hooks/copilot-hook.sh`
+    const remoteConfigPath = `${home}/.copilot/hooks/capilot.json`
+    const remoteScriptPath = `${home}/.capilot/agent-hooks/copilot-hook.sh`
 
     try {
       const config = await readHooksJsonRemote(sftp, remoteConfigPath)
@@ -310,7 +310,7 @@ export class CopilotHookService {
           state: 'error',
           configPath: remoteConfigPath,
           managedHooksPresent: false,
-          detail: 'Could not parse remote Copilot hooks/orca.json'
+          detail: 'Could not parse remote Copilot hooks/capilot.json'
         }
       }
 
@@ -344,8 +344,8 @@ export class CopilotHookService {
       config.version = 1
       delete config.disableAllHooks
       config.hooks = nextHooks
-      // Why: SSH remotes use POSIX scripts regardless of Orca's local OS. Write
-      // the script before hooks/orca.json so a partial install cannot point
+      // Why: SSH remotes use POSIX scripts regardless of CaPilot's local OS. Write
+      // the script before hooks/capilot.json so a partial install cannot point
       // Copilot at a missing managed command.
       await writeManagedScriptRemote(sftp, remoteScriptPath, getManagedScript('posix'))
       await writeHooksJsonRemote(sftp, remoteConfigPath, config)
@@ -380,7 +380,7 @@ export class CopilotHookService {
         state: 'error',
         configPath,
         managedHooksPresent: false,
-        detail: 'Could not parse Copilot hooks/orca.json'
+        detail: 'Could not parse Copilot hooks/capilot.json'
       }
     }
 

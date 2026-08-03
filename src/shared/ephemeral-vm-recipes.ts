@@ -65,7 +65,7 @@ export const EphemeralVmRecipeSshTargetSchema = z
 
 const EphemeralVmRecipeOrcaServerConnectionSchema = z
   .object({
-    type: z.literal('orca-server'),
+    type: z.literal('capilot-server'),
     pairingCode: z.string().min(1),
     projectRoot: z.string().min(1)
   })
@@ -147,8 +147,8 @@ export function parseEphemeralVmRecipeResult(stdout: string): EphemeralVmRecipeR
     return { ok: false, error: result.error.issues[0]?.message ?? 'Invalid recipe result.' }
   }
   const connection = getEphemeralVmRecipeResultConnection(result.data)
-  if (connection.type === 'orca-server' && !parsePairingCode(connection.pairingCode)) {
-    return { ok: false, error: 'Recipe result pairingCode is not a valid Orca pairing code.' }
+  if (connection.type === 'capilot-server' && !parsePairingCode(connection.pairingCode)) {
+    return { ok: false, error: 'Recipe result pairingCode is not a valid CaPilot pairing code.' }
   }
   if (!isAbsoluteRuntimePath(connection.projectRoot)) {
     return { ok: false, error: 'Recipe result projectRoot must be an absolute runtime path.' }
@@ -163,7 +163,7 @@ export function getEphemeralVmRecipeResultConnection(
     return result.connection
   }
   return {
-    type: 'orca-server',
+    type: 'capilot-server',
     pairingCode: result.pairingCode,
     projectRoot: result.projectRoot
   }
@@ -177,7 +177,7 @@ export function getEphemeralVmRecipeResultPairingCode(
   result: EphemeralVmRecipeResult
 ): string | null {
   const connection = getEphemeralVmRecipeResultConnection(result)
-  return connection.type === 'orca-server' ? connection.pairingCode : null
+  return connection.type === 'capilot-server' ? connection.pairingCode : null
 }
 
 export function isAbsoluteRuntimePath(path: string): boolean {

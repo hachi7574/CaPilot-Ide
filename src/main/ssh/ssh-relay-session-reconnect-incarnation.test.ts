@@ -50,7 +50,7 @@ vi.mock('node:crypto', async (importOriginal) => {
   const actual = await importOriginal<typeof NodeCrypto>()
   return { ...actual, randomUUID: vi.fn() }
 })
-vi.mock('./ssh-remote-orca-cli', () => ({
+vi.mock('./ssh-remote-capilot-cli', () => ({
   runRemoteOrcaCli: vi.fn().mockResolvedValue({ exitCode: 0, stdout: '', stderr: '' })
 }))
 vi.mock('./ssh-channel-multiplexer', () => ({
@@ -374,7 +374,7 @@ describe('SshRelaySession reconnect incarnation ordering', () => {
     resolveStaleHealthCheck('/')
     await staleReconnect
 
-    const winningCliHandler = muxInstances[2]?.requestHandlers.get('orca.cli')
+    const winningCliHandler = muxInstances[2]?.requestHandlers.get('capilot.cli')
     expect(winningCliHandler).toBeDefined()
     await winningCliHandler?.({ argv: ['status'], cwd: '/', env: {} })
 

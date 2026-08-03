@@ -1,7 +1,7 @@
 import { Buffer } from 'node:buffer'
 import { PNG } from 'pngjs'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { stageNodeScriptForTerminal } from './helpers/run-node-script-in-terminal'
 import {
   ensureTerminalVisible,
@@ -57,7 +57,7 @@ function codexLikeStartupCommand(marker: string): string {
     'setInterval(() => {}, 1000);'
   ].join('')
   // Why: delivered via a temp file — `node -e` quoting is not PowerShell-safe (#8521).
-  return stageNodeScriptForTerminal(script, { prefix: 'orca-codex-startup-bg' }).command
+  return stageNodeScriptForTerminal(script, { prefix: 'capilot-codex-startup-bg' }).command
 }
 
 async function waitForHiddenTabPtyId(page: Page, tabId: string): Promise<string> {

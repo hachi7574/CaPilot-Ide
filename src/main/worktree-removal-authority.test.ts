@@ -47,7 +47,7 @@ describe('canCleanupUnregisteredOrcaWorktreeDirectory', () => {
     ).toBe(true)
   })
 
-  it('accepts legacy Orca-created metadata before explicit provenance existed', () => {
+  it('accepts legacy CaPilot-created metadata before explicit provenance existed', () => {
     expect(
       canCleanupUnregisteredOrcaWorktreeDirectory({
         meta: { createdAt: Date.now() }
@@ -70,7 +70,7 @@ describe('canCleanupUnregisteredOrcaWorktreeDirectory', () => {
       sortOrder: 0,
       lastActivityAt: 0,
       workspaceStatus: 'todo',
-      orcaCreationWorkspaceLayout: { path: '/orca/workspaces', nestWorkspaces: true }
+      orcaCreationWorkspaceLayout: { path: '/capilot/workspaces', nestWorkspaces: true }
     }
 
     expect(
@@ -90,7 +90,7 @@ describe('canCleanupUnregisteredOrcaWorktreeDirectory', () => {
 })
 
 describe('stripOrcaProvenanceMetaUpdates', () => {
-  it('removes Orca-owned provenance fields from user metadata updates', () => {
+  it('removes CaPilot-owned provenance fields from user metadata updates', () => {
     expect(
       stripOrcaProvenanceMetaUpdates({
         comment: 'keep me',

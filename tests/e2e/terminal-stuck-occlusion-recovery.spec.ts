@@ -14,7 +14,7 @@
  * the main-owned snapshot, WITHOUT a reload and WITHOUT any visibilitychange.
  */
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree, ensureTerminalVisible } from './helpers/store'
 import {
   waitForActiveTerminalManager,

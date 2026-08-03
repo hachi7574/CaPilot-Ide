@@ -4,12 +4,12 @@ to the env injection code makes the attribution behavior auditable as one unit
 instead of scattering generated shell fragments across files. */
 import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, win32 as pathWin32 } from 'node:path'
-import { ORCA_GIT_COMMIT_TRAILER } from '../../shared/orca-attribution'
+import { ORCA_GIT_COMMIT_TRAILER } from '../../shared/capilot-attribution'
 
-const ATTRIBUTION_ROOT_DIR = 'orca-terminal-attribution'
+const ATTRIBUTION_ROOT_DIR = 'capilot-terminal-attribution'
 const ATTRIBUTION_SHIM_VERSION = '6'
 const ORCA_PRODUCT_URL = 'https://github.com/stablyai/orca'
-const ORCA_GH_FOOTER = `Made with [Orca](${ORCA_PRODUCT_URL}) 🐋`
+const ORCA_GH_FOOTER = `Made with [CaPilot](${ORCA_PRODUCT_URL}) 🐋`
 const SHELL_DOLLAR = '$'
 const POWERSHELL_TICK = '`'
 const ATTRIBUTION_ENV_KEYS = [
@@ -98,8 +98,8 @@ export function applyTerminalAttributionEnv(
     })
     .join(pathDelimiter)
 
-  // Why: these wrappers should affect only Orca-managed PTYs. Prepending the
-  // shim directory here keeps the attribution behavior scoped to Orca's live
+  // Why: these wrappers should affect only CaPilot-managed PTYs. Prepending the
+  // shim directory here keeps the attribution behavior scoped to CaPilot's live
   // terminal environment instead of mutating global git/gh config or the
   // user's external shell PATH.
   baseEnv.PATH = [...prependDirs, cleanedBasePath].filter(Boolean).join(pathDelimiter)
@@ -144,7 +144,7 @@ function stripAttributionPathEntries(pathValue: string, pathDelimiter: string): 
     .split(pathDelimiter)
     .filter((entry) => {
       const normalized = entry.replace(/\\/g, '/').toLowerCase()
-      return !normalized.includes('/orca-terminal-attribution/')
+      return !normalized.includes('/capilot-terminal-attribution/')
     })
     .join(pathDelimiter)
 }
@@ -228,7 +228,7 @@ clean_path() {
   IFS=':' read -r -a entries <<<"$current_path"
   for entry in "${SHELL_DOLLAR}{entries[@]}"; do
     case "$entry" in
-      "$script_dir"|*/orca-terminal-attribution/posix|*/orca-terminal-attribution/win32|*\\orca-terminal-attribution\\posix|*\\orca-terminal-attribution\\win32)
+      "$script_dir"|*/capilot-terminal-attribution/posix|*/capilot-terminal-attribution/win32|*\\capilot-terminal-attribution\\posix|*\\capilot-terminal-attribution\\win32)
         ;;
       *)
         cleaned+=("$entry")
@@ -243,7 +243,7 @@ const POSIX_GIT_WRAPPER = `${POSIX_COMMON}
 real_path="$(clean_path)"
 real_git="$(PATH="$real_path" command -v git || true)"
 if [[ -z "$real_git" ]]; then
-  echo "Orca attribution wrapper could not locate git on PATH." >&2
+  echo "CaPilot attribution wrapper could not locate git on PATH." >&2
   exit 127
 fi
 
@@ -282,7 +282,7 @@ for arg in "$@"; do
   esac
 done
 
-trailer="\${ORCA_GIT_COMMIT_TRAILER:-Co-authored-by: Orca <help@stably.ai>}"
+trailer="\${ORCA_GIT_COMMIT_TRAILER:-Co-authored-by: CaPilot <help@stably.ai>}"
 
 has_explicit_commit_message() {
   local arg
@@ -470,7 +470,7 @@ const POSIX_GH_WRAPPER = `${POSIX_COMMON}
 real_path="$(clean_path)"
 real_gh="$(PATH="$real_path" command -v gh || true)"
 if [[ -z "$real_gh" ]]; then
-  echo "Orca attribution wrapper could not locate gh on PATH." >&2
+  echo "CaPilot attribution wrapper could not locate gh on PATH." >&2
   exit 127
 fi
 
@@ -566,7 +566,7 @@ if [[ "\${ORCA_ENABLE_GIT_ATTRIBUTION:-0}" != "1" || "\${ORCA_ATTRIBUTION_BYPASS
 fi
 
 if [[ "\${1:-}" == "pr" && "\${2:-}" == "create" ]]; then
-  footer="\${ORCA_GH_PR_FOOTER:-Made with [Orca](https://github.com/stablyai/orca) 🐋}"
+  footer="\${ORCA_GH_PR_FOOTER:-Made with [CaPilot](https://github.com/stablyai/orca) 🐋}"
   if has_passthrough_create_args "$@"; then
     PATH="$real_path" exec "$real_gh" "$@"
   fi
@@ -600,7 +600,7 @@ if [[ "\${1:-}" == "pr" && "\${2:-}" == "create" ]]; then
 fi
 
 if [[ "\${1:-}" == "issue" && "\${2:-}" == "create" ]]; then
-  footer="\${ORCA_GH_ISSUE_FOOTER:-Made with [Orca](https://github.com/stablyai/orca) 🐋}"
+  footer="\${ORCA_GH_ISSUE_FOOTER:-Made with [CaPilot](https://github.com/stablyai/orca) 🐋}"
   if has_passthrough_create_args "$@"; then
     PATH="$real_path" exec "$real_gh" "$@"
   fi
@@ -648,7 +648,7 @@ exit /b %ERRORLEVEL%
 if defined ORCA_REAL_GIT (
   "%ORCA_REAL_GIT%" %*
 ) else (
-  echo Orca attribution wrapper could not locate git on PATH. 1>&2
+  echo CaPilot attribution wrapper could not locate git on PATH. 1>&2
   exit /b 127
 )
 exit /b %ERRORLEVEL%
@@ -692,7 +692,7 @@ exit /b %ERRORLEVEL%
 if defined ORCA_REAL_GH (
   "%ORCA_REAL_GH%" %*
 ) else (
-  echo Orca attribution wrapper could not locate gh on PATH. 1>&2
+  echo CaPilot attribution wrapper could not locate gh on PATH. 1>&2
   exit /b 127
 )
 exit /b %ERRORLEVEL%
@@ -700,7 +700,7 @@ exit /b %ERRORLEVEL%
 
 const WIN32_GIT_PS_WRAPPER = String.raw`$ErrorActionPreference = 'Stop'
 $realGit = if ($env:ORCA_REAL_GIT) { $env:ORCA_REAL_GIT } else { 'git' }
-$trailer = if ($env:ORCA_GIT_COMMIT_TRAILER) { $env:ORCA_GIT_COMMIT_TRAILER } else { 'Co-authored-by: Orca <help@stably.ai>' }
+$trailer = if ($env:ORCA_GIT_COMMIT_TRAILER) { $env:ORCA_GIT_COMMIT_TRAILER } else { 'Co-authored-by: CaPilot <help@stably.ai>' }
 
 if ($args -contains '--dry-run') {
   & $realGit @args
@@ -975,7 +975,7 @@ if ($isPrCreate) {
     if ($LASTEXITCODE -ne 0) {
       $body = $null
     }
-    $footer = if ($env:ORCA_GH_PR_FOOTER) { $env:ORCA_GH_PR_FOOTER } else { 'Made with [Orca](https://github.com/stablyai/orca) 🐋' }
+    $footer = if ($env:ORCA_GH_PR_FOOTER) { $env:ORCA_GH_PR_FOOTER } else { 'Made with [CaPilot](https://github.com/stablyai/orca) 🐋' }
     if ($null -ne $body -and $body -notmatch [Regex]::Escape($footer)) {
       $tmpFile = [System.IO.Path]::GetTempFileName()
       try {
@@ -1006,7 +1006,7 @@ if ($isIssueCreate) {
     if ($LASTEXITCODE -ne 0) {
       $body = $null
     }
-    $footer = if ($env:ORCA_GH_ISSUE_FOOTER) { $env:ORCA_GH_ISSUE_FOOTER } else { 'Made with [Orca](https://github.com/stablyai/orca) 🐋' }
+    $footer = if ($env:ORCA_GH_ISSUE_FOOTER) { $env:ORCA_GH_ISSUE_FOOTER } else { 'Made with [CaPilot](https://github.com/stablyai/orca) 🐋' }
     if ($null -ne $body -and $body -notmatch [Regex]::Escape($footer)) {
       $tmpFile = [System.IO.Path]::GetTempFileName()
       try {

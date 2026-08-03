@@ -19,14 +19,14 @@ async function writeBundle(root: string, name = 'Skills'): Promise<{ path: strin
   const pluginRoot = join(root, path)
   await mkdir(pluginRoot, { recursive: true })
   await writeFile(
-    join(pluginRoot, 'orca-plugin.json'),
+    join(pluginRoot, 'capilot-plugin.json'),
     JSON.stringify({
       manifestVersion: 1,
-      id: 'orca-skills',
+      id: 'capilot-skills',
       publisher: 'stablyai',
       name,
       version: '1.0.0',
-      engines: { orca: '>=1.0.0' },
+      engines: { capilot: '>=1.0.0' },
       pluginApi: 1,
       capabilities: []
     })
@@ -54,8 +54,8 @@ afterEach(async () => {
 
 describe('bundled plugin bootstrap', () => {
   it('installs release-indexed content once and keeps unchanged startup work bounded', async () => {
-    const root = await tempRoot('orca-bundled-resources-')
-    const userDataPath = await tempRoot('orca-bundled-user-data-')
+    const root = await tempRoot('capilot-bundled-resources-')
+    const userDataPath = await tempRoot('capilot-bundled-user-data-')
     const bundle = await writeBundle(root)
     await writeIndex(root, bundle.path, bundle.hash)
 
@@ -68,8 +68,8 @@ describe('bundled plugin bootstrap', () => {
   })
 
   it('publishes an updated immutable bundle only when the indexed hash matches', async () => {
-    const root = await tempRoot('orca-bundled-resources-')
-    const userDataPath = await tempRoot('orca-bundled-user-data-')
+    const root = await tempRoot('capilot-bundled-resources-')
+    const userDataPath = await tempRoot('capilot-bundled-user-data-')
     const first = await writeBundle(root)
     await writeIndex(root, first.path, first.hash)
     await bootstrapBundledPlugins({ root, userDataPath, hostVersion: '1.4.0' })
@@ -84,13 +84,13 @@ describe('bundled plugin bootstrap', () => {
   })
 
   it('repairs a missing or modified bundled current version', async () => {
-    const root = await tempRoot('orca-bundled-resources-')
-    const userDataPath = await tempRoot('orca-bundled-user-data-')
+    const root = await tempRoot('capilot-bundled-resources-')
+    const userDataPath = await tempRoot('capilot-bundled-user-data-')
     const bundle = await writeBundle(root)
     await writeIndex(root, bundle.path, bundle.hash)
     await bootstrapBundledPlugins({ root, userDataPath, hostVersion: '1.4.0' })
     const versionDir = join(userDataPath, 'plugins', 'stablyai.orca-skills', bundle.hash)
-    await writeFile(join(versionDir, 'orca-plugin.json'), '{}')
+    await writeFile(join(versionDir, 'capilot-plugin.json'), '{}')
 
     await expect(
       bootstrapBundledPlugins({ root, userDataPath, hostVersion: '1.4.0' })
@@ -103,8 +103,8 @@ describe('bundled plugin bootstrap', () => {
   })
 
   it('refuses mismatched release hashes before publication', async () => {
-    const root = await tempRoot('orca-bundled-resources-')
-    const userDataPath = await tempRoot('orca-bundled-user-data-')
+    const root = await tempRoot('capilot-bundled-resources-')
+    const userDataPath = await tempRoot('capilot-bundled-user-data-')
     const bundle = await writeBundle(root)
     await writeIndex(root, bundle.path, 'f'.repeat(64))
 

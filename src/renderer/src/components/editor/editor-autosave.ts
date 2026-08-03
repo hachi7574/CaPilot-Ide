@@ -7,13 +7,13 @@ import {
 } from '../../../../shared/constants'
 import { clampNumber } from '@/lib/terminal-theme'
 
-export const ORCA_EDITOR_QUIESCE_FILE_SAVES_EVENT = 'orca:editor-quiesce-file-saves'
-export const ORCA_EDITOR_EXTERNAL_FILE_CHANGE_EVENT = 'orca:editor-external-file-change'
-export const ORCA_EDITOR_SAVE_FILE_EVENT = 'orca:editor-save-file'
-export const ORCA_EDITOR_SAVE_AND_CLOSE_EVENT = 'orca:save-and-close'
-export const ORCA_EDITOR_FILE_SAVED_EVENT = 'orca:editor-file-saved'
-export const ORCA_EDITOR_REQUEST_CMD_SAVE_EVENT = 'orca:editor-request-cmd-save'
-export const ORCA_EDITOR_REQUEST_FILE_CLOSE_EVENT = 'orca:editor-request-file-close'
+export const ORCA_EDITOR_QUIESCE_FILE_SAVES_EVENT = 'capilot:editor-quiesce-file-saves'
+export const ORCA_EDITOR_EXTERNAL_FILE_CHANGE_EVENT = 'capilot:editor-external-file-change'
+export const ORCA_EDITOR_SAVE_FILE_EVENT = 'capilot:editor-save-file'
+export const ORCA_EDITOR_SAVE_AND_CLOSE_EVENT = 'capilot:save-and-close'
+export const ORCA_EDITOR_FILE_SAVED_EVENT = 'capilot:editor-file-saved'
+export const ORCA_EDITOR_REQUEST_CMD_SAVE_EVENT = 'capilot:editor-request-cmd-save'
+export const ORCA_EDITOR_REQUEST_FILE_CLOSE_EVENT = 'capilot:editor-request-file-close'
 
 export type EditorPathMutationTarget = {
   worktreeId: string

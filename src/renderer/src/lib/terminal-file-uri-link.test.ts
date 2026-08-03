@@ -6,7 +6,7 @@ describe('detectTerminalFileUriLinks', () => {
     const line = 'Report: file:///Users/dev/orca/report.html'
     const [link] = detectTerminalFileUriLinks(line)
     expect(link).toMatchObject({
-      pathText: '/Users/dev/orca/report.html',
+      pathText: '/Users/dev/capilot/report.html',
       line: null,
       column: null
     })

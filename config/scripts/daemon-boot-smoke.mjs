@@ -49,7 +49,7 @@ function makeSocketPath(userDataDir) {
   // Why: Windows AF_UNIX-style IPC uses named pipes; POSIX uses a filesystem
   // socket kept under the scratch userData dir so cleanup removes it.
   if (process.platform === 'win32') {
-    return `\\\\.\\pipe\\orca-daemon-smoke-${process.pid}-${randomUUID()}`
+    return `\\\\.\\pipe\\capilot-daemon-smoke-${process.pid}-${randomUUID()}`
   }
   return join(userDataDir, 'daemon.sock')
 }
@@ -123,7 +123,7 @@ function runPtySpawnHealthCheck(socketPath, tokenPath, protocolVersion) {
 }
 
 async function main() {
-  const userDataDir = mkdtempSync(join(tmpdir(), 'orca-daemon-boot-smoke-'))
+  const userDataDir = mkdtempSync(join(tmpdir(), 'capilot-daemon-boot-smoke-'))
   const socketPath = makeSocketPath(userDataDir)
   const tokenPath = join(userDataDir, 'daemon.token')
   const protocolVersion = readProtocolVersion()

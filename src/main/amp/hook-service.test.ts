@@ -21,7 +21,7 @@ describe('AmpHookService', () => {
   let homeDir: string
 
   beforeEach(() => {
-    homeDir = mkdtempSync(join(tmpdir(), 'orca-amp-home-'))
+    homeDir = mkdtempSync(join(tmpdir(), 'capilot-amp-home-'))
     homedirMock.mockReturnValue(homeDir)
   })
 
@@ -30,7 +30,7 @@ describe('AmpHookService', () => {
     rmSync(homeDir, { recursive: true, force: true })
   })
 
-  it('installs an Orca-managed Amp system plugin', () => {
+  it('installs an CaPilot-managed Amp system plugin', () => {
     const status = new AmpHookService().install()
 
     expect(status).toMatchObject({
@@ -76,7 +76,7 @@ describe('AmpHookService', () => {
     expect(readFileSync(pluginPath, 'utf-8')).toBe('export default function userPlugin() {}\n')
   })
 
-  it('removes only Orca-managed Amp plugin files', () => {
+  it('removes only CaPilot-managed Amp plugin files', () => {
     const service = new AmpHookService()
     const installed = service.install()
     expect(existsSync(installed.configPath)).toBe(true)

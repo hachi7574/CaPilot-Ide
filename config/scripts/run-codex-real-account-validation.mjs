@@ -109,7 +109,7 @@ export async function createValidationLayout(options = {}) {
         'Pass --temp-parent <dir> or set ORCA_CODEX_VALIDATION_TEMP_PARENT to a directory outside it.'
     )
   }
-  const tempRoot = await mkdtemp(path.join(tempParent, 'orca-codex-real-'))
+  const tempRoot = await mkdtemp(path.join(tempParent, 'capilot-codex-real-'))
   const homeDir = path.join(tempRoot, 'home')
   const userDataDir = path.join(tempRoot, 'user-data')
   await Promise.all([
@@ -138,7 +138,7 @@ async function seedCompletedProfile(layout) {
     ui: { contextualToursAutoEligible: false, projectOrderManualDefaultNoticeDismissed: true }
   }
   await writeFile(
-    path.join(layout.userDataDir, 'orca-data.json'),
+    path.join(layout.userDataDir, 'capilot-data.json'),
     `${JSON.stringify(profile, null, 2)}\n`
   )
 }
@@ -376,7 +376,7 @@ function validationCliCommand() {
   if (process.env.ORCA_CLI_COMMAND) {
     return process.env.ORCA_CLI_COMMAND
   }
-  return process.platform === 'linux' ? 'orca-ide' : 'orca'
+  return process.platform === 'linux' ? 'capilot-ide' : 'capilot'
 }
 
 async function probeTerminalEnvironment(terminalHandle, launchEnv) {
@@ -479,7 +479,7 @@ async function main() {
   })
   const reportPath =
     options.reportPath ??
-    path.join(os.tmpdir(), `orca-codex-real-account-${options.scenario}-${Date.now()}.json`)
+    path.join(os.tmpdir(), `capilot-codex-real-account-${options.scenario}-${Date.now()}.json`)
   const launchEnv = createValidationEnv(process.env, layout, options)
   let app = null
   let tripwire = null

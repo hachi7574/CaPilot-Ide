@@ -7,7 +7,7 @@
 
 import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import type { ElectronApplication, Locator, Page } from '@stablyai/playwright-test'
 import {
   ensureTerminalVisible,
@@ -77,11 +77,11 @@ async function toolbarWidth(page: Page): Promise<number> {
 }
 
 function addressBarInput(page: Page): Locator {
-  return page.locator('[data-orca-browser-address-bar="true"]')
+  return page.locator('[data-capilot-browser-address-bar="true"]')
 }
 
 function addressBarOverlay(page: Page): Locator {
-  return page.locator('[data-orca-browser-address-bar-overlay="true"]')
+  return page.locator('[data-capilot-browser-address-bar-overlay="true"]')
 }
 
 async function addressBarInputWidth(page: Page): Promise<number> {
@@ -149,7 +149,7 @@ test.describe('Browser address bar in a narrow toolbar', () => {
       // The bug: the inline field is squeezed away entirely.
       await expect.poll(() => addressBarInputWidth(orcaPage), { timeout: 10_000 }).toBeLessThan(40)
 
-      await orcaPage.locator('form:has(> [data-orca-browser-address-bar="true"])').click()
+      await orcaPage.locator('form:has(> [data-capilot-browser-address-bar="true"])').click()
 
       await expect(overlay).toBeVisible()
       await expect

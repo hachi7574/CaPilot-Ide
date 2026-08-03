@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { AppState } from '@/store/types'
 import type { PersistedTrustedOrcaHooks } from '../../../shared/types'
 import { __resetTrustPromptChainForTests, ensureHooksConfirmed } from './ensure-hooks-confirmed'
-import { hashOrcaHookScript } from './orca-hook-trust'
+import { hashOrcaHookScript } from './capilot-hook-trust'
 import {
   createCompatibleRuntimeStatusResponseIfNeeded,
   type RuntimeEnvironmentCallRequest
@@ -105,7 +105,7 @@ describe('ensureHooksConfirmed', () => {
     await vi.waitFor(() => expect(pending).toHaveLength(1))
     expect(pending[0].data.scriptContent).toBe('new script')
     // The dialog uses this flag to tell the user we're re-prompting *because*
-    // orca.yaml changed, not because they've never approved this hook.
+    // capilot.yaml changed, not because they've never approved this hook.
     expect(pending[0].data.previouslyApproved).toBe(true)
 
     pending[0].resolve('run')
@@ -282,7 +282,7 @@ describe('ensureHooksConfirmed', () => {
     expect(pending).toHaveLength(0)
   })
 
-  it('does not prompt for orca.yaml when the repo uses local commands only', async () => {
+  it('does not prompt for capilot.yaml when the repo uses local commands only', async () => {
     const { state, pending } = createTestState({
       repos: [
         {
@@ -309,7 +309,7 @@ describe('ensureHooksConfirmed', () => {
     expect(pending).toHaveLength(0)
   })
 
-  it('does not prompt for orca.yaml when local commands are the implicit default', async () => {
+  it('does not prompt for capilot.yaml when local commands are the implicit default', async () => {
     const { state, pending } = createTestState({
       repos: [
         {

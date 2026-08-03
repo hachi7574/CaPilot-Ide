@@ -733,7 +733,7 @@ async function fetchViaRpc(options?: FetchCodexRateLimitsOptions): Promise<Provi
     let initId: number
     try {
       initId = sendRpc('initialize', {
-        clientInfo: { name: 'orca', version: '1.0.0' }
+        clientInfo: { name: 'capilot', version: '1.0.0' }
       })
     } catch (error) {
       // A child already exists, so a synchronous pipe failure must follow the
@@ -1250,7 +1250,7 @@ export async function fetchCodexRateLimits(
   }
 
   // Why: probes spawn a real codex process inside the live credential home;
-  // the per-home lock keeps Orca's own spawns (probe vs probe, probe vs
+  // the per-home lock keeps CaPilot's own spawns (probe vs probe, probe vs
   // commit-message run) from refreshing one auth.json concurrently.
   const homeLockKey = resolveCodexHomeProcessLockKey(options?.codexHomePath)
 

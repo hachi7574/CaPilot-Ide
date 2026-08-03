@@ -10,7 +10,7 @@ import {
 const tempDirs = []
 
 function tempReportPath() {
-  const dir = mkdtempSync(join(tmpdir(), 'orca-terminal-perf-gate-'))
+  const dir = mkdtempSync(join(tmpdir(), 'capilot-terminal-perf-gate-'))
   tempDirs.push(dir)
   return join(dir, 'report.json')
 }

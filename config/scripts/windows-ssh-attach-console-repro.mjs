@@ -36,7 +36,7 @@ const runDir = mkdtempSync(join(projectDir, '.issue-9586-relay-repro-'))
 const relayPath = join(runDir, 'relay.js')
 const stdoutLog = join(runDir, 'relay.log')
 const stderrLog = join(runDir, 'relay.err.log')
-const socketPath = `\\\\.\\pipe\\orca-issue-9586-${process.pid}-${Date.now()}`
+const socketPath = `\\\\.\\pipe\\capilot-issue-9586-${process.pid}-${Date.now()}`
 let relayPid
 
 try {

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Launch `pn dev` with a fresh, isolated userData profile so the app behaves
 # like a first-time install (onboarding overlay paints, no persisted repos,
-# no saved sessions). Your real `orca-dev` profile is left untouched.
+# no saved sessions). Your real `capilot-dev` profile is left untouched.
 #
 # Usage:
 #   ./config/scripts/dev-fresh-profile.sh           # ephemeral temp profile, deleted on exit
@@ -23,13 +23,13 @@ for arg in "$@"; do
   esac
 done
 
-PROFILE_DIR="${ORCA_FRESH_PROFILE_DIR:-$(mktemp -d "${TMPDIR:-/tmp}/orca-fresh-profile.XXXXXXXX")}"
+PROFILE_DIR="${ORCA_FRESH_PROFILE_DIR:-$(mktemp -d "${TMPDIR:-/tmp}/capilot-fresh-profile.XXXXXXXX")}"
 mkdir -p "$PROFILE_DIR"
 
 cleanup() {
   if [[ "$KEEP" -eq 0 && -z "${ORCA_FRESH_PROFILE_DIR:-}" ]]; then
     # Guard rm -rf against accidental empty/unrelated PROFILE_DIR.
-    [[ -n "${PROFILE_DIR:-}" && -d "$PROFILE_DIR" && "$PROFILE_DIR" == */orca-fresh-profile* ]] || return 0
+    [[ -n "${PROFILE_DIR:-}" && -d "$PROFILE_DIR" && "$PROFILE_DIR" == */capilot-fresh-profile* ]] || return 0
     rm -rf "$PROFILE_DIR"
     echo "[dev-fresh-profile] removed $PROFILE_DIR"
   else

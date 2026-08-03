@@ -3,7 +3,7 @@ import { mkdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
 import { mkdtemp } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 
 const tempRoots: string[] = []
@@ -16,7 +16,7 @@ async function createCloneFixture(): Promise<{
   // repo.path on macOS, where os.tmpdir() (/var/...) symlinks to /private/var/...
   // and the app canonicalizes repo.path via `git rev-parse --show-toplevel`.
   const rootPath = realpathSync(
-    await mkdtemp(path.join(os.tmpdir(), 'orca-e2e-add-project-clone-'))
+    await mkdtemp(path.join(os.tmpdir(), 'capilot-e2e-add-project-clone-'))
   )
   tempRoots.push(rootPath)
 
@@ -47,7 +47,7 @@ async function createLinkedWorktreeFixture(): Promise<{
   // os.tmpdir() (/var/...) symlinks to /private/var/... and the app canonicalizes
   // repo.path via `git rev-parse --show-toplevel` on add.
   const rootPath = realpathSync(
-    await mkdtemp(path.join(os.tmpdir(), 'orca-e2e-add-project-linked-'))
+    await mkdtemp(path.join(os.tmpdir(), 'capilot-e2e-add-project-linked-'))
   )
   tempRoots.push(rootPath)
 

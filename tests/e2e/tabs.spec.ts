@@ -18,7 +18,7 @@
  * (dnd-kit reorder); in those cases a DOM assertion still follows.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import type { Page } from '@stablyai/playwright-test'
 import {
   waitForSessionReady,

@@ -5,7 +5,7 @@
  * source controls and close affordance are present.
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree, getStoreState } from './helpers/store'
 
 type RenderedTaskSource = {

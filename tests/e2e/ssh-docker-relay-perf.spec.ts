@@ -1,4 +1,4 @@
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   execInTerminal,
@@ -276,7 +276,7 @@ test.describe('Docker SSH relay perf', () => {
       const runId = String(Date.now())
       // Large remote binaries: each read streams ~8MB of fs.streamChunk frames
       // over the same SSH channel that carries the pty echo.
-      const loadFile = `/tmp/orca-relay-load-${runId}.png`
+      const loadFile = `/tmp/capilot-relay-load-${runId}.png`
       const loadFiles = [loadFile, loadFile]
       await execInTerminal(
         orcaPage,

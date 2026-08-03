@@ -19,14 +19,14 @@ const isWindowsHost = process.platform === 'win32'
 const posixOnlyIt = isWindowsHost ? it.skip : it
 // Why: bare shells no longer mkdir ~/.omp; OMP status lives under userData (#10196).
 const expectedOmpStatusExtension = posix.join(
-  '/tmp/orca-user-data',
+  '/tmp/capilot-user-data',
   'omp-managed-status-extension',
-  'orca-agent-status.ts'
+  'capilot-agent-status.ts'
 )
 function expectedAttributionShimDir(): string {
   return join(
-    '/tmp/orca-user-data',
-    'orca-terminal-attribution',
+    '/tmp/capilot-user-data',
+    'capilot-terminal-attribution',
     process.platform === 'win32' ? 'win32' : 'posix'
   )
 }
@@ -186,9 +186,9 @@ vi.mock('../telemetry/classify-error', () => ({
 }))
 
 // Why: the real ensure writes to process.resourcesPath (absent under vitest); env assembly only needs the returned dir path.
-vi.mock('../cli/linux-terminal-orca-cli-shim', () => ({
+vi.mock('../cli/linux-terminal-capilot-cli-shim', () => ({
   ensureLinuxTerminalOrcaCliShimDir: (options: { userDataPath: string }) =>
-    join(options.userDataPath, 'linux-orca-cli-shim')
+    join(options.userDataPath, 'linux-capilot-cli-shim')
 }))
 
 vi.mock('../memory/pty-registry', () => ({
@@ -238,7 +238,7 @@ import {
   _resetHiddenRendererPtyDeliveryGateForTest,
   isHiddenRendererPty
 } from './pty-hidden-delivery-gate'
-import { OrcaRuntimeService } from '../runtime/orca-runtime'
+import { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { hasLiveClaudePtys, markClaudePtySpawned } from '../claude-accounts/live-pty-gate'
 import * as livePtyGate from '../claude-accounts/live-pty-gate'
 import {
@@ -269,8 +269,8 @@ function powerShellOsc133ArgsForCwd(cwd: string = DEFAULT_WINDOWS_PTY_CWD): stri
 const POWERSHELL_OSC133_ARGS = powerShellOsc133ArgsForCwd()
 const TEST_CODEX_HOME =
   process.platform === 'win32'
-    ? 'C:\\Users\\test\\AppData\\Roaming\\orca\\codex-runtime-home\\home'
-    : '/tmp/orca-codex-home'
+    ? 'C:\\Users\\test\\AppData\\Roaming\\capilot\\codex-runtime-home\\home'
+    : '/tmp/capilot-codex-home'
 const TEST_CODEX_AUTH_JSON = JSON.stringify({
   tokens: {
     access_token: 'access',
@@ -409,9 +409,9 @@ describe('registerPtyHandlers', () => {
         }
       }
     })
-    getPathMock.mockReturnValue('/tmp/orca-user-data')
+    getPathMock.mockReturnValue('/tmp/capilot-user-data')
     // Why: wrapper roots resolve from ORCA_USER_DATA_PATH; mirror the mocked userData so ZDOTDIR/wrapper assertions match.
-    process.env.ORCA_USER_DATA_PATH = '/tmp/orca-user-data'
+    process.env.ORCA_USER_DATA_PATH = '/tmp/capilot-user-data'
     existsSyncMock.mockReturnValue(true)
     statSyncMock.mockReturnValue({ isDirectory: () => true, mode: 0o755 })
     readFileSyncMock.mockReturnValue('')
@@ -420,11 +420,11 @@ describe('registerPtyHandlers', () => {
       ORCA_OPENCODE_HOOK_TOKEN: 'opencode-token',
       ORCA_OPENCODE_PTY_ID: 'test-pty',
       OPENCODE_CONFIG_DIR: existingConfigDir
-        ? '/tmp/orca-opencode-overlay'
-        : '/tmp/orca-opencode-config'
+        ? '/tmp/capilot-opencode-overlay'
+        : '/tmp/capilot-opencode-config'
     }))
     mimoCodeBuildPtyEnvMock.mockImplementation((_ptyId: string, existingHome?: string) => ({
-      MIMOCODE_HOME: existingHome ? '/tmp/orca-mimocode-overlay' : '/tmp/orca-mimocode-shared'
+      MIMOCODE_HOME: existingHome ? '/tmp/capilot-mimocode-overlay' : '/tmp/capilot-mimocode-shared'
     }))
     buildAgentHookEnvMock.mockReturnValue({
       ORCA_AGENT_HOOK_PORT: '5678',
@@ -443,12 +443,12 @@ describe('registerPtyHandlers', () => {
           if (!existingAgentDir && !materializeDefaultHome) {
             return {
               ORCA_OMP_STATUS_EXTENSION:
-                '/tmp/orca-user-data/omp-managed-status-extension/orca-agent-status.ts'
+                '/tmp/capilot-user-data/omp-managed-status-extension/capilot-agent-status.ts'
             }
           }
           return {
             ORCA_OMP_SOURCE_AGENT_DIR: existingAgentDir ?? '/tmp/default-omp-agent',
-            ORCA_OMP_STATUS_EXTENSION: `${existingAgentDir ?? '/tmp/default-omp-agent'}/extensions/orca-agent-status.ts`
+            ORCA_OMP_STATUS_EXTENSION: `${existingAgentDir ?? '/tmp/default-omp-agent'}/extensions/capilot-agent-status.ts`
           }
         }
         if (!existingAgentDir && !materializeDefaultHome) {
@@ -1761,7 +1761,7 @@ describe('registerPtyHandlers', () => {
       const env = await spawnAndGetEnv()
       expect(env.TERM).toBe('xterm-256color')
       expect(env.COLORTERM).toBe('truecolor')
-      expect(env.TERM_PROGRAM).toBe('Orca')
+      expect(env.TERM_PROGRAM).toBe('CaPilot')
     })
 
     it('keeps indexed Git prompt guards in a local agent terminal env', async () => {
@@ -1786,7 +1786,7 @@ describe('registerPtyHandlers', () => {
     })
 
     it('advertises OSC 8 hyperlink support via FORCE_HYPERLINK', async () => {
-      // Why: supports-hyperlinks allowlists TERM_PROGRAM and reports false for Orca, so FORCE_HYPERLINK=1 forces detection on (xterm.js handles OSC 8 natively).
+      // Why: supports-hyperlinks allowlists TERM_PROGRAM and reports false for CaPilot, so FORCE_HYPERLINK=1 forces detection on (xterm.js handles OSC 8 natively).
       const env = await spawnAndGetEnv()
       expect(env.FORCE_HYPERLINK).toBe('1')
     })
@@ -1801,7 +1801,7 @@ describe('registerPtyHandlers', () => {
       expect(env.TERM_PROGRAM_VERSION).toBe('0.0.0-dev')
     })
 
-    it('injects the selected Codex home into Orca terminal PTYs', async () => {
+    it('injects the selected Codex home into CaPilot terminal PTYs', async () => {
       const env = await spawnAndGetEnv(undefined, undefined, () => TEST_CODEX_HOME)
       expect(env.CODEX_HOME).toBe(TEST_CODEX_HOME)
       expect(env.ORCA_CODEX_HOME).toBe(TEST_CODEX_HOME)
@@ -2010,7 +2010,7 @@ describe('registerPtyHandlers', () => {
       }
 
       posixOnlyIt(
-        'launches plain codex when a REAL rollout sits under a home Orca no longer trusts',
+        'launches plain codex when a REAL rollout sits under a home CaPilot no longer trusts',
         async () => {
           // Why: the discriminating case — the rollout exists, so only the trust check can
           // reject it. Falling through would resume it under the selected account.
@@ -2294,7 +2294,7 @@ describe('registerPtyHandlers', () => {
       )
     })
 
-    it('injects the OpenCode hook env into Orca terminal PTYs', async () => {
+    it('injects the OpenCode hook env into CaPilot terminal PTYs', async () => {
       // Why: clear any ambient OPENCODE_CONFIG_DIR so the mock's value is used
       const env = await spawnAndGetEnv(undefined, { OPENCODE_CONFIG_DIR: undefined })
       expect(openCodeBuildPtyEnvMock).toHaveBeenCalledTimes(1)
@@ -2306,37 +2306,37 @@ describe('registerPtyHandlers', () => {
       expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe(env.OPENCODE_CONFIG_DIR)
     })
 
-    it('mirrors the original OpenCode source dir when launched from an Orca overlay shell', async () => {
+    it('mirrors the original OpenCode source dir when launched from an CaPilot overlay shell', async () => {
       const env = await spawnAndGetEnv({
-        OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
+        OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
         ORCA_OPENCODE_SOURCE_CONFIG_DIR: '/tmp/user-opencode-config'
       })
       expect(openCodeBuildPtyEnvMock).toHaveBeenCalledWith(
         expect.any(String),
         '/tmp/user-opencode-config'
       )
-      expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
-      expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
+      expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
+      expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
       expect(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR).toBe('/tmp/user-opencode-config')
     })
 
-    it('does not treat inherited Orca OpenCode config as user config without a source dir', async () => {
+    it('does not treat inherited CaPilot OpenCode config as user config without a source dir', async () => {
       const env = await spawnAndGetEnv({
-        OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
-        ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay'
+        OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
+        ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay'
       })
 
       expect(openCodeBuildPtyEnvMock).toHaveBeenCalledWith(expect.any(String), undefined)
-      expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-config')
-      expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-config')
+      expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-config')
+      expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-config')
       expect(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR).toBeUndefined()
     })
 
-    it('restores user OpenCode config when agent status hooks are disabled in a nested Orca shell', async () => {
+    it('restores user OpenCode config when agent status hooks are disabled in a nested CaPilot shell', async () => {
       const env = await spawnAndGetEnv(
         {
-          OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
-          ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
+          OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
+          ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
           ORCA_OPENCODE_SOURCE_CONFIG_DIR: '/tmp/user-opencode-config'
         },
         undefined,
@@ -2353,8 +2353,8 @@ describe('registerPtyHandlers', () => {
     it('strips inherited OpenCode overlay env when agent status hooks are disabled without a source dir', async () => {
       const env = await spawnAndGetEnv(
         {
-          OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
-          ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay'
+          OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
+          ORCA_OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay'
         },
         undefined,
         undefined,
@@ -2371,8 +2371,8 @@ describe('registerPtyHandlers', () => {
       const env = await spawnAndGetEnv(undefined, undefined, undefined, undefined, 'mimo')
 
       expect(mimoCodeBuildPtyEnvMock).toHaveBeenCalledTimes(1)
-      expect(env.MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
-      expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
+      expect(env.MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
+      expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
       expect(env.ORCA_MIMOCODE_SOURCE_HOME).toBeUndefined()
     })
 
@@ -2382,8 +2382,8 @@ describe('registerPtyHandlers', () => {
         const env = await spawnAndGetEnv(undefined, undefined, undefined, undefined, launchCommand)
 
         expect(mimoCodeBuildPtyEnvMock).toHaveBeenCalledTimes(1)
-        expect(env.MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
-        expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
+        expect(env.MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
+        expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
       }
     )
 
@@ -2397,8 +2397,8 @@ describe('registerPtyHandlers', () => {
       )
 
       expect(mimoCodeBuildPtyEnvMock).toHaveBeenCalledTimes(1)
-      expect(env.MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
-      expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/orca-mimocode-shared')
+      expect(env.MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
+      expect(env.ORCA_MIMOCODE_HOME).toBe('/tmp/capilot-mimocode-shared')
     })
 
     it('does not inject MiMo overlay for non-mimo launches', async () => {
@@ -2407,11 +2407,11 @@ describe('registerPtyHandlers', () => {
       expect(mimoCodeBuildPtyEnvMock).not.toHaveBeenCalled()
     })
 
-    it('restores user MiMo home when agent status hooks are disabled in a nested Orca shell', async () => {
+    it('restores user MiMo home when agent status hooks are disabled in a nested CaPilot shell', async () => {
       const env = await spawnAndGetEnv(
         {
-          MIMOCODE_HOME: '/tmp/parent-orca-mimocode-overlay',
-          ORCA_MIMOCODE_HOME: '/tmp/parent-orca-mimocode-overlay',
+          MIMOCODE_HOME: '/tmp/parent-capilot-mimocode-overlay',
+          ORCA_MIMOCODE_HOME: '/tmp/parent-capilot-mimocode-overlay',
           ORCA_MIMOCODE_SOURCE_HOME: '/tmp/user-mimocode-home'
         },
         undefined,
@@ -2427,7 +2427,7 @@ describe('registerPtyHandlers', () => {
     })
 
     posixOnlyIt(
-      'reproduces issue #1534: GUI-launched Orca mirrors zshrc-only OpenCode config',
+      'reproduces issue #1534: GUI-launched CaPilot mirrors zshrc-only OpenCode config',
       async () => {
         // Why: the reporter's app didn't inherit OPENCODE_CONFIG_DIR; their interactive zsh later exported a company config repo.
         readFileSyncMock.mockImplementation((path: string) => {
@@ -2452,14 +2452,14 @@ describe('registerPtyHandlers', () => {
           expect.any(String),
           '/home/pim/company/opencode-config'
         )
-        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
-        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
+        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
+        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
         expect(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR).toBe('/home/pim/company/opencode-config')
         expect(env.OPENCODE_CONFIG_DIR).not.toBe(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR)
       }
     )
 
-    it('installs Pi managed extensions without redirecting Orca terminal PTY homes', async () => {
+    it('installs Pi managed extensions without redirecting CaPilot terminal PTY homes', async () => {
       const env = await spawnAndGetEnv(undefined, { PI_CODING_AGENT_DIR: '/tmp/user-pi-agent' })
       expect(piBuildPtyEnvMock).toHaveBeenCalledWith(
         expect.any(String),
@@ -2477,7 +2477,7 @@ describe('registerPtyHandlers', () => {
       expect(env.ORCA_PI_SOURCE_AGENT_DIR).toBe('/tmp/user-pi-agent')
       expect(env.ORCA_OMP_CODING_AGENT_DIR).toBeUndefined()
       expect(env.ORCA_OMP_STATUS_EXTENSION).toBe(
-        '/tmp/orca-user-data/omp-managed-status-extension/orca-agent-status.ts'
+        '/tmp/capilot-user-data/omp-managed-status-extension/capilot-agent-status.ts'
       )
       expect(env.ORCA_OMP_SOURCE_AGENT_DIR).toBeUndefined()
     })
@@ -2533,7 +2533,7 @@ describe('registerPtyHandlers', () => {
       expect(env.PI_CODING_AGENT_DIR).toBe('/tmp/user-omp-agent')
       expect(env.ORCA_OMP_CODING_AGENT_DIR).toBeUndefined()
       expect(env.ORCA_OMP_STATUS_EXTENSION).toBe(
-        '/tmp/user-omp-agent/extensions/orca-agent-status.ts'
+        '/tmp/user-omp-agent/extensions/capilot-agent-status.ts'
       )
       expect(env.ORCA_OMP_SOURCE_AGENT_DIR).toBe('/tmp/user-omp-agent')
       // CRITICAL: a Pi-named shadow MUST NOT leak into an OMP PTY env.
@@ -2560,14 +2560,14 @@ describe('registerPtyHandlers', () => {
         { materializeDefaultHome: true }
       )
       expect(env.ORCA_OMP_STATUS_EXTENSION).toBe(
-        '/tmp/user-omp-agent/extensions/orca-agent-status.ts'
+        '/tmp/user-omp-agent/extensions/capilot-agent-status.ts'
       )
       expect(env.ORCA_PI_SOURCE_AGENT_DIR).toBeUndefined()
     })
 
-    it('mirrors the original Pi source dir when launched from an Orca overlay shell', async () => {
+    it('mirrors the original Pi source dir when launched from an CaPilot overlay shell', async () => {
       const env = await spawnAndGetEnv({
-        PI_CODING_AGENT_DIR: '/tmp/parent-orca-pi-overlay',
+        PI_CODING_AGENT_DIR: '/tmp/parent-capilot-pi-overlay',
         ORCA_PI_SOURCE_AGENT_DIR: '/tmp/user-pi-agent'
       })
       expect(piBuildPtyEnvMock).toHaveBeenCalledWith(
@@ -2578,7 +2578,7 @@ describe('registerPtyHandlers', () => {
           materializeDefaultHome: false
         }
       )
-      expect(env.PI_CODING_AGENT_DIR).toBe('/tmp/parent-orca-pi-overlay')
+      expect(env.PI_CODING_AGENT_DIR).toBe('/tmp/parent-capilot-pi-overlay')
       expect(env.ORCA_PI_CODING_AGENT_DIR).toBeUndefined()
       expect(env.ORCA_PI_SOURCE_AGENT_DIR).toBe('/tmp/user-pi-agent')
     })
@@ -2586,8 +2586,8 @@ describe('registerPtyHandlers', () => {
     it('does not use an inherited Pi overlay source for an OMP launch', async () => {
       const env = await spawnAndGetEnv(
         {
-          PI_CODING_AGENT_DIR: '/tmp/parent-orca-pi-overlay',
-          ORCA_PI_CODING_AGENT_DIR: '/tmp/parent-orca-pi-overlay',
+          PI_CODING_AGENT_DIR: '/tmp/parent-capilot-pi-overlay',
+          ORCA_PI_CODING_AGENT_DIR: '/tmp/parent-capilot-pi-overlay',
           ORCA_PI_SOURCE_AGENT_DIR: '/tmp/user-pi-agent'
         },
         undefined,
@@ -2608,8 +2608,8 @@ describe('registerPtyHandlers', () => {
     it('does not use an inherited OMP overlay source for an explicit Pi launch', async () => {
       const env = await spawnAndGetEnv(
         {
-          PI_CODING_AGENT_DIR: '/tmp/parent-orca-omp-overlay',
-          ORCA_OMP_CODING_AGENT_DIR: '/tmp/parent-orca-omp-overlay',
+          PI_CODING_AGENT_DIR: '/tmp/parent-capilot-omp-overlay',
+          ORCA_OMP_CODING_AGENT_DIR: '/tmp/parent-capilot-omp-overlay',
           ORCA_OMP_SOURCE_AGENT_DIR: '/tmp/user-omp-agent'
         },
         undefined,
@@ -2628,11 +2628,11 @@ describe('registerPtyHandlers', () => {
       expect(env.ORCA_OMP_STATUS_EXTENSION).toBeUndefined()
     })
 
-    it('restores user Pi config when agent status hooks are disabled in a nested Orca shell', async () => {
+    it('restores user Pi config when agent status hooks are disabled in a nested CaPilot shell', async () => {
       const env = await spawnAndGetEnv(
         {
-          PI_CODING_AGENT_DIR: '/tmp/parent-orca-pi-overlay',
-          ORCA_PI_CODING_AGENT_DIR: '/tmp/parent-orca-pi-overlay',
+          PI_CODING_AGENT_DIR: '/tmp/parent-capilot-pi-overlay',
+          ORCA_PI_CODING_AGENT_DIR: '/tmp/parent-capilot-pi-overlay',
           ORCA_PI_SOURCE_AGENT_DIR: '/tmp/user-pi-agent'
         },
         undefined,
@@ -2671,7 +2671,7 @@ describe('registerPtyHandlers', () => {
       }
     )
 
-    it('injects the agent hook receiver env into Orca terminal PTYs', async () => {
+    it('injects the agent hook receiver env into CaPilot terminal PTYs', async () => {
       const env = await spawnAndGetEnv()
       // Why: buildAgentHookEnv must run exactly once per local spawn (inside shared buildPtyHostEnv); the old ad-hoc double-call is gone.
       expect(buildAgentHookEnvMock).toHaveBeenCalledTimes(1)
@@ -2686,7 +2686,7 @@ describe('registerPtyHandlers', () => {
         ORCA_AGENT_HOOK_ENV: 'production',
         ORCA_AGENT_HOOK_VERSION: 'stale-version',
         ORCA_AGENT_HOOK_ENDPOINT: '/tmp/stale-endpoint.env',
-        ORCA_CLAUDE_AGENT_STATUS_SETTINGS: '/tmp/orca/agent-hooks/claude-agent-status-settings.json'
+        ORCA_CLAUDE_AGENT_STATUS_SETTINGS: '/tmp/capilot/agent-hooks/claude-agent-status-settings.json'
       })
 
       expect(env.ORCA_AGENT_HOOK_PORT).toBe('5678')
@@ -2706,7 +2706,7 @@ describe('registerPtyHandlers', () => {
         ORCA_AGENT_HOOK_ENV: 'production',
         ORCA_AGENT_HOOK_VERSION: 'stale-version',
         ORCA_AGENT_HOOK_ENDPOINT: '/tmp/stale-endpoint.env',
-        ORCA_CLAUDE_AGENT_STATUS_SETTINGS: '/tmp/orca/agent-hooks/claude-agent-status-settings.json'
+        ORCA_CLAUDE_AGENT_STATUS_SETTINGS: '/tmp/capilot/agent-hooks/claude-agent-status-settings.json'
       })
 
       expect(env.ORCA_AGENT_HOOK_PORT).toBeUndefined()
@@ -2723,9 +2723,9 @@ describe('registerPtyHandlers', () => {
       }))
 
       expect(env.ORCA_ENABLE_GIT_ATTRIBUTION).toBe('1')
-      expect(env.ORCA_GIT_COMMIT_TRAILER).toBe('Co-authored-by: Orca <help@stably.ai>')
-      expect(env.ORCA_GH_PR_FOOTER).toBe('Made with [Orca](https://github.com/stablyai/orca) 🐋')
-      expect(env.ORCA_GH_ISSUE_FOOTER).toBe('Made with [Orca](https://github.com/stablyai/orca) 🐋')
+      expect(env.ORCA_GIT_COMMIT_TRAILER).toBe('Co-authored-by: CaPilot <help@stably.ai>')
+      expect(env.ORCA_GH_PR_FOOTER).toBe('Made with [CaPilot](https://github.com/stablyai/orca) 🐋')
+      expect(env.ORCA_GH_ISSUE_FOOTER).toBe('Made with [CaPilot](https://github.com/stablyai/orca) 🐋')
       expect(env.PATH).toContain(expectedAttributionShimDir())
     })
 
@@ -2770,7 +2770,7 @@ describe('registerPtyHandlers', () => {
       expect(env.PATH).toContain(expectedAttributionShimDir())
     })
 
-    it('overrides ambient CODEX_HOME with the Orca-managed home for system default', async () => {
+    it('overrides ambient CODEX_HOME with the CaPilot-managed home for system default', async () => {
       const env = await spawnAndGetEnv(
         undefined,
         { CODEX_HOME: '/tmp/system-codex-home' },
@@ -2856,7 +2856,7 @@ describe('registerPtyHandlers', () => {
       expect(env.CODEX_HOME).toBe('/tmp/system-codex-home')
     })
 
-    it('strips a nested-Orca override for system default when the real-home flag is ON', async () => {
+    it('strips a nested-CaPilot override for system default when the real-home flag is ON', async () => {
       const env = await spawnAndGetEnv(
         { CODEX_HOME: '/managed/home', ORCA_CODEX_HOME: '/managed/home' },
         undefined,
@@ -3462,7 +3462,7 @@ describe('registerPtyHandlers', () => {
           OPENCODE_CONFIG_DIR: undefined
         })
         expect(openCodeBuildPtyEnvMock).toHaveBeenCalled()
-        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-config')
+        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-config')
         expect(env.ORCA_OPENCODE_HOOK_PORT).toBe('4567')
       })
 
@@ -3473,22 +3473,22 @@ describe('registerPtyHandlers', () => {
           expect.any(String),
           '/user/custom/opencode'
         )
-        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
-        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
+        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
+        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
         expect(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR).toBe('/user/custom/opencode')
       })
 
       it('uses source OpenCode config env instead of remirroring a parent overlay', async () => {
         const env = await daemonSpawnAndGetEnv({
-          OPENCODE_CONFIG_DIR: '/tmp/parent-orca-opencode-overlay',
+          OPENCODE_CONFIG_DIR: '/tmp/parent-capilot-opencode-overlay',
           ORCA_OPENCODE_SOURCE_CONFIG_DIR: '/user/custom/opencode'
         })
         expect(openCodeBuildPtyEnvMock).toHaveBeenCalledWith(
           expect.any(String),
           '/user/custom/opencode'
         )
-        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
-        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-overlay')
+        expect(env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
+        expect(env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-overlay')
         expect(env.ORCA_OPENCODE_SOURCE_CONFIG_DIR).toBe('/user/custom/opencode')
       })
 
@@ -3543,7 +3543,7 @@ describe('registerPtyHandlers', () => {
         expect(env.PI_CODING_AGENT_DIR).toBe('/user/.omp/agent')
         expect(env.ORCA_OMP_CODING_AGENT_DIR).toBeUndefined()
         expect(env.ORCA_OMP_STATUS_EXTENSION).toBe(
-          '/user/.omp/agent/extensions/orca-agent-status.ts'
+          '/user/.omp/agent/extensions/capilot-agent-status.ts'
         )
         expect(env.ORCA_OMP_SOURCE_AGENT_DIR).toBe('/user/.omp/agent')
         expect(env.ORCA_PI_CODING_AGENT_DIR).toBeUndefined()
@@ -3569,7 +3569,7 @@ describe('registerPtyHandlers', () => {
           { materializeDefaultHome: true }
         )
         expect(env.ORCA_OMP_STATUS_EXTENSION).toBe(
-          '/user/.omp/agent/extensions/orca-agent-status.ts'
+          '/user/.omp/agent/extensions/capilot-agent-status.ts'
         )
         expect(env.ORCA_PI_SOURCE_AGENT_DIR).toBeUndefined()
       })
@@ -3728,11 +3728,11 @@ describe('registerPtyHandlers', () => {
         try {
           const spawnOptions = await daemonSpawnAndGetOptions(
             {},
-            () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+            () => 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home',
             undefined,
             {
-              CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
-              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home'
+              CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home',
+              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home'
             },
             {
               cwd: '\\\\wsl.localhost\\Ubuntu\\home\\test\\repo',
@@ -3762,11 +3762,11 @@ describe('registerPtyHandlers', () => {
         try {
           const spawnOptions = await daemonSpawnAndGetOptions(
             {},
-            () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+            () => 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home',
             undefined,
             {
               CODEX_HOME: 'C:\\Users\\test\\.codex',
-              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home'
+              ORCA_CODEX_HOME: 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home'
             },
             { shellOverride: 'wsl.exe' }
           )
@@ -3796,7 +3796,7 @@ describe('registerPtyHandlers', () => {
       })
 
       it('points OPENCODE_CONFIG_DIR at the guest overlay when the WSL relay reports it', async () => {
-        const guestDir = '/home/jin/.orca-relay/opencode-overlays/abc'
+        const guestDir = '/home/jin/.capilot-relay/opencode-overlays/abc'
         const spy = vi.spyOn(wslHookRelayManager, 'getOpenCodeOverlayDir').mockReturnValue(guestDir)
         try {
           await withWin32Platform(async () => {
@@ -3817,7 +3817,7 @@ describe('registerPtyHandlers', () => {
         }
       })
 
-      it('strips the daemon-inherited Orca-owned CODEX_HOME for real-home routing', async () => {
+      it('strips the daemon-inherited CaPilot-owned CODEX_HOME for real-home routing', async () => {
         const spawnOptions = await daemonSpawnAndGetOptions(
           {},
           () => null,
@@ -3883,7 +3883,7 @@ describe('registerPtyHandlers', () => {
         expect(spawnOptions.env.CLAUDE_CODE_CHILD_SESSION).toBe('1')
       })
 
-      it('prepends the bare-orca CLI shim dir to PATH for packaged Linux spawns', async () => {
+      it('prepends the bare-capilot CLI shim dir to PATH for packaged Linux spawns', async () => {
         const originalPlatform = process.platform
         Object.defineProperty(process, 'platform', {
           configurable: true,
@@ -3895,8 +3895,8 @@ describe('registerPtyHandlers', () => {
             PATH: ['/usr/local/bin', '/usr/bin'].join(delimiter)
           })
           const entries = env.PATH.split(delimiter)
-          const shimDir = join('/tmp/orca-user-data', 'linux-orca-cli-shim')
-          // Why: bare `orca` must resolve to the Orca CLI before /usr/bin/orca (the GNOME screen reader) in Orca terminals (#7904).
+          const shimDir = join('/tmp/capilot-user-data', 'linux-capilot-cli-shim')
+          // Why: bare `capilot` must resolve to the CaPilot CLI before /usr/bin/capilot (the GNOME screen reader) in CaPilot terminals (#7904).
           expect(entries.indexOf(shimDir)).toBeGreaterThanOrEqual(0)
           expect(entries.indexOf(shimDir)).toBeLessThan(entries.indexOf('/usr/bin'))
           expect(env.ORCA_CLI_COMMAND).toBeUndefined()
@@ -3917,7 +3917,7 @@ describe('registerPtyHandlers', () => {
       it('deletes stale Claude scoped settings env from daemon-hosted PTYs', async () => {
         const spawnOptions = await daemonSpawnAndGetOptions({}, undefined, undefined, {
           ORCA_CLAUDE_AGENT_STATUS_SETTINGS:
-            '/tmp/orca/agent-hooks/claude-agent-status-settings.json'
+            '/tmp/capilot/agent-hooks/claude-agent-status-settings.json'
         })
         expect(spawnOptions.env.ORCA_CLAUDE_AGENT_STATUS_SETTINGS).toBeUndefined()
         expect(spawnOptions.envToDelete).toEqual(
@@ -3948,7 +3948,7 @@ describe('registerPtyHandlers', () => {
           onPtyData: vi.fn()
         }
         process.env.ORCA_CLAUDE_AGENT_STATUS_SETTINGS =
-          '/tmp/orca/agent-hooks/claude-agent-status-settings.json'
+          '/tmp/capilot/agent-hooks/claude-agent-status-settings.json'
         handlers.clear()
         registerPtyHandlers(mainWindow as never, runtime as never)
         const controller = runtime.setPtyController.mock.calls[0]?.[0] as RuntimeSpawnController
@@ -3965,7 +3965,7 @@ describe('registerPtyHandlers', () => {
       })
 
       it('strips inherited Claude child-session stamps from runtime-created PTYs', async () => {
-        // Why: the runtime controller is the `orca` CLI / automation spawn path and
+        // Why: the runtime controller is the `capilot` CLI / automation spawn path and
         // assembles envToDelete separately from the renderer's pty:spawn handler;
         // without its own case the two paths can silently drift apart.
         type RuntimeSpawnController = {
@@ -4350,16 +4350,16 @@ describe('registerPtyHandlers', () => {
           worktreeId: 'wt-runtime',
           command: 'claude',
           env: {
-            PATH: `/tmp/orca-agent-teams-bin${delimiter}/usr/bin`,
+            PATH: `/tmp/capilot-agent-teams-bin${delimiter}/usr/bin`,
             ORCA_AGENT_TEAMS_TEAM_ID: 'team-test',
-            TERM_PROGRAM: 'Orca',
+            TERM_PROGRAM: 'CaPilot',
             ORCA_ATTRIBUTION_SHIM_DIR: '/tmp/stale-attribution'
           },
           envToDelete: ['TERM_PROGRAM', 'ORCA_ATTRIBUTION_SHIM_DIR']
         })
 
         const spawnOptions = daemonSpawn.mock.calls.at(-1)?.[0] as DaemonSpawnCall
-        expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/orca-agent-teams-bin')
+        expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/capilot-agent-teams-bin')
         expect(spawnOptions.env.PATH).toContain(expectedAttributionShimDir())
         expect(spawnOptions.env.TERM_PROGRAM).toBeUndefined()
         expect(spawnOptions.env.ORCA_ATTRIBUTION_SHIM_DIR).toBeUndefined()
@@ -4396,9 +4396,9 @@ describe('registerPtyHandlers', () => {
       it('keeps the Agent Teams tmux shim ahead of host PATH shims on daemon pty:spawn', async () => {
         const spawnOptions = await daemonSpawnAndGetOptions(
           {
-            PATH: `/tmp/orca-agent-teams-bin${delimiter}/usr/bin`,
+            PATH: `/tmp/capilot-agent-teams-bin${delimiter}/usr/bin`,
             ORCA_AGENT_TEAMS_TEAM_ID: 'team-test',
-            TERM_PROGRAM: 'Orca',
+            TERM_PROGRAM: 'CaPilot',
             ORCA_ATTRIBUTION_SHIM_DIR: '/tmp/stale-attribution'
           },
           undefined,
@@ -4410,7 +4410,7 @@ describe('registerPtyHandlers', () => {
           }
         )
 
-        expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/orca-agent-teams-bin')
+        expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/capilot-agent-teams-bin')
         expect(spawnOptions.env.PATH).toContain(expectedAttributionShimDir())
         expect(spawnOptions.env.TERM_PROGRAM).toBeUndefined()
         expect(spawnOptions.env.ORCA_ATTRIBUTION_SHIM_DIR).toBeUndefined()
@@ -4427,8 +4427,8 @@ describe('registerPtyHandlers', () => {
         mockedApp.isPackaged = false
         try {
           const env = await daemonSpawnAndGetEnv({ PATH: '/usr/bin' })
-          expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/orca-user-data')
-          expect(env.PATH).toContain(join('/tmp/orca-user-data', 'cli', 'bin'))
+          expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/capilot-user-data')
+          expect(env.PATH).toContain(join('/tmp/capilot-user-data', 'cli', 'bin'))
         } finally {
           mockedApp.isPackaged = prev
         }
@@ -4443,9 +4443,9 @@ describe('registerPtyHandlers', () => {
           const env = await daemonSpawnAndGetEnv({}, undefined, undefined, {
             PATH: '/system/bin'
           })
-          expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/orca-user-data')
+          expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/capilot-user-data')
           expect(env.PATH).toContain(
-            `${join('/tmp/orca-user-data', 'cli', 'bin')}${delimiter}/system/bin`
+            `${join('/tmp/capilot-user-data', 'cli', 'bin')}${delimiter}/system/bin`
           )
         } finally {
           mockedApp.isPackaged = prev
@@ -4640,7 +4640,7 @@ describe('registerPtyHandlers', () => {
       })
 
       it('does not mutate the caller-provided args.env on the daemon path', async () => {
-        // Why: the handler clones baseEnv so IPC-provided env stays pristine; a regression would leak Orca host env back into the renderer's reused copy.
+        // Why: the handler clones baseEnv so IPC-provided env stays pristine; a regression would leak CaPilot host env back into the renderer's reused copy.
         const daemonSpawn = setupDaemonAdapter()
         const argsEnv: Record<string, string> = { FOO: 'bar' }
         handlers.clear()
@@ -7525,7 +7525,7 @@ describe('registerPtyHandlers', () => {
         env: {
           CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
           PATH: `/tmp/fresh-agent-teams${delimiter}/usr/bin`,
-          TMUX: '/tmp/orca-claude-agent-teams/team-fresh,0,1',
+          TMUX: '/tmp/capilot-claude-agent-teams/team-fresh,0,1',
           TMUX_PANE: '%1',
           ORCA_AGENT_TEAMS_TEAM_ID: 'team-fresh',
           ORCA_AGENT_TEAMS_TOKEN: 'fresh-token'
@@ -7554,10 +7554,10 @@ describe('registerPtyHandlers', () => {
         ORCA_WORKTREE_ID: 'wt-1',
         CLAUDE_PROFILE: 'captured',
         PATH: `/tmp/stale-agent-teams${delimiter}/usr/bin`,
-        TMUX: '/tmp/orca-claude-agent-teams/team-stale,0,1',
+        TMUX: '/tmp/capilot-claude-agent-teams/team-stale,0,1',
         ORCA_AGENT_TEAMS_TEAM_ID: 'team-stale',
         ORCA_AGENT_TEAMS_TOKEN: 'stale-token',
-        TERM_PROGRAM: 'Orca',
+        TERM_PROGRAM: 'CaPilot',
         ORCA_ATTRIBUTION_SHIM_DIR: '/tmp/stale-attribution'
       },
       launchConfig: {
@@ -7586,7 +7586,7 @@ describe('registerPtyHandlers', () => {
       ORCA_TERMINAL_HANDLE: 'term_agent_teams',
       ORCA_AGENT_TEAMS_TEAM_ID: 'team-fresh',
       ORCA_AGENT_TEAMS_TOKEN: 'fresh-token',
-      TMUX: '/tmp/orca-claude-agent-teams/team-fresh,0,1',
+      TMUX: '/tmp/capilot-claude-agent-teams/team-fresh,0,1',
       TMUX_PANE: '%1'
     })
     expect(spawnOptions.env.PATH.split(delimiter)[0]).toBe('/tmp/fresh-agent-teams')
@@ -7597,7 +7597,7 @@ describe('registerPtyHandlers', () => {
       CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
       ORCA_AGENT_TEAMS_TEAM_ID: 'team-fresh',
       ORCA_AGENT_TEAMS_TOKEN: 'fresh-token',
-      TMUX: '/tmp/orca-claude-agent-teams/team-fresh,0,1'
+      TMUX: '/tmp/capilot-claude-agent-teams/team-fresh,0,1'
     })
     expect(runtime.registerPreAllocatedHandleForPty).toHaveBeenCalledWith(
       expect.any(String),
@@ -9389,7 +9389,7 @@ describe('registerPtyHandlers', () => {
     expect(runtime.preAllocateHandleForPty).toHaveBeenCalledWith(expect.any(String))
   })
 
-  it('forwards the trusted Orca terminal handle into managed WSL terminals', async () => {
+  it('forwards the trusted CaPilot terminal handle into managed WSL terminals', async () => {
     const platform = Object.getOwnPropertyDescriptor(process, 'platform')
     Object.defineProperty(process, 'platform', {
       configurable: true,
@@ -9421,8 +9421,8 @@ describe('registerPtyHandlers', () => {
     const env = spawnCall[2].env as Record<string, string>
     expect(spawnCall[0]).toBe('wsl.exe')
     expect(env.ORCA_TERMINAL_HANDLE).toBe('term_wsl')
-    expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/orca-user-data')
-    expect(env.ORCA_CLI_COMMAND).toBe('orca-ide')
+    expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/capilot-user-data')
+    expect(env.ORCA_CLI_COMMAND).toBe('capilot-ide')
     expect(env.WSLENV?.split(':')).toEqual(
       expect.arrayContaining([
         'ORCA_TERMINAL_HANDLE/u',
@@ -9461,7 +9461,7 @@ describe('registerPtyHandlers', () => {
         rows: 24,
         shellOverride: 'wsl.exe',
         env: {
-          ORCA_USER_DATA_PATH: '/tmp/stale-orca-user-data'
+          ORCA_USER_DATA_PATH: '/tmp/stale-capilot-user-data'
         }
       })
     } finally {
@@ -9473,7 +9473,7 @@ describe('registerPtyHandlers', () => {
     const spawnCall = spawnMock.mock.calls.at(-1)!
     const env = spawnCall[2].env as Record<string, string>
     expect(spawnCall[0]).toBe('wsl.exe')
-    expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/orca-user-data')
+    expect(env.ORCA_USER_DATA_PATH).toBe('/tmp/capilot-user-data')
   })
 
   describe('Windows UTF-8 code page', () => {
@@ -9854,7 +9854,7 @@ describe('registerPtyHandlers', () => {
       registerPtyHandlers(
         mainWindow as never,
         undefined,
-        () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+        () => 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home',
         () =>
           ({
             terminalWindowsShell: 'wsl.exe',
@@ -9876,7 +9876,7 @@ describe('registerPtyHandlers', () => {
       registerPtyHandlers(
         mainWindow as never,
         undefined,
-        () => 'C:\\Users\\test\\AppData\\Roaming\\Orca\\codex-runtime-home\\home',
+        () => 'C:\\Users\\test\\AppData\\Roaming\\CaPilot\\codex-runtime-home\\home',
         () =>
           ({
             terminalWindowsShell: 'powershell.exe',
@@ -9993,7 +9993,7 @@ describe('registerPtyHandlers', () => {
   it('falls back to the worktree root when a saved local cwd no longer exists', async () => {
     registerPtyHandlers(mainWindow as never)
     // Why: issue #7239 reproduced in a Japanese-named worktree; the fallback must return the selected worktree path verbatim.
-    const worktreePath = '/Users/motoki/orca/workspaces/nakamuramotoki/Fableと議論'
+    const worktreePath = '/Users/motoki/capilot/workspaces/nakamuramotoki/Fableと議論'
     const missingCwd = `${worktreePath}/deleted-folder`
     statSyncMock.mockImplementation((target: string) => {
       if (target === missingCwd) {
@@ -10148,7 +10148,7 @@ describe('registerPtyHandlers', () => {
       })
       expect(shell).toBe('/bin/zsh')
       expect(args).toEqual(['-l'])
-      expect(options.env.ZDOTDIR).toBe('/tmp/orca-user-data/shell-ready/zsh')
+      expect(options.env.ZDOTDIR).toBe('/tmp/capilot-user-data/shell-ready/zsh')
       expect(options.env.ORCA_ORIG_ZDOTDIR).toBe(process.env.HOME)
     } finally {
       Object.defineProperty(process, 'platform', {
@@ -10234,9 +10234,9 @@ describe('registerPtyHandlers', () => {
       const [shell, args, options] = await spawnAndGetCall({ cwd: '/tmp' })
       expect(shell).toBe('/bin/zsh')
       expect(args).toEqual(['-l'])
-      expect(options.env.OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-config')
-      expect(options.env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/orca-opencode-config')
-      expect(options.env.ZDOTDIR).toBe('/tmp/orca-user-data/shell-ready/zsh')
+      expect(options.env.OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-config')
+      expect(options.env.ORCA_OPENCODE_CONFIG_DIR).toBe('/tmp/capilot-opencode-config')
+      expect(options.env.ZDOTDIR).toBe('/tmp/capilot-user-data/shell-ready/zsh')
       expect(options.env.ORCA_SHELL_READY_MARKER).toBe('0')
     } finally {
       Object.defineProperty(process, 'platform', {
@@ -10278,7 +10278,7 @@ describe('registerPtyHandlers', () => {
       expect(options.env.PI_CODING_AGENT_DIR).toBe('/tmp/user-pi-agent')
       expect(options.env.ORCA_PI_CODING_AGENT_DIR).toBeUndefined()
       expect(options.env.ORCA_PI_SOURCE_AGENT_DIR).toBe('/tmp/user-pi-agent')
-      expect(options.env.ZDOTDIR).toBe('/tmp/orca-user-data/shell-ready/zsh')
+      expect(options.env.ZDOTDIR).toBe('/tmp/capilot-user-data/shell-ready/zsh')
       expect(options.env.ORCA_SHELL_READY_MARKER).toBe('0')
     } finally {
       Object.defineProperty(process, 'platform', {
@@ -10413,7 +10413,7 @@ describe('registerPtyHandlers', () => {
       await Promise.resolve()
       expect(mockProc.proc.write).not.toHaveBeenCalled()
 
-      mockProc.emitData('\x1b]777;orca-shell-ready\x07')
+      mockProc.emitData('\x1b]777;capilot-shell-ready\x07')
       await Promise.resolve()
       vi.advanceTimersByTime(50)
       await Promise.resolve()
@@ -10444,7 +10444,7 @@ describe('registerPtyHandlers', () => {
           startupCommandDelivery: 'shell-ready'
         })
 
-        mockProc.emitData('\x1b]777;orca-shell-ready\x07\r\nuser@host % ')
+        mockProc.emitData('\x1b]777;capilot-shell-ready\x07\r\nuser@host % ')
         await Promise.resolve()
         vi.advanceTimersByTime(29)
         await Promise.resolve()
@@ -10477,7 +10477,7 @@ describe('registerPtyHandlers', () => {
       expect(options.env.ORCA_SHELL_READY_MARKER).toBe('1')
       expect(mockProc.proc.write).not.toHaveBeenCalled()
 
-      mockProc.emitData('\x1b]777;orca-shell-ready\x07')
+      mockProc.emitData('\x1b]777;capilot-shell-ready\x07')
       await Promise.resolve()
       vi.runAllTimers()
       await Promise.resolve()
@@ -14779,9 +14779,9 @@ describe('registerPtyHandlers', () => {
         expect.objectContaining({
           cwd: '/tmp',
           env: expect.objectContaining({
-            ORCA_OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-config',
+            ORCA_OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-config',
             ORCA_SHELL_READY_MARKER: '0',
-            ZDOTDIR: '/tmp/orca-user-data/shell-ready/zsh'
+            ZDOTDIR: '/tmp/capilot-user-data/shell-ready/zsh'
           })
         })
       )
@@ -15697,9 +15697,9 @@ describe('registerPtyHandlers', () => {
           cwd: '/tmp',
           env: expect.objectContaining({
             SHELL: '/bin/zsh',
-            ORCA_OPENCODE_CONFIG_DIR: '/tmp/orca-opencode-config',
+            ORCA_OPENCODE_CONFIG_DIR: '/tmp/capilot-opencode-config',
             ORCA_SHELL_READY_MARKER: '0',
-            ZDOTDIR: '/tmp/orca-user-data/shell-ready/zsh'
+            ZDOTDIR: '/tmp/capilot-user-data/shell-ready/zsh'
           })
         })
       )

@@ -1,19 +1,19 @@
-// Why: relay-side equivalent of Orca's local agent integration installers.
-// OpenCode still needs a config overlay, while Pi/OMP now get Orca-managed
+// Why: relay-side equivalent of CaPilot's local agent integration installers.
+// OpenCode still needs a config overlay, while Pi/OMP now get CaPilot-managed
 // extension files installed into the remote agent homes. Host paths from the
 // renderer are meaningless on SSH targets, so the relay performs the remote
 // filesystem work itself.
 //
 // Plugin source strings ship over the JSON-RPC channel at session-ready
 // (commit #7) — they are NOT bundled with the relay binary because the
-// relay is versioned independently from Orca and the plugin source changes
+// relay is versioned independently from CaPilot and the plugin source changes
 // frequently as new agent events get added (see docs/design/agent-status-
 // over-ssh.md §4 "Why ship the plugin source over the wire").
 //
 // We deliberately do not reuse OpenCodeHookService / PiTitlebarExtensionService
-// directly: those modules import `electron` and ride on Orca's userData
+// directly: those modules import `electron` and ride on CaPilot's userData
 // path. The relay's electron-free constraint forces a thin parallel
-// implementation rooted at $HOME/.orca-relay/ for OpenCode and at the remote
+// implementation rooted at $HOME/.capilot-relay/ for OpenCode and at the remote
 // Pi/OMP homes for those agents.
 
 import { createHash } from 'node:crypto'
@@ -32,19 +32,19 @@ import { join } from 'node:path'
 import { mirrorEntry, safeRemoveOverlay } from '../main/pty/overlay-mirror'
 import type { PiAgentKind } from '../shared/pi-agent-kind'
 
-const RELAY_HOOKS_DIR = '.orca-relay'
+const RELAY_HOOKS_DIR = '.capilot-relay'
 const OPENCODE_OVERLAY_SUBDIR = 'opencode-overlays'
 const PI_OVERLAY_SUBDIR_BY_KIND: Record<PiAgentKind, string> = {
   pi: 'pi-overlays',
   omp: 'omp-overlays'
 }
-const OPENCODE_PLUGIN_FILE = 'orca-opencode-status.js'
-const PI_EXTENSION_FILE = 'orca-agent-status.ts'
+const OPENCODE_PLUGIN_FILE = 'capilot-opencode-status.js'
+const PI_EXTENSION_FILE = 'capilot-agent-status.ts'
 const PI_AGENT_SUBDIR = 'agent'
 // Why: bare-shell OMP still needs ORCA_OMP_STATUS_EXTENSION without mkdir ~/.omp.
 // Mirror local userData/omp-managed-status-extension under the relay home root.
 const OMP_MANAGED_STATUS_EXTENSION_DIR = 'omp-managed-status-extension'
-const ORCA_MANAGED_EXTENSION_MARKER = '@orca-managed-pi-extension'
+const ORCA_MANAGED_EXTENSION_MARKER = '@capilot-managed-pi-extension'
 
 function withOrcaManagedPiExtensionMarker(source: string): string {
   return source.includes(ORCA_MANAGED_EXTENSION_MARKER)
@@ -64,7 +64,7 @@ const PI_AGENT_HOME_DIR_NAME: Record<PiAgentKind, string> = {
 
 function safeDirName(input: string): string {
   // Why: paneKey embeds tabId:paneId where tabId may itself contain
-  // filesystem-unsafe characters in some Orca builds. Hash to a fixed-width
+  // filesystem-unsafe characters in some CaPilot builds. Hash to a fixed-width
   // hex name so any input produces a portable directory name.
   return createHash('sha256').update(input).digest('hex').slice(0, 32)
 }
@@ -74,11 +74,11 @@ function isUsableId(id: string): boolean {
 }
 
 export type PluginSources = {
-  /** Source body of `orca-opencode-status.js` to drop into <overlay>/plugins/. */
+  /** Source body of `capilot-opencode-status.js` to drop into <overlay>/plugins/. */
   opencodePluginSource?: string
-  /** Source body of Pi's `orca-agent-status.ts` to drop into <overlay>/extensions/. */
+  /** Source body of Pi's `capilot-agent-status.ts` to drop into <overlay>/extensions/. */
   piExtensionSource?: string
-  /** Source body of OMP's `orca-agent-status.ts` to drop into <overlay>/extensions/. */
+  /** Source body of OMP's `capilot-agent-status.ts` to drop into <overlay>/extensions/. */
   ompExtensionSource?: string
 }
 
@@ -86,7 +86,7 @@ export type PluginSources = {
 export type MaterializePiResult = {
   /** Real agent dir when extensions were installed there. Absent for OMP status-only fallback. */
   sourceAgentDir?: string
-  /** Absolute path to orca-agent-status.ts (real home or relay-managed fallback). */
+  /** Absolute path to capilot-agent-status.ts (real home or relay-managed fallback). */
   statusExtensionPath?: string
 }
 
@@ -116,9 +116,9 @@ export class PluginOverlayManager {
     }
   }
 
-  /** Replace the cached source bodies. Called from relay.ts when Orca sends
+  /** Replace the cached source bodies. Called from relay.ts when CaPilot sends
    *  `agent_hook.installPlugins`. The first install enables the augmenter
-   *  output; subsequent installs (e.g. Orca version upgrade in flight) refresh
+   *  output; subsequent installs (e.g. CaPilot version upgrade in flight) refresh
    *  the cached source so future spawns see the new strings.
    *  Note: existing running agents keep whatever source they loaded at
    *  process start. Future PTYs pick up the refreshed source when the relay
@@ -217,7 +217,7 @@ export class PluginOverlayManager {
           return null
         }
         // Why: OPENCODE_CONFIG_DIR is a single config root. Mirror the user's
-        // remote root into the overlay before adding Orca's plugin so status
+        // remote root into the overlay before adding CaPilot's plugin so status
         // reporting does not hide their auth, models, keybinds, or plugins.
         this.mirrorOpenCodeConfig(existingConfigDir, dir)
       }

@@ -20,7 +20,7 @@ import { existsSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import { OrchestrationDb } from './orchestration/db'
 import { OrcaRuntimeRpcServer } from './runtime-rpc'
 
@@ -65,9 +65,9 @@ async function runBuiltCli(
   }
 }
 
-describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
+describeIfBuilt('capilot orchestration check --wait subprocess (§3.4)', () => {
   it('emits newline-flushed JSON keepalives to stderr while waiting', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-cli-sub-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-cli-sub-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)
@@ -192,9 +192,9 @@ describeIfBuilt('orca orchestration check --wait subprocess (§3.4)', () => {
   }, 30_000)
 })
 
-describeIfBuilt('orca orchestration reset subprocess', () => {
+describeIfBuilt('capilot orchestration reset subprocess', () => {
   it('validates reset scopes against an isolated runtime through the built CLI', async () => {
-    const userDataPath = mkdtempSync(join(tmpdir(), 'orca-cli-reset-'))
+    const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-cli-reset-'))
     const runtime = new OrcaRuntimeService()
     const db = new OrchestrationDb(':memory:')
     runtime.setOrchestrationDb(db)

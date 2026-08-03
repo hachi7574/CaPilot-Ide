@@ -1,4 +1,4 @@
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree } from './helpers/store'
 
 test.describe('Diff note edit', () => {
@@ -75,18 +75,18 @@ test.describe('Diff note edit', () => {
       { wId: worktreeId, rel: relativePath }
     )
 
-    const card = orcaPage.locator('.orca-diff-comment-card').first()
+    const card = orcaPage.locator('.capilot-diff-comment-card').first()
     await expect(card, 'seeded inline note did not render').toBeVisible({ timeout: 15_000 })
-    await expect(card.locator('.orca-diff-comment-body')).toHaveText(seededBody)
+    await expect(card.locator('.capilot-diff-comment-body')).toHaveText(seededBody)
 
     await card.getByTitle('Edit note').click()
 
-    const textarea = card.locator('.orca-diff-comment-popover-textarea')
+    const textarea = card.locator('.capilot-diff-comment-popover-textarea')
     await expect(textarea).toBeVisible()
     await expect(textarea).toHaveValue(seededBody)
 
     const saveButton = card
-      .locator('.orca-diff-comment-popover-footer button')
+      .locator('.capilot-diff-comment-popover-footer button')
       .filter({ hasText: 'Save' })
     await expect(saveButton, 'Save should be disabled before the body changes').toBeDisabled()
 
@@ -120,12 +120,12 @@ test.describe('Diff note edit', () => {
       .toBe(editedBody)
 
     const updatedCard = orcaPage
-      .locator('.orca-diff-comment-card')
-      .filter({ has: orcaPage.locator('.orca-diff-comment-body', { hasText: editedBody }) })
+      .locator('.capilot-diff-comment-card')
+      .filter({ has: orcaPage.locator('.capilot-diff-comment-body', { hasText: editedBody }) })
       .first()
     await expect(updatedCard, 'inline card did not update in the open diff').toBeVisible()
-    await expect(updatedCard.locator('.orca-diff-comment-body')).toHaveText(editedBody)
-    await expect(updatedCard.locator('.orca-diff-comment-body')).not.toHaveText(seededBody)
+    await expect(updatedCard.locator('.capilot-diff-comment-body')).toHaveText(editedBody)
+    await expect(updatedCard.locator('.capilot-diff-comment-body')).not.toHaveText(seededBody)
     await expect(updatedCard.getByTitle('Edit note')).toBeVisible()
   })
 })

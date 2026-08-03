@@ -40,7 +40,7 @@ import {
   getPtyIdsForConnection,
   getSshPtyProvider
 } from './pty'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import {
   initializeSshConnectionGenerationSession,
   resetSshConnectionGenerations

@@ -36,7 +36,7 @@ const binPath = path.join(scratch, 'bin')
 const spawnMarkerPath = path.join(scratch, 'agent-spawns.txt')
 const inputMarkerPath = path.join(scratch, 'agent-input.txt')
 const exitTriggerPath = path.join(scratch, 'exit-agent')
-const agentSessionToken = '--orca-repro-agent-session'
+const agentSessionToken = '--capilot-repro-agent-session'
 const childProcesses = new Set()
 let server = null
 let activePairingCode = null
@@ -53,9 +53,9 @@ try {
       '-C',
       projectPath,
       '-c',
-      'user.name=Orca Repro',
+      'user.name=CaPilot Repro',
       '-c',
-      'user.email=orca-repro@example.invalid',
+      'user.email=capilot-repro@example.invalid',
       'commit',
       '--allow-empty',
       '-m',
@@ -65,7 +65,7 @@ try {
   )
   const fixtureAgentPath = installFixtureAgent(binPath)
   writeFileSync(
-    path.join(profilePath, 'orca-data.json'),
+    path.join(profilePath, 'capilot-data.json'),
     JSON.stringify({
       settings: { agentCmdOverrides: { codex: quoteFixtureAgentCommand(fixtureAgentPath) } }
     })

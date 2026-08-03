@@ -267,7 +267,7 @@ export function handleRequest(
       respond(
         success(request.id, {
           worktree: {
-            id: next?.worktreeId ?? `repo-1::/tmp/orca-mobile-repro/${name}`,
+            id: next?.worktreeId ?? `repo-1::/tmp/capilot-mobile-repro/${name}`,
             worktreeId: next?.worktreeId
           }
         })

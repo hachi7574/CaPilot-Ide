@@ -898,7 +898,7 @@ describe('registerGitHubHandlers', () => {
         updatedAt: 0
       }
     ]
-    const prRepo = { owner: 'acme', repo: 'orca', host: 'github.acme-corp.com' }
+    const prRepo = { owner: 'acme', repo: 'capilot', host: 'github.acme-corp.com' }
     const localGitOptions = { wslDistro: 'Ubuntu' }
     getWorkItemMock.mockResolvedValue(null)
     getWorkItemByOwnerRepoMock.mockResolvedValue(null)
@@ -924,7 +924,7 @@ describe('registerGitHubHandlers', () => {
     await handlers['gh:workItemByOwnerRepo'](null, {
       repoPath: '/workspace/repo',
       owner: 'acme',
-      repo: 'orca',
+      repo: 'capilot',
       host: prRepo.host,
       number: 42,
       type: 'pr'
@@ -1249,13 +1249,13 @@ describe('registerGitHubHandlers', () => {
         repoPath: '/workspace/repo',
         prNumber: 42,
         method: 'squash',
-        prRepo: { owner: 'acme', repo: 'orca' }
+        prRepo: { owner: 'acme', repo: 'capilot' }
       }
     )
 
     expect(mergePRMock).toHaveBeenCalledWith('/workspace/repo', 42, 'squash', 'openclaw-2', {
       owner: 'acme',
-      repo: 'orca'
+      repo: 'capilot'
     })
   })
 
@@ -1272,7 +1272,7 @@ describe('registerGitHubHandlers', () => {
         prNumber: 42,
         enabled: true,
         method: 'squash',
-        prRepo: { owner: 'acme', repo: 'orca' }
+        prRepo: { owner: 'acme', repo: 'capilot' }
       }
     )
 
@@ -1284,7 +1284,7 @@ describe('registerGitHubHandlers', () => {
       'openclaw-2',
       {
         owner: 'acme',
-        repo: 'orca'
+        repo: 'capilot'
       }
     )
   })

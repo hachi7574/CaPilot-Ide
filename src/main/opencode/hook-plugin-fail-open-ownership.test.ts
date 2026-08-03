@@ -1,6 +1,6 @@
 /**
  * Executes the generated OpenCode plugin source because fail-open ownership
- * lives inside OpenCode's process, not in Orca's TypeScript runtime.
+ * lives inside OpenCode's process, not in CaPilot's TypeScript runtime.
  */
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -41,7 +41,7 @@ describe('OpenCode plugin fail-open ownership', () => {
   let savedFetch: typeof globalThis.fetch
 
   beforeEach(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'orca-opencode-fail-open-plugin-'))
+    tempDir = mkdtempSync(join(tmpdir(), 'capilot-opencode-fail-open-plugin-'))
     posts = []
     savedEnv = {}
     for (const key of ENV_KEYS) {
@@ -88,7 +88,7 @@ describe('OpenCode plugin fail-open ownership', () => {
   }
 
   async function loadHooksWithContext(context: unknown): Promise<PluginHooks> {
-    const pluginPath = join(tempDir, 'orca-opencode-status.mjs')
+    const pluginPath = join(tempDir, 'capilot-opencode-status.mjs')
     writeFileSync(pluginPath, _internals.getOpenCodePluginSource())
     const module = (await import(pathToFileURL(pluginPath).href)) as {
       OrcaOpenCodeStatusPlugin: (ctx: unknown) => Promise<PluginHooks>

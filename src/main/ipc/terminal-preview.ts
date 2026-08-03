@@ -3,7 +3,7 @@ import type {
   TerminalPreviewConnectResult,
   TerminalPreviewSnapshot
 } from '../../shared/terminal-preview'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { isDashboardPopoutRenderer } from '../window/dashboard-popout-window'
 import { isTrustedUIRenderer } from './ui'
 import {

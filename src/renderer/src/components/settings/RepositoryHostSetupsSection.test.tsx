@@ -30,7 +30,7 @@ function makeRepo(overrides: Partial<Repo> & Pick<Repo, 'id' | 'displayName' | '
 function makeProject({ id, ...overrides }: Partial<Project> & Pick<Project, 'id'>): Project {
   return {
     id,
-    displayName: 'Orca',
+    displayName: 'CaPilot',
     badgeColor: '#737373',
     sourceRepoIds: ['local-repo', 'remote-repo'],
     createdAt: 100,
@@ -44,7 +44,7 @@ function makeSetup(
     Pick<ProjectHostSetup, 'id' | 'projectId' | 'repoId' | 'hostId' | 'path'>
 ): ProjectHostSetup {
   return {
-    displayName: 'Orca',
+    displayName: 'CaPilot',
     kind: 'git',
     setupState: 'ready',
     setupMethod: 'legacy-repo',
@@ -120,13 +120,13 @@ describe('RepositoryHostSetupsSection', () => {
   it('shows a viewing-host selector when the project has multiple settings-backed hosts', () => {
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     const remoteRepo = makeRepo({
       id: 'remote-repo',
-      displayName: 'Orca',
-      path: '/home/alice/orca',
+      displayName: 'CaPilot',
+      path: '/home/alice/capilot',
       connectionId: 'openclaw 2'
     })
     useAppStore.setState({
@@ -138,14 +138,14 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         }),
         makeSetup({
           id: 'remote-repo',
           projectId: 'github:stablyai/orca',
           repoId: 'remote-repo',
           hostId: toSshExecutionHostId('openclaw 2'),
-          path: '/home/alice/orca'
+          path: '/home/alice/capilot'
         })
       ],
       sshTargetLabels: new Map([['openclaw 2', 'openclaw 2']])
@@ -163,13 +163,13 @@ describe('RepositoryHostSetupsSection', () => {
     const setSettingsProjectHostSelection = vi.fn()
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     const remoteRepo = makeRepo({
       id: 'remote-repo',
-      displayName: 'Orca',
-      path: '/home/alice/orca',
+      displayName: 'CaPilot',
+      path: '/home/alice/capilot',
       connectionId: 'openclaw 2'
     })
     useAppStore.setState({
@@ -181,14 +181,14 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         }),
         makeSetup({
           id: 'remote-repo',
           projectId: 'github:stablyai/orca',
           repoId: 'remote-repo',
           hostId: toSshExecutionHostId('openclaw 2'),
-          path: '/home/alice/orca'
+          path: '/home/alice/capilot'
         })
       ],
       openSettingsPage,
@@ -221,8 +221,8 @@ describe('RepositoryHostSetupsSection', () => {
   it('keeps nested SSH setups distinct and derives readiness from their HUB owner', () => {
     const remoteRepo = makeRepo({
       id: 'remote-repo',
-      displayName: 'Orca',
-      path: '/srv/orca',
+      displayName: 'CaPilot',
+      path: '/srv/capilot',
       executionHostId: 'runtime:hub'
     })
     useAppStore.setState({
@@ -236,7 +236,7 @@ describe('RepositoryHostSetupsSection', () => {
           hostId: 'runtime:hub',
           executionHostId: 'ssh:direct',
           runtimeOwnerEnvironmentId: 'hub',
-          path: '/srv/orca'
+          path: '/srv/capilot'
         }),
         makeSetup({
           id: 'jump-setup',
@@ -245,7 +245,7 @@ describe('RepositoryHostSetupsSection', () => {
           hostId: 'runtime:hub',
           executionHostId: 'ssh:jump',
           runtimeOwnerEnvironmentId: 'hub',
-          path: '/srv/orca'
+          path: '/srv/capilot'
         })
       ],
       runtimeStatusByEnvironmentId: new Map([
@@ -320,8 +320,8 @@ describe('RepositoryHostSetupsSection', () => {
   it('shows HUB-local setups as disconnected when their owning runtime is unreachable', () => {
     const remoteRepo = makeRepo({
       id: 'remote-repo',
-      displayName: 'Orca',
-      path: '/srv/orca',
+      displayName: 'CaPilot',
+      path: '/srv/capilot',
       executionHostId: 'runtime:hub'
     })
     useAppStore.setState({
@@ -335,7 +335,7 @@ describe('RepositoryHostSetupsSection', () => {
           hostId: 'runtime:hub',
           executionHostId: 'local',
           runtimeOwnerEnvironmentId: 'hub',
-          path: '/srv/orca'
+          path: '/srv/capilot'
         })
       ],
       runtimeStatusByEnvironmentId: new Map([['hub', { checkedAt: 1, status: null }]])
@@ -362,8 +362,8 @@ describe('RepositoryHostSetupsSection', () => {
     const openSettingsTarget = vi.fn()
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -374,7 +374,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         }),
         makeSetup({
           id: 'gpu-setup',
@@ -419,19 +419,19 @@ describe('RepositoryHostSetupsSection', () => {
         projectId: 'github:stablyai/orca',
         repoId: 'remote-repo',
         hostId: toSshExecutionHostId('openclaw 2'),
-        path: '/home/alice/orca'
+        path: '/home/alice/capilot'
       }),
       repo: makeRepo({
         id: 'remote-repo',
-        displayName: 'Orca',
-        path: '/home/alice/orca',
+        displayName: 'CaPilot',
+        path: '/home/alice/capilot',
         connectionId: 'openclaw 2'
       })
     })
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -442,7 +442,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       sshTargetLabels: new Map([['openclaw 2', 'openclaw 2']]),
@@ -461,7 +461,7 @@ describe('RepositoryHostSetupsSection', () => {
       'input[placeholder="/path/to/project/on/host"]'
     )
     expect(pathInput).toBeTruthy()
-    typeIntoInput(pathInput!, '/home/alice/orca')
+    typeIntoInput(pathInput!, '/home/alice/capilot')
 
     const importButton = findButton('Import')
     expect(importButton).toBeTruthy()
@@ -473,9 +473,9 @@ describe('RepositoryHostSetupsSection', () => {
     expect(setupProjectExistingFolder).toHaveBeenCalledWith({
       projectId: 'github:stablyai/orca',
       hostId: 'ssh:openclaw%202',
-      path: '/home/alice/orca',
+      path: '/home/alice/capilot',
       kind: 'git',
-      displayName: 'Orca'
+      displayName: 'CaPilot'
     })
     expect(setSettingsProjectHostSelection).toHaveBeenCalledWith(
       'github:stablyai/orca',
@@ -496,19 +496,19 @@ describe('RepositoryHostSetupsSection', () => {
         projectId: 'github:stablyai/orca',
         repoId: 'remote-repo',
         hostId: toSshExecutionHostId('openclaw 2'),
-        path: '/home/alice/orca'
+        path: '/home/alice/capilot'
       }),
       repo: makeRepo({
         id: 'remote-repo',
-        displayName: 'Orca',
-        path: '/home/alice/orca',
+        displayName: 'CaPilot',
+        path: '/home/alice/capilot',
         connectionId: 'openclaw 2'
       })
     })
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -519,7 +519,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       sshTargetLabels: new Map([['openclaw 2', 'openclaw 2']]),
@@ -557,7 +557,7 @@ describe('RepositoryHostSetupsSection', () => {
       hostId: 'ssh:openclaw%202',
       url: 'https://github.com/stablyai/orca.git',
       destination: '/home/alice',
-      displayName: 'Orca'
+      displayName: 'CaPilot'
     })
     expect(setSettingsProjectHostSelection).toHaveBeenCalledWith(
       'github:stablyai/orca',
@@ -570,8 +570,8 @@ describe('RepositoryHostSetupsSection', () => {
   it('blocks path setup until an SSH host connects but keeps placeholders available', () => {
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -582,7 +582,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       sshTargetLabels: new Map([['openclaw 2', 'openclaw 2']])
@@ -621,8 +621,8 @@ describe('RepositoryHostSetupsSection', () => {
     })
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -633,7 +633,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       settings: { activeRuntimeEnvironmentId: 'gpu' } as never,
@@ -678,7 +678,7 @@ describe('RepositoryHostSetupsSection', () => {
     expect(createProjectHostSetup).toHaveBeenCalledWith({
       projectId: 'github:stablyai/orca',
       hostId: 'runtime:gpu',
-      displayName: 'Orca',
+      displayName: 'CaPilot',
       setupState: 'not-set-up',
       setupMethod: 'provisioned'
     })
@@ -690,8 +690,8 @@ describe('RepositoryHostSetupsSection', () => {
     const setupProjectExistingFolder = vi.fn()
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -702,7 +702,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       settings: { activeRuntimeEnvironmentId: null } as never,
@@ -734,7 +734,7 @@ describe('RepositoryHostSetupsSection', () => {
     renderSection(localRepo)
     clickButton('Add to another host')
 
-    expect(container.textContent).toContain('Update Orca on this host to set up projects')
+    expect(container.textContent).toContain('Update CaPilot on this host to set up projects')
     const browseButton = findButton('Browse folder')
     const plannedButton = findButton('Add host placeholder')
     expect(browseButton?.disabled).toBe(true)
@@ -764,8 +764,8 @@ describe('RepositoryHostSetupsSection', () => {
     })
     const localRepo = makeRepo({
       id: 'local-repo',
-      displayName: 'Orca',
-      path: '/Users/alice/orca'
+      displayName: 'CaPilot',
+      path: '/Users/alice/capilot'
     })
     useAppStore.setState({
       repos: [localRepo],
@@ -776,7 +776,7 @@ describe('RepositoryHostSetupsSection', () => {
           projectId: 'github:stablyai/orca',
           repoId: 'local-repo',
           hostId: 'local',
-          path: '/Users/alice/orca'
+          path: '/Users/alice/capilot'
         })
       ],
       settings: { activeRuntimeEnvironmentId: null } as never,
@@ -820,7 +820,7 @@ describe('RepositoryHostSetupsSection', () => {
     expect(createProjectHostSetup).toHaveBeenCalledWith({
       projectId: 'github:stablyai/orca',
       hostId: 'runtime:gpu',
-      displayName: 'Orca',
+      displayName: 'CaPilot',
       setupState: 'not-set-up',
       setupMethod: 'provisioned'
     })

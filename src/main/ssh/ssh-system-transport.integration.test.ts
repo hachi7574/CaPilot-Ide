@@ -133,7 +133,7 @@ function createRelayTree(root: string, remoteHome: string): void {
     writeFakeRelay(localDir)
   }
 
-  const remoteDir = join(remoteHome, '.orca-remote', `relay-${RELAY_VERSION}`)
+  const remoteDir = join(remoteHome, '.capilot-remote', `relay-${RELAY_VERSION}`)
   mkdirSync(join(remoteDir, 'node_modules', 'node-pty', 'lib'), { recursive: true })
   mkdirSync(join(remoteDir, 'node_modules', '@parcel', 'watcher'), { recursive: true })
   writeFileSync(join(remoteDir, 'node_modules', 'node-pty', 'index.js'), '')
@@ -157,7 +157,7 @@ describe('system SSH transport integration', () => {
     if (process.platform === 'win32') {
       return
     }
-    tempDir = mkdtempSync(join('/tmp', 'orca-ssh-'))
+    tempDir = mkdtempSync(join('/tmp', 'capilot-ssh-'))
     oldHome = process.env.HOME
     oldRelayPath = process.env.ORCA_RELAY_PATH
     oldSystemSshPath = process.env.ORCA_SYSTEM_SSH_PATH

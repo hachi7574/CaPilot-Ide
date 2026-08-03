@@ -19,7 +19,7 @@ vi.mock('../runtime-client', async () => {
     RuntimeClientError,
     RuntimeRpcFailureError,
     serveOrcaApp: vi.fn(),
-    getDefaultUserDataPath: vi.fn(() => '/tmp/orca-user-data')
+    getDefaultUserDataPath: vi.fn(() => '/tmp/capilot-user-data')
   }
 })
 

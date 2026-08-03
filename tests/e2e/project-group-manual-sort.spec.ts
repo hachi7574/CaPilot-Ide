@@ -3,7 +3,7 @@ import { mkdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
 import { mkdtemp } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady } from './helpers/store'
 import type { Page } from '@stablyai/playwright-test'
 
@@ -51,7 +51,7 @@ function initializeGitRepo(repoPath: string): void {
 async function createProjectHeaderSortFixture(): Promise<string[]> {
   // Why: match the app's canonical repo.path on macOS, where os.tmpdir()
   // can resolve through /var -> /private/var.
-  const root = realpathSync(await mkdtemp(path.join(os.tmpdir(), 'orca-e2e-project-sort-')))
+  const root = realpathSync(await mkdtemp(path.join(os.tmpdir(), 'capilot-e2e-project-sort-')))
   tempRoots.push(root)
   const repoPaths = PROJECT_NAMES.map((name) => path.join(root, name))
   for (const repoPath of repoPaths) {

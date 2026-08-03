@@ -1,5 +1,5 @@
 /**
- * Invariant: the documented hello-orca plugin stays inert before visible
+ * Invariant: the documented hello-capilot plugin stays inert before visible
  * consent, then its panel, worker command, and event subscription all work.
  */
 
@@ -7,7 +7,7 @@ import { cp, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 
 async function openPluginSettings(page: Page): Promise<void> {
   await page.evaluate(() => {
@@ -32,11 +32,11 @@ async function openDemoPanel(page: Page): Promise<void> {
       state.toggleRightSidebar()
     }
   })
-  const panelButton = page.getByRole('button', { name: 'Hello Orca', exact: true })
+  const panelButton = page.getByRole('button', { name: 'Hello CaPilot', exact: true })
   await expect(panelButton).toBeVisible({ timeout: 15_000 })
   await panelButton.click()
-  const frame = page.frameLocator('iframe[title="Hello Orca"]')
-  await expect(frame.getByRole('heading', { name: 'Hello Orca 👋' })).toBeVisible()
+  const frame = page.frameLocator('iframe[title="Hello CaPilot"]')
+  await expect(frame.getByRole('heading', { name: 'Hello CaPilot 👋' })).toBeVisible()
   await expect(frame.locator('meta[http-equiv="Content-Security-Policy"]')).toHaveAttribute(
     'content',
     /default-src 'none'/
@@ -68,11 +68,11 @@ async function createWorktree(page: Page, name: string): Promise<string> {
   }, name)
 }
 
-test('runs hello-orca panel, command, and event behind visible consent', async ({ orcaPage }) => {
-  const tempRoot = await mkdtemp(join(tmpdir(), 'orca-hello-plugin-e2e-'))
-  const pluginRoot = join(tempRoot, 'hello-orca')
+test('runs hello-capilot panel, command, and event behind visible consent', async ({ orcaPage }) => {
+  const tempRoot = await mkdtemp(join(tmpdir(), 'capilot-hello-plugin-e2e-'))
+  const pluginRoot = join(tempRoot, 'hello-capilot')
   let createdWorktreeId: string | null = null
-  await cp(join(process.cwd(), 'examples', 'plugins', 'hello-orca'), pluginRoot, {
+  await cp(join(process.cwd(), 'examples', 'plugins', 'hello-capilot'), pluginRoot, {
     recursive: true
   })
 
@@ -146,10 +146,10 @@ test('runs hello-orca panel, command, and event behind visible consent', async (
 
     const panelPath = join(pluginRoot, 'panel.html')
     const panelHtml = await readFile(panelPath, 'utf8')
-    await writeFile(panelPath, panelHtml.replace('Hello Orca 👋', 'Hello Orca reloaded'))
+    await writeFile(panelPath, panelHtml.replace('Hello CaPilot 👋', 'Hello CaPilot reloaded'))
     await expect(
-      orcaPage.frameLocator('iframe[title="Hello Orca"]').getByRole('heading', {
-        name: 'Hello Orca reloaded'
+      orcaPage.frameLocator('iframe[title="Hello CaPilot"]').getByRole('heading', {
+        name: 'Hello CaPilot reloaded'
       })
     ).toBeVisible({ timeout: 15_000 })
 

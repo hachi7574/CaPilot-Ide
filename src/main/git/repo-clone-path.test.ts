@@ -6,7 +6,7 @@ import { deriveValidatedClonePath, getClonePathComparisonKey } from './repo-clon
 
 describe('repo clone path helpers', () => {
   it('allows safe repository names that start with two dots', async () => {
-    const destination = await mkdtemp(join(tmpdir(), 'orca-clone-path-'))
+    const destination = await mkdtemp(join(tmpdir(), 'capilot-clone-path-'))
     try {
       expect(
         deriveValidatedClonePath({

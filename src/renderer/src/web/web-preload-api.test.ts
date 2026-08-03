@@ -115,7 +115,7 @@ async function installApi(userAgent?: string): Promise<{
 
 function writeStoredRuntimeEnvironment(storage: Storage, environmentId = 'web-env-1'): void {
   storage.setItem(
-    'orca.web.runtimeEnvironment.v1',
+    'capilot.web.runtimeEnvironment.v1',
     JSON.stringify({
       id: environmentId,
       name: 'Test runtime',
@@ -218,13 +218,13 @@ describe('web before-unload persistence', () => {
       ui: { activeView: 'settings' }
     })
 
-    expect(JSON.parse(storage.getItem('orca.web.workspaceSession.v1') ?? '{}')).toMatchObject({
+    expect(JSON.parse(storage.getItem('capilot.web.workspaceSession.v1') ?? '{}')).toMatchObject({
       activeWorktreeId: 'local-worktree'
     })
     expect(
-      JSON.parse(storage.getItem('orca.web.workspaceSession.v1.runtime:web-env-1') ?? '{}')
+      JSON.parse(storage.getItem('capilot.web.workspaceSession.v1.runtime:web-env-1') ?? '{}')
     ).toMatchObject({ activeWorktreeId: 'remote-worktree' })
-    expect(JSON.parse(storage.getItem('orca.web.ui.v1') ?? '{}')).toMatchObject({
+    expect(JSON.parse(storage.getItem('capilot.web.ui.v1') ?? '{}')).toMatchObject({
       activeView: 'settings'
     })
   })
@@ -253,7 +253,7 @@ describe('web runtime environment identity', () => {
 
     await expect(
       globals.window.api.runtimeEnvironments.resolve({ selector: 'web-server-a' })
-    ).rejects.toThrow('Unknown Orca runtime environment: web-server-a')
+    ).rejects.toThrow('Unknown CaPilot runtime environment: web-server-a')
   })
 
   it('keeps pairing state separate from generic Active Server settings writes', async () => {
@@ -272,7 +272,7 @@ describe('web runtime environment identity', () => {
     ])
     expect(settings.activeRuntimeEnvironmentId).toBeNull()
     expect(globals.window.api.settings.getSync()?.activeRuntimeEnvironmentId).toBeNull()
-    expect(JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}')).not.toHaveProperty(
+    expect(JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}')).not.toHaveProperty(
       'activeRuntimeEnvironmentId'
     )
     await expect(
@@ -294,7 +294,7 @@ describe('web runtime environment identity', () => {
       environmentId: 'Windows 2'
     })
     await globals.window.api.settings.set({ terminalFontSize: 15 })
-    expect(JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}')).toMatchObject({
+    expect(JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}')).toMatchObject({
       activeRuntimeEnvironmentId: paired.environment.id,
       terminalFontSize: 15
     })
@@ -303,7 +303,7 @@ describe('web runtime environment identity', () => {
       environmentId: null
     })
     await globals.window.api.settings.set({ terminalFontSize: 16 })
-    expect(JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}')).toMatchObject({
+    expect(JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}')).toMatchObject({
       activeRuntimeEnvironmentId: null,
       terminalFontSize: 16
     })
@@ -325,8 +325,8 @@ describe('web runtime environment identity', () => {
       globals.window.api.settings.setActiveRuntimeEnvironmentPreference({
         environmentId: 'unknown-server'
       })
-    ).rejects.toThrow('Unknown Orca runtime environment: unknown-server')
-    expect(JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}')).toMatchObject({
+    ).rejects.toThrow('Unknown CaPilot runtime environment: unknown-server')
+    expect(JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}')).toMatchObject({
       activeRuntimeEnvironmentId: paired.environment.id
     })
   })
@@ -351,16 +351,16 @@ describe('web runtime environment identity', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage, 'web-server-a')
     const stored = JSON.parse(
-      globals.storage.getItem('orca.web.runtimeEnvironment.v1') ?? '{}'
+      globals.storage.getItem('capilot.web.runtimeEnvironment.v1') ?? '{}'
     ) as Record<string, unknown>
     stored.compatibleEnvironmentIds = { old: 'web-server-old' }
-    globals.storage.setItem('orca.web.runtimeEnvironment.v1', JSON.stringify(stored))
+    globals.storage.setItem('capilot.web.runtimeEnvironment.v1', JSON.stringify(stored))
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     await expect(
       globals.window.api.runtimeEnvironments.resolve({ selector: 'web-server-old' })
-    ).rejects.toThrow('Unknown Orca runtime environment: web-server-old')
+    ).rejects.toThrow('Unknown CaPilot runtime environment: web-server-old')
   })
 
   it('keeps pairing while manual disconnect fences passive reconnects', async () => {
@@ -550,7 +550,7 @@ describe('web runtime environment identity', () => {
     }))
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage, 'web-server-a')
-    const previousStored = globals.storage.getItem('orca.web.runtimeEnvironment.v1')
+    const previousStored = globals.storage.getItem('capilot.web.runtimeEnvironment.v1')
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
@@ -560,7 +560,7 @@ describe('web runtime environment identity', () => {
         pairingCode: encodePairingCode()
       })
     ).resolves.toMatchObject({ ok: false, kind: 'protocol-incompatible' })
-    expect(globals.storage.getItem('orca.web.runtimeEnvironment.v1')).toBe(previousStored)
+    expect(globals.storage.getItem('capilot.web.runtimeEnvironment.v1')).toBe(previousStored)
     await expect(globals.window.api.runtimeEnvironments.list()).resolves.toMatchObject([
       { id: 'web-server-a' }
     ])
@@ -605,7 +605,7 @@ describe('web runtime environment identity', () => {
     ).resolves.toMatchObject({
       ok: false,
       kind: 'environment-save-failed',
-      message: 'Orca verified the host but could not save it. Check browser storage and try again.'
+      message: 'CaPilot verified the host but could not save it. Check browser storage and try again.'
     })
     await expect(globals.window.api.runtimeEnvironments.list()).resolves.toMatchObject([
       { id: 'web-server-a' }
@@ -658,7 +658,7 @@ describe('web runtime environment identity', () => {
     })
     expect(call).toHaveBeenCalledOnce()
     expect(
-      JSON.parse(globals.storage.getItem('orca.web.runtimeEnvironment.v1') ?? '{}')
+      JSON.parse(globals.storage.getItem('capilot.web.runtimeEnvironment.v1') ?? '{}')
     ).toMatchObject({ connectionDependency: 'ssh-tunnel' })
   })
 
@@ -781,7 +781,7 @@ describe('web keybindings preload API', () => {
     })
 
     expect(updated.overrides['worktree.palette']).toEqual(['Ctrl+Alt+J'])
-    expect(storage.getItem('orca.web.keybindings.v1')).toContain('worktree.palette')
+    expect(storage.getItem('capilot.web.keybindings.v1')).toContain('worktree.palette')
 
     const disabled = await api.keybindings.setAction({
       actionId: 'worktree.palette',
@@ -848,14 +848,14 @@ describe('web settings preload API', () => {
   it('migrates first-work branch auto-rename on for stored legacy web settings once', async () => {
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({ autoRenameBranchFromWork: false })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       autoRenameBranchFromWork?: boolean
       autoRenameBranchFromWorkDefaultedOn?: boolean
     }
@@ -868,12 +868,12 @@ describe('web settings preload API', () => {
 
   it('migrates inherited terminal bar cursor defaults for stored web settings once', async () => {
     const globals = installBrowserGlobals('Linux')
-    globals.storage.setItem('orca.web.settings.v1', JSON.stringify({ terminalCursorStyle: 'bar' }))
+    globals.storage.setItem('capilot.web.settings.v1', JSON.stringify({ terminalCursorStyle: 'bar' }))
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       terminalCursorStyle?: string
       terminalCursorStyleDefaultedToBlock?: boolean
     }
@@ -887,7 +887,7 @@ describe('web settings preload API', () => {
   it('preserves terminal cursor choices after the web block-default migration', async () => {
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({
         terminalCursorStyle: 'bar',
         terminalCursorStyleDefaultedToBlock: true
@@ -906,14 +906,14 @@ describe('web settings preload API', () => {
     // default flip only reaches profiles that never persisted the old `false` (#10567).
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({ terminalAllowOsc52Clipboard: false })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       terminalAllowOsc52Clipboard?: boolean
       terminalAllowOsc52ClipboardDefaultedOnForAllUsers?: boolean
     }
@@ -927,14 +927,14 @@ describe('web settings preload API', () => {
   it('arms the OSC 52 notice in the web UI store when the flip overrides a persisted off', async () => {
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({ terminalAllowOsc52Clipboard: false })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     await globals.window.api.settings.get()
-    const storedUi = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const storedUi = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       osc52ClipboardDefaultOnNoticePending?: boolean
     }
 
@@ -943,12 +943,12 @@ describe('web settings preload API', () => {
 
   it('does not arm the OSC 52 notice for a web profile with no persisted value', async () => {
     const globals = installBrowserGlobals('Linux')
-    globals.storage.setItem('orca.web.settings.v1', JSON.stringify({ terminalFontSize: 15 }))
+    globals.storage.setItem('capilot.web.settings.v1', JSON.stringify({ terminalFontSize: 15 }))
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
 
     await globals.window.api.settings.get()
-    const storedUi = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const storedUi = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       osc52ClipboardDefaultOnNoticePending?: boolean
     }
 
@@ -965,7 +965,7 @@ describe('web settings preload API', () => {
     const { installWebPreloadApi } = await import('./web-preload-api')
     installWebPreloadApi()
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({ terminalAllowOsc52Clipboard: false })
     )
 
@@ -977,7 +977,7 @@ describe('web settings preload API', () => {
   it('preserves OSC 52 clipboard web opt-outs after migration', async () => {
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({
         terminalAllowOsc52Clipboard: false,
         terminalAllowOsc52ClipboardDefaultedOnForAllUsers: true
@@ -994,7 +994,7 @@ describe('web settings preload API', () => {
   it('preserves first-work branch auto-rename web opt-outs after migration', async () => {
     const globals = installBrowserGlobals('Linux')
     globals.storage.setItem(
-      'orca.web.settings.v1',
+      'capilot.web.settings.v1',
       JSON.stringify({
         autoRenameBranchFromWork: false,
         autoRenameBranchFromWorkDefaultedOn: true
@@ -1004,7 +1004,7 @@ describe('web settings preload API', () => {
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       autoRenameBranchFromWork?: boolean
       autoRenameBranchFromWorkDefaultedOn?: boolean
     }
@@ -1019,7 +1019,7 @@ describe('web settings preload API', () => {
     const { api, storage } = await installApi('Linux')
 
     const settings = await api.settings.set({ autoRenameBranchFromWork: false })
-    const stored = JSON.parse(storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       autoRenameBranchFromWork?: boolean
       autoRenameBranchFromWorkDefaultedOn?: boolean
     }
@@ -1059,7 +1059,7 @@ describe('web settings preload API', () => {
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       compactWorktreeCards?: boolean
     }
 
@@ -1094,7 +1094,7 @@ describe('web settings preload API', () => {
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       experimentalNewWorktreeCardStyle?: boolean
     }
 
@@ -1132,7 +1132,7 @@ describe('web settings preload API', () => {
     installWebPreloadApi()
 
     const settings = await globals.window.api.settings.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       minimaxGroupId?: string
       minimaxUsageModels?: string
     }
@@ -1203,7 +1203,7 @@ describe('web settings preload API', () => {
 
     const settings = await globals.window.api.settings.set({ compactWorktreeCards: true })
 
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       compactWorktreeCards?: boolean
     }
 
@@ -1282,7 +1282,7 @@ describe('web settings preload API', () => {
       minimaxUsageModels: 'general,abab6.5'
     })
 
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       minimaxGroupId?: string
       minimaxUsageModels?: string
     }
@@ -1395,7 +1395,7 @@ describe('web settings preload API', () => {
       })
     ).rejects.toThrow('runtime unavailable')
 
-    const stored = JSON.parse(globals.storage.getItem('orca.web.settings.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.settings.v1') ?? '{}') as {
       prBotAuthorOverrides?: string[]
     }
     expect(stored.prBotAuthorOverrides).toBeUndefined()
@@ -1780,7 +1780,7 @@ describe('web UI preload API', () => {
           return Promise.resolve({
             id: `call-${runtimeCalls.length}`,
             ok: true,
-            result: 'C:\\Users\\alice\\AppData\\Local\\Temp\\orca-paste-image.png',
+            result: 'C:\\Users\\alice\\AppData\\Local\\Temp\\capilot-paste-image.png',
             _meta: { runtimeId: 'runtime-1' }
           })
         }
@@ -1799,7 +1799,7 @@ describe('web UI preload API', () => {
 
     await expect(
       globals.window.api.ui.saveClipboardImageAsTempFile({ connectionId: 'ssh-1' })
-    ).resolves.toBe('C:\\Users\\alice\\AppData\\Local\\Temp\\orca-paste-image.png')
+    ).resolves.toBe('C:\\Users\\alice\\AppData\\Local\\Temp\\capilot-paste-image.png')
     expect(runtimeCalls).toEqual([
       {
         method: 'clipboard.startImageUpload',
@@ -1848,7 +1848,7 @@ describe('web UI preload API', () => {
           return Promise.resolve({
             id: `call-${runtimeCalls.length}`,
             ok: true,
-            result: '/tmp/orca-paste-image.png',
+            result: '/tmp/capilot-paste-image.png',
             _meta: { runtimeId: 'runtime-1' }
           })
         }
@@ -1865,7 +1865,7 @@ describe('web UI preload API', () => {
 
     await expect(
       globals.window.api.ui.saveClipboardImageAsTempFile({ connectionId: null })
-    ).resolves.toBe('/tmp/orca-paste-image.png')
+    ).resolves.toBe('/tmp/capilot-paste-image.png')
     expect(runtimeCalls).toEqual([
       {
         method: 'clipboard.startImageUpload',
@@ -2150,7 +2150,7 @@ describe('web UI preload API', () => {
 
   it('keeps explicit local right sidebar visibility over the legacy default', async () => {
     const { api, storage } = await installApi('Linux')
-    storage.setItem('orca.web.ui.v1', JSON.stringify({ rightSidebarOpen: true }))
+    storage.setItem('capilot.web.ui.v1', JSON.stringify({ rightSidebarOpen: true }))
 
     const ui = await api.ui.get()
 
@@ -2226,7 +2226,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({ worktreeCardProperties: ['status', 'pr'] })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
@@ -2296,7 +2296,7 @@ describe('web UI preload API', () => {
     })
     await first
 
-    const stored = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       featureInteractions?: FeatureInteractionState
     }
     expect(stored.featureInteractions?.tasks).toEqual({
@@ -2331,7 +2331,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({
         featureInteractions: {
           tasks: { firstInteractedAt: 50, interactionCount: 3 }
@@ -2342,7 +2342,7 @@ describe('web UI preload API', () => {
     installWebPreloadApi()
 
     const ui = await globals.window.api.ui.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       featureInteractions?: FeatureInteractionState
     }
 
@@ -2383,7 +2383,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({
         contextualToursSeenIds: ['tasks', 'browser']
       })
@@ -2392,7 +2392,7 @@ describe('web UI preload API', () => {
     installWebPreloadApi()
 
     const ui = await globals.window.api.ui.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       contextualToursSeenIds?: string[]
     }
 
@@ -2421,7 +2421,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({ osc52ClipboardDefaultOnNoticePending: true })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
@@ -2454,7 +2454,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({ osc52ClipboardDefaultOnNoticePending: true })
     )
     const { installWebPreloadApi } = await import('./web-preload-api')
@@ -2483,7 +2483,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({
         featureInteractionTelemetryBuckets: { tasks: 'count_1000_plus' }
       })
@@ -2495,7 +2495,7 @@ describe('web UI preload API', () => {
       featureInteractionTelemetryBuckets: { tasks: 'count_500_999' }
     } as never)
     const ui = await globals.window.api.ui.get()
-    const stored = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as Record<
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as Record<
       string,
       unknown
     >
@@ -2527,7 +2527,7 @@ describe('web UI preload API', () => {
     const globals = installBrowserGlobals('Linux')
     writeStoredRuntimeEnvironment(globals.storage)
     globals.storage.setItem(
-      'orca.web.ui.v1',
+      'capilot.web.ui.v1',
       JSON.stringify({
         contextualToursSeenIds: ['tasks']
       })
@@ -2536,7 +2536,7 @@ describe('web UI preload API', () => {
     installWebPreloadApi()
 
     const ui = await globals.window.api.ui.recordFeatureInteraction('tasks')
-    const stored = JSON.parse(globals.storage.getItem('orca.web.ui.v1') ?? '{}') as {
+    const stored = JSON.parse(globals.storage.getItem('capilot.web.ui.v1') ?? '{}') as {
       contextualToursSeenIds?: string[]
     }
 
@@ -2583,7 +2583,7 @@ describe('web UI preload API', () => {
               ok: true,
               result: {
                 platform: 'darwin',
-                helperAppPath: '/Applications/Orca Computer Use.app',
+                helperAppPath: '/Applications/CaPilot Computer Use.app',
                 helperUnavailableReason: null,
                 permissions: [
                   { id: 'accessibility', status: 'granted' },
@@ -2599,7 +2599,7 @@ describe('web UI preload API', () => {
               ok: true,
               result: {
                 platform: 'darwin',
-                helperAppPath: '/Applications/Orca Computer Use.app',
+                helperAppPath: '/Applications/CaPilot Computer Use.app',
                 permissionId:
                   params && typeof params === 'object' ? (params as { id?: string }).id : undefined,
                 openedSettings: true,
@@ -2822,9 +2822,9 @@ describe('web repos preload API', () => {
   })
 
   it.each([
-    ['/home/alice', '/home/alice/orca/projects'],
-    ['/', '/orca/projects'],
-    ['C:\\', 'C:\\orca\\projects']
+    ['/home/alice', '/home/alice/capilot/projects'],
+    ['/', '/capilot/projects'],
+    ['C:\\', 'C:\\capilot\\projects']
   ])(
     'resolves the default create-project parent from runtime host home %s',
     async (resolvedPath, expectedParent) => {
@@ -3018,7 +3018,7 @@ describe('web worktree preload API', () => {
     })
 
     await expect(serverAList).rejects.toThrow(
-      'The paired Orca server changed while the request was in progress.'
+      'The paired CaPilot server changed while the request was in progress.'
     )
     await expect(globals.window.api.worktrees.listAll()).resolves.toMatchObject([
       { id: 'worktree-b', runtimeOwnerEnvironmentId: paired.environment.id }
@@ -3142,7 +3142,7 @@ describe('web worktree preload API', () => {
         {
           id: worktree.id,
           runtimeOwnerEnvironmentId: 'web-env-1',
-          ownership: 'orca-managed',
+          ownership: 'capilot-managed',
           visible: true
         }
       ]
@@ -3188,7 +3188,7 @@ describe('web worktree preload API', () => {
     })
 
     await expect(detected).rejects.toThrow(
-      'The paired Orca server changed while the request was in progress.'
+      'The paired CaPilot server changed while the request was in progress.'
     )
     expect(runtimeCalls).toEqual(['worktree.detectedList'])
   })
@@ -3767,12 +3767,12 @@ describe('web GitHub preload API', () => {
       },
       {
         key: 'workItemByOwnerRepo',
-        args: { repoPath, owner: 'acme', repo: 'orca', number: 7, type: 'pr' },
+        args: { repoPath, owner: 'acme', repo: 'capilot', number: 7, type: 'pr' },
         expectedMethod: 'github.workItemByOwnerRepo',
         expectedParams: withRepo({
           repoPath,
           owner: 'acme',
-          ownerRepo: 'orca',
+          ownerRepo: 'capilot',
           number: 7,
           type: 'pr'
         })
@@ -3993,9 +3993,9 @@ describe('web GitHub preload API', () => {
       },
       {
         key: 'projectWorkItemDetailsBySlug',
-        args: { owner: 'acme', repo: 'orca', number: 7, type: 'issue' },
+        args: { owner: 'acme', repo: 'capilot', number: 7, type: 'issue' },
         expectedMethod: 'github.project.workItemDetailsBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', number: 7, type: 'issue' }
+        expectedParams: { owner: 'acme', repo: 'capilot', number: 7, type: 'issue' }
       },
       {
         key: 'updateProjectItemField',
@@ -4011,57 +4011,57 @@ describe('web GitHub preload API', () => {
       },
       {
         key: 'updateIssueBySlug',
-        args: { owner: 'acme', repo: 'orca', number: 7, updates: { title: 'New' } },
+        args: { owner: 'acme', repo: 'capilot', number: 7, updates: { title: 'New' } },
         expectedMethod: 'github.project.updateIssueBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', number: 7, updates: { title: 'New' } }
+        expectedParams: { owner: 'acme', repo: 'capilot', number: 7, updates: { title: 'New' } }
       },
       {
         key: 'updatePullRequestBySlug',
-        args: { owner: 'acme', repo: 'orca', number: 7, updates: { title: 'New' } },
+        args: { owner: 'acme', repo: 'capilot', number: 7, updates: { title: 'New' } },
         expectedMethod: 'github.project.updatePullRequestBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', number: 7, updates: { title: 'New' } }
+        expectedParams: { owner: 'acme', repo: 'capilot', number: 7, updates: { title: 'New' } }
       },
       {
         key: 'addIssueCommentBySlug',
-        args: { owner: 'acme', repo: 'orca', number: 7, body: 'Fixed' },
+        args: { owner: 'acme', repo: 'capilot', number: 7, body: 'Fixed' },
         expectedMethod: 'github.project.addIssueCommentBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', number: 7, body: 'Fixed' }
+        expectedParams: { owner: 'acme', repo: 'capilot', number: 7, body: 'Fixed' }
       },
       {
         key: 'updateIssueCommentBySlug',
-        args: { owner: 'acme', repo: 'orca', commentId: 9, body: 'Edited' },
+        args: { owner: 'acme', repo: 'capilot', commentId: 9, body: 'Edited' },
         expectedMethod: 'github.project.updateIssueCommentBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', commentId: 9, body: 'Edited' }
+        expectedParams: { owner: 'acme', repo: 'capilot', commentId: 9, body: 'Edited' }
       },
       {
         key: 'deleteIssueCommentBySlug',
-        args: { owner: 'acme', repo: 'orca', commentId: 9 },
+        args: { owner: 'acme', repo: 'capilot', commentId: 9 },
         expectedMethod: 'github.project.deleteIssueCommentBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', commentId: 9 }
+        expectedParams: { owner: 'acme', repo: 'capilot', commentId: 9 }
       },
       {
         key: 'listLabelsBySlug',
-        args: { owner: 'acme', repo: 'orca' },
+        args: { owner: 'acme', repo: 'capilot' },
         expectedMethod: 'github.project.listLabelsBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca' }
+        expectedParams: { owner: 'acme', repo: 'capilot' }
       },
       {
         key: 'listAssignableUsersBySlug',
-        args: { owner: 'acme', repo: 'orca', seedLogins: ['alice'] },
+        args: { owner: 'acme', repo: 'capilot', seedLogins: ['alice'] },
         expectedMethod: 'github.project.listAssignableUsersBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', seedLogins: ['alice'] }
+        expectedParams: { owner: 'acme', repo: 'capilot', seedLogins: ['alice'] }
       },
       {
         key: 'listIssueTypesBySlug',
-        args: { owner: 'acme', repo: 'orca' },
+        args: { owner: 'acme', repo: 'capilot' },
         expectedMethod: 'github.project.listIssueTypesBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca' }
+        expectedParams: { owner: 'acme', repo: 'capilot' }
       },
       {
         key: 'updateIssueTypeBySlug',
-        args: { owner: 'acme', repo: 'orca', number: 7, issueTypeId: 'it-1' },
+        args: { owner: 'acme', repo: 'capilot', number: 7, issueTypeId: 'it-1' },
         expectedMethod: 'github.project.updateIssueTypeBySlug',
-        expectedParams: { owner: 'acme', repo: 'orca', number: 7, issueTypeId: 'it-1' }
+        expectedParams: { owner: 'acme', repo: 'capilot', number: 7, issueTypeId: 'it-1' }
       }
     ]
 

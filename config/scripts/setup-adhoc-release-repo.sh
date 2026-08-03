@@ -18,7 +18,7 @@ set -euo pipefail
 
 ORG="stablyai"
 ADHOC_REPO="$ORG/orca-adhoc"
-MAIN_REPO="$ORG/orca"
+MAIN_REPO="$ORG/capilot"
 APP_SLUG="orca-hourly-release"
 
 fail() {
@@ -41,7 +41,7 @@ else
   # watches, where they are simply lost.
   gh repo create "$ADHOC_REPO" \
     --public \
-    --description "Adhoc macOS dev builds of Orca, cut from unlanded branches. Not a source repo." \
+    --description "Adhoc macOS dev builds of CaPilot, cut from unlanded branches. Not a source repo." \
     --disable-issues \
     --disable-wiki ||
     fail "Could not create $ADHOC_REPO."

@@ -1,7 +1,7 @@
 /**
  * End-to-end agent-status-over-SSH integration test.
  *
- * Wires Orca's main-side SshChannelMultiplexer to the relay-side
+ * Wires CaPilot's main-side SshChannelMultiplexer to the relay-side
  * RelayDispatcher through an in-memory pipe and starts a real
  * RelayAgentHookServer. POSTs a hook event to the relay's loopback HTTP
  * receiver and asserts the parsed payload arrives in `agentHookServer`'s
@@ -90,7 +90,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
     mux = new SshChannelMultiplexer(clientTransport)
 
     orcaServer = new AgentHookServer()
-    // Why: Orca-side never starts an HTTP server in this test — `ingestRemote`
+    // Why: CaPilot-side never starts an HTTP server in this test — `ingestRemote`
     // is the entry point we exercise. setListener registers the IPC fanout
     // sink we assert against. Server is otherwise inert.
     mux.onNotification((method, params) => {
@@ -133,7 +133,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Orca-Agent-Hook-Token': token
+        'X-CaPilot-Agent-Hook-Token': token
       },
       body: JSON.stringify({
         paneKey: `tab-7:${LEAF_7}`,
@@ -173,7 +173,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': token
+          'X-CaPilot-Agent-Hook-Token': token
         },
         body: JSON.stringify({ paneKey: `tab-7:${LEAF_7}`, payload })
       })
@@ -205,7 +205,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': token
+          'X-CaPilot-Agent-Hook-Token': token
         },
         body: JSON.stringify({
           paneKey: `tab-7:${LEAF_7}`,
@@ -260,7 +260,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Orca-Agent-Hook-Token': token
+          'X-CaPilot-Agent-Hook-Token': token
         },
         body: JSON.stringify({
           paneKey: `tab-7:${LEAF_7}`,
@@ -276,7 +276,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
       postClaude({
         hook_event_name: 'PreToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' },
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' },
         tool_use_id: 'toolu-approved-remote-post'
       })
     ).resolves.toMatchObject({ status: 204 })
@@ -284,14 +284,14 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
       postClaude({
         hook_event_name: 'PermissionRequest',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' }
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' }
       })
     ).resolves.toMatchObject({ status: 204 })
     await expect(
       postClaude({
         hook_event_name: 'PostToolUse',
         tool_name: 'Bash',
-        tool_input: { command: 'rm -rf /tmp/orca-2824-permission-target' },
+        tool_input: { command: 'rm -rf /tmp/capilot-2824-permission-target' },
         tool_use_id: 'toolu-approved-remote-post'
       })
     ).resolves.toMatchObject({ status: 204 })
@@ -307,7 +307,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
         state: 'working',
         agentType: 'claude',
         toolName: 'Bash',
-        toolInput: 'rm -rf /tmp/orca-2824-permission-target'
+        toolInput: 'rm -rf /tmp/capilot-2824-permission-target'
       })
     ])
   })
@@ -327,7 +327,7 @@ describe('Integration: relay hook server → mux → AgentHookServer.ingestRemot
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Orca-Agent-Hook-Token': token
+        'X-CaPilot-Agent-Hook-Token': token
       },
       body: JSON.stringify({
         paneKey: `tab-9:${LEAF_9}`,

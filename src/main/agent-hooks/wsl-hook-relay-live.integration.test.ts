@@ -120,7 +120,7 @@ describe.skipIf(process.platform === 'win32')(
         fakeHome,
         '.local',
         'share',
-        'orca',
+        'capilot',
         'codex-runtime-home',
         'home'
       )
@@ -129,7 +129,7 @@ describe.skipIf(process.platform === 'win32')(
       })
       expect(existsSync(join(fakeHome, '.claude', 'settings.json'))).toBe(true)
       const claudeScript = readFileSync(
-        join(fakeHome, '.orca', 'agent-hooks', 'claude-hook.sh'),
+        join(fakeHome, '.capilot', 'agent-hooks', 'claude-hook.sh'),
         'utf8'
       )
       expect(claudeScript).toContain('/hook/claude')
@@ -142,7 +142,7 @@ describe.skipIf(process.platform === 'win32')(
       // endpoint file rather than assuming the preferred port bind won.
       const endpointFile = join(
         fakeHome,
-        '.orca-wsl',
+        '.capilot-wsl',
         'agent-hooks',
         'instance-liveinstance',
         'endpoint.env'
@@ -160,7 +160,7 @@ describe.skipIf(process.platform === 'win32')(
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-Orca-Agent-Hook-Token': token ?? ''
+            'X-CaPilot-Agent-Hook-Token': token ?? ''
           },
           body: JSON.stringify({
             paneKey,

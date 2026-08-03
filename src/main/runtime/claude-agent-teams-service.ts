@@ -33,7 +33,7 @@ export class ClaudeAgentTeamsService {
     const pathValue = [args.shimDir, args.baseEnv.PATH]
       .filter(Boolean)
       .join(process.platform === 'win32' ? ';' : ':')
-    const tmuxValue = `/tmp/orca-claude-agent-teams/${teamId},0,1`
+    const tmuxValue = `/tmp/capilot-claude-agent-teams/${teamId},0,1`
     const env: Record<string, string> = {
       CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS: '1',
       PATH: pathValue,
@@ -60,7 +60,7 @@ export class ClaudeAgentTeamsService {
       token,
       leaderPane,
       leaderHandle: args.leaderHandle,
-      sessionName: 'orca',
+      sessionName: 'capilot',
       windowIndex: '0',
       tmuxValue,
       baseEnv: env,

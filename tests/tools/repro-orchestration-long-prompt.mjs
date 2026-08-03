@@ -157,7 +157,7 @@ async function tryCloseTerminal(cli, handle, cwd) {
 }
 
 async function parentMain() {
-  const cli = argValue('cli', process.env.ORCA_REPRO_CLI ?? 'orca')
+  const cli = argValue('cli', process.env.ORCA_REPRO_CLI ?? 'capilot')
   const mode = argValue('mode', DEFAULT_MODE)
   if (!new Set(['wire', 'codex-like']).has(mode)) {
     throw new Error('--mode must be wire or codex-like')
@@ -169,7 +169,7 @@ async function parentMain() {
   const discardReport = hasFlag('discard-report')
   const marker = `marker_${randomUUID().replace(/-/g, '')}`
   const spec = buildLongSpec(sizeKb, marker)
-  const tempDir = path.join(tmpdir(), `orca-orchestration-long-prompt-${process.pid}-${Date.now()}`)
+  const tempDir = path.join(tmpdir(), `capilot-orchestration-long-prompt-${process.pid}-${Date.now()}`)
   await mkdir(tempDir, { recursive: true })
   const workerReportPath = path.join(tempDir, 'worker-report.json')
 
@@ -372,7 +372,7 @@ function parseInjectedIds(text) {
 }
 
 async function fakeWorkerMain() {
-  const cli = argValue('cli', process.env.ORCA_REPRO_CLI ?? 'orca')
+  const cli = argValue('cli', process.env.ORCA_REPRO_CLI ?? 'capilot')
   const mode = argValue('mode', DEFAULT_MODE)
   const reportPath = argValue('report')
   const marker = argValue('marker')
@@ -474,12 +474,12 @@ async function main() {
     console.log(`Usage:
   node tests/tools/repro-orchestration-long-prompt.mjs [--mode codex-like|wire] [--size-kb 80]
 
-The parent mode requires a running Orca runtime and creates temporary Orca
+The parent mode requires a running CaPilot runtime and creates temporary CaPilot
 terminals. The fake worker records whether orchestration dispatch delivered a
 long prompt in a safe agent-input contract.
 
 Options:
-  --cli <path>         Orca CLI command (default: ORCA_REPRO_CLI or orca)
+  --cli <path>         CaPilot CLI command (default: ORCA_REPRO_CLI or capilot)
   --worktree <path>   Worktree path for temporary terminals (default: cwd)
   --timeout-ms <n>    Wait budget for terminal/report operations
   --keep-terminals    Leave temporary terminals open for inspection

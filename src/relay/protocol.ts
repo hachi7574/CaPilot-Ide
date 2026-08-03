@@ -38,9 +38,9 @@ export const MessageType = {
 // to refuse mismatched-version --connect bridges that would otherwise drive a
 // stale daemon.
 export type HandshakeMessage =
-  | { type: 'orca-relay-handshake'; version: string; endpointCredential?: string }
-  | { type: 'orca-relay-handshake-ok'; version: string }
-  | { type: 'orca-relay-handshake-mismatch'; expected: string; got: string }
+  | { type: 'capilot-relay-handshake'; version: string; endpointCredential?: string }
+  | { type: 'capilot-relay-handshake-ok'; version: string }
+  | { type: 'capilot-relay-handshake-mismatch'; expected: string; got: string }
 
 export function encodeHandshakeFrame(msg: HandshakeMessage): Buffer {
   const payload = Buffer.from(JSON.stringify(msg), 'utf-8')
@@ -51,9 +51,9 @@ export function parseHandshakeMessage(payload: Buffer): HandshakeMessage {
   const msg = JSON.parse(payload.toString('utf-8')) as HandshakeMessage
   const t = (msg as { type?: string }).type
   if (
-    t !== 'orca-relay-handshake' &&
-    t !== 'orca-relay-handshake-ok' &&
-    t !== 'orca-relay-handshake-mismatch'
+    t !== 'capilot-relay-handshake' &&
+    t !== 'capilot-relay-handshake-ok' &&
+    t !== 'capilot-relay-handshake-mismatch'
   ) {
     throw new Error(`Unknown handshake type: ${t}`)
   }

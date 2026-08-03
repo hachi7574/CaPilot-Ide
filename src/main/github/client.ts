@@ -270,7 +270,7 @@ function isNoPullRequestError(err: unknown): boolean {
 }
 
 /**
- * Check if the authenticated user has starred the Orca repo.
+ * Check if the authenticated user has starred the CaPilot repo.
  * Returns true if starred, false if not, null if unable to determine (gh unavailable).
  */
 export async function checkOrcaStarred(): Promise<boolean | null> {
@@ -452,7 +452,7 @@ export async function getPullRequestPushTarget(
 }
 
 /**
- * Star the Orca repo for the authenticated user.
+ * Star the CaPilot repo for the authenticated user.
  */
 export async function starOrca(): Promise<boolean> {
   await acquire()
@@ -1916,7 +1916,7 @@ export async function createGitHubPullRequest(
     }
   }
 
-  const tempDir = await mkdtemp(join(tmpdir(), 'orca-pr-body-'))
+  const tempDir = await mkdtemp(join(tmpdir(), 'capilot-pr-body-'))
   await acquire()
   const bodyPath = join(tempDir, 'body.md')
   try {
@@ -3193,7 +3193,7 @@ export async function getPRForBranchOutcome(
     const shouldPreserveMergedFallback =
       !explicitHeadHidesMergedImplicitPR &&
       (fallbackConfirmedMergedBranch || options.acceptMergedFallbackPR === true)
-    // Why: a visible PR can be merged outside Orca; keep a caller-marked fallback fresh even when GitHub no longer reports it by branch (e.g. deleted heads).
+    // Why: a visible PR can be merged outside CaPilot; keep a caller-marked fallback fresh even when GitHub no longer reports it by branch (e.g. deleted heads).
     if ((await hideMergedImplicitPR(data, dataRepo)) && !shouldPreserveMergedFallback) {
       return { kind: 'no-pr', fetchedAt: Date.now() }
     }

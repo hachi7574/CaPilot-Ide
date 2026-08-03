@@ -1,4 +1,4 @@
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   cleanupDockerSshRelayTarget,
   dockerSshRelayRepoSentinel,
@@ -17,7 +17,7 @@ import {
   rePairPairedElectronClient,
   type PairedElectronClient
 } from './helpers/paired-electron-client'
-import { createRestartSession } from './helpers/orca-restart'
+import { createRestartSession } from './helpers/capilot-restart'
 import {
   encodeTerminalStreamFrame,
   encodeTerminalStreamJson,

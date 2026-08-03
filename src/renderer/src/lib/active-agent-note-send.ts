@@ -36,7 +36,7 @@ export {
 } from './active-agent-note-send-result'
 
 const ACTIVE_AGENT_SEND_TIMEOUT_MS = 8000
-const ORCA_DESKTOP_TERMINAL_CLIENT = { id: 'orca-desktop', type: 'desktop' as const }
+const ORCA_DESKTOP_TERMINAL_CLIENT = { id: 'capilot-desktop', type: 'desktop' as const }
 
 export async function sendNotesToActiveAgentSession({
   worktreeId,

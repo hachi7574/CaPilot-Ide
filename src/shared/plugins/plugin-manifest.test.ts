@@ -10,10 +10,10 @@ function manifest(overrides: Record<string, unknown> = {}): Record<string, unkno
   return {
     manifestVersion: 1,
     id: 'demo',
-    publisher: 'orca-samples',
+    publisher: 'capilot-samples',
     name: 'Demo',
     version: '1.0.0',
-    engines: { orca: '>=1.0.0' },
+    engines: { capilot: '>=1.0.0' },
     pluginApi: 1,
     contributes: { panels: [], commands: [], events: [] },
     capabilities: [],

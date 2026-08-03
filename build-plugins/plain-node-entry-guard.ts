@@ -104,7 +104,7 @@ export function createPlainNodeEntryGuardPlugin(): Plugin {
   let daemonOutputDir: string | undefined
 
   return {
-    name: 'orca-plain-node-entry-guard',
+    name: 'capilot-plain-node-entry-guard',
     writeBundle(options: NormalizedOutputOptions, bundle: OutputBundle) {
       // Why: skip in `electron-vite dev` watch mode — the smoke would respawn on
       // every rebuild, and the guard only needs to gate produced builds.

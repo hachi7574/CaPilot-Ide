@@ -1,7 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   focusActiveTerminalInput,
   getTerminalContent,
@@ -59,7 +59,7 @@ async function activateTestRepository(
     await window.api.repos.add({ path: targetRepoPath })
     const store = window.__store
     if (!store) {
-      throw new Error('Orca store unavailable')
+      throw new Error('CaPilot store unavailable')
     }
     await store.getState().fetchRepos()
     const repo = store
@@ -171,7 +171,7 @@ test.describe('Windows Codex multiline paste', () => {
     await waitForActiveTerminalManager(orcaPage, 30_000)
 
     const ptyId = await waitForActivePanePtyId(orcaPage)
-    await sendToTerminal(orcaPage, ptyId, 'codex -m orca-e2e-invalid-model\r')
+    await sendToTerminal(orcaPage, ptyId, 'codex -m capilot-e2e-invalid-model\r')
     await expect
       .poll(() => getTerminalContent(orcaPage, 12_000), { timeout: 20_000 })
       .toMatch(/Do[\s\S]*you[\s\S]*trust[\s\S]*contents|OpenAI Codex/i)

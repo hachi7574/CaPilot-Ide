@@ -99,9 +99,9 @@ function decodePowerShellEncodedCommand(command: string): string | null {
   }
 }
 
-// Why: prod/dev/parallel Orca instances must write the same managed entry, not race between per-userData script paths.
+// Why: prod/dev/parallel CaPilot instances must write the same managed entry, not race between per-userData script paths.
 export function getSharedManagedScriptPath(scriptFileName: string): string {
-  return join(homedir(), '.orca', 'agent-hooks', scriptFileName)
+  return join(homedir(), '.capilot', 'agent-hooks', scriptFileName)
 }
 
 function quotePosixShellString(value: string): string {
@@ -168,7 +168,7 @@ export function buildWindowsAgentHookPostCommand(source: AgentHookSource): strin
     `"%SystemRoot%\\System32\\curl.exe" -sS -X POST "http://127.0.0.1:%ORCA_AGENT_HOOK_PORT%/hook/${source}" ^`,
     '  --connect-timeout 0.5 --max-time 1.5 ^',
     '  -H "Content-Type: application/x-www-form-urlencoded" ^',
-    '  -H "X-Orca-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%" ^',
+    '  -H "X-CaPilot-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%" ^',
     '  --data-urlencode "paneKey=%ORCA_PANE_KEY%" ^',
     '  --data-urlencode "tabId=%ORCA_TAB_ID%" ^',
     '  --data-urlencode "launchToken=%ORCA_AGENT_LAUNCH_TOKEN%" ^',
@@ -186,7 +186,7 @@ export function buildWindowsAgentHookCurlPostCommand(source: AgentHookSource): s
     `"http://127.0.0.1:%ORCA_AGENT_HOOK_PORT%/hook/${source}"`,
     '--connect-timeout 0.5 --max-time 1.5',
     '-H "Content-Type: application/x-www-form-urlencoded"',
-    '-H "X-Orca-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%"',
+    '-H "X-CaPilot-Agent-Hook-Token: %ORCA_AGENT_HOOK_TOKEN%"',
     '--data-urlencode "paneKey=%ORCA_PANE_KEY%"',
     '--data-urlencode "tabId=%ORCA_TAB_ID%"',
     '--data-urlencode "launchToken=%ORCA_AGENT_LAUNCH_TOKEN%"',

@@ -83,7 +83,7 @@ describe('Azure DevOps hosted review integration', () => {
     })
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-    const repoPath = await mkdtemp(join(tmpdir(), 'orca-azure-review-'))
+    const repoPath = await mkdtemp(join(tmpdir(), 'capilot-azure-review-'))
     try {
       const address = server.address()
       if (!address || typeof address === 'string') {
@@ -188,7 +188,7 @@ describe('Azure DevOps hosted review integration', () => {
     })
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-    const repoPath = await mkdtemp(join(tmpdir(), 'orca-azure-review-active-'))
+    const repoPath = await mkdtemp(join(tmpdir(), 'capilot-azure-review-active-'))
     try {
       const address = server.address()
       if (!address || typeof address === 'string') {

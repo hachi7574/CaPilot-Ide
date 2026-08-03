@@ -1,5 +1,5 @@
 import type { TuiAgent } from '../../../../shared/types'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import type { OrchestrationDb } from '../../orchestration/db'
 
 export type WorkerEffect = {

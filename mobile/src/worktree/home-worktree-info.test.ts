@@ -19,7 +19,7 @@ describe('markHomeWorktreeCatalogUnavailable', () => {
       activeCount: 1,
       lastActiveWorktree: {
         worktreeId: 'worktree-1',
-        repo: 'orca',
+        repo: 'capilot',
         branch: 'feature',
         displayName: 'Feature',
         liveTerminalCount: 1

@@ -12,7 +12,7 @@ import type {
 import type { RuntimeMobileSessionTabsResult } from '../../shared/runtime-types'
 import type { SubprocessHandle } from '../daemon/session'
 import { TerminalHost } from '../daemon/terminal-host'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import { OrcaRuntimeRpcServer } from './runtime-rpc'
 
 const TEST_TIMEOUT_MS = 15_000
@@ -72,7 +72,7 @@ describe('remote agent-session host authority integration', () => {
     'deduplicates racing remote resumes, adopts retries, and retires exited surfaces',
     { timeout: TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-agent-authority-repro-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-agent-authority-repro-'))
       cleanups.push(() => rmSync(userDataPath, { recursive: true, force: true }))
 
       const subprocesses: ControlledSubprocess[] = []

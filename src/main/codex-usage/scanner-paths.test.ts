@@ -97,8 +97,8 @@ function totalOnlyUsageRecord(timestamp: string, totalInputTokens: number): stri
 
 beforeEach(() => {
   delete process.env.CODEX_HOME
-  fakeHomeDir = mkdtempSync(join(tmpdir(), 'orca-codex-usage-home-'))
-  userDataDir = mkdtempSync(join(tmpdir(), 'orca-codex-usage-user-data-'))
+  fakeHomeDir = mkdtempSync(join(tmpdir(), 'capilot-codex-usage-home-'))
+  userDataDir = mkdtempSync(join(tmpdir(), 'capilot-codex-usage-user-data-'))
   previousUserDataPath = process.env.ORCA_USER_DATA_PATH
   process.env.ORCA_USER_DATA_PATH = userDataDir
   homedirMock.mockReturnValue(fakeHomeDir)
@@ -127,7 +127,7 @@ afterEach(() => {
 })
 
 describe('getCodexSessionsDirectory', () => {
-  it('defaults to Orca-managed Codex runtime sessions', () => {
+  it('defaults to CaPilot-managed Codex runtime sessions', () => {
     expect(getCodexSessionsDirectory()).toBe(
       join(userDataDir, 'codex-runtime-home', 'home', 'sessions')
     )
@@ -143,7 +143,7 @@ describe('getCodexSessionsDirectory', () => {
 })
 
 describe('listCodexSessionFiles', () => {
-  it('scans both Orca-managed and system Codex session homes', async () => {
+  it('scans both CaPilot-managed and system Codex session homes', async () => {
     const runtimeSessionsDir = join(userDataDir, 'codex-runtime-home', 'home', 'sessions')
     const systemSessionsDir = join(fakeHomeDir, '.codex', 'sessions')
     mkdirSync(runtimeSessionsDir, { recursive: true })
@@ -165,7 +165,7 @@ describe('listCodexSessionFiles', () => {
     mkdirSync(systemSessionsDir, { recursive: true })
     mkdirSync(accountSessionsDir, { recursive: true })
     writeFileSync(
-      join(userDataDir, 'codex-accounts', 'acct-1', 'home', '.orca-managed-home'),
+      join(userDataDir, 'codex-accounts', 'acct-1', 'home', '.capilot-managed-home'),
       'acct-1\n',
       'utf-8'
     )
@@ -203,7 +203,7 @@ describe('listCodexSessionFiles', () => {
     const externalSessionsDir = join(externalHome, 'sessions')
     mkdirSync(accountDir, { recursive: true })
     mkdirSync(externalSessionsDir, { recursive: true })
-    writeFileSync(join(externalHome, '.orca-managed-home'), 'acct-redirected\n', 'utf-8')
+    writeFileSync(join(externalHome, '.capilot-managed-home'), 'acct-redirected\n', 'utf-8')
     writeFileSync(join(externalSessionsDir, 'unrelated.jsonl'), '{}\n', 'utf-8')
     symlinkSync(
       externalHome,
@@ -220,7 +220,7 @@ describe('listCodexSessionFiles', () => {
     const externalSessionsDir = join(fakeHomeDir, 'redirected-sessions')
     mkdirSync(accountHome, { recursive: true })
     mkdirSync(externalSessionsDir, { recursive: true })
-    writeFileSync(join(accountHome, '.orca-managed-home'), 'acct-redirected-sessions\n', 'utf-8')
+    writeFileSync(join(accountHome, '.capilot-managed-home'), 'acct-redirected-sessions\n', 'utf-8')
     writeFileSync(join(externalSessionsDir, 'unrelated.jsonl'), '{}\n', 'utf-8')
     symlinkSync(
       externalSessionsDir,
@@ -254,7 +254,7 @@ describe('listCodexSessionFiles', () => {
       userDataDir,
       'codex-runtime-home',
       'home',
-      '.orca-session-copies'
+      '.capilot-session-copies'
     )
     const systemSessionsDir = join(fakeHomeDir, '.codex', 'sessions')
     mkdirSync(runtimeSessionsDir, { recursive: true })
@@ -292,7 +292,7 @@ describe('listCodexSessionFiles', () => {
       userDataDir,
       'codex-runtime-home',
       'home',
-      '.orca-session-copies'
+      '.capilot-session-copies'
     )
     const systemSessionsDir = join(fakeHomeDir, '.codex', 'sessions')
     mkdirSync(runtimeSessionsDir, { recursive: true })
@@ -331,7 +331,7 @@ describe('listCodexSessionFiles', () => {
       userDataDir,
       'codex-runtime-home',
       'home',
-      '.orca-session-copies'
+      '.capilot-session-copies'
     )
     const systemSessionsDir = join(fakeHomeDir, '.codex', 'sessions')
     mkdirSync(runtimeSessionsDir, { recursive: true })
@@ -600,7 +600,7 @@ describe('listCodexSessionFiles', () => {
       userDataDir,
       'codex-runtime-home',
       'home',
-      '.orca-session-copies'
+      '.capilot-session-copies'
     )
     const systemSessionsDir = join(fakeHomeDir, '.codex', 'sessions')
     mkdirSync(runtimeSessionsDir, { recursive: true })

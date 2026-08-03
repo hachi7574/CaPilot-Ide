@@ -48,7 +48,7 @@ async function acquireInstallLock(
   signal?: AbortSignal,
   suppliedHostIdentity?: string
 ): Promise<() => Promise<void>> {
-  const lockParent = join(home, '.orca')
+  const lockParent = join(home, '.capilot')
   const lockPath = join(lockParent, 'managed-hook-install.lock')
   await mkdir(lockParent, { recursive: true })
   const hostIdentity = suppliedHostIdentity ?? (await readManagedHookHostIdentity())

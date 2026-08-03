@@ -3,7 +3,7 @@ import path from 'node:path'
 import type { ElectronApplication, Locator, Page, TestInfo } from '@stablyai/playwright-test'
 import { RuntimeClient } from '../../src/cli/runtime/client'
 import type { FolderWorkspace, ProjectGroup, Repo } from '../../src/shared/types'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedElectronClient

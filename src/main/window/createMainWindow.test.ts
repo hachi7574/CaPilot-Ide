@@ -238,7 +238,7 @@ describe('createMainWindow', () => {
     expect(openExternalMock).toHaveBeenCalledTimes(4)
 
     const allowBlankEvent = { preventDefault: vi.fn() }
-    const allowBlankPrefs = { partition: 'persist:orca-browser' }
+    const allowBlankPrefs = { partition: 'persist:capilot-browser' }
     windowHandlers['will-attach-webview'](
       allowBlankEvent as never,
       allowBlankPrefs as never,
@@ -247,7 +247,7 @@ describe('createMainWindow', () => {
     expect(allowBlankEvent.preventDefault).not.toHaveBeenCalled()
     expect(allowBlankPrefs).toMatchObject({
       disableHtmlFullscreenWindowResize: true,
-      partition: 'persist:orca-browser',
+      partition: 'persist:capilot-browser',
       preload: expect.stringMatching(/browser-window-close-preload\.js$/),
       sandbox: true
     })
@@ -255,7 +255,7 @@ describe('createMainWindow', () => {
     const denyInlineHtmlEvent = { preventDefault: vi.fn() }
     windowHandlers['will-attach-webview'](
       denyInlineHtmlEvent as never,
-      { partition: 'persist:orca-browser' } as never,
+      { partition: 'persist:capilot-browser' } as never,
       { src: 'data:text/html,<script>alert(1)</script>' } as never
     )
     expect(denyInlineHtmlEvent.preventDefault).toHaveBeenCalledTimes(1)
@@ -269,7 +269,7 @@ describe('createMainWindow', () => {
       preload: 'file:///tmp/untrusted-preload.js'
     }
     const hardenedPrefs = {
-      partition: 'persist:orca-browser',
+      partition: 'persist:capilot-browser',
       preload: '/tmp/untrusted-preload.js'
     }
     windowHandlers['will-attach-webview'](
@@ -1576,7 +1576,7 @@ describe('createMainWindow', () => {
     expect(webContents.send).toHaveBeenCalledWith('ui:openQuickOpen')
   })
 
-  it('notifies before Orca-first captures a risky terminal-focused shortcut', () => {
+  it('notifies before CaPilot-first captures a risky terminal-focused shortcut', () => {
     const windowHandlers: Record<string, (...args: any[]) => void> = {}
     const webContents = {
       on: vi.fn((event, handler) => {
@@ -1610,7 +1610,7 @@ describe('createMainWindow', () => {
 
     createMainWindow({
       getUI: () => ({}),
-      getSettings: () => ({ terminalShortcutPolicy: 'orca-first' })
+      getSettings: () => ({ terminalShortcutPolicy: 'capilot-first' })
     } as never)
 
     const setFocusedListener = vi
@@ -1641,7 +1641,7 @@ describe('createMainWindow', () => {
     expect(webContents.send).toHaveBeenNthCalledWith(2, 'ui:toggleWorktreePalette')
   })
 
-  it('notifies before Orca-first captures a terminal-focused double-tap shortcut', () => {
+  it('notifies before CaPilot-first captures a terminal-focused double-tap shortcut', () => {
     const windowHandlers: Record<string, (...args: any[]) => void> = {}
     const webContents = {
       on: vi.fn((event, handler) => {
@@ -1676,7 +1676,7 @@ describe('createMainWindow', () => {
     createMainWindow(
       {
         getUI: () => ({}),
-        getSettings: () => ({ terminalShortcutPolicy: 'orca-first' })
+        getSettings: () => ({ terminalShortcutPolicy: 'capilot-first' })
       } as never,
       {
         getKeybindings: () => ({ 'worktree.quickOpen': ['DoubleTap+Shift'] })

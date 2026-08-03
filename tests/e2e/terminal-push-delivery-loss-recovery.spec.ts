@@ -18,7 +18,7 @@
  * a deliberate prod constant) — so recovery lands at ~11-13s and the polls
  * below allow 30s.
  */
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree, ensureTerminalVisible } from './helpers/store'
 import {
   waitForActiveTerminalManager,

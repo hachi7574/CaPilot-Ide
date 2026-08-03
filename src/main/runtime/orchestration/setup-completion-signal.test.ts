@@ -4,19 +4,19 @@ import { buildObservedSetupCommand, createSetupCompletionScanner } from './setup
 describe('orchestration setup completion signal', () => {
   it('preserves a POSIX setup exit code in a visible completion signal', () => {
     const { command } = buildObservedSetupCommand(
-      '/repo/.git/orca/setup-runner.sh',
+      '/repo/.git/capilot/setup-runner.sh',
       'posix',
       'token-posix'
     )
 
-    expect(command).toContain('bash /repo/.git/orca/setup-runner.sh')
+    expect(command).toContain('bash /repo/.git/capilot/setup-runner.sh')
     expect(command).toContain('__ORCA_SETUP_COMPLETE__:token-posix:%s\\n')
     expect(command).toContain('"$status"')
     expect(command).toContain('exit "$status"')
   })
 
   it('preserves a native Windows setup path and exit code without shell interpolation', () => {
-    const runnerPath = 'C:\\repo %name%!^&\\.git\\orca\\setup-runner.cmd'
+    const runnerPath = 'C:\\repo %name%!^&\\.git\\capilot\\setup-runner.cmd'
     const observed = buildObservedSetupCommand(runnerPath, 'windows', 'token-windows')
     const encodedCommand = observed.command.split(' ').at(-1)
     const script = Buffer.from(encodedCommand ?? '', 'base64').toString('utf16le')
@@ -31,37 +31,37 @@ describe('orchestration setup completion signal', () => {
 
   it('keeps a WSL runner on the POSIX completion path', () => {
     const { command } = buildObservedSetupCommand(
-      '\\\\wsl.localhost\\Ubuntu\\repo\\.git\\orca\\setup-runner.sh',
+      '\\\\wsl.localhost\\Ubuntu\\repo\\.git\\capilot\\setup-runner.sh',
       'windows',
       'token-wsl'
     )
 
-    expect(command).toContain('bash /repo/.git/orca/setup-runner.sh')
+    expect(command).toContain('bash /repo/.git/capilot/setup-runner.sh')
     expect(command).toContain('__ORCA_SETUP_COMPLETE__:token-wsl:%s\\n')
     expect(command).toContain('exit "$status"')
   })
 
   it('routes a WSL-launched Windows-drive runner through its /mnt mount', () => {
     const { command } = buildObservedSetupCommand(
-      'C:\\repo\\.git\\orca\\setup-runner.sh',
+      'C:\\repo\\.git\\capilot\\setup-runner.sh',
       'windows',
       'token-mnt',
       { family: 'posix', executable: 'wsl.exe' }
     )
 
-    expect(command).toContain('bash /mnt/c/repo/.git/orca/setup-runner.sh')
+    expect(command).toContain('bash /mnt/c/repo/.git/capilot/setup-runner.sh')
     expect(command).not.toContain('bash /c/repo')
   })
 
   it('keeps a Git Bash runner on the MSYS drive form', () => {
     const { command } = buildObservedSetupCommand(
-      'C:\\repo\\.git\\orca\\setup-runner.sh',
+      'C:\\repo\\.git\\capilot\\setup-runner.sh',
       'windows',
       'token-git-bash',
       { family: 'posix' }
     )
 
-    expect(command).toContain('bash /c/repo/.git/orca/setup-runner.sh')
+    expect(command).toContain('bash /c/repo/.git/capilot/setup-runner.sh')
   })
 
   it('recognizes one completion signal across output chunk boundaries', () => {

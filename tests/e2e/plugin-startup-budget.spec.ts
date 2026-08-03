@@ -9,7 +9,7 @@ import { join } from 'node:path'
 import { expect, test, type TestInfo } from '@stablyai/playwright-test'
 import { fingerprintPluginConsent } from '../../src/shared/plugins/plugin-consent-fingerprint'
 import { pluginManifestSchema } from '../../src/shared/plugins/plugin-manifest'
-import { createRestartSession } from './helpers/orca-restart'
+import { createRestartSession } from './helpers/capilot-restart'
 
 const PLUGIN_COUNT = 20
 const SAMPLE_COUNT = 3
@@ -21,7 +21,7 @@ type StartupSample = {
 }
 
 function updateProfile(userDataDir: string, pluginConsents: Record<string, string>): void {
-  const profilePath = join(userDataDir, 'orca-data.json')
+  const profilePath = join(userDataDir, 'capilot-data.json')
   const profile = JSON.parse(readFileSync(profilePath, 'utf8')) as {
     settings?: Record<string, unknown>
   }
@@ -48,7 +48,7 @@ function seedPlugins(userDataDir: string, count: number): string[] {
       publisher: 'budget',
       name: `Startup ${index}`,
       version: '1.0.0',
-      engines: { orca: '>=1.0.0' },
+      engines: { capilot: '>=1.0.0' },
       pluginApi: 1,
       main: 'main.mjs',
       contributes: { panels: [], commands: [], events: [] },
@@ -60,7 +60,7 @@ function seedPlugins(userDataDir: string, count: number): string[] {
     const markerPath = join(userDataDir, `plugin-startup-marker-${index}`)
     mkdirSync(versionDir, { recursive: true })
     writeFileSync(join(pluginsDir, pluginKey, 'current'), contentHash)
-    writeFileSync(join(versionDir, 'orca-plugin.json'), JSON.stringify(manifest))
+    writeFileSync(join(versionDir, 'capilot-plugin.json'), JSON.stringify(manifest))
     writeFileSync(
       join(versionDir, 'main.mjs'),
       `import { writeFileSync } from 'node:fs'; writeFileSync(${JSON.stringify(markerPath)}, 'executed')`

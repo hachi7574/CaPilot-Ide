@@ -70,7 +70,7 @@ describe('wsl login shell command helpers', () => {
   it.skipIf(process.platform === 'win32')(
     'resolves env-node launchers from the current login-shell PATH on every run',
     () => {
-      const root = mkdtempSync(join(tmpdir(), 'orca-wsl-login-codex-'))
+      const root = mkdtempSync(join(tmpdir(), 'capilot-wsl-login-codex-'))
       const tools = join(root, 'tools')
       const loginBin = join(root, 'login')
       const v1Bin = join(root, 'nvm-v1')
@@ -123,10 +123,10 @@ describe('wsl login shell command helpers', () => {
   )
 
   it('preserves command-scoped environment variables through the outer WSL shell', () => {
-    const command = buildWslLoginShellCommand('HISTFILE=/tmp/orca-history printf "$HISTFILE"')
+    const command = buildWslLoginShellCommand('HISTFILE=/tmp/capilot-history printf "$HISTFILE"')
     const escaped = escapeWslShCommandForWindows(command)
 
-    expect(command).toContain('\'HISTFILE=/tmp/orca-history printf "$HISTFILE"\'')
+    expect(command).toContain('\'HISTFILE=/tmp/capilot-history printf "$HISTFILE"\'')
     expect(escaped).toContain('\\$_orca_wsl_shell')
     expect(escaped).toContain('\\${SHELL:-/bin/bash}')
     expect(escaped).toContain('\\$(getent passwd "\\$(id -un)"')
@@ -144,12 +144,12 @@ describe('wsl login shell command helpers', () => {
 
   it('escapes user command dollars inside POSIX-quoted payloads for WSL argv', () => {
     const command = buildWslLoginShellCommand(
-      'HISTFILE=/tmp/orca-history printf "$HISTFILE"; printf \'%s\' "$SHELL"'
+      'HISTFILE=/tmp/capilot-history printf "$HISTFILE"; printf \'%s\' "$SHELL"'
     )
     const escaped = escapeWslShCommandForWindows(command)
 
     expect(escaped).toContain(
-      "'HISTFILE=/tmp/orca-history printf \"\\$HISTFILE\"; printf '\\''%s'\\'' \"\\$SHELL\"'"
+      "'HISTFILE=/tmp/capilot-history printf \"\\$HISTFILE\"; printf '\\''%s'\\'' \"\\$SHELL\"'"
     )
     expectValidShSyntax(command)
   }, 30_000)

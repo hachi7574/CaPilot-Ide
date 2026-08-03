@@ -2,7 +2,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedWebClient
@@ -16,7 +16,7 @@ type ClientMirror = {
   tabGroups: { id: string; tabOrder: string[] }[]
 }
 
-const scratch = mkdtempSync(path.join(os.tmpdir(), 'orca-headed-agent-focus-'))
+const scratch = mkdtempSync(path.join(os.tmpdir(), 'capilot-headed-agent-focus-'))
 const spawnMarkerPath = path.join(scratch, 'agent-spawns.txt')
 const inputMarkerPath = path.join(scratch, 'agent-input.txt')
 const exitTriggerPath = path.join(scratch, 'exit-agent')

@@ -6,7 +6,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { promisify } from 'node:util'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, getActiveWorktreeId, waitForActiveWorktree } from './helpers/store'
 
 const execFileAsync = promisify(execFile)
@@ -187,7 +187,7 @@ test('stale helper cannot take goto or eval away from the real embedded webview'
     })
     expect(snapshot, JSON.stringify(snapshot)).toMatchObject({ ok: true })
 
-    const sessionName = `orca-tab-${browserTab.pageId}`
+    const sessionName = `capilot-tab-${browserTab.pageId}`
     await expect
       .poll(() => existsSync(path.join(helperSocketDir, `${sessionName}.pid`)), {
         timeout: 5_000

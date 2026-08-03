@@ -112,7 +112,7 @@ describe('RelayAgentHookServer host-given coordinates (WSL relay)', () => {
 
     const rejected = await fetch(`http://127.0.0.1:${port}/hook/claude`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Orca-Agent-Hook-Token': 'wrong-token' },
+      headers: { 'Content-Type': 'application/json', 'X-CaPilot-Agent-Hook-Token': 'wrong-token' },
       body: '{}'
     })
     expect(rejected.status).toBe(403)
@@ -122,7 +122,7 @@ describe('RelayAgentHookServer host-given coordinates (WSL relay)', () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Orca-Agent-Hook-Token': 'host-issued-token'
+        'X-CaPilot-Agent-Hook-Token': 'host-issued-token'
       },
       body: JSON.stringify({
         paneKey: PANE_KEY,
@@ -172,16 +172,16 @@ describe('RelayAgentHookServer host-given coordinates (WSL relay)', () => {
 describe('wsl hook relay endpoint contract', () => {
   it('derives the endpoint dir from guest home and the restart-stable instance key', () => {
     expect(wslHookRelayEndpointDir('/home/u', 'abc123')).toBe(
-      '/home/u/.orca-wsl/agent-hooks/instance-abc123'
+      '/home/u/.capilot-wsl/agent-hooks/instance-abc123'
     )
     expect(wslHookRelayEndpointDir('/home/u/', 'abc123')).toBe(
-      '/home/u/.orca-wsl/agent-hooks/instance-abc123'
+      '/home/u/.capilot-wsl/agent-hooks/instance-abc123'
     )
   })
 
   it('names the guest endpoint file endpoint.env regardless of host platform', () => {
     expect(wslHookRelayEndpointFilePath('/home/u', 'k1')).toBe(
-      '/home/u/.orca-wsl/agent-hooks/instance-k1/endpoint.env'
+      '/home/u/.capilot-wsl/agent-hooks/instance-k1/endpoint.env'
     )
   })
 

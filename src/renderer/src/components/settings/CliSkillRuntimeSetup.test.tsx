@@ -99,7 +99,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   it.skipIf(process.platform === 'win32')(
     'runs skill commands with npx from the configured WSL login-shell PATH',
     () => {
-      const root = mkdtempSync(join(tmpdir(), 'orca-wsl-skill-command-'))
+      const root = mkdtempSync(join(tmpdir(), 'capilot-wsl-skill-command-'))
       const tools = join(root, 'tools')
       const npxBin = join(root, 'npx-bin')
       const loginShell = join(root, 'zsh')
@@ -145,7 +145,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   )
 
   it('preflights npx before Windows-host skill installs', () => {
-    const installCommand = buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration'])
+    const installCommand = buildAgentFeatureSkillInstallCommand(['capilot-cli', 'orchestration'])
 
     expect(
       buildSkillCommandForRuntime(
@@ -160,7 +160,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   })
 
   it('treats missing runtime as a preflighted Windows host fallback for skill installs', () => {
-    const installCommand = buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration'])
+    const installCommand = buildAgentFeatureSkillInstallCommand(['capilot-cli', 'orchestration'])
 
     expect(buildSkillCommandForRuntime(installCommand, undefined, 'win32')).toBe(
       `${windowsNpxPreflightPrefix}${windowsNpxGuidance}) else (${installCommand})"`
@@ -183,10 +183,10 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   })
 
   it('treats missing runtime as a preflighted Windows host fallback for skill updates', () => {
-    const installCommand = buildAgentFeatureSkillInstallCommand(['orca-cli'])
+    const installCommand = buildAgentFeatureSkillInstallCommand(['capilot-cli'])
 
     expect(
-      buildSkillCommandForRuntime('npx skills update orca-cli --global', undefined, 'win32')
+      buildSkillCommandForRuntime('npx skills update capilot-cli --global', undefined, 'win32')
     ).toBe(`${windowsNpxPreflightPrefix}${windowsNpxGuidance}) else (${installCommand})"`)
   })
 
@@ -284,7 +284,7 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
     try {
       const copied = buildSkillCommandForRuntime(installCommand, windowsHost, 'win32')
       expect(copied).toBe(installCommand)
-      // Orca forces its own setup terminal to powershell.exe, where cmd.exe works.
+      // CaPilot forces its own setup terminal to powershell.exe, where cmd.exe works.
       expect(buildSkillSetupTerminalCommand(copied, 'powershell.exe', 'win32')).toBe(
         `${windowsNpxPreflightPrefix}${windowsNpxGuidance}) else (${installCommand})"`
       )
@@ -350,19 +350,19 @@ describe('CliSkillRuntimeSetup runtime helpers', () => {
   it('does not wrap unrelated Windows host commands', () => {
     expect(
       buildSkillCommandForRuntime(
-        'orca skills list',
+        'capilot skills list',
         {
           runtime: 'host',
           label: 'Windows'
         },
         'win32'
       )
-    ).toBe('orca skills list')
+    ).toBe('capilot skills list')
   })
 
   it('emits a cmd.exe payload that cannot break its own if/else block', () => {
     const wrapped = buildSkillCommandForRuntime(
-      buildAgentFeatureSkillInstallCommand(['orca-cli', 'orchestration']),
+      buildAgentFeatureSkillInstallCommand(['capilot-cli', 'orchestration']),
       { runtime: 'host', label: 'Windows' },
       'win32'
     )

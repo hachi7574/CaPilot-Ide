@@ -46,7 +46,7 @@ const REMOTE_URLS_BY_REPO: Record<string, Record<string, string>> = {
     origin: 'https://github.com/stablyai/orca.git'
   },
   [SSH_FORK_PATH]: {
-    origin: 'git@github.com:fsdwen/orca.git',
+    origin: 'git@github.com:fsdwen/capilot.git',
     upstream: 'git@github.com:stablyai/orca.git'
   }
 }
@@ -115,7 +115,7 @@ describe('issue #7331: fork PR owner/repo resolution', () => {
     // resolvePrWorkItemSource) depend on an origin-only primitive.
     const origin = await getOwnerRepoForRemote(FORK_PATH, 'origin')
 
-    expect(origin).toEqual({ owner: 'fsdwen', repo: 'orca' })
+    expect(origin).toEqual({ owner: 'fsdwen', repo: 'capilot' })
   })
 
   it('getRepoUpstream still resolves the fork parent offline (regression)', async () => {

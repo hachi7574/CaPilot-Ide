@@ -88,7 +88,7 @@ describe('worktree base directory poller', () => {
   })
 
   async function makeRoot(): Promise<string> {
-    const root = await mkdtemp(join(tmpdir(), 'orca-base-poller-'))
+    const root = await mkdtemp(join(tmpdir(), 'capilot-base-poller-'))
     cleanups.push(() => rm(root, { recursive: true, force: true }))
     // Why: macOS tmpdir lives behind the /var -> /private/var symlink and
     // native watcher events report resolved paths; production targets are

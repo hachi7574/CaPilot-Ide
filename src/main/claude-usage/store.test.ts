@@ -7,7 +7,7 @@ import type { ClaudeUsagePersistedState } from './types'
 import type * as Scanner from './scanner'
 
 const { getPathMock, writeOpens, writeGate } = vi.hoisted(() => ({
-  getPathMock: vi.fn(() => '/tmp/orca-test-userdata'),
+  getPathMock: vi.fn(() => '/tmp/capilot-test-userdata'),
   // Why only mode 'w': the durable write also opens the directory read-only to fsync it, so counting
   // every open would hide a regression back to multiple full-cache rewrites per scan.
   writeOpens: { value: 0, inFlight: 0, maxConcurrent: 0 },
@@ -83,7 +83,7 @@ describe('ClaudeUsageStore', () => {
   let tempUserData: string
 
   beforeEach(() => {
-    tempUserData = mkdtempSync(join(tmpdir(), 'orca-claude-usage-store-'))
+    tempUserData = mkdtempSync(join(tmpdir(), 'capilot-claude-usage-store-'))
     getPathMock.mockReturnValue(tempUserData)
     initClaudeUsagePath()
     writeOpens.value = 0
@@ -106,7 +106,7 @@ describe('ClaudeUsageStore', () => {
     rmSync(tempUserData, { recursive: true, force: true })
   })
 
-  it('reports no data for Orca scope when only non-Orca usage exists', async () => {
+  it('reports no data for CaPilot scope when only non-CaPilot usage exists', async () => {
     const store = createStoreWithState({
       sessions: [
         {
@@ -156,7 +156,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.hasAnyClaudeData).toBe(false)
     expect(summary.sessions).toBe(0)
@@ -214,7 +214,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const recentSessions = await store.getRecentSessions('orca', '7d', 10)
+    const recentSessions = await store.getRecentSessions('capilot', '7d', 10)
 
     expect(recentSessions).toHaveLength(1)
     expect(recentSessions[0]?.sessionId).toBe('session-1')
@@ -240,7 +240,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.turns).toBe(5)
     expect(summary.zeroCacheReadTurns).toBe(2)
@@ -266,8 +266,8 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const summary = await store.getSummary('capilot', '30d')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(36.75)
     expect(
@@ -309,8 +309,8 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const summary = await store.getSummary('capilot', '30d')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(73.5)
     expect(
@@ -369,7 +369,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(breakdown.find((row) => row.key === 'claude-opus-5')?.estimatedCostUsd).toBeCloseTo(
       36.75
@@ -402,7 +402,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     // Why: Sonnet 4.6 and earlier bill above 200k at a premium; Sonnet 5 does not.
     expect(summary.estimatedCostUsd).toBeCloseTo(6.615)
@@ -426,7 +426,7 @@ describe('ClaudeUsageStore', () => {
       }))
     })
 
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     // Why: the 4.5 tier premium only survives if `-4-5-` never matches the `-5`
     // family regex, so this doubles as the digit-boundary proof for both families.
@@ -474,7 +474,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(73.5)
   })
@@ -513,7 +513,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(220.5)
   })
@@ -538,7 +538,7 @@ describe('ClaudeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.estimatedCostUsd).toBeCloseTo(8.07)
   })
@@ -633,11 +633,11 @@ describe('ClaudeUsageStore', () => {
     expect(writeOpens.value).toBe(1)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
     const persisted = JSON.parse(
-      readFileSync(join(tempUserData, 'orca-claude-usage.json'), 'utf-8')
+      readFileSync(join(tempUserData, 'capilot-claude-usage.json'), 'utf-8')
     )
     expect(persisted.scanState.enabled).toBe(true)
     // Pretty-print preserved for human inspection of the analytics cache.
-    expect(readFileSync(join(tempUserData, 'orca-claude-usage.json'), 'utf-8')).toContain('\n')
+    expect(readFileSync(join(tempUserData, 'capilot-claude-usage.json'), 'utf-8')).toContain('\n')
   })
 
   it('vetoes a stale concurrent async write so the newer snapshot wins', async () => {
@@ -666,7 +666,7 @@ describe('ClaudeUsageStore', () => {
     await Promise.all([first, second])
 
     expect(
-      JSON.parse(readFileSync(join(tempUserData, 'orca-claude-usage.json'), 'utf-8')).scanState
+      JSON.parse(readFileSync(join(tempUserData, 'capilot-claude-usage.json'), 'utf-8')).scanState
         .enabled
     ).toBe(false)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
@@ -691,7 +691,7 @@ describe('ClaudeUsageStore', () => {
     expect(writeOpens.value).toBe(1)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
     expect(
-      JSON.parse(readFileSync(join(tempUserData, 'orca-claude-usage.json'), 'utf-8')).scanState
+      JSON.parse(readFileSync(join(tempUserData, 'capilot-claude-usage.json'), 'utf-8')).scanState
     ).toMatchObject({
       lastScanStartedAt: new Date('2026-04-09T12:00:00.000-04:00').getTime(),
       lastScanCompletedAt: new Date('2026-04-09T12:00:00.000-04:00').getTime(),
@@ -700,7 +700,7 @@ describe('ClaudeUsageStore', () => {
   })
 
   it('sweeps a usage temp file orphaned by a crash between write and rename', async () => {
-    const orphan = join(tempUserData, 'orca-claude-usage.json.999.1.abc.tmp')
+    const orphan = join(tempUserData, 'capilot-claude-usage.json.999.1.abc.tmp')
     writeFileSync(orphan, '{}')
 
     createStoreWithState({})

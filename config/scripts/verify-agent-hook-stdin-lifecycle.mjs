@@ -123,7 +123,7 @@ function assertProtocolStdout(fileName, stdout) {
 }
 
 function readGeneratedScripts(home, minMtime) {
-  const hooksDir = join(home, '.orca', 'agent-hooks')
+  const hooksDir = join(home, '.capilot', 'agent-hooks')
   return MANAGED_SCRIPTS.map(([fileName, source]) => {
     const path = join(hooksDir, fileName)
     const stats = statSync(path)
@@ -192,7 +192,7 @@ function nextRequest(server) {
 }
 
 async function verifyNoOpWrites(scripts, home, payload) {
-  const commandCodeBin = mkdtempSync(join(tmpdir(), 'orca-hook-command-code-bin-'))
+  const commandCodeBin = mkdtempSync(join(tmpdir(), 'capilot-hook-command-code-bin-'))
   symlinkSync('/bin/cat', join(commandCodeBin, 'cat'))
   try {
     for (const script of scripts) {
@@ -296,7 +296,7 @@ async function verifyForwarding(scripts, home, payload) {
           )
         )
       }
-      if (request.headers['x-orca-agent-hook-token'] !== 'electron-verification-token') {
+      if (request.headers['x-capilot-agent-hook-token'] !== 'electron-verification-token') {
         throw new Error([script.fileName, ' lost the hook token header'].join(''))
       }
       if (form.get('payload') !== payload) {
@@ -331,7 +331,7 @@ async function verifyInstalledLauncher(home, payload) {
   if (!command || !command.includes('] && [ -r ') || !command.includes('else cat >/dev/null')) {
     throw new Error('Electron did not install the guarded Claude launcher')
   }
-  const scratch = mkdtempSync(join(tmpdir(), 'orca-hook-launcher-'))
+  const scratch = mkdtempSync(join(tmpdir(), 'capilot-hook-launcher-'))
   try {
     const missingPath = join(scratch, 'missing-hook.sh')
     const missingResult = await runShell(

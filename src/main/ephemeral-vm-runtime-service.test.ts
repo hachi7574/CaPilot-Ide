@@ -52,8 +52,8 @@ describe('ephemeral VM runtime service', () => {
   })
 
   it('persists a successful recipe-created runtime and cleans it up', async () => {
-    const userDataPath = makeDir('orca-ephemeral-vm-service-user-data-')
-    const repoPath = makeDir('orca-ephemeral-vm-service-repo-')
+    const userDataPath = makeDir('capilot-ephemeral-vm-service-user-data-')
+    const repoPath = makeDir('capilot-ephemeral-vm-service-repo-')
     const startPath = join(repoPath, 'start.js')
     const cleanupPath = join(repoPath, 'cleanup.js')
     writeFileSync(
@@ -139,8 +139,8 @@ describe('ephemeral VM runtime service', () => {
   })
 
   it('does not persist a runtime when recipe output cannot be parsed', async () => {
-    const userDataPath = makeDir('orca-ephemeral-vm-service-user-data-')
-    const repoPath = makeDir('orca-ephemeral-vm-service-repo-')
+    const userDataPath = makeDir('capilot-ephemeral-vm-service-user-data-')
+    const repoPath = makeDir('capilot-ephemeral-vm-service-repo-')
     const startPath = join(repoPath, 'start.js')
     writeFileSync(startPath, "console.log('not json')\n")
 

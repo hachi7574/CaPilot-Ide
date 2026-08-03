@@ -280,9 +280,9 @@ describe('SshRelaySession', () => {
       platform: 'win32-x64',
       hostPlatform: getRemoteHostPlatform('win32-x64'),
       remoteHome: 'C:/Users/me',
-      remoteRelayDir: 'C:/Users/me/.orca-remote/relay-v1',
+      remoteRelayDir: 'C:/Users/me/.capilot-remote/relay-v1',
       nodePath: 'C:/Program Files/nodejs/node.exe',
-      sockPath: '\\\\.\\pipe\\orca-relay-123'
+      sockPath: '\\\\.\\pipe\\capilot-relay-123'
     })
     const session = new SshRelaySession('target-1', getMainWindow, mockStore, mockPortForward)
 
@@ -367,7 +367,7 @@ describe('SshRelaySession', () => {
     expect(registerSshPtyProvider).toHaveBeenCalledWith('target-1', expect.anything())
   })
 
-  it('compiles a native Windows Orca CLI bridge without a cmd.exe shim', async () => {
+  it('compiles a native Windows CaPilot CLI bridge without a cmd.exe shim', async () => {
     const { mockStore, mockPortForward, getMainWindow } = createMockDeps()
     const mockConn = {
       writeFile: vi.fn().mockResolvedValue(undefined)
@@ -381,9 +381,9 @@ describe('SshRelaySession', () => {
       platform: 'win32-x64',
       hostPlatform: getRemoteHostPlatform('win32-x64'),
       remoteHome: 'C:/Users/me',
-      remoteRelayDir: 'C:/Users/me/.orca-remote/relay-v1',
+      remoteRelayDir: 'C:/Users/me/.capilot-remote/relay-v1',
       nodePath: 'C:/Program Files/nodejs/node.exe',
-      sockPath: '\\\\.\\pipe\\orca-relay-123'
+      sockPath: '\\\\.\\pipe\\capilot-relay-123'
     })
 
     const session = new SshRelaySession('target-1', getMainWindow, mockStore, mockPortForward)
@@ -394,7 +394,7 @@ describe('SshRelaySession', () => {
     expect(vi.mocked(execCommand).mock.calls[0]?.[1]).toContain('powershell.exe')
     expect(vi.mocked(execCommand).mock.calls[0]?.[2]).toEqual({ wrapCommand: false })
     expect(mockConn.writeFile).toHaveBeenCalledWith(
-      'C:/Users/me/.orca-relay/bin/orca-launcher.cs',
+      'C:/Users/me/.capilot-relay/bin/capilot-launcher.cs',
       expect.stringContaining('ProcessStartInfo'),
       { hostPlatform: getRemoteHostPlatform('win32-x64') }
     )

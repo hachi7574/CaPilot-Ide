@@ -76,7 +76,7 @@ let cachedWorkspaceFile: LinearWorkspaceFile | null = null
 let workspaceFileLoadedFromDisk = false
 
 function getOrcaDir(): string {
-  return join(homedir(), '.orca')
+  return join(homedir(), '.capilot')
 }
 
 function getLegacyTokenPath(): string {

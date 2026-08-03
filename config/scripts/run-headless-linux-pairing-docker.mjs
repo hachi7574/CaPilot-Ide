@@ -9,7 +9,7 @@ const commandArgs = process.argv.slice(2)
 const appImageArg = valueAfter('--appimage')
 const pairingOnly = commandArgs.includes('--pairing-only')
 if (!appImageArg) {
-  fail('Usage: run-headless-linux-pairing-docker.mjs --appimage /path/to/orca.AppImage')
+  fail('Usage: run-headless-linux-pairing-docker.mjs --appimage /path/to/capilot.AppImage')
 }
 const appImage = resolve(appImageArg)
 if (!existsSync(appImage)) {
@@ -17,25 +17,25 @@ if (!existsSync(appImage)) {
 }
 
 const suffix = `${process.pid}-${Date.now()}`
-const artifactVolume = `orca-headless-pairing-artifact-${suffix}`
-const network = `orca-headless-pairing-${suffix}`
+const artifactVolume = `capilot-headless-pairing-artifact-${suffix}`
+const network = `capilot-headless-pairing-${suffix}`
 const containers = new Set()
 const images = [
   {
     name: 'ubuntu-24.04',
-    tag: 'orca-headless-pairing:ubuntu-24.04',
+    tag: 'capilot-headless-pairing:ubuntu-24.04',
     base: 'ubuntu@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90',
     libasound: 'libasound2t64'
   },
   {
     name: 'debian-13',
-    tag: 'orca-headless-pairing:debian-13',
+    tag: 'capilot-headless-pairing:debian-13',
     base: 'debian@sha256:020c0d20b9880058cbe785a9db107156c3c75c2ac944a6aa7ab59f2add76a7bd',
     libasound: 'libasound2t64'
   },
   {
     name: 'ubuntu-22.04-baseline',
-    tag: 'orca-headless-pairing:ubuntu-22.04',
+    tag: 'capilot-headless-pairing:ubuntu-22.04',
     base: 'ubuntu@sha256:0e0a0fc6d18feda9db1590da249ac93e8d5abfea8f4c3c0c849ce512b5ef8982',
     libasound: 'libasound2'
   }
@@ -93,12 +93,12 @@ function extractAppImage(image) {
     '--entrypoint',
     'bash',
     '-v',
-    `${appImage}:/input/orca.AppImage:ro`,
+    `${appImage}:/input/capilot.AppImage:ro`,
     '-v',
     `${artifactVolume}:/artifacts`,
     image,
     '-lc',
-    'cp /input/orca.AppImage /artifacts/orca.AppImage && chmod +x /artifacts/orca.AppImage && cd /artifacts && ./orca.AppImage --appimage-extract >/dev/null && chmod -R a+rX /artifacts/squashfs-root'
+    'cp /input/capilot.AppImage /artifacts/capilot.AppImage && chmod +x /artifacts/capilot.AppImage && cd /artifacts && ./capilot.AppImage --appimage-extract >/dev/null && chmod -R a+rX /artifacts/squashfs-root'
   ])
 }
 
@@ -131,7 +131,7 @@ async function validateStartupMatrix() {
     launch: 'direct',
     mode: 'json',
     address: '127.0.0.1',
-    appPath: '/artifacts/orca.AppImage',
+    appPath: '/artifacts/capilot.AppImage',
     startupTimeoutMs: APPIMAGE_EXTRACTION_TIMEOUT_MS
   })
   validateReady(publicEntry.stdout, 'json', '127.0.0.1', { allowStdoutNoise: true })
@@ -174,7 +174,7 @@ async function validateAuthenticatedPairing() {
     mode: 'json',
     address: 'ws://orca-pairing-server:6768/runtime?route=runtime',
     port: '6768',
-    networkAlias: 'orca-pairing-server'
+    networkAlias: 'capilot-pairing-server'
   })
   const payload = readyJson(server.stdout)
   const client = runPairingClient(payload.pairing.url)
@@ -196,7 +196,7 @@ async function validateAuthenticatedPairing() {
   )
   assert(
     typeof statusResult?.runtime?.appVersion === 'string',
-    'paired server did not report its Orca app version'
+    'paired server did not report its CaPilot app version'
   )
   assert(
     statusResult?.runtime?.capabilities?.includes('updater.remote-control.v1'),
@@ -216,9 +216,9 @@ async function validateUnreachableOffer() {
     image: images[0],
     launch: 'direct',
     mode: 'json',
-    address: 'orca-pairing-server:6769',
+    address: 'capilot-pairing-server:6769',
     port: '6768',
-    networkAlias: 'orca-pairing-server'
+    networkAlias: 'capilot-pairing-server'
   })
   const payload = readyJson(server.stdout)
   const client = runPairingClient(payload.pairing.url)
@@ -238,7 +238,7 @@ async function startAndWait({
   noPairing = false,
   startupTimeoutMs = STARTUP_TIMEOUT_MS
 }) {
-  const name = `orca-pairing-${suffix}-${containers.size}`
+  const name = `capilot-pairing-${suffix}-${containers.size}`
   const args = [
     'run',
     '-d',
@@ -301,7 +301,7 @@ async function waitForReady(name, startupTimeoutMs) {
 
 function hasCompleteReadyContract(stdout) {
   if (
-    stdout.includes('Orca server ready\n') &&
+    stdout.includes('CaPilot server ready\n') &&
     (stdout.includes('\nPairing URL: ') || stdout.includes('\nPairing guidance: '))
   ) {
     return true
@@ -312,7 +312,7 @@ function hasCompleteReadyContract(stdout) {
 function validateReady(logs, mode, expectedHost, options = {}) {
   if (mode === 'human') {
     assert(
-      (logs.match(/^Orca server ready$/gm) ?? []).length === 1,
+      (logs.match(/^CaPilot server ready$/gm) ?? []).length === 1,
       'human ready marker is not exact-once'
     )
     assert(logs.includes('Bound endpoint: ws://0.0.0.0:'), 'human bound endpoint is missing')

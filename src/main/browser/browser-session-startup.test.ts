@@ -44,7 +44,7 @@ describe('initializeBrowserSessionsForApp', () => {
     )
   })
 
-  it('configures the active Orca profile before replaying browser sessions', async () => {
+  it('configures the active CaPilot profile before replaying browser sessions', async () => {
     const {
       configureForOrcaProfileMock,
       applyPendingCookieImportMock,

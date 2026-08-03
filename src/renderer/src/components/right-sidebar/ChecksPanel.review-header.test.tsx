@@ -88,14 +88,14 @@ describe('ChecksPanelReviewHeader', () => {
     expect(markup).not.toContain('⇧⌘+click')
   })
 
-  // Why: with inverting on and Link Routing off the modifier reaches Orca here, so the
-  // hint must name Orca rather than the destination a plain click already uses.
-  it('names Orca when the modifier inverts toward the built-in browser', () => {
-    expect(renderHeader({ modifierHintDestination: 'orca' })).toContain('⇧⌘+click to open in Orca')
+  // Why: with inverting on and Link Routing off the modifier reaches CaPilot here, so the
+  // hint must name CaPilot rather than the destination a plain click already uses.
+  it('names CaPilot when the modifier inverts toward the built-in browser', () => {
+    expect(renderHeader({ modifierHintDestination: 'capilot' })).toContain('⇧⌘+click to open in CaPilot')
 
     vi.stubGlobal('navigator', { userAgent: 'Windows' })
-    expect(renderHeader({ modifierHintDestination: 'orca' })).toContain(
-      'Shift+Ctrl+click to open in Orca'
+    expect(renderHeader({ modifierHintDestination: 'capilot' })).toContain(
+      'Shift+Ctrl+click to open in CaPilot'
     )
   })
 

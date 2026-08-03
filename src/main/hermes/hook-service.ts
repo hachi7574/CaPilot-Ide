@@ -21,8 +21,8 @@ import {
   writeTextFileRemoteAtomic
 } from '../agent-hooks/installer-utils-remote'
 
-const HERMES_PLUGIN_NAME = 'orca-status'
-const HERMES_PLUGIN_MARKER = 'Managed by Orca. Do not edit; changes may be overwritten.'
+const HERMES_PLUGIN_NAME = 'capilot-status'
+const HERMES_PLUGIN_MARKER = 'Managed by CaPilot. Do not edit; changes may be overwritten.'
 
 const HERMES_EVENTS = [
   'on_session_start',
@@ -109,7 +109,7 @@ function enablePlugin(config: HermesConfig): HermesConfig {
   plugins.enabled = Array.from(new Set([...enabled, HERMES_PLUGIN_NAME])).sort()
   if (disabled === null) {
     // Why: Hermes treats a malformed disabled list as empty. Normalize it here
-    // so Orca's install status matches what the real Hermes loader will do.
+    // so CaPilot's install status matches what the real Hermes loader will do.
     plugins.disabled = []
   } else if (disabled.includes(HERMES_PLUGIN_NAME)) {
     const filtered = disabled.filter((name) => name !== HERMES_PLUGIN_NAME)
@@ -200,7 +200,7 @@ function getPluginFilesState(pluginDir = getPluginDir()): {
     return {
       present: true,
       managed,
-      detail: managed ? null : 'Hermes orca-status plugin exists but is not Orca-managed'
+      detail: managed ? null : 'Hermes capilot-status plugin exists but is not CaPilot-managed'
     }
   } catch (error) {
     return {
@@ -240,8 +240,8 @@ function buildStatus(configPath: string, config: HermesConfig): AgentHookInstall
   const details = [
     pluginFiles.detail,
     enablement.detail,
-    !enablement.enabled ? 'orca-status is not enabled in Hermes config.yaml' : null,
-    enablement.disabled ? 'orca-status is disabled in Hermes config.yaml' : null
+    !enablement.enabled ? 'capilot-status is not enabled in Hermes config.yaml' : null,
+    enablement.disabled ? 'capilot-status is disabled in Hermes config.yaml' : null
   ].filter((detail): detail is string => Boolean(detail))
 
   let state: AgentHookInstallState
@@ -272,8 +272,8 @@ function getPluginManifest(): string {
     `# ${HERMES_PLUGIN_MARKER}`,
     `name: ${HERMES_PLUGIN_NAME}`,
     'version: 1.0.0',
-    'description: "Reports Hermes Agent lifecycle events to Orca."',
-    'author: "Orca"',
+    'description: "Reports Hermes Agent lifecycle events to CaPilot."',
+    'author: "CaPilot"',
     'kind: standalone',
     'provides_hooks:',
     ...HERMES_EVENTS.map((event) => `  - ${event}`),
@@ -393,7 +393,7 @@ def _post_to_orca(payload: dict[str, Any]) -> None:
         method="POST",
         headers={
             "Content-Type": "application/json",
-            "X-Orca-Agent-Hook-Token": token,
+            "X-CaPilot-Agent-Hook-Token": token,
         },
     )
     try:

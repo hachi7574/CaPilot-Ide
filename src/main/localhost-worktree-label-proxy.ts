@@ -19,7 +19,7 @@ type RegisteredRoute = LocalhostWorktreeLabelRoute & {
   target: URL
 }
 
-const ORCA_LOCALHOST_SUFFIX = '.orca.localhost'
+const ORCA_LOCALHOST_SUFFIX = '.capilot.localhost'
 
 export class LocalhostWorktreeLabelProxy {
   private server: Server | null = null
@@ -125,7 +125,7 @@ export class LocalhostWorktreeLabelProxy {
     const route = this.routeForRequest(request)
     if (!route) {
       response.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
-      response.end('Unknown Orca localhost label.')
+      response.end('Unknown CaPilot localhost label.')
       return
     }
 

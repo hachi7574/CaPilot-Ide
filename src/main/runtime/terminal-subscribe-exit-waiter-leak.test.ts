@@ -8,7 +8,7 @@
  * exit-waiter is released when the signal aborts, and an unsignalled one is not.
  */
 import { describe, expect, it } from 'vitest'
-import { OrcaRuntimeService } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
 import type { RuntimeTerminalWait } from '../../shared/runtime-types'
 
 type RuntimeInternals = {

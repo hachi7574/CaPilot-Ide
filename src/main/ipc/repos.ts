@@ -1083,7 +1083,7 @@ async function isGitAvailable(): Promise<boolean> {
 }
 
 function getDefaultCreateProjectParent(): string {
-  return join(homedir(), 'orca', 'projects')
+  return join(homedir(), 'capilot', 'projects')
 }
 
 function markCloneAbortCleanupPending(metadata: ActiveCloneMetadata): void {
@@ -1848,7 +1848,7 @@ export function registerRepoHandlers(mainWindow: BrowserWindow, store: Store): v
     }
   )
 
-  // Create a repo/folder from scratch (orca#763); git repos need an empty initial commit so HEAD has a branch ref for worktrees.
+  // Create a repo/folder from scratch (capilot#763); git repos need an empty initial commit so HEAD has a branch ref for worktrees.
   ipcMain.handle(
     'repos:create',
     async (
@@ -1888,7 +1888,7 @@ export function registerRepoHandlers(mainWindow: BrowserWindow, store: Store): v
       let createdDir = false
       let targetExists = false
       try {
-        // Why: the default parent (~/orca/projects) may not exist on a fresh install; create only the parent before probing the target.
+        // Why: the default parent (~/capilot/projects) may not exist on a fresh install; create only the parent before probing the target.
         await mkdir(parentPath, { recursive: true })
         await access(targetPath)
         targetExists = true

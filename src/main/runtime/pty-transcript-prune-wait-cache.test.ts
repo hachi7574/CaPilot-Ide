@@ -7,8 +7,8 @@
  * possibly blocked) wait state and mis-stamp waitBlockedAt on its first chunk.
  */
 import { describe, expect, it } from 'vitest'
-import { OrcaRuntimeService } from './orca-runtime'
-import type { TerminalTailWaitState } from './orca-runtime'
+import { OrcaRuntimeService } from './capilot-runtime'
+import type { TerminalTailWaitState } from './capilot-runtime'
 
 type PtyRecord = {
   connected: boolean

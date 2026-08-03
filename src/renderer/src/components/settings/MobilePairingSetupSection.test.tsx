@@ -78,7 +78,7 @@ describe('MobilePairingSetupSection', () => {
     expect(screen.getByText(/must be able to reach this address/i)).toBeVisible()
   })
 
-  it('explains the direct address when Orca Relay is selected', () => {
+  it('explains the direct address when CaPilot Relay is selected', () => {
     renderSection({ connectionMode: 'automatic' })
     expect(screen.getByText('This computer’s address')).toBeVisible()
     expect(screen.getByRole('combobox')).toBeVisible()

@@ -1,15 +1,15 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { test as base } from './helpers/orca-app'
+import { test as base } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForSessionReady } from './helpers/store'
 import { execInTerminal, waitForActivePanePtyId, waitForTerminalOutput } from './helpers/terminal'
 
-const probeRoot = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-path-expansion-'))
+const probeRoot = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-path-expansion-'))
 const probeBin = path.join(probeRoot, 'bin')
 mkdirSync(probeBin)
 writeFileSync(
-  path.join(probeBin, 'orca-path-expansion-probe.cmd'),
+  path.join(probeBin, 'capilot-path-expansion-probe.cmd'),
   '@echo off\r\necho ORCA_PATH_EXPANSION_OK\r\n'
 )
 
@@ -32,7 +32,7 @@ test('expands variables in PATH before spawning a Windows shell', async ({ orcaP
   await ensureTerminalVisible(orcaPage)
   const ptyId = await waitForActivePanePtyId(orcaPage)
 
-  await execInTerminal(orcaPage, ptyId, 'orca-path-expansion-probe')
+  await execInTerminal(orcaPage, ptyId, 'capilot-path-expansion-probe')
 
   await waitForTerminalOutput(orcaPage, 'ORCA_PATH_EXPANSION_OK')
 })

@@ -1,4 +1,4 @@
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 
 type CapabilityProbe = {
   calls: number

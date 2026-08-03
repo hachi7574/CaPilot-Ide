@@ -31,7 +31,7 @@ describe('canonicalizeWslLinuxPath', () => {
       () => '/'
     )
 
-    expect(plan?.commandScriptPath).toBe('/.orca/agent-hooks/codex-hook.sh')
+    expect(plan?.commandScriptPath).toBe('/.capilot/agent-hooks/codex-hook.sh')
     expect(plan?.trustConfigPath).toBe('/hooks.json')
   })
 
@@ -75,12 +75,12 @@ describe('canonicalizeWslLinuxPath', () => {
   it('resolves a custom automount root and notifies the first launch', () => {
     setPlatform('win32')
     const settled = vi.fn()
-    const windowsPath = 'D:\\orca\\codex-runtime-home\\home'
+    const windowsPath = 'D:\\capilot\\codex-runtime-home\\home'
 
     expect(
       _internals.canonicalizeWslLinuxPath(
         'Ubuntu',
-        '/mnt/d/orca/codex-runtime-home/home',
+        '/mnt/d/capilot/codex-runtime-home/home',
         windowsPath,
         settled
       )
@@ -100,10 +100,10 @@ describe('canonicalizeWslLinuxPath', () => {
     ])
     expect(options).toMatchObject({ timeout: 5000, windowsHide: true })
 
-    callback(null, '/windows/d/orca/codex-runtime-home/home\n')
+    callback(null, '/windows/d/capilot/codex-runtime-home/home\n')
     expect(settled).toHaveBeenCalledWith({
       status: 'resolved',
-      canonicalPath: '/windows/d/orca/codex-runtime-home/home'
+      canonicalPath: '/windows/d/capilot/codex-runtime-home/home'
     })
   })
 

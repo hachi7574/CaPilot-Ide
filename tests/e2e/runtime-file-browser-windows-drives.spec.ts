@@ -1,6 +1,6 @@
 import os from 'node:os'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedElectronClient

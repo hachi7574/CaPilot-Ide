@@ -6,7 +6,7 @@ import { promisify } from 'node:util'
 import { createElectronHomeIsolation } from './electron-home-isolation'
 
 const execFileAsync = promisify(execFile)
-const RUNTIME_METADATA_FILE = 'orca-runtime.json'
+const RUNTIME_METADATA_FILE = 'capilot-runtime.json'
 let orcaDevUserDataPath: string | null = null
 let orcaServeProcess: ChildProcess | null = null
 let orcaServeStdout = ''
@@ -42,7 +42,7 @@ export async function runOrcaCli(
 }
 
 async function runOrcaCliOnce(args: string[]): Promise<CliResult> {
-  const devCli = join(process.cwd(), 'config/scripts/orca-dev.mjs')
+  const devCli = join(process.cwd(), 'config/scripts/capilot-dev.mjs')
   const command = process.env.ORCA_COMPUTER_CLI ?? process.execPath
   const cliArgs = process.env.ORCA_COMPUTER_CLI ? args : [devCli, ...args]
   const env = process.env.ORCA_COMPUTER_CLI
@@ -95,9 +95,9 @@ export function parseJsonOutput<T>(stdout: string): T {
 
 async function getComputerE2eOrcaDevUserDataPath(): Promise<string> {
   if (!orcaDevUserDataPath) {
-    // Why: the shared orca-dev profile can keep an older runtime alive across
+    // Why: the shared capilot-dev profile can keep an older runtime alive across
     // local test runs, making computer-use E2E exercise stale provider code.
-    orcaDevUserDataPath = await mkdtemp(join(tmpdir(), 'orca-computer-runtime-'))
+    orcaDevUserDataPath = await mkdtemp(join(tmpdir(), 'capilot-computer-runtime-'))
   }
   return orcaDevUserDataPath
 }
@@ -130,7 +130,7 @@ async function waitForOrcaRuntimeReady(): Promise<void> {
   ]
     .filter(Boolean)
     .join(' ')
-  throw new Error(`Orca runtime metadata was not ready at ${metadataPath}.${detail}`)
+  throw new Error(`CaPilot runtime metadata was not ready at ${metadataPath}.${detail}`)
 }
 
 function delay(ms: number): Promise<void> {
@@ -139,7 +139,7 @@ function delay(ms: number): Promise<void> {
 
 async function ensureOrcaRuntimeServed(): Promise<void> {
   if (!orcaServeProcess || orcaServeProcess.exitCode !== null) {
-    const devCli = join(process.cwd(), 'config/scripts/orca-dev.mjs')
+    const devCli = join(process.cwd(), 'config/scripts/capilot-dev.mjs')
     const env = await createComputerE2ERuntimeEnv()
     orcaServeStdout = ''
     orcaServeStderr = ''
@@ -195,6 +195,6 @@ function isMissingRuntimeMetadataError(args: string[], error: unknown): boolean 
   const message = String((error as { message?: unknown }).message)
   return (
     message.includes('"code": "runtime_unavailable"') &&
-    message.includes('Could not read Orca runtime metadata')
+    message.includes('Could not read CaPilot runtime metadata')
   )
 }

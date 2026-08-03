@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
+import { runRemoteOrcaCli } from './ssh-remote-capilot-cli'
 
 function createRuntime() {
   const linearSaveIssue = vi.fn(async (request: unknown) => ({

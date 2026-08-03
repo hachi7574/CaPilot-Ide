@@ -18,7 +18,7 @@ import {
   getOrcaProfileBrowserDefaultPartition,
   getOrcaProfileBrowserPartitionSegment,
   getOrcaProfileBrowserSessionPartition
-} from '../../shared/orca-profiles'
+} from '../../shared/capilot-profiles'
 import type { BrowserSessionProfile, BrowserSessionProfileScope } from '../../shared/types'
 import { browserManager } from './browser-manager'
 import { hasSystemMediaAccess, requestSystemMediaAccess } from './browser-media-access'
@@ -47,7 +47,7 @@ export type BrowserSessionRegistryProfileOptions = {
 
 const BROWSER_SESSION_META_FILE_NAME = 'browser-session-meta.json'
 const LEGACY_BROWSER_SESSION_PARTITION_RE =
-  /^persist:orca-browser-session-[\da-f-]{8}-[\da-f-]{4}-[\da-f-]{4}-[\da-f-]{4}-[\da-f-]{12}$/
+  /^persist:capilot-browser-session-[\da-f-]{8}-[\da-f-]{4}-[\da-f-]{4}-[\da-f-]{4}-[\da-f-]{12}$/
 
 // Why: source of truth for valid partitions; will-attach-webview consults it so a compromised renderer can't smuggle in an arbitrary partition.
 
@@ -354,7 +354,7 @@ class BrowserSessionRegistry {
 
   resolveKnownPartition(profileId: string | null | undefined): string | null {
     if (!profileId) {
-      // Why: use the active Orca profile's default partition, not the legacy constant, or profiles resolve local-default's cookie jar.
+      // Why: use the active CaPilot profile's default partition, not the legacy constant, or profiles resolve local-default's cookie jar.
       return this.defaultPartition
     }
     return this.profiles.get(profileId)?.partition ?? null
@@ -484,7 +484,7 @@ class BrowserSessionRegistry {
     }
 
     const segment = getOrcaProfileBrowserPartitionSegment(this.activeOrcaProfileId)
-    const prefix = `persist:orca-profile-${segment}-browser-session-`
+    const prefix = `persist:capilot-profile-${segment}-browser-session-`
     if (!partition.startsWith(prefix)) {
       return false
     }

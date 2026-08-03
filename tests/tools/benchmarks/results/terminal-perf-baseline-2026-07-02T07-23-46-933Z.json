@@ -282,96 +282,96 @@
       "samples": [
         {
           "index": 0,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo@@f226ee15",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo@@f226ee15",
           "activationMs": 202,
           "ptyBindMs": 204,
           "paintSettleMs": 211
         },
         {
           "index": 1,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one@@d00bc639",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one@@d00bc639",
           "activationMs": 406,
           "ptyBindMs": 550,
           "paintSettleMs": 563
         },
         {
           "index": 2,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
           "activationMs": 373,
           "ptyBindMs": 476,
           "paintSettleMs": 488
         },
         {
           "index": 3,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo@@f226ee15",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo@@f226ee15",
           "activationMs": 205,
           "ptyBindMs": 251,
           "paintSettleMs": 258
         },
         {
           "index": 4,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one@@d00bc639",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one@@d00bc639",
           "activationMs": 345,
           "ptyBindMs": 369,
           "paintSettleMs": 379
         },
         {
           "index": 5,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
           "activationMs": 149,
           "ptyBindMs": 177,
           "paintSettleMs": 184
         },
         {
           "index": 6,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo@@f226ee15",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo@@f226ee15",
           "activationMs": 147,
           "ptyBindMs": 162,
           "paintSettleMs": 170
         },
         {
           "index": 7,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one@@d00bc639",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one@@d00bc639",
           "activationMs": 178,
           "ptyBindMs": 202,
           "paintSettleMs": 208
         },
         {
           "index": 8,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
           "activationMs": 336,
           "ptyBindMs": 366,
           "paintSettleMs": 375
         },
         {
           "index": 9,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo@@f226ee15",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo@@f226ee15",
           "activationMs": 157,
           "ptyBindMs": 192,
           "paintSettleMs": 200
         },
         {
           "index": 10,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one@@d00bc639",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one@@d00bc639",
           "activationMs": 140,
           "ptyBindMs": 164,
           "paintSettleMs": 173
         },
         {
           "index": 11,
-          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two",
-          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+          "worktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two",
+          "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
           "activationMs": 159,
           "ptyBindMs": 188,
           "paintSettleMs": 199
@@ -474,7 +474,7 @@
     "hydrationSucceeded": true,
     "activeView": "terminal",
     "activeRepoId": "f93c43c3-57ef-4811-8edc-73d924918ed8",
-    "activeWorktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two",
+    "activeWorktreeId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two",
     "activeTabType": "terminal",
     "activeTabId": "2a067075-6acf-4aca-a0a6-bc88c1e6abc7",
     "terminalGpuAcceleration": "auto",
@@ -483,13 +483,13 @@
       "f93c43c3-57ef-4811-8edc-73d924918ed8": 3
     },
     "ptyIdsByTabId": [
-      "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a"
+      "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a"
     ],
     "paneManagerCount": 3,
     "activePane": {
       "id": 1,
       "leafId": "6a3ca793-864f-4182-bec5-5b044a884b9b",
-      "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+      "ptyId": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
       "cols": 175,
       "rows": 73,
       "buffer": {
@@ -600,17 +600,17 @@
     "ptySessions": {
       "value": [
         {
-          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/repo@@f226ee15",
+          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/repo@@f226ee15",
           "cwd": "",
           "title": "shell"
         },
         {
-          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-one@@d00bc639",
+          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-one@@d00bc639",
           "cwd": "",
           "title": "shell"
         },
         {
-          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/orca-termperf-uLA6Xx/wt-two@@e12f992a",
+          "id": "f93c43c3-57ef-4811-8edc-73d924918ed8::C:/Users/jinwo/AppData/Local/Temp/capilot-termperf-uLA6Xx/wt-two@@e12f992a",
           "cwd": "",
           "title": "shell"
         }

@@ -19,11 +19,11 @@ function claudeProjectsDir(): string {
   return join(homedir(), '.claude', 'projects')
 }
 
-// Why: Orca launches Codex with ORCA_CODEX_HOME pointing at its own managed
-// runtime home, so Orca-started Codex rollout files land under
+// Why: CaPilot launches Codex with ORCA_CODEX_HOME pointing at its own managed
+// runtime home, so CaPilot-started Codex rollout files land under
 // `<managed home>/sessions`, NOT `~/.codex/sessions`. Search the managed home
 // first (that's where this main process's Codex sessions actually live), then
-// fall back to CODEX_HOME/~/.codex so a non-Orca Codex transcript still resolves.
+// fall back to CODEX_HOME/~/.codex so a non-CaPilot Codex transcript still resolves.
 // Duplicates are filtered so a managed-home symlink to ~/.codex isn't scanned twice.
 function codexSessionsDirs(): string[] {
   const candidates = [
@@ -41,7 +41,7 @@ export type ResolveSessionFileOptions = {
   /** Override the Claude projects root (used by tests / isolated scans). */
   claudeProjectsDir?: string
   /** Override the Codex sessions roots, searched in order (tests / isolated
-   *  scans). Defaults to the orca-managed home then CODEX_HOME/~/.codex. */
+   *  scans). Defaults to the capilot-managed home then CODEX_HOME/~/.codex. */
   codexSessionsDirs?: string[]
   /** Override the Grok sessions root (`~/.grok/sessions`). */
   grokSessionsDir?: string

@@ -12,7 +12,7 @@ import type {
   RuntimeClientEvent,
   RuntimeClientEventStreamMessage
 } from '../../shared/runtime-client-events'
-import type { OrcaRuntimeService } from './orca-runtime'
+import type { OrcaRuntimeService } from './capilot-runtime'
 import { OrcaRuntimeRpcServer } from './runtime-rpc'
 import { REMOTE_RUNTIME_SHARED_CONTROL_CAPABILITY } from '../../shared/protocol-version'
 
@@ -29,7 +29,7 @@ describe('remote runtime request connection integration', () => {
     'binds encrypted close-intent capability to the real runtime RPC context',
     { timeout: REMOTE_RUNTIME_TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-close-intent-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-close-intent-'))
       const refuseUnattributedMobileSessionTabClose = vi.fn().mockResolvedValue({
         closed: true,
         refused: true,
@@ -95,7 +95,7 @@ describe('remote runtime request connection integration', () => {
     'fetches repos through the real E2EE WebSocket runtime',
     { timeout: REMOTE_RUNTIME_TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-request-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-request-'))
       const repoPath = join(userDataPath, 'repo')
       const repos: Repo[] = [
         {
@@ -156,7 +156,7 @@ describe('remote runtime request connection integration', () => {
     'streams server worktree changes to another remote client',
     { timeout: REMOTE_RUNTIME_TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-request-events-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-request-events-'))
       const repoPath = join(userDataPath, 'repo')
       const repo: Repo = {
         id: 'repo-1',
@@ -326,7 +326,7 @@ describe('remote runtime request connection integration', () => {
     'delivers one host-authoritative sleep and ordered disposition to two remote clients',
     { timeout: REMOTE_RUNTIME_TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-remote-sleep-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-remote-sleep-'))
       const clientEventListeners = new Set<(event: RuntimeClientEvent) => void>()
       const subscriptionCleanups = new Map<string, () => void>()
       const worktreeId = 'repo-1::C:\\repo\\feature'
@@ -535,7 +535,7 @@ describe('remote runtime request connection integration', () => {
     'multiplexes shared-control calls and passive subscriptions through the real runtime',
     { timeout: REMOTE_RUNTIME_TEST_TIMEOUT_MS },
     async () => {
-      const userDataPath = mkdtempSync(join(tmpdir(), 'orca-runtime-shared-control-'))
+      const userDataPath = mkdtempSync(join(tmpdir(), 'capilot-runtime-shared-control-'))
       const repoPath = join(userDataPath, 'repo')
       const repo: Repo = {
         id: 'repo-1',

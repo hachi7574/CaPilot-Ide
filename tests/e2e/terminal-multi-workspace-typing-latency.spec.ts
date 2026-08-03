@@ -22,7 +22,7 @@ import { type ChildProcess, spawn } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getActiveWorktreeId,
@@ -448,8 +448,8 @@ test.describe('Multi-workspace sustained typing latency bench', () => {
     const typingPtyId = await waitForActivePanePtyId(orcaPage)
 
     const runId = randomUUID()
-    const probePath = path.join(testRepoPath, `.orca-mwt-probe-${runId}.mjs`)
-    const sidecarPath = path.join(testRepoPath, `.orca-mwt-arrivals-${runId}.jsonl`)
+    const probePath = path.join(testRepoPath, `.capilot-mwt-probe-${runId}.mjs`)
+    const sidecarPath = path.join(testRepoPath, `.capilot-mwt-arrivals-${runId}.jsonl`)
     writeTypingEchoProbeScript(probePath, runId, sidecarPath)
     try {
       await resetDeliveryDebug(orcaPage)
@@ -485,9 +485,9 @@ test.describe('Multi-workspace sustained typing latency bench', () => {
     }
 
     const runId = randomUUID()
-    const loadPath = path.join(testRepoPath, `.orca-mwt-load-${runId}.mjs`)
-    const probePath = path.join(testRepoPath, `.orca-mwt-probe-${runId}.mjs`)
-    const sidecarPath = path.join(testRepoPath, `.orca-mwt-arrivals-${runId}.jsonl`)
+    const loadPath = path.join(testRepoPath, `.capilot-mwt-load-${runId}.mjs`)
+    const probePath = path.join(testRepoPath, `.capilot-mwt-probe-${runId}.mjs`)
+    const sidecarPath = path.join(testRepoPath, `.capilot-mwt-arrivals-${runId}.jsonl`)
     writeSustainedAgentLoadScript(loadPath, runId, testRepoPath)
     writeTypingEchoProbeScript(probePath, runId, sidecarPath)
 
@@ -558,9 +558,9 @@ test.describe('Multi-workspace sustained typing latency bench', () => {
     await waitForActiveTerminalManager(orcaPage, 30_000)
 
     const runId = randomUUID()
-    const loadPath = path.join(testRepoPath, `.orca-mwt-load-${runId}.mjs`)
-    const probePath = path.join(testRepoPath, `.orca-mwt-probe-${runId}.mjs`)
-    const sidecarPath = path.join(testRepoPath, `.orca-mwt-arrivals-${runId}.jsonl`)
+    const loadPath = path.join(testRepoPath, `.capilot-mwt-load-${runId}.mjs`)
+    const probePath = path.join(testRepoPath, `.capilot-mwt-probe-${runId}.mjs`)
+    const sidecarPath = path.join(testRepoPath, `.capilot-mwt-arrivals-${runId}.jsonl`)
     writeSustainedAgentLoadScript(loadPath, runId, testRepoPath)
     writeTypingEchoProbeScript(probePath, runId, sidecarPath)
 

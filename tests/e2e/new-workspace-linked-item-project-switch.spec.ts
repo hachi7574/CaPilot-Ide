@@ -17,7 +17,7 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import type { LinkedWorkItemSummary } from '../../src/renderer/src/lib/new-workspace'
 import type { TaskSourceContext } from '../../src/shared/task-source-context'
@@ -116,7 +116,7 @@ test.describe('New workspace composer linked item across project switches', () =
   test.beforeEach(async ({ orcaPage }) => {
     await waitForSessionReady(orcaPage)
     await waitForActiveWorktree(orcaPage)
-    tempRoot = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-linked-item-'))
+    tempRoot = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-linked-item-'))
     secondRepoPath = path.join(tempRoot, SECOND_PROJECT_NAME)
     createGitRepo(secondRepoPath)
     await addSecondProject(orcaPage, secondRepoPath)

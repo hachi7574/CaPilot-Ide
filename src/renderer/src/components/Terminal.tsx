@@ -359,7 +359,7 @@ function Terminal(): React.JSX.Element | null {
   const activeTabType = useAppStore((s) => s.activeTabType)
   const keybindings = useAppStore((s) => s.keybindings)
   const terminalShortcutPolicy = useAppStore(
-    (s) => s.settings?.terminalShortcutPolicy ?? 'orca-first'
+    (s) => s.settings?.terminalShortcutPolicy ?? 'capilot-first'
   )
   const mobileEmulatorEnabled = useAppStore((s) => s.settings?.mobileEmulatorEnabled !== false)
   const setActiveTabType = useAppStore((s) => s.setActiveTabType)
@@ -420,7 +420,7 @@ function Terminal(): React.JSX.Element | null {
   )
   useTerminalProviderSnapshotCapability(workspaceSessionReady && hydrationSucceeded)
 
-  // Why: TabBar portals into the titlebar (target created by App.tsx) so tabs share the "Orca" title row.
+  // Why: TabBar portals into the titlebar (target created by App.tsx) so tabs share the "CaPilot" title row.
   const titlebarTabsTarget = document.getElementById('titlebar-tabs')
 
   useEffect(() => {
@@ -1945,7 +1945,7 @@ function Terminal(): React.JSX.Element | null {
           terminalShortcutPolicy
         })
       const notifyTerminalCapture = (actionId: KeybindingActionId): void => {
-        if (context !== 'terminal' || terminalShortcutPolicy !== 'orca-first') {
+        if (context !== 'terminal' || terminalShortcutPolicy !== 'capilot-first') {
           return
         }
         showTerminalShortcutCaptureNotification({

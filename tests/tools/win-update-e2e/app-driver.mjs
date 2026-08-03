@@ -1,4 +1,4 @@
-// Drive the installed, packaged Orca app with Playwright's Electron driver.
+// Drive the installed, packaged CaPilot app with Playwright's Electron driver.
 //
 // This targets a PRODUCTION build, so it must NOT depend on the e2e-only store
 // exposure (window.__store / window.__paneManagers) — those exist only under a
@@ -41,10 +41,10 @@ const RESTRICTED_E2E_ENV_KEYS = new Set([
 ])
 
 /**
- * Launch the installed Orca.exe. Pointing userDataDir at a harness-owned temp
+ * Launch the installed CaPilot.exe. Pointing userDataDir at a harness-owned temp
  * dir isolates this run's daemon (its socket/token path becomes unique), so
- * daemon lookups never collide with other Orca installs/daemons on the box.
- * Pass `seedProfile` (a buildFreshProfile object) to write orca-data.json
+ * daemon lookups never collide with other CaPilot installs/daemons on the box.
+ * Pass `seedProfile` (a buildFreshProfile object) to write capilot-data.json
  * BEFORE this launch — do so only on the FIRST launch, never before the
  * post-update relaunch, or the persisted session under test is destroyed.
  */
@@ -295,7 +295,7 @@ async function createWorkspaceFromSeededRepo(page, timeoutMs) {
 }
 
 const OVERLAY_DISMISS_LABELS = ['Got it', 'Dismiss setup scripts', 'Dismiss tip', 'Dismiss update']
-const CLI_FEATURE_TIP_TITLE = 'Let agents drive Orca with the Orca CLI'
+const CLI_FEATURE_TIP_TITLE = 'Let agents drive CaPilot with the CaPilot CLI'
 
 async function dismissKnownOverlays(page) {
   let acted = false

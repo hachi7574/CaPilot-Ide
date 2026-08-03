@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { OrcaRuntimeService } from '../runtime/orca-runtime'
+import type { OrcaRuntimeService } from '../runtime/capilot-runtime'
 import { isLinearProjectListResult } from './ssh-remote-linear-result-guards'
-import { runRemoteOrcaCli } from './ssh-remote-orca-cli'
+import { runRemoteOrcaCli } from './ssh-remote-capilot-cli'
 
 function createRuntime() {
   const runtime = {
@@ -732,7 +732,7 @@ describe('runRemoteOrcaCli Linear commands', () => {
     linearIssueAddComment.mockRejectedValueOnce(
       Object.assign(new Error('Linear may have applied the write.'), {
         code: 'linear_write_unconfirmed',
-        data: { nextSteps: ['Retry once with the pinned command: `orca linear comment add`.'] }
+        data: { nextSteps: ['Retry once with the pinned command: `capilot linear comment add`.'] }
       })
     )
 
@@ -761,8 +761,8 @@ describe('runRemoteOrcaCli Linear commands', () => {
     })
 
     expect(result.exitCode).toBe(0)
-    expect(result.stdout).toContain('orca linear issue')
-    expect(result.stdout).toContain('Usage: orca linear issue')
+    expect(result.stdout).toContain('capilot linear issue')
+    expect(result.stdout).toContain('Usage: capilot linear issue')
     expect(linearIssueContext).not.toHaveBeenCalled()
   })
 
@@ -779,8 +779,8 @@ describe('runRemoteOrcaCli Linear commands', () => {
     })
 
     expect(result.exitCode).toBe(0)
-    expect(result.stdout).toContain('orca linear')
-    expect(result.stdout).toContain('Usage: orca linear <command> [options]')
+    expect(result.stdout).toContain('capilot linear')
+    expect(result.stdout).toContain('Usage: capilot linear <command> [options]')
     expect(result.stdout).toContain('search')
     expect(result.stdout).toContain('team list')
     expect(result.stdout).toContain('label set')
@@ -806,9 +806,9 @@ describe('runRemoteOrcaCli Linear commands', () => {
     })
 
     expect(group.exitCode).toBe(0)
-    expect(group.stdout).toContain('Usage: orca linear <command> [options]')
+    expect(group.stdout).toContain('Usage: capilot linear <command> [options]')
     expect(issue.exitCode).toBe(0)
-    expect(issue.stdout).toContain('Usage: orca linear issue')
+    expect(issue.stdout).toContain('Usage: capilot linear issue')
     expect(linearIssueContext).not.toHaveBeenCalled()
   })
 

@@ -33,7 +33,7 @@ describe('ProjectViewWrapper GitHub source context boundary', () => {
         state: 'OPEN',
         stateReason: null,
         isDraft: false,
-        repository: 'acme/orca',
+        repository: 'acme/capilot',
         assignees: [],
         labels: [{ name: 'bug', color: 'd73a4a' }],
         parentIssue: null,
@@ -47,7 +47,7 @@ describe('ProjectViewWrapper GitHub source context boundary', () => {
     expect(buildProjectWorkItem(row, 'repo-1', 'ghe.example.com')).toMatchObject({
       repoId: 'repo-1',
       type: 'pr',
-      prRepo: { owner: 'acme', repo: 'orca', host: 'ghe.example.com' }
+      prRepo: { owner: 'acme', repo: 'capilot', host: 'ghe.example.com' }
     })
     expect(buildProjectWorkItem(row, 'repo-1')?.prRepo?.host).toBe('github.com')
   })

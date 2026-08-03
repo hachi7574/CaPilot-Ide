@@ -14,12 +14,12 @@ export function getLinkRoutingModifierTitle(openLinksInApp: boolean): string {
       )
     : translate(
         'auto.components.settings.BrowserLinkRoutingModifierSetting.titleOrca',
-        'Hold Shift to open in Orca'
+        'Hold Shift to open in CaPilot'
       )
 }
 
-// Why: the Orca branch is enabled-state copy — with the toggle off the chord
-// still lands on the system browser, so it must not promise Orca in present tense.
+// Why: the CaPilot branch is enabled-state copy — with the toggle off the chord
+// still lands on the system browser, so it must not promise CaPilot in present tense.
 export function getLinkRoutingModifierDescription({
   openLinksInApp,
   isMac
@@ -31,12 +31,12 @@ export function getLinkRoutingModifierDescription({
   return openLinksInApp
     ? translate(
         'auto.components.settings.BrowserLinkRoutingModifierSetting.descriptionSystem',
-        'Links open in Orca, so {{chord}}+click sends one to your system browser instead.',
+        'Links open in CaPilot, so {{chord}}+click sends one to your system browser instead.',
         { chord }
       )
     : translate(
         'auto.components.settings.BrowserLinkRoutingModifierSetting.descriptionOrca',
-        "Links open in your system browser. When enabled, {{chord}}+click opens one in Orca's built-in browser instead.",
+        "Links open in your system browser. When enabled, {{chord}}+click opens one in CaPilot's built-in browser instead.",
         { chord }
       )
 }

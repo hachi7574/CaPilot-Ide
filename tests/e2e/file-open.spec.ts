@@ -6,7 +6,7 @@
  * - you can open .md files and they show up as preview (from the right sidebar)
  */
 
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   waitForSessionReady,
   waitForActiveWorktree,
@@ -69,11 +69,11 @@ test.describe('File Open & Markdown Preview', () => {
     await openFileExplorer(orcaPage)
 
     // Why: the load-bearing check is that `FileExplorer` actually mounted.
-    // `data-orca-explorer-shell` is the stable marker the component renders
+    // `data-capilot-explorer-shell` is the stable marker the component renders
     // on its root shell div — a store-only `rightSidebarTab === 'explorer'`
     // check would pass even if the explorer crashed on mount and the panel
     // painted empty.
-    await expect(orcaPage.locator('[data-orca-explorer-shell]')).toBeVisible({ timeout: 5_000 })
+    await expect(orcaPage.locator('[data-capilot-explorer-shell]')).toBeVisible({ timeout: 5_000 })
   })
 
   /**
@@ -130,7 +130,7 @@ test.describe('File Open & Markdown Preview', () => {
     // Wait for the editor tab to become active
     await expect.poll(async () => getActiveTabType(orcaPage), { timeout: 5_000 }).toBe('editor')
 
-    // The seeded README.md starts with `# Orca E2E Test Repo`, so the rich
+    // The seeded README.md starts with `# CaPilot E2E Test Repo`, so the rich
     // markdown editor should render a real <h1> with that text. Asserting on
     // the rendered heading (not `markdownViewMode` in the store) is the whole
     // point of this spec — a store-only check passes even if
@@ -138,7 +138,7 @@ test.describe('File Open & Markdown Preview', () => {
     // Fall back to CLAUDE.md's first heading when that file was opened
     // instead: the seeded `CLAUDE.md` starts with `# CLAUDE.md`.
     const expectedHeading = clickedFile?.endsWith('README.md')
-      ? /Orca E2E Test Repo/i
+      ? /CaPilot E2E Test Repo/i
       : /CLAUDE\.md/i
     // Why 25s: first-time markdown open in a headless Electron session waits
     // on two lazy chunks (EditorPanel → RichMarkdownEditor) plus ProseMirror

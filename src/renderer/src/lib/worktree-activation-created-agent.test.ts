@@ -443,7 +443,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...getDefaultSettings('/workspace/.capilot-workspaces'),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'web-runtime-1',
         setupScriptLaunchMode: 'new-tab'
@@ -494,7 +494,7 @@ describe('activateAndRevealWorktree', () => {
       },
       ptyIdsByTabId: { 'tab-1': [] },
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...getDefaultSettings('/workspace/.capilot-workspaces'),
         activeRuntimeEnvironmentId: 'web-runtime-1'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({
@@ -596,7 +596,7 @@ describe('activateAndRevealWorktree', () => {
       activeTabIdByWorktree: {},
       tabBarOrderByWorktree: {},
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...getDefaultSettings('/workspace/.capilot-workspaces'),
         agentCmdOverrides: {},
         activeRuntimeEnvironmentId: 'web-runtime-1',
         setupScriptLaunchMode: 'new-tab'
@@ -666,7 +666,7 @@ describe('activateAndRevealWorktree', () => {
       },
       ptyIdsByTabId: { 'tab-1': [] },
       settings: {
-        ...getDefaultSettings('/workspace/.orca-workspaces'),
+        ...getDefaultSettings('/workspace/.capilot-workspaces'),
         activeRuntimeEnvironmentId: 'focused-runtime'
       },
       reconcileWorktreeTabModel: vi.fn(() => ({

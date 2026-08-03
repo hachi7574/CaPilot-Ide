@@ -8,14 +8,14 @@ import type {
   RuntimeTerminalShow
 } from '../../src/shared/runtime-types'
 import { toWebTerminalSurfaceTabId } from '../../src/shared/terminal-surface-id'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   createRuntimeDesktopPairingOffer,
   launchPairedWebClient
 } from './helpers/paired-electron-client'
 import { getTerminalContent, waitForActivePanePtyId } from './helpers/terminal'
 
-const scratch = mkdtempSync(path.join(os.tmpdir(), 'orca-paired-probe-gap-'))
+const scratch = mkdtempSync(path.join(os.tmpdir(), 'capilot-paired-probe-gap-'))
 const fixturePath = path.join(scratch, 'probe-gap-terminal.mjs')
 const processedInputPath = path.join(scratch, 'processed-input.txt')
 writeFileSync(processedInputPath, '')

@@ -99,25 +99,25 @@ type OrchestrationSendResult =
       lifecycle?: { action: 'completed' | 'failed' }
     }
 
-function resolveCompatibilityCliCommand(): 'orca' | 'orca-ide' | 'orca-dev' {
+function resolveCompatibilityCliCommand(): 'capilot' | 'capilot-ide' | 'capilot-dev' {
   const configured = process.env.ORCA_CLI_COMMAND
-  if (configured === 'orca' || configured === 'orca-ide' || configured === 'orca-dev') {
+  if (configured === 'capilot' || configured === 'capilot-ide' || configured === 'capilot-dev') {
     return configured
   }
-  return process.platform === 'linux' ? 'orca-ide' : 'orca'
+  return process.platform === 'linux' ? 'capilot-ide' : 'capilot'
 }
 
-function resolvePackagedWindowsCompatibilityCommand(): 'orca' | 'orca-ide' | undefined {
+function resolvePackagedWindowsCompatibilityCommand(): 'capilot' | 'capilot-ide' | undefined {
   if (process.env.ORCA_WINDOWS_PACKAGED_CLI_LAUNCHER !== '1') {
     return undefined
   }
   const command = process.env.ORCA_CLI_COMMAND
-  if (command === 'orca' || command === 'orca-ide') {
+  if (command === 'capilot' || command === 'capilot-ide') {
     return command
   }
   throw new RuntimeClientError(
     'invalid_argument',
-    'The packaged Orca launcher did not provide a valid resume command. No question was created.'
+    'The packaged CaPilot launcher did not provide a valid resume command. No question was created.'
   )
 }
 
@@ -337,14 +337,14 @@ function throwNoActiveSenderTerminal(): never {
   throw new RuntimeClientError(
     'no_active_sender_terminal',
     'Could not determine the sender terminal for this orchestration command. ' +
-      'Pass --from <terminal-handle> or run the command inside a live Orca terminal with ORCA_TERMINAL_HANDLE set.'
+      'Pass --from <terminal-handle> or run the command inside a live CaPilot terminal with ORCA_TERMINAL_HANDLE set.'
   )
 }
 
 function isDevCliInvocation(): boolean {
   return (
     process.env.ORCA_DEV_CLI_INVOCATION === '1' ||
-    (process.env.ORCA_USER_DATA_PATH?.includes('orca-dev') ?? false)
+    (process.env.ORCA_USER_DATA_PATH?.includes('capilot-dev') ?? false)
   )
 }
 

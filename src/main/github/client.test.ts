@@ -316,9 +316,9 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'fork', repo: 'orca' }
+        { owner: 'fork', repo: 'capilot' }
       ],
-      headRepo: { owner: 'fork', repo: 'orca' }
+      headRepo: { owner: 'fork', repo: 'capilot' }
     })
     ghExecFileAsyncMock.mockResolvedValueOnce({
       stdout: JSON.stringify([
@@ -345,7 +345,7 @@ describe('getPRForBranch', () => {
     expect(pr).toMatchObject({
       number: 1738,
       prRepo: { owner: 'stablyai', repo: 'orca' },
-      headRepo: { owner: 'fork', repo: 'orca' }
+      headRepo: { owner: 'fork', repo: 'capilot' }
     })
   })
 
@@ -353,9 +353,9 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'fork', repo: 'orca' }
+        { owner: 'fork', repo: 'capilot' }
       ],
-      headRepo: { owner: 'fork', repo: 'orca' }
+      headRepo: { owner: 'fork', repo: 'capilot' }
     })
     gitExecFileAsyncMock.mockResolvedValueOnce({ stdout: 'linked-head-oid\n', stderr: '' })
     ghExecFileAsyncMock
@@ -399,13 +399,13 @@ describe('getPRForBranch', () => {
         'view',
         '99',
         '--repo',
-        'fork/orca',
+        'fork/capilot',
         '--json',
         'number,title,state,url,statusCheckRollup,updatedAt,isDraft,mergeable,reviewDecision,mergeStateStatus,autoMergeRequest,baseRefName,headRefName,baseRefOid,headRefOid'
       ],
       { cwd: '/repo-root' }
     )
-    expect(pr?.prRepo).toEqual({ owner: 'fork', repo: 'orca' })
+    expect(pr?.prRepo).toEqual({ owner: 'fork', repo: 'capilot' })
   })
 
   it('prefers exact linked PR lookup when the repo identity is known', async () => {
@@ -1534,7 +1534,7 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'fork', repo: 'orca' }
+        { owner: 'fork', repo: 'capilot' }
       ],
       headRepo: null
     })
@@ -1555,7 +1555,7 @@ describe('getPRForBranch', () => {
         'pr',
         'list',
         '--repo',
-        'fork/orca',
+        'fork/capilot',
         '--head',
         'feature/test',
         '--state',
@@ -1699,9 +1699,9 @@ describe('getPRForBranch', () => {
   it('does not carry a merged upstream branch head repo into a fallback PR number', async () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [{ owner: 'stablyai', repo: 'orca' }],
-      headRepo: { owner: 'origin-owner', repo: 'orca' }
+      headRepo: { owner: 'origin-owner', repo: 'capilot' }
     })
-    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'orca' })
+    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'capilot' })
     gitExecFileAsyncMock.mockResolvedValueOnce({
       stdout: 'local-created-from-pr\0fork/contributor/original\n',
       stderr: ''
@@ -1762,7 +1762,7 @@ describe('getPRForBranch', () => {
     expect(pr).toMatchObject({
       number: 42,
       title: 'Open fallback PR',
-      headRepo: { owner: 'origin-owner', repo: 'orca' }
+      headRepo: { owner: 'origin-owner', repo: 'capilot' }
     })
   })
 
@@ -2520,11 +2520,11 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'origin-owner', repo: 'orca' }
+        { owner: 'origin-owner', repo: 'capilot' }
       ],
-      headRepo: { owner: 'origin-owner', repo: 'orca' }
+      headRepo: { owner: 'origin-owner', repo: 'capilot' }
     })
-    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'orca' })
+    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'capilot' })
     ghExecFileAsyncMock
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
@@ -2579,7 +2579,7 @@ describe('getPRForBranch', () => {
       number: 78,
       title: 'Hydrated fork upstream branch PR',
       prRepo: { owner: 'stablyai', repo: 'orca' },
-      headRepo: { owner: 'fork-owner', repo: 'orca' }
+      headRepo: { owner: 'fork-owner', repo: 'capilot' }
     })
   })
 
@@ -2587,11 +2587,11 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'origin-owner', repo: 'orca' }
+        { owner: 'origin-owner', repo: 'capilot' }
       ],
-      headRepo: { owner: 'origin-owner', repo: 'orca' }
+      headRepo: { owner: 'origin-owner', repo: 'capilot' }
     })
-    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'brennanb2025', repo: 'orca' })
+    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'brennanb2025', repo: 'capilot' })
     ghExecFileAsyncMock
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
@@ -2648,7 +2648,7 @@ describe('getPRForBranch', () => {
     expect(pr).toMatchObject({
       number: 6433,
       prRepo: { owner: 'stablyai', repo: 'orca' },
-      headRepo: { owner: 'brennanb2025', repo: 'orca' }
+      headRepo: { owner: 'brennanb2025', repo: 'capilot' }
     })
   })
 
@@ -2733,11 +2733,11 @@ describe('getPRForBranch', () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
         { owner: 'stablyai', repo: 'orca' },
-        { owner: 'origin-owner', repo: 'orca' }
+        { owner: 'origin-owner', repo: 'capilot' }
       ],
-      headRepo: { owner: 'origin-owner', repo: 'orca' }
+      headRepo: { owner: 'origin-owner', repo: 'capilot' }
     })
-    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'orca' })
+    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork-owner', repo: 'capilot' })
     ghExecFileAsyncMock
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
       .mockResolvedValueOnce({ stdout: JSON.stringify([]) })
@@ -2769,7 +2769,7 @@ describe('getPRForBranch', () => {
       number: 79,
       title: 'SSH same-name fork PR',
       prRepo: { owner: 'stablyai', repo: 'orca' },
-      headRepo: { owner: 'fork-owner', repo: 'orca' }
+      headRepo: { owner: 'fork-owner', repo: 'capilot' }
     })
   })
 
@@ -3506,10 +3506,10 @@ describe('getPRForBranch', () => {
         head: {
           ref: 'prateek/fix-sidebar-agents-toggle',
           repo: {
-            full_name: 'prateek/orca',
-            name: 'orca',
+            full_name: 'prateek/capilot',
+            name: 'capilot',
             clone_url: 'https://github.com/prateek/orca.git',
-            ssh_url: 'git@github.com:prateek/orca.git',
+            ssh_url: 'git@github.com:prateek/capilot.git',
             owner: { login: 'prateek' }
           }
         }
@@ -3524,47 +3524,47 @@ describe('getPRForBranch', () => {
     })
     expect(target).toEqual({
       pushTarget: {
-        remoteName: 'pr-prateek-orca',
+        remoteName: 'pr-prateek-capilot',
         branchName: 'prateek/fix-sidebar-agents-toggle',
-        remoteUrl: 'git@github.com:prateek/orca.git'
+        remoteUrl: 'git@github.com:prateek/capilot.git'
       }
     })
   })
 
   it('pins explicit origin push-target lookup when upstream has the same PR number', async () => {
-    getOwnerRepoMock.mockResolvedValue({ owner: 'fork', repo: 'orca' })
+    getOwnerRepoMock.mockResolvedValue({ owner: 'fork', repo: 'capilot' })
     resolvePRRepositoryCandidatesMock.mockResolvedValue({
       candidates: [
-        { owner: 'upstream', repo: 'orca' },
-        { owner: 'fork', repo: 'orca' }
+        { owner: 'upstream', repo: 'capilot' },
+        { owner: 'fork', repo: 'capilot' }
       ],
-      headRepo: { owner: 'fork', repo: 'orca' }
+      headRepo: { owner: 'fork', repo: 'capilot' }
     })
     ghExecFileAsyncMock.mockResolvedValueOnce({
       stdout: JSON.stringify({
         head: {
           ref: 'contributor/fix',
           repo: {
-            full_name: 'contributor/orca',
-            name: 'orca',
+            full_name: 'contributor/capilot',
+            name: 'capilot',
             clone_url: 'https://github.com/contributor/orca.git',
-            ssh_url: 'git@github.com:contributor/orca.git',
+            ssh_url: 'git@github.com:contributor/capilot.git',
             owner: { login: 'contributor' }
           }
         }
       })
     })
-    getRemoteUrlForRepoMock.mockResolvedValueOnce('git@github.com:fork/orca.git')
+    getRemoteUrlForRepoMock.mockResolvedValueOnce('git@github.com:fork/capilot.git')
 
     await getPullRequestPushTarget('/repo-root', 1738, null, {}, 'origin')
 
     expect(resolvePRRepositoryCandidatesMock).not.toHaveBeenCalled()
-    expect(ghExecFileAsyncMock).toHaveBeenCalledWith(['api', 'repos/fork/orca/pulls/1738'], {
+    expect(ghExecFileAsyncMock).toHaveBeenCalledWith(['api', 'repos/fork/capilot/pulls/1738'], {
       cwd: '/repo-root',
       host: 'github.com'
     })
     expect(ghExecFileAsyncMock).not.toHaveBeenCalledWith(
-      ['api', 'repos/upstream/orca/pulls/1738'],
+      ['api', 'repos/upstream/capilot/pulls/1738'],
       expect.anything()
     )
   })
@@ -3578,10 +3578,10 @@ describe('getPRForBranch', () => {
         head: {
           ref: 'prateek/fix-sidebar-agents-toggle',
           repo: {
-            full_name: 'prateek/orca',
-            name: 'orca',
+            full_name: 'prateek/capilot',
+            name: 'capilot',
             clone_url: 'https://github.com/prateek/orca.git',
-            ssh_url: 'git@github.com:prateek/orca.git',
+            ssh_url: 'git@github.com:prateek/capilot.git',
             owner: { login: 'prateek' }
           }
         }
@@ -3591,9 +3591,9 @@ describe('getPRForBranch', () => {
 
     await expect(getPullRequestPushTarget('/repo-root', 1738)).resolves.toEqual({
       pushTarget: {
-        remoteName: 'pr-prateek-orca',
+        remoteName: 'pr-prateek-capilot',
         branchName: 'prateek/fix-sidebar-agents-toggle',
-        remoteUrl: 'git@github.com:prateek/orca.git'
+        remoteUrl: 'git@github.com:prateek/capilot.git'
       },
       maintainerCanModify: false
     })
@@ -3608,7 +3608,7 @@ describe('getPRForBranch', () => {
           ref: 'fix-sidebar',
           repo: {
             full_name: 'stablyai/orca',
-            name: 'orca',
+            name: 'capilot',
             clone_url: 'https://github.com/stablyai/orca.git',
             ssh_url: 'git@github.com:stablyai/orca.git',
             owner: { login: 'stablyai' }
@@ -3634,7 +3634,7 @@ describe('getPRForBranch', () => {
           ref: 'fix-sidebar',
           repo: {
             full_name: 'stablyai/orca',
-            name: 'orca',
+            name: 'capilot',
             clone_url: 'https://github.com/stablyai/orca.git',
             ssh_url: 'git@github.com:stablyai/orca.git',
             owner: { login: 'stablyai' }
@@ -3657,43 +3657,43 @@ describe('getPRForBranch', () => {
     // autodetect); it must not flip to the upstream parent.
     getOwnerRepoForRemoteMock.mockImplementation(async (_repoPath: string, remoteName: string) =>
       remoteName === 'origin'
-        ? { owner: 'fsdwen', repo: 'orca' }
+        ? { owner: 'fsdwen', repo: 'capilot' }
         : { owner: 'stablyai', repo: 'orca' }
     )
     // Why: getRepoSlug imports getOriginGitHubApiRepository; the suite bridge
     // prefers getOwnerRepoForRemote for origin, so set both seams.
-    getOwnerRepoMock.mockResolvedValue({ owner: 'fsdwen', repo: 'orca' })
+    getOwnerRepoMock.mockResolvedValue({ owner: 'fsdwen', repo: 'capilot' })
 
     await expect(getRepoSlug('/repo-root')).resolves.toEqual({
       owner: 'fsdwen',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.com'
     })
   })
 
   it('resolves a distinct upstream remote as the repo upstream', async () => {
     // getRepoUpstream probes origin then upstream via getOwnerRepoForRemote (#7331).
-    getOwnerRepoMock.mockResolvedValue({ owner: 'tmchow', repo: 'orca' })
+    getOwnerRepoMock.mockResolvedValue({ owner: 'tmchow', repo: 'capilot' })
     getOwnerRepoForRemoteMock.mockImplementation(async (_repoPath: string, remoteName: string) =>
       remoteName === 'origin'
-        ? { owner: 'tmchow', repo: 'orca' }
+        ? { owner: 'tmchow', repo: 'capilot' }
         : { owner: 'stablyai', repo: 'orca' }
     )
 
     // Why: the suite bridge returns getOwnerRepoForRemote fixtures as-is (no host pin).
     await expect(getRepoUpstream('/repo-root')).resolves.toEqual({
       owner: 'stablyai',
-      repo: 'orca'
+      repo: 'capilot'
     })
 
     expect(ghExecFileAsyncMock).not.toHaveBeenCalled()
   })
 
   it('does not treat a same-repository upstream remote as a fork', async () => {
-    getOwnerRepoMock.mockResolvedValue({ owner: 'StablyAI', repo: 'Orca' })
+    getOwnerRepoMock.mockResolvedValue({ owner: 'StablyAI', repo: 'CaPilot' })
     getOwnerRepoForRemoteMock.mockImplementation(async (_repoPath: string, remoteName: string) =>
       remoteName === 'origin'
-        ? { owner: 'StablyAI', repo: 'Orca' }
+        ? { owner: 'StablyAI', repo: 'CaPilot' }
         : { owner: 'stablyai', repo: 'orca' }
     )
     ghExecFileAsyncMock.mockResolvedValueOnce({
@@ -3705,7 +3705,7 @@ describe('getPRForBranch', () => {
     expect(ghExecFileAsyncMock).toHaveBeenCalledWith(
       // Why: positional slugs are explicit about github.com too, so GH_HOST
       // cannot redirect them.
-      ['repo', 'view', 'github.com/StablyAI/Orca', '--json', 'isFork,parent'],
+      ['repo', 'view', 'github.com/StablyAI/CaPilot', '--json', 'isFork,parent'],
       { cwd: '/repo-root', host: 'github.com', timeout: 10_000 }
     )
   })
@@ -3723,7 +3723,7 @@ describe('getPRForBranch', () => {
 
   it('falls back to the GitHub parent when no upstream remote is configured', async () => {
     getOwnerRepoForRemoteMock
-      .mockResolvedValueOnce({ owner: 'tmchow', repo: 'orca' })
+      .mockResolvedValueOnce({ owner: 'tmchow', repo: 'capilot' })
       .mockResolvedValueOnce(null)
     ghExecFileAsyncMock.mockResolvedValueOnce({
       stdout: JSON.stringify({
@@ -3734,14 +3734,14 @@ describe('getPRForBranch', () => {
 
     await expect(getRepoUpstream('/repo-root')).resolves.toEqual({
       owner: 'stablyai',
-      repo: 'orca',
+      repo: 'capilot',
       // Why: fork parents live on the same server as the fork's origin.
       host: 'github.com'
     })
   })
 
   it('routes GHES push-target probes through the Enterprise host', async () => {
-    const ghes = { owner: 'team', repo: 'orca', host: 'github.acme-corp.com' }
+    const ghes = { owner: 'team', repo: 'capilot', host: 'github.acme-corp.com' }
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [ghes],
       headRepo: ghes
@@ -3752,10 +3752,10 @@ describe('getPRForBranch', () => {
         head: {
           ref: 'feature',
           repo: {
-            full_name: 'team/orca',
-            name: 'orca',
+            full_name: 'team/capilot',
+            name: 'capilot',
             clone_url: 'https://github.acme-corp.com/team/orca.git',
-            ssh_url: 'git@github.acme-corp.com:team/orca.git',
+            ssh_url: 'git@github.acme-corp.com:team/capilot.git',
             owner: { login: 'team' }
           }
         }
@@ -3768,29 +3768,29 @@ describe('getPRForBranch', () => {
     // Why: the candidate probe must pin options.host so the runner targets the
     // Enterprise server instead of gh's default host.
     expect(ghExecFileAsyncMock).toHaveBeenCalledWith(
-      ['api', 'repos/team/orca/pulls/7'],
+      ['api', 'repos/team/capilot/pulls/7'],
       expect.objectContaining({ host: 'github.acme-corp.com' })
     )
   })
 
   it('does not confuse same-slug PR repositories across GitHub hosts', async () => {
-    const enterprise = { owner: 'team', repo: 'orca', host: 'github.acme-corp.com' }
-    const dotCom = { owner: 'team', repo: 'orca', host: 'github.com' }
+    const enterprise = { owner: 'team', repo: 'capilot', host: 'github.acme-corp.com' }
+    const dotCom = { owner: 'team', repo: 'capilot', host: 'github.com' }
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [enterprise, dotCom],
       headRepo: dotCom
     })
     getOwnerRepoForRemoteMock.mockResolvedValueOnce(dotCom)
-    getRemoteUrlForRepoMock.mockResolvedValueOnce('git@github.com:team/orca.git')
+    getRemoteUrlForRepoMock.mockResolvedValueOnce('git@github.com:team/capilot.git')
     ghExecFileAsyncMock.mockResolvedValueOnce({
       stdout: JSON.stringify({
         head: {
           ref: 'feature',
           repo: {
-            full_name: 'team/orca',
-            name: 'orca',
+            full_name: 'team/capilot',
+            name: 'capilot',
             clone_url: 'https://github.acme-corp.com/team/orca.git',
-            ssh_url: 'git@github.acme-corp.com:team/orca.git',
+            ssh_url: 'git@github.acme-corp.com:team/capilot.git',
             owner: { login: 'team' }
           }
         }
@@ -3799,9 +3799,9 @@ describe('getPRForBranch', () => {
 
     await expect(getPullRequestPushTarget('/repo-root', 7)).resolves.toEqual({
       pushTarget: {
-        remoteName: 'pr-team-orca',
+        remoteName: 'pr-team-capilot',
         branchName: 'feature',
-        remoteUrl: 'git@github.acme-corp.com:team/orca.git'
+        remoteUrl: 'git@github.acme-corp.com:team/capilot.git'
       }
     })
   })
@@ -3809,12 +3809,12 @@ describe('getPRForBranch', () => {
   it('probes additional PR repo candidates when the first lookup is not found', async () => {
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [
-        { owner: 'fork', repo: 'orca' },
+        { owner: 'fork', repo: 'capilot' },
         { owner: 'stablyai', repo: 'orca' }
       ],
-      headRepo: { owner: 'fork', repo: 'orca' }
+      headRepo: { owner: 'fork', repo: 'capilot' }
     })
-    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork', repo: 'orca' })
+    getOwnerRepoForRemoteMock.mockResolvedValueOnce({ owner: 'fork', repo: 'capilot' })
     ghExecFileAsyncMock
       .mockRejectedValueOnce(new Error('HTTP 404: Not Found'))
       .mockResolvedValueOnce({
@@ -3822,10 +3822,10 @@ describe('getPRForBranch', () => {
           head: {
             ref: 'feature/test',
             repo: {
-              full_name: 'fork/orca',
-              name: 'orca',
+              full_name: 'fork/capilot',
+              name: 'capilot',
               clone_url: 'https://github.com/fork/orca.git',
-              ssh_url: 'git@github.com:fork/orca.git',
+              ssh_url: 'git@github.com:fork/capilot.git',
               owner: { login: 'fork' }
             }
           }
@@ -3838,7 +3838,7 @@ describe('getPRForBranch', () => {
         branchName: 'feature/test'
       }
     })
-    expect(ghExecFileAsyncMock).toHaveBeenNthCalledWith(1, ['api', 'repos/fork/orca/pulls/1849'], {
+    expect(ghExecFileAsyncMock).toHaveBeenNthCalledWith(1, ['api', 'repos/fork/capilot/pulls/1849'], {
       cwd: '/repo-root'
     })
     expect(ghExecFileAsyncMock).toHaveBeenNthCalledWith(
@@ -3849,8 +3849,8 @@ describe('getPRForBranch', () => {
   })
 
   it('probes the next PR work-item candidate after a permission denial', async () => {
-    const upstream = { owner: 'upstream', repo: 'orca', host: 'github.com' }
-    const origin = { owner: 'fork', repo: 'orca', host: 'github.com' }
+    const upstream = { owner: 'upstream', repo: 'capilot', host: 'github.com' }
+    const origin = { owner: 'fork', repo: 'capilot', host: 'github.com' }
     resolvePRRepositoryCandidatesMock.mockResolvedValueOnce({
       candidates: [upstream, origin],
       headRepo: origin
@@ -3879,11 +3879,11 @@ describe('getPRForBranch', () => {
     })
 
     expect(ghExecFileAsyncMock.mock.calls[0][0]).toEqual(
-      expect.arrayContaining(['pr', 'view', '--repo', 'upstream/orca'])
+      expect.arrayContaining(['pr', 'view', '--repo', 'upstream/capilot'])
     )
-    expect(ghExecFileAsyncMock.mock.calls[1][0]).toEqual(['api', 'repos/upstream/orca/pulls/42'])
+    expect(ghExecFileAsyncMock.mock.calls[1][0]).toEqual(['api', 'repos/upstream/capilot/pulls/42'])
     expect(ghExecFileAsyncMock.mock.calls[2][0]).toEqual(
-      expect.arrayContaining(['pr', 'view', '--repo', 'fork/orca'])
+      expect.arrayContaining(['pr', 'view', '--repo', 'fork/capilot'])
     )
   })
 
@@ -4104,14 +4104,14 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       mergePR('/repo-root', 7, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })
     await expect(
       updatePRTitle('/repo-root', 7, 'New title', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toBe(true)
@@ -4156,14 +4156,14 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       setPRAutoMerge('/remote/repo-root', 7, true, 'squash', 'ssh-1', {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })
     await expect(
       setPRAutoMerge('/remote/repo-root', 7, false, 'squash', 'ssh-1', {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })
@@ -4211,7 +4211,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       setPRAutoMerge('/repo-root', 7, true, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })
@@ -4239,7 +4239,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       setPRAutoMerge('/repo-root', 7, true, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({
@@ -4261,7 +4261,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       setPRAutoMerge('/repo-root', 7, true, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })
@@ -4310,7 +4310,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       mergePR('/repo-root', 7, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({
@@ -4349,7 +4349,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       mergePR('/repo-root', 7, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({
@@ -4542,7 +4542,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       mergePR('/repo-root', 7, 'squash', undefined, {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({
@@ -4579,7 +4579,7 @@ describe('GitHub GraphQL rate-limit guard', () => {
     await expect(
       mergePR('/remote/repo-root', 7, 'squash', 'ssh-1', {
         owner: 'stablyai',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.com'
       })
     ).resolves.toEqual({ ok: true })

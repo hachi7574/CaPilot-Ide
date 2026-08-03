@@ -4,28 +4,28 @@ import { GLOBAL_FLAGS } from '../args'
 export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
   {
     path: ['project', 'list'],
-    summary: 'List durable projects known to Orca',
-    usage: 'orca project list [--json]',
+    summary: 'List durable projects known to CaPilot',
+    usage: 'capilot project list [--json]',
     allowedFlags: [...GLOBAL_FLAGS],
-    examples: ['orca project list', 'orca project list --json']
+    examples: ['capilot project list', 'capilot project list --json']
   },
   {
     path: ['project', 'setups'],
     summary: 'List project host setups',
-    usage: 'orca project setups [--project <id>] [--host <host-id>] [--json]',
+    usage: 'capilot project setups [--project <id>] [--host <host-id>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'project', 'host'],
     notes: ['A setup means a project is available on a host at a concrete filesystem path.'],
     examples: [
-      'orca project setups',
+      'capilot project setups',
       'orca project setups --project github:stablyai/orca',
-      'orca project setups --host local'
+      'capilot project setups --host local'
     ]
   },
   {
     path: ['project', 'setup-existing-folder'],
     summary: 'Make a project available on a host by importing an existing folder',
     usage:
-      'orca project setup-existing-folder --project <id> --host <host-id> --path <path> [--kind git|folder] [--display-name <name>] [--json]',
+      'capilot project setup-existing-folder --project <id> --host <host-id> --path <path> [--kind git|folder] [--display-name <name>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'project', 'host', 'path', 'kind', 'display-name'],
     notes: [
       'For remote runtimes, --path must be an absolute path on the remote server.',
@@ -40,7 +40,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     path: ['project', 'setup-clone'],
     summary: 'Make a project available on a host by cloning a repository',
     usage:
-      'orca project setup-clone --project <id> --host <host-id> --url <clone-url> --destination <path> [--display-name <name>] [--json]',
+      'capilot project setup-clone --project <id> --host <host-id> --url <clone-url> --destination <path> [--display-name <name>] [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'project', 'host', 'url', 'destination', 'display-name'],
     notes: [
       'For remote runtimes, --destination must be an absolute parent directory on the remote server.',
@@ -55,7 +55,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     path: ['project', 'setup-create'],
     summary: 'Create independent project host setup metadata',
     usage:
-      'orca project setup-create --project <id> --host <host-id> [--setup-id <id>] [--path <path>] [--kind git|folder] [--display-name <name>] [--worktree-base-path <path>] [--git-username <name>] [--state ready|not-set-up|setting-up|error|unsupported] [--method imported-existing-folder|cloned|provisioned] [--json]',
+      'capilot project setup-create --project <id> --host <host-id> [--setup-id <id>] [--path <path>] [--kind git|folder] [--display-name <name>] [--worktree-base-path <path>] [--git-username <name>] [--state ready|not-set-up|setting-up|error|unsupported] [--method imported-existing-folder|cloned|provisioned] [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
       'project',
@@ -71,7 +71,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     ],
     notes: [
       'Creates setup metadata without registering a repo compatibility record.',
-      'Use setup-existing-folder when Orca should import and manage an actual checkout path now.'
+      'Use setup-existing-folder when CaPilot should import and manage an actual checkout path now.'
     ],
     examples: [
       'orca project setup-create --project github:stablyai/orca --host runtime:gpu --state setting-up --method provisioned --json'
@@ -81,7 +81,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     path: ['project', 'setup-update'],
     summary: 'Update project host setup metadata',
     usage:
-      'orca project setup-update --setup <setup-id> [--display-name <name>] [--path <path>] [--worktree-base-path <path>] [--git-username <name>] [--kind git|folder] [--state ready|not-set-up|setting-up|error|unsupported] [--method legacy-repo|imported-existing-folder|cloned|provisioned] [--json]',
+      'capilot project setup-update --setup <setup-id> [--display-name <name>] [--path <path>] [--worktree-base-path <path>] [--git-username <name>] [--kind git|folder] [--state ready|not-set-up|setting-up|error|unsupported] [--method legacy-repo|imported-existing-folder|cloned|provisioned] [--json]',
     allowedFlags: [
       ...GLOBAL_FLAGS,
       'setup',
@@ -106,7 +106,7 @@ export const PROJECT_COMMAND_SPECS: CommandSpec[] = [
     path: ['project', 'setup-delete'],
     destructive: true,
     summary: 'Remove a project host setup',
-    usage: 'orca project setup-delete --setup <setup-id> [--json]',
+    usage: 'capilot project setup-delete --setup <setup-id> [--json]',
     allowedFlags: [...GLOBAL_FLAGS, 'setup'],
     notes: [
       'Independent setups are removed directly.',

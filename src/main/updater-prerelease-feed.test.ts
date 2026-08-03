@@ -25,9 +25,9 @@ function buildManifest(tag: string): string {
   return [
     `version: ${version}`,
     'files:',
-    `  - url: Orca-${version}-arm64-mac.zip`,
+    `  - url: CaPilot-${version}-arm64-mac.zip`,
     '    sha512: test',
-    `path: Orca-${version}-arm64-mac.zip`
+    `path: CaPilot-${version}-arm64-mac.zip`
   ].join('\n')
 }
 
@@ -156,7 +156,7 @@ describe('fetchNewerReleaseTag', () => {
         `https://github.com/stablyai/orca/releases/download/v1.4.1/${manifestName}`
       ])
       expect(assetUrls).toEqual([
-        'https://github.com/stablyai/orca/releases/download/v1.4.1/Orca-1.4.1-arm64-mac.zip'
+        'https://github.com/stablyai/orca/releases/download/v1.4.1/CaPilot-1.4.1-arm64-mac.zip'
       ])
     }
   )

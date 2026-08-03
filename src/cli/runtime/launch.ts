@@ -58,7 +58,7 @@ export function launchOrcaApp(): void {
 
   throw new RuntimeClientError(
     'runtime_open_failed',
-    'Could not determine how to launch Orca. Start Orca manually and try again.'
+    'Could not determine how to launch CaPilot. Start CaPilot manually and try again.'
   )
 }
 
@@ -205,7 +205,7 @@ function waitForRecipeJson(child: ReturnType<typeof spawnProcess>): Promise<numb
         writeIgnoredRecipeStdout()
         return
       }
-      if (getEphemeralVmRecipeResultConnection(parsed.result).type !== 'orca-server') {
+      if (getEphemeralVmRecipeResultConnection(parsed.result).type !== 'capilot-server') {
         writeIgnoredRecipeStdout()
         return
       }
@@ -243,8 +243,8 @@ function waitForRecipeJson(child: ReturnType<typeof spawnProcess>): Promise<numb
         new RuntimeClientError(
           'runtime_serve_failed',
           typeof code === 'number'
-            ? `Orca serve exited before printing valid recipe JSON with code ${code}.`
-            : `Orca serve exited before printing valid recipe JSON via ${signal}.`
+            ? `CaPilot serve exited before printing valid recipe JSON with code ${code}.`
+            : `CaPilot serve exited before printing valid recipe JSON via ${signal}.`
         )
       )
     }
@@ -266,7 +266,7 @@ function getExecutableSpawnOptions(executable: string): Pick<SpawnOptions, 'shel
 
 function resolveAppRoot(): string {
   // Why: dev-mode resource resolution in the Electron child may consult
-  // process.cwd(). Pin it to the app root so `orca serve` behaves the same
+  // process.cwd(). Pin it to the app root so `capilot serve` behaves the same
   // regardless of the shell directory it was launched from.
   return resolve(__dirname, '../../..')
 }
@@ -281,7 +281,7 @@ function resolveForegroundOrcaExecutable(): string {
   }
   throw new RuntimeClientError(
     'runtime_serve_failed',
-    'Could not determine how to start Orca server. Set ORCA_APP_EXECUTABLE to the Orca executable.'
+    'Could not determine how to start CaPilot server. Set ORCA_APP_EXECUTABLE to the CaPilot executable.'
   )
 }
 

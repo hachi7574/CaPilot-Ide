@@ -18,7 +18,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { waitForSessionReady, waitForActiveWorktree } from './helpers/store'
 
 async function addFolderRepo(page: Page, folderPath: string): Promise<string> {
@@ -60,7 +60,7 @@ test.describe('Worktree Recent Sort', () => {
   const createdFolderFixtures: string[] = []
 
   function createFolderFixture(): string {
-    const dir = mkdtempSync(path.join(os.tmpdir(), 'orca-e2e-folder-'))
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'capilot-e2e-folder-'))
     createdFolderFixtures.push(dir)
     mkdirSync(path.join(dir, 'src'), { recursive: true })
     writeFileSync(path.join(dir, 'README.md'), '# folder fixture\n')
@@ -74,8 +74,8 @@ test.describe('Worktree Recent Sort', () => {
 
   test.afterEach(() => {
     // Why: mkdtempSync fixtures leak unless we clean them up explicitly —
-    // matches the mkdtempSync/rmSync pairing used in helpers/orca-app.ts
-    // and helpers/orca-restart.ts.
+    // matches the mkdtempSync/rmSync pairing used in helpers/capilot-app.ts
+    // and helpers/capilot-restart.ts.
     while (createdFolderFixtures.length) {
       const dir = createdFolderFixtures.pop()
       if (dir) {

@@ -1,5 +1,5 @@
 import { isFolderRepo } from '../../../../shared/repo-kind'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { OrchestrationError } from '../../orchestration/orchestration-error'
 
 export async function assertOrchestrationWorktreeCreationSupported(args: {

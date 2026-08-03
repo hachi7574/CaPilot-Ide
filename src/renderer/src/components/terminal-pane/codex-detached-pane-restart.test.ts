@@ -29,7 +29,7 @@ function seedQueuedRestart(
   useAppStore.setState({
     settings: { activeRuntimeEnvironmentId: null } as never,
     worktreesByRepo: {
-      repo1: [{ id: 'wt1', path: '/Users/dev/code/orca' }]
+      repo1: [{ id: 'wt1', path: '/Users/dev/code/capilot' }]
     } as never,
     tabsByWorktree: {
       wt1: [
@@ -106,7 +106,7 @@ describe('codex detached pane restart executor', () => {
       expect.objectContaining({
         cols: 80,
         rows: 24,
-        cwd: '/Users/dev/code/orca',
+        cwd: '/Users/dev/code/capilot',
         command: 'codex',
         startupCommandDelivery: 'shell-ready',
         launchAgent: 'codex',

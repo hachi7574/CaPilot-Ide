@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { ElectronApplication } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { TEST_REPO_PATH_FILE } from './global-setup'
 import {
   execInTerminal,
@@ -12,9 +12,9 @@ import {
   waitForTerminalOutput
 } from './helpers/terminal'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
-import { attachRepoAndOpenTerminal, createRestartSession } from './helpers/orca-restart'
+import { attachRepoAndOpenTerminal, createRestartSession } from './helpers/capilot-restart'
 import { PROTOCOL_VERSION } from '../../src/main/daemon/types'
-import { DEFAULT_LOCAL_ORCA_PROFILE_ID } from '../../src/shared/orca-profiles'
+import { DEFAULT_LOCAL_ORCA_PROFILE_ID } from '../../src/shared/capilot-profiles'
 
 const PROVIDER_SESSION_ID = 'e2e-quit-resume-session'
 
@@ -23,7 +23,7 @@ function stubPersistedResumeCommand(userDataDir: string): void {
     userDataDir,
     'profiles',
     DEFAULT_LOCAL_ORCA_PROFILE_ID,
-    'orca-data.json'
+    'capilot-data.json'
   )
   const data = JSON.parse(readFileSync(dataPath, 'utf8')) as {
     workspaceSession?: {

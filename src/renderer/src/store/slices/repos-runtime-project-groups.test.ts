@@ -32,25 +32,25 @@ describe('repo slice runtime project groups', () => {
       remoteUrl: 'https://github.com/stablyai/orca.git'
     }
     const localOrca: Repo = {
-      id: 'local-orca',
-      path: '/Users/alice/stably/orca',
-      displayName: 'orca',
+      id: 'local-capilot',
+      path: '/Users/alice/stably/capilot',
+      displayName: 'capilot',
       badgeColor: '#000',
       addedAt: 1,
       executionHostId: 'local',
       gitRemoteIdentity,
-      projectGroupId: 'group-orca'
+      projectGroupId: 'group-capilot'
     }
     const runtimeOrca: Repo = {
-      id: 'runtime-orca',
-      path: '/vercel/sandbox/orca',
-      displayName: 'orca',
+      id: 'runtime-capilot',
+      path: '/vercel/sandbox/capilot',
+      displayName: 'capilot',
       badgeColor: '#111',
       addedAt: 2,
       gitRemoteIdentity
     }
     runtimeEnvironmentCall.mockResolvedValue({
-      id: 'rpc-runtime-orca',
+      id: 'rpc-runtime-capilot',
       ok: true,
       result: { repos: [runtimeOrca] },
       _meta: { runtimeId: 'runtime-remote' }
@@ -68,7 +68,7 @@ describe('repo slice runtime project groups', () => {
       {
         ...runtimeOrca,
         executionHostId: 'runtime:env-1',
-        projectGroupId: 'group-orca'
+        projectGroupId: 'group-capilot'
       }
     ])
   })

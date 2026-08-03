@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Live freeze repro against a running Orca desktop + paired remote runtime.
+ * Live freeze repro against a running CaPilot desktop + paired remote runtime.
  *
  * Models bulk-open of remote sessions under multi-worktree load.
  *
@@ -66,7 +66,7 @@ function sampleOrcaIfPossible() {
     if (!pid) {
       return null
     }
-    const out = path.join(reportDir, `orca-sample-${Date.now()}.txt`)
+    const out = path.join(reportDir, `capilot-sample-${Date.now()}.txt`)
     const sampled = spawnSync('sample', [String(pid), '5', '-file', out], {
       timeout: 20_000,
       stdio: 'ignore'

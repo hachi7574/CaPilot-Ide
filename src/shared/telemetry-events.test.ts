@@ -367,7 +367,7 @@ describe('daemon_lifecycle schema', () => {
     ]
     for (const base of bases) {
       for (const leak of [
-        { daemon_path: '/Users/alice/Orca.app' },
+        { daemon_path: '/Users/alice/CaPilot.app' },
         { daemon_app_version: '1.4.129' },
         { live_session_count: 3 }
       ]) {
@@ -507,7 +507,7 @@ describe('add_repo_setup_step_action schema', () => {
   it('rejects extra keys via .strict()', () => {
     const parsed = eventSchemas.add_repo_setup_step_action.safeParse({
       action: 'skip',
-      repo_name: 'orca' // raw repo names are UGC — must not cross the wire
+      repo_name: 'capilot' // raw repo names are UGC — must not cross the wire
     })
     expect(parsed.success).toBe(false)
   })

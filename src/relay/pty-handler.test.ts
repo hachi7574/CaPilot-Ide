@@ -281,7 +281,7 @@ describe('PtyHandler', () => {
     expect(handler.activePtyCount).toBe(1)
   })
 
-  it("does not forward Orca's own NODE_ENV into the spawned shell", async () => {
+  it("does not forward CaPilot's own NODE_ENV into the spawned shell", async () => {
     // Why: NODE_ENV in the relay host process is a build-mode flag, not the
     // user's; leaking it breaks `next build` and Vitest in the terminal.
     const previous = process.env.NODE_ENV
@@ -1028,7 +1028,7 @@ describe('PtyHandler', () => {
       vi.advanceTimersByTime(1499)
       expect(term.write).not.toHaveBeenCalled()
 
-      dataCallback?.('\x1b]777;orca-shell-ready\x07user@remote $ ')
+      dataCallback?.('\x1b]777;capilot-shell-ready\x07user@remote $ ')
       vi.advanceTimersByTime(49)
       expect(term.write).not.toHaveBeenCalled()
       vi.advanceTimersByTime(1)
@@ -1083,14 +1083,14 @@ describe('PtyHandler', () => {
         rmSync(homeDir, { recursive: true, force: true })
       }
 
-      dataCallback?.('\x1b]777;orca-shell-ready')
+      dataCallback?.('\x1b]777;capilot-shell-ready')
       vi.advanceTimersByTime(1500)
 
       expect(term.write).toHaveBeenCalledWith('echo fallback\n')
       vi.advanceTimersByTime(8)
       expect(dispatcher.notify).toHaveBeenCalledWith('pty.data', {
         id: 'pty-1',
-        data: '\x1b]777;orca-shell-ready'
+        data: '\x1b]777;capilot-shell-ready'
       })
 
       const result = await attachPty({
@@ -1099,7 +1099,7 @@ describe('PtyHandler', () => {
       })
       expect(result).toEqual({
         incarnationId: spawn.incarnationId,
-        replay: '\x1b]777;orca-shell-ready'
+        replay: '\x1b]777;capilot-shell-ready'
       })
     }
   )
@@ -2566,7 +2566,7 @@ describe('PtyHandler', () => {
     }
     expect(spawnEnv.name).toBe('xterm-256color')
     expect(spawnEnv.env.TERM).toBe('xterm-256color')
-    expect(spawnEnv.env.TERM_PROGRAM).toBe('Orca')
+    expect(spawnEnv.env.TERM_PROGRAM).toBe('CaPilot')
   })
 
   it('expands variables in PATH before spawning a Windows relay shell', async () => {
@@ -2576,7 +2576,7 @@ describe('PtyHandler', () => {
     try {
       await dispatcher.callRequest('pty.spawn', {
         env: {
-          ORCA_PATH_ROOT: 'C:\\Users\\orca\\AppData\\Local',
+          ORCA_PATH_ROOT: 'C:\\Users\\capilot\\AppData\\Local',
           PATH: '%orca_path_root%\\agy\\bin;C:\\Windows'
         }
       })
@@ -2587,7 +2587,7 @@ describe('PtyHandler', () => {
     }
 
     const spawnEnv = mockPtySpawn.mock.calls[0][2] as { env: Record<string, string> }
-    expect(spawnEnv.env.PATH).toBe('C:\\Users\\orca\\AppData\\Local\\agy\\bin;C:\\Windows')
+    expect(spawnEnv.env.PATH).toBe('C:\\Users\\capilot\\AppData\\Local\\agy\\bin;C:\\Windows')
   })
 
   it('uses the safe terminal default when TERM is deleted without a custom value', async () => {
@@ -2673,7 +2673,7 @@ describe('PtyHandler', () => {
         handler.addEnvAugmenter(() => ({
           OPENCODE_CONFIG_DIR: '/remote/overlay/opencode',
           ORCA_OPENCODE_CONFIG_DIR: '/remote/overlay/opencode',
-          ORCA_OMP_STATUS_EXTENSION: '/remote/.omp/agent/extensions/orca-agent-status.ts'
+          ORCA_OMP_STATUS_EXTENSION: '/remote/.omp/agent/extensions/capilot-agent-status.ts'
         }))
 
         await dispatcher.callRequest('pty.spawn', { env: { HOME: homeDir } })
@@ -2697,7 +2697,7 @@ describe('PtyHandler', () => {
 
       const shellArgs = mockPtySpawn.mock.calls[0][1]
       const spawnOptions = mockPtySpawn.mock.calls[0][2] as { env: Record<string, string> }
-      const rcfile = join(homeDir, '.orca-relay', 'shell-ready', 'bash', 'rcfile')
+      const rcfile = join(homeDir, '.capilot-relay', 'shell-ready', 'bash', 'rcfile')
 
       expect(shellArgs).toEqual(['--rcfile', rcfile])
       expect(spawnOptions.env.ORCA_OPENCODE_CONFIG_DIR).toBe('/remote/overlay/opencode')
@@ -2748,7 +2748,7 @@ describe('PtyHandler', () => {
     expect(callArgs.env.ORCA_AGENT_HOOK_PORT).toBe('12345')
     expect(callArgs.env.ORCA_AGENT_HOOK_TOKEN).toBe('abc-uuid')
     expect(callArgs.env.TERM).toBe('xterm-256color')
-    expect(callArgs.env.TERM_PROGRAM).toBe('Orca')
+    expect(callArgs.env.TERM_PROGRAM).toBe('CaPilot')
   })
 
   it('fences both revived worktree identity and cwd with rollback', async () => {

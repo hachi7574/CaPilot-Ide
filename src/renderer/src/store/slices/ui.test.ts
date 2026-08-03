@@ -144,7 +144,7 @@ function makeLinearIssue(overrides: Partial<LinearIssue> = {}): LinearIssue {
     assignee: null,
     labels: [],
     labelIds: [],
-    team: { id: 'team-1', name: 'Orca', key: 'ORC' },
+    team: { id: 'team-1', name: 'CaPilot', key: 'ORC' },
     workspaceId: 'workspace-1',
     updatedAt: '2026-05-30T00:00:00.000Z',
     createdAt: '2026-05-30T00:00:00.000Z',
@@ -176,7 +176,7 @@ function makeJiraIssue(overrides: Partial<JiraIssue> = {}): JiraIssue {
     url: 'https://example.atlassian.net/browse/ORC-1',
     siteId: 'site-1',
     siteName: 'Example Jira',
-    project: { id: '10000', key: 'ORC', name: 'Orca', siteId: 'site-1' },
+    project: { id: '10000', key: 'ORC', name: 'CaPilot', siteId: 'site-1' },
     issueType: { id: '10001', name: 'Bug' },
     status: { id: '1', name: 'Todo', categoryKey: 'new', categoryName: 'To Do' },
     labels: [],
@@ -2187,7 +2187,7 @@ describe('createUISlice new workspace draft', () => {
 
     store.getState().setNewWorkspaceDraft({
       repoId: 'repo-1',
-      name: 'orca-123-link-jira',
+      name: 'capilot-123-link-jira',
       prompt: '',
       note: '',
       attachments: [],

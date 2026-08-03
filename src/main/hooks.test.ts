@@ -37,9 +37,9 @@ vi.mock('./git/runner', async () => ({
 
 const TEST_REPO_PATH = join('/test/repo')
 const TEST_WORKTREE_PATH = join('/test/worktree')
-const TEST_REPO_ORCA_YAML_PATH = join(TEST_REPO_PATH, 'orca.yaml')
-const TEST_WORKTREE_ORCA_YAML_PATH = join(TEST_WORKTREE_PATH, 'orca.yaml')
-const TEST_ISSUE_COMMAND_PATH = join(TEST_REPO_PATH, '.orca', 'issue-command')
+const TEST_REPO_ORCA_YAML_PATH = join(TEST_REPO_PATH, 'capilot.yaml')
+const TEST_WORKTREE_ORCA_YAML_PATH = join(TEST_WORKTREE_PATH, 'capilot.yaml')
+const TEST_ISSUE_COMMAND_PATH = join(TEST_REPO_PATH, '.capilot', 'issue-command')
 const TEST_GITIGNORE_PATH = join(TEST_REPO_PATH, '.gitignore')
 
 describe('parseOrcaYaml', () => {
@@ -158,7 +158,7 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses default terminal tabs from orca.yaml', () => {
+  it('parses default terminal tabs from capilot.yaml', () => {
     const yaml = [
       'defaultTabs:',
       '  - title: Claude',
@@ -196,16 +196,16 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses environmentRecipes from orca.yaml', () => {
+  it('parses environmentRecipes from capilot.yaml', () => {
     const yaml = [
       'environmentRecipes:',
       '  - id: cloud-sandbox',
       '    name: Cloud Sandbox',
       '    description: Starts a per-workspace VM.',
-      '    create: ./scripts/orca-vm/start-cloud-sandbox.sh',
-      '    suspend: ./scripts/orca-vm/suspend-cloud-sandbox.sh',
-      '    resume: ./scripts/orca-vm/resume-cloud-sandbox.sh',
-      '    destroy: ./scripts/orca-vm/destroy-cloud-sandbox.sh'
+      '    create: ./scripts/capilot-vm/start-cloud-sandbox.sh',
+      '    suspend: ./scripts/capilot-vm/suspend-cloud-sandbox.sh',
+      '    resume: ./scripts/capilot-vm/resume-cloud-sandbox.sh',
+      '    destroy: ./scripts/capilot-vm/destroy-cloud-sandbox.sh'
     ].join('\n')
 
     expect(parseOrcaYaml(yaml)).toEqual({
@@ -215,10 +215,10 @@ describe('parseOrcaYaml', () => {
           id: 'cloud-sandbox',
           name: 'Cloud Sandbox',
           description: 'Starts a per-workspace VM.',
-          create: './scripts/orca-vm/start-cloud-sandbox.sh',
-          suspend: './scripts/orca-vm/suspend-cloud-sandbox.sh',
-          resume: './scripts/orca-vm/resume-cloud-sandbox.sh',
-          destroy: './scripts/orca-vm/destroy-cloud-sandbox.sh'
+          create: './scripts/capilot-vm/start-cloud-sandbox.sh',
+          suspend: './scripts/capilot-vm/suspend-cloud-sandbox.sh',
+          resume: './scripts/capilot-vm/resume-cloud-sandbox.sh',
+          destroy: './scripts/capilot-vm/destroy-cloud-sandbox.sh'
         }
       ]
     })
@@ -229,7 +229,7 @@ describe('parseOrcaYaml', () => {
       'environmentRecipes:',
       '  - id: manual-sandbox',
       '    name: Manual Sandbox',
-      '    command: ./scripts/orca-vm/start-manual-sandbox.sh',
+      '    command: ./scripts/capilot-vm/start-manual-sandbox.sh',
       '    cleanup: none'
     ].join('\n')
 
@@ -239,7 +239,7 @@ describe('parseOrcaYaml', () => {
         {
           id: 'manual-sandbox',
           name: 'Manual Sandbox',
-          create: './scripts/orca-vm/start-manual-sandbox.sh',
+          create: './scripts/capilot-vm/start-manual-sandbox.sh',
           destroyDisabled: true
         }
       ]
@@ -251,17 +251,17 @@ describe('parseOrcaYaml', () => {
       'environmentRecipes:',
       '  - id: cloud-sandbox',
       '    name: Cloud Sandbox',
-      '    create: ./scripts/orca-vm/start-cloud-sandbox.sh',
+      '    create: ./scripts/capilot-vm/start-cloud-sandbox.sh',
       '  - id: cloud-sandbox',
       '    name: Duplicate Cloud Sandbox',
-      '    create: ./scripts/orca-vm/start-duplicate.sh',
+      '    create: ./scripts/capilot-vm/start-duplicate.sh',
       '  - id: missing-create',
       '    name: Missing Create',
       '  - name: Missing Id',
-      '    create: ./scripts/orca-vm/start-missing-id.sh',
+      '    create: ./scripts/capilot-vm/start-missing-id.sh',
       '  - id: "Cloud Sandbox"',
       '    name: Unsafe Id',
-      '    create: ./scripts/orca-vm/start-unsafe-id.sh',
+      '    create: ./scripts/capilot-vm/start-unsafe-id.sh',
       '  - 42'
     ].join('\n')
 
@@ -271,7 +271,7 @@ describe('parseOrcaYaml', () => {
         {
           id: 'cloud-sandbox',
           name: 'Cloud Sandbox',
-          create: './scripts/orca-vm/start-cloud-sandbox.sh'
+          create: './scripts/capilot-vm/start-cloud-sandbox.sh'
         }
       ],
       environmentRecipeDiagnostics: [
@@ -293,7 +293,7 @@ describe('parseOrcaYaml', () => {
     })
   })
 
-  it('parses worktree.sharedDirectories from orca.yaml', () => {
+  it('parses worktree.sharedDirectories from capilot.yaml', () => {
     const result = parseOrcaYaml(
       ['worktree:', '  sharedDirectories:', '    - node_modules', '    - .cache'].join('\n')
     )
@@ -354,7 +354,7 @@ describe('parseOrcaYaml', () => {
     expect(parseOrcaYaml('worktree:\n  sharedDirectories: node_modules\n')).toBeNull()
   })
 
-  it('keeps sharedDirectories alongside other orca.yaml keys', () => {
+  it('keeps sharedDirectories alongside other capilot.yaml keys', () => {
     const result = parseOrcaYaml(
       [
         'scripts:',
@@ -411,7 +411,7 @@ describe('hasUnrecognizedOrcaYamlKeys', () => {
         'environmentRecipes:',
         '  - id: cloud-sandbox',
         '    name: Cloud Sandbox',
-        '    create: ./scripts/orca-vm/start-cloud-sandbox.sh',
+        '    create: ./scripts/capilot-vm/start-cloud-sandbox.sh',
         'worktree:',
         '  sharedDirectories:',
         '    - node_modules'
@@ -442,7 +442,7 @@ describe('hasUnrecognizedOrcaYamlKeys', () => {
 })
 
 describe('readIssueCommand', () => {
-  it('prefers the local override over the shared orca.yaml command', async () => {
+  it('prefers the local override over the shared capilot.yaml command', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation(
       (path) => path === TEST_ISSUE_COMMAND_PATH || path === TEST_REPO_ORCA_YAML_PATH
@@ -467,7 +467,7 @@ describe('readIssueCommand', () => {
     })
   })
 
-  it('falls back to the shared orca.yaml command when no local override exists', async () => {
+  it('falls back to the shared capilot.yaml command when no local override exists', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation((path) => path === TEST_REPO_ORCA_YAML_PATH)
     vi.mocked(fs.readFileSync).mockImplementation((path) => {
@@ -489,10 +489,10 @@ describe('readIssueCommand', () => {
 })
 
 describe('writeIssueCommand', () => {
-  it('writes only the local override file and keeps .orca ignored locally', async () => {
+  it('writes only the local override file and keeps .capilot ignored locally', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation(
-      (path) => path === TEST_GITIGNORE_PATH || path === join(TEST_REPO_PATH, '.orca')
+      (path) => path === TEST_GITIGNORE_PATH || path === join(TEST_REPO_PATH, '.capilot')
     )
     vi.mocked(fs.readFileSync).mockImplementation((path) => {
       if (path === TEST_GITIGNORE_PATH) {
@@ -506,7 +506,7 @@ describe('writeIssueCommand', () => {
 
     expect(vi.mocked(fs.writeFileSync)).toHaveBeenCalledWith(
       TEST_GITIGNORE_PATH,
-      'node_modules/\n.orca\n',
+      'node_modules/\n.capilot\n',
       'utf-8'
     )
     expect(vi.mocked(fs.writeFileSync)).toHaveBeenCalledWith(
@@ -596,7 +596,7 @@ describe('getEffectiveHooks', () => {
       hookSettings
     }) as unknown as Repo
 
-  it('uses hooks from orca.yaml when present', async () => {
+  it('uses hooks from capilot.yaml when present', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockReturnValue(true)
     vi.mocked(fs.readFileSync).mockReturnValue('scripts:\n  setup: |\n    echo "yaml setup"\n')
@@ -613,7 +613,7 @@ describe('getEffectiveHooks', () => {
     })
   })
 
-  it("loads setup hooks from the target worktree's orca.yaml when a worktree path is provided", async () => {
+  it("loads setup hooks from the target worktree's capilot.yaml when a worktree path is provided", async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockImplementation(
       (path) => path === TEST_REPO_ORCA_YAML_PATH || path === TEST_WORKTREE_ORCA_YAML_PATH
@@ -732,7 +732,7 @@ describe('getEffectiveHooks', () => {
     })
   })
 
-  it('uses local settings by default even when orca.yaml defines only one command', async () => {
+  it('uses local settings by default even when capilot.yaml defines only one command', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockReturnValue(true)
     vi.mocked(fs.readFileSync).mockReturnValue('scripts:\n  archive: |\n    echo "yaml archive"\n')
@@ -794,7 +794,7 @@ describe('getEffectiveHooks', () => {
     })
   })
 
-  it('treats legacy shared-first policy as orca.yaml only', async () => {
+  it('treats legacy shared-first policy as capilot.yaml only', async () => {
     const fs = await import('node:fs')
     vi.mocked(fs.existsSync).mockReturnValue(true)
     vi.mocked(fs.readFileSync).mockReturnValue('scripts:\n  archive: |\n    echo "yaml archive"\n')
@@ -1006,10 +1006,10 @@ describe('runHook', () => {
       expect(options).toEqual(
         expect.objectContaining({
           env: expect.objectContaining({
-            ORCA_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca',
+            ORCA_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot',
             ORCA_WORKTREE_PATH: '/home/jin/feature',
-            CONDUCTOR_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca',
-            GHOSTX_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca'
+            CONDUCTOR_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot',
+            GHOSTX_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot'
           })
         })
       )
@@ -1030,7 +1030,7 @@ describe('runHook', () => {
       const { runHook } = await import('./hooks')
       const result = await runHook('setup', '\\\\wsl.localhost\\Ubuntu\\home\\jin\\feature', {
         ...makeRepo(),
-        path: 'C:\\Users\\jinwo\\git\\orca'
+        path: 'C:\\Users\\jinwo\\git\\capilot'
       })
 
       expect(result).toEqual({ success: true, output: '' })
@@ -1086,10 +1086,10 @@ describe('runHook', () => {
       const { runHook } = await import('./hooks')
       const result = await runHook(
         'setup',
-        'C:\\Users\\jinwo\\git\\orca-feature',
+        'C:\\Users\\jinwo\\git\\capilot-feature',
         {
           ...makeRepo(),
-          path: 'C:\\Users\\jinwo\\git\\orca'
+          path: 'C:\\Users\\jinwo\\git\\capilot'
         },
         undefined,
         { wslDistro: 'Ubuntu' }
@@ -1104,7 +1104,7 @@ describe('runHook', () => {
           '--',
           'bash',
           '-c',
-          "cd '/mnt/c/Users/jinwo/git/orca-feature' && echo hello"
+          "cd '/mnt/c/Users/jinwo/git/capilot-feature' && echo hello"
         ],
         expect.any(Object),
         expect.any(Function)
@@ -1112,10 +1112,10 @@ describe('runHook', () => {
       expect(capturedOptions).toEqual(
         expect.objectContaining({
           env: expect.objectContaining({
-            ORCA_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca',
-            ORCA_WORKTREE_PATH: '/mnt/c/Users/jinwo/git/orca-feature',
-            CONDUCTOR_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca',
-            GHOSTX_ROOT_PATH: '/mnt/c/Users/jinwo/git/orca',
+            ORCA_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot',
+            ORCA_WORKTREE_PATH: '/mnt/c/Users/jinwo/git/capilot-feature',
+            CONDUCTOR_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot',
+            GHOSTX_ROOT_PATH: '/mnt/c/Users/jinwo/git/capilot',
             // Why: wsl.exe only imports Windows env vars named in WSLENV, so
             // setting the vars on the execFile env alone is not enough (#9206).
             // /u because runHook pre-translated the values to Linux paths.
@@ -1144,7 +1144,7 @@ describe('runHook', () => {
 
   it('writes Windows-path setup runners through WSL git when the project runtime targets WSL', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('/mnt/c/Users/jinwo/git/orca/.git/orca/setup-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('/mnt/c/Users/jinwo/git/capilot/.git/capilot/setup-runner.sh\n')
 
     const fs = await import('node:fs')
     const mkdirSyncMock = vi.mocked(fs.mkdirSync)
@@ -1162,17 +1162,17 @@ describe('runHook', () => {
       const result = createSetupRunnerScript(
         {
           ...makeRepo(),
-          path: 'C:\\Users\\jinwo\\git\\orca'
+          path: 'C:\\Users\\jinwo\\git\\capilot'
         },
-        'C:\\Users\\jinwo\\git\\orca-feature',
+        'C:\\Users\\jinwo\\git\\capilot-feature',
         'echo hello',
         { wslDistro: 'Ubuntu' }
       )
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/setup-runner.sh'],
+        ['rev-parse', '--git-path', 'capilot/setup-runner.sh'],
         {
-          cwd: 'C:\\Users\\jinwo\\git\\orca-feature',
+          cwd: 'C:\\Users\\jinwo\\git\\capilot-feature',
           wslDistro: 'Ubuntu'
         }
       )
@@ -1214,7 +1214,7 @@ describe('runHook', () => {
       const { runHook } = await import('./hooks')
       const promise = runHook('setup', '\\\\wsl.localhost\\Ubuntu\\home\\jin\\feature', {
         ...makeRepo(),
-        path: 'C:\\Users\\jinwo\\git\\orca'
+        path: 'C:\\Users\\jinwo\\git\\capilot'
       })
       let settled = false
       void promise.finally(() => {
@@ -1257,7 +1257,7 @@ describe('createSetupRunnerScript', () => {
 
   it('writes POSIX setup runners for Git Bash on native Windows paths', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\orca\\setup-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\capilot\\setup-runner.sh\n')
     const fs = await import('node:fs')
     const writeFileSyncMock = vi.mocked(fs.writeFileSync)
     const chmodSyncMock = vi.mocked(fs.chmodSync)
@@ -1277,17 +1277,17 @@ describe('createSetupRunnerScript', () => {
       )
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/setup-runner.sh'],
+        ['rev-parse', '--git-path', 'capilot/setup-runner.sh'],
         { cwd: 'C:\\repo-worktree' }
       )
       expect(writeFileSyncMock).toHaveBeenCalledWith(
-        'C:\\repo\\.git\\orca\\setup-runner.sh',
+        'C:\\repo\\.git\\capilot\\setup-runner.sh',
         '#!/usr/bin/env bash\nset -e\npnpm install\nnpm run build\n',
         'utf-8'
       )
       expect(chmodSyncMock).not.toHaveBeenCalled()
       expect(result).toMatchObject({
-        runnerScriptPath: 'C:\\repo\\.git\\orca\\setup-runner.sh',
+        runnerScriptPath: 'C:\\repo\\.git\\capilot\\setup-runner.sh',
         shell: { family: 'posix' }
       })
     } finally {
@@ -1297,7 +1297,7 @@ describe('createSetupRunnerScript', () => {
 
   it('preserves cmd.exe setup runner semantics for configured cmd users', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\orca\\setup-runner.cmd\n')
+    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\capilot\\setup-runner.cmd\n')
     const fs = await import('node:fs')
     const writeFileSyncMock = vi.mocked(fs.writeFileSync)
     writeFileSyncMock.mockClear()
@@ -1315,16 +1315,16 @@ describe('createSetupRunnerScript', () => {
       )
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/setup-runner.cmd'],
+        ['rev-parse', '--git-path', 'capilot/setup-runner.cmd'],
         { cwd: 'C:\\repo-worktree' }
       )
       expect(writeFileSyncMock).toHaveBeenCalledWith(
-        'C:\\repo\\.git\\orca\\setup-runner.cmd',
+        'C:\\repo\\.git\\capilot\\setup-runner.cmd',
         expect.stringContaining('call pnpm install\r\nif errorlevel 1 exit /b %errorlevel%'),
         'utf-8'
       )
       expect(writeFileSyncMock).toHaveBeenCalledWith(
-        'C:\\repo\\.git\\orca\\setup-runner.cmd',
+        'C:\\repo\\.git\\capilot\\setup-runner.cmd',
         expect.stringContaining('call npm run build\r\nif errorlevel 1 exit /b %errorlevel%'),
         'utf-8'
       )
@@ -1336,7 +1336,7 @@ describe('createSetupRunnerScript', () => {
 
   it('keeps POSIX runner behavior on POSIX platforms', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/orca/setup-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/capilot/setup-runner.sh\n')
     const fs = await import('node:fs')
     const writeFileSyncMock = vi.mocked(fs.writeFileSync)
     const chmodSyncMock = vi.mocked(fs.chmodSync)
@@ -1350,15 +1350,15 @@ describe('createSetupRunnerScript', () => {
       const result = createSetupRunnerScript(makeRepo(), '/test/worktree', 'pnpm install')
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/setup-runner.sh'],
+        ['rev-parse', '--git-path', 'capilot/setup-runner.sh'],
         { cwd: '/test/worktree' }
       )
       expect(writeFileSyncMock).toHaveBeenCalledWith(
-        '/test/repo/.git/orca/setup-runner.sh',
+        '/test/repo/.git/capilot/setup-runner.sh',
         '#!/usr/bin/env bash\nset -e\npnpm install\n',
         'utf-8'
       )
-      expect(chmodSyncMock).toHaveBeenCalledWith('/test/repo/.git/orca/setup-runner.sh', 0o755)
+      expect(chmodSyncMock).toHaveBeenCalledWith('/test/repo/.git/capilot/setup-runner.sh', 0o755)
       expect(result.shell).toBeUndefined()
     } finally {
       Object.defineProperty(process, 'platform', { configurable: true, value: originalPlatform })
@@ -1367,7 +1367,7 @@ describe('createSetupRunnerScript', () => {
 
   it('omits waitForAgentStartup unless the repo explicitly waits for setup', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/orca/setup-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/capilot/setup-runner.sh\n')
     const { createSetupRunnerScript } = await import('./hooks')
 
     expect(
@@ -1385,7 +1385,7 @@ describe('createSetupRunnerScript', () => {
 
   it('marks setup-runner terminals for the always-on credential guard', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/orca/setup-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('/test/repo/.git/capilot/setup-runner.sh\n')
     const { createSetupRunnerScript } = await import('./hooks')
 
     const setup = createSetupRunnerScript(makeRepo(), '/test/worktree', 'git fetch')
@@ -1411,7 +1411,7 @@ describe('createIssueCommandRunnerScript', () => {
 
   it('writes a POSIX issue-command runner when setup resolves to Git Bash', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\orca\\issue-command-runner.sh\n')
+    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\capilot\\issue-command-runner.sh\n')
     const fs = await import('node:fs')
     const writeFileSyncMock = vi.mocked(fs.writeFileSync)
     writeFileSyncMock.mockClear()
@@ -1429,11 +1429,11 @@ describe('createIssueCommandRunnerScript', () => {
       )
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/issue-command-runner.sh'],
+        ['rev-parse', '--git-path', 'capilot/issue-command-runner.sh'],
         { cwd: 'C:\\repo-worktree' }
       )
       expect(writeFileSyncMock).toHaveBeenCalledWith(
-        'C:\\repo\\.git\\orca\\issue-command-runner.sh',
+        'C:\\repo\\.git\\capilot\\issue-command-runner.sh',
         '#!/usr/bin/env bash\nset -e\ngh issue view 42\n',
         'utf-8'
       )
@@ -1445,7 +1445,7 @@ describe('createIssueCommandRunnerScript', () => {
 
   it('keeps the cmd issue-command runner when no setup shell is resolved', async () => {
     gitExecFileSyncMock.mockReset()
-    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\orca\\issue-command-runner.cmd\n')
+    gitExecFileSyncMock.mockReturnValue('C:\\repo\\.git\\capilot\\issue-command-runner.cmd\n')
     const originalPlatform = process.platform
     Object.defineProperty(process, 'platform', { configurable: true, value: 'win32' })
 
@@ -1458,7 +1458,7 @@ describe('createIssueCommandRunnerScript', () => {
       )
 
       expect(gitExecFileSyncMock).toHaveBeenCalledWith(
-        ['rev-parse', '--git-path', 'orca/issue-command-runner.cmd'],
+        ['rev-parse', '--git-path', 'capilot/issue-command-runner.cmd'],
         { cwd: 'C:\\repo-worktree' }
       )
       expect(result.shell).toEqual({ family: 'cmd' })

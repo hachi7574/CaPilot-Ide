@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import { OrcaRuntimeService } from '../../orca-runtime'
+import { OrcaRuntimeService } from '../../capilot-runtime'
 import { LinearWriteFailure } from '../../../linear/issues'
 import { sanitizeLinearErrorMessage } from '../../../linear/issue-context-errors'
 import { LINEAR_AGENT_ACCESS_METHODS } from './linear-agent-access'

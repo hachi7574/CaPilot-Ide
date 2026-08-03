@@ -10,7 +10,7 @@ import { ensureWebRuntimeWorktreeTerminalAfterWake } from './worktree-activation
 const initialAppStoreState = useAppStore.getState()
 const WORKTREE_PATH = path.join('workspace', 'feature')
 const REPO_PATH = path.join('workspace', 'repo')
-const ORCA_WORKSPACES_PATH = path.join('workspace', '.orca-workspaces')
+const ORCA_WORKSPACES_PATH = path.join('workspace', '.capilot-workspaces')
 
 afterEach(() => {
   delete (globalThis as { __ORCA_WEB_CLIENT__?: boolean }).__ORCA_WEB_CLIENT__

@@ -10,7 +10,7 @@ const tempRoot = process.platform === 'win32' ? tmpdir() : '/tmp'
 
 async function createTempHome(): Promise<string> {
   // Why: mkdir-p probes ancestors; macOS's per-user temp directory can contain hundreds of thousands of entries.
-  const home = await mkdtemp(join(tempRoot, 'orca-managed-hooks-'))
+  const home = await mkdtemp(join(tempRoot, 'capilot-managed-hooks-'))
   tempHomes.push(home)
   return home
 }
@@ -45,7 +45,7 @@ describe('managed-hook local filesystem', () => {
     expect(warm.filter((result) => result.state === 'error')).toEqual([])
     const files = await listFiles(home)
     expect(files.filter((path) => path.endsWith('.tmp'))).toEqual([])
-    const scripts = files.filter((path) => path.includes(join('.orca', 'agent-hooks')))
+    const scripts = files.filter((path) => path.includes(join('.capilot', 'agent-hooks')))
     expect(scripts.length).toBeGreaterThanOrEqual(10)
     if (process.platform !== 'win32') {
       for (const script of scripts) {

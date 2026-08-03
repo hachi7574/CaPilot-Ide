@@ -4,7 +4,7 @@ import { mkdtemp } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import type { ElectronApplication, Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   countVisibleTerminalPanes,
@@ -16,7 +16,7 @@ import {
 
 const tempRoots: string[] = []
 const SORTABLE_TAB = '[data-testid="sortable-tab"]'
-const REPO_STEP_HEADING = /Point Orca at some code/i
+const REPO_STEP_HEADING = /Point CaPilot at some code/i
 const TASK_SOURCES_HEADING = /Set up GitHub tasks|Connect your task sources/i
 const WINDOWS_TERMINAL_HEADING = /Set Windows terminal defaults/i
 const ONBOARDING_ADVANCE_LABEL = /^Continue\b|^Add your first project\b/
@@ -422,7 +422,7 @@ test.describe('Existing-user golden core flow', () => {
   }) => {
     await waitForSessionReady(orcaPage)
     await waitForActiveWorktree(orcaPage)
-    const repoPath = await createGitRepo('orca-e2e-golden-existing-', 'golden-existing-project')
+    const repoPath = await createGitRepo('capilot-e2e-golden-existing-', 'golden-existing-project')
 
     await addProjectFromSidebar(orcaPage, electronApp, repoPath)
     const workspaceName = `golden-existing-${Date.now()}`
@@ -459,7 +459,7 @@ test.describe('New-user golden core flow', () => {
     await chooseNotificationSound(orcaPage)
     await continueFromNotificationsToRepo(orcaPage)
 
-    const repoPath = await createGitRepo('orca-e2e-golden-new-', 'golden-new-project')
+    const repoPath = await createGitRepo('capilot-e2e-golden-new-', 'golden-new-project')
     await chooseFolderInNativeDialog(electronApp, repoPath)
     await orcaPage
       .getByRole('button', { name: /Browse for a folder|Open a folder|Browse folder/i })

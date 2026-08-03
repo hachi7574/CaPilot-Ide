@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import { RpcDispatcher } from '../dispatcher'
 import type { RpcRequest } from '../core'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { WORKSPACE_PORT_METHODS } from './workspace-ports'
 import type { WorkspacePortScanResult } from '../../../../shared/workspace-ports'
 

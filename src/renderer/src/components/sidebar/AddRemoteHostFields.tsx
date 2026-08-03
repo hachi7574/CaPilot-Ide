@@ -163,7 +163,7 @@ export function RemoteServerFields({
     >
       <div className="space-y-1.5">
         <Label htmlFor="add-server-name">
-          {translate('auto.components.sidebar.AddRemoteHostDialog.serverName', 'Name in Orca')}
+          {translate('auto.components.sidebar.AddRemoteHostDialog.serverName', 'Name in CaPilot')}
         </Label>
         <Input
           id="add-server-name"
@@ -197,7 +197,7 @@ export function RemoteServerFields({
         <p id="add-server-pairing-code-help" className="text-xs text-muted-foreground">
           {translate(
             'auto.components.sidebar.AddRemoteHostDialog.pairingHelpSuffix',
-            'Create this under Settings → Remote Orca Servers → Share this host on the other computer.'
+            'Create this under Settings → Remote CaPilot Servers → Share this host on the other computer.'
           )}
         </p>
         {inputError ? (

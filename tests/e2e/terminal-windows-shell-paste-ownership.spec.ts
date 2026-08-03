@@ -4,7 +4,7 @@ import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
 import { WINDOWS_GIT_BASH_SHELL } from '../../src/shared/windows-terminal-shell'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import {
   focusActiveTerminalInput,
   sendToTerminal,
@@ -215,12 +215,12 @@ test.describe('Windows terminal shell paste ownership', () => {
     const payload = [
       `ORCA_E2E_POWERSHELL_PASTE_${runId}`,
       `PowerShell metacharacters: ${powershellEscape} $ " ' ; | & < > @ { } ( )`,
-      'quoted Windows path: C:\\Program Files\\Orca Test\\file name.txt',
+      'quoted Windows path: C:\\Program Files\\CaPilot Test\\file name.txt',
       'cmd metacharacters preserved as text: %PATH% !PROMPT! ^ & | < >',
       'Unicode: café 你好 مرحبا 😀',
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-powershell-shell-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-powershell-shell-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, payload))
     let scriptStarted = false
 
@@ -266,11 +266,11 @@ test.describe('Windows terminal shell paste ownership', () => {
     const payload = [
       `ORCA_E2E_CMD_PASTE_${runId}`,
       'cmd metacharacters: %PATH% !PROMPT! ^ & | < >',
-      'quoted Windows path: C:\\Program Files\\Orca Test\\file name.txt',
+      'quoted Windows path: C:\\Program Files\\CaPilot Test\\file name.txt',
       'PowerShell metacharacters: ` $ " \' ; @ { } ( )',
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-cmd-shell-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-cmd-shell-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, payload))
     let scriptStarted = false
 
@@ -321,7 +321,7 @@ test.describe('Windows terminal shell paste ownership', () => {
       'POSIX path with spaces: /home/user/my project/file.txt',
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-git-bash-shell-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-git-bash-shell-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, payload))
     let scriptStarted = false
 
@@ -375,7 +375,7 @@ test.describe('Windows terminal shell paste ownership', () => {
       'Unicode: café 你好 مرحبا 😀',
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-wsl-shell-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-wsl-shell-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, payload))
     let scriptStarted = false
 
@@ -436,7 +436,7 @@ test.describe('Windows terminal shell paste ownership', () => {
       'Windows path remains literal text: C:\\Users\\Name\\My Project\\file.txt',
       `mixed-newline-before\r\nlf-line\ncrlf-line\r\n${sentinel}`
     ].join('\n')
-    const scriptPath = path.join(testRepoPath, `.orca-paste-wsl-retention-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-paste-wsl-retention-${runId}.mjs`)
     writeFileSync(scriptPath, pasteCollectScript(runId, sentinel, payload))
     let scriptStarted = false
 

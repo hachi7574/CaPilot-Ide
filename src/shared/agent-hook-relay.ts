@@ -1,25 +1,25 @@
 // Why: defines the wire shape carried by the JSON-RPC `agent.hook` notification
-// the relay sends to Orca. Consumed by `src/relay/agent-hook-server.ts` (which
+// the relay sends to CaPilot. Consumed by `src/relay/agent-hook-server.ts` (which
 // produces it after the shared listener parses an HTTP POST) and by
 // `src/main/agent-hooks/server.ts` (which ingests it via `ingestRemote`).
 //
 // Lives in `shared/` because the relay deliberately has no Electron dependency
 // (cf. `src/relay/protocol.ts` header). `agent-hook-types.ts` is reserved for
 // the renderer-bound IPC + installer contract; this module is the wire envelope
-// between Orca's main process and the remote relay.
+// between CaPilot's main process and the remote relay.
 //
 // Per the design doc:
-// - The relay normalizes; Orca routes. The envelope's `payload` field has
+// - The relay normalizes; CaPilot routes. The envelope's `payload` field has
 //   already been through `normalizeHookPayload` (which calls
 //   `parseAgentStatusPayload` → `normalizeAgentStatusObject`) on the relay
-//   side. Orca's `ingestRemote` re-runs the canonical payload normalizer at
+//   side. CaPilot's `ingestRemote` re-runs the canonical payload normalizer at
 //   the SSH trust boundary before caching or persisting, so relay skew or a
 //   buggy remote process cannot poison main-process state.
-// - The wire `connectionId` is **always `null`**: a `connectionId` is Orca's
-//   local handle on an `ssh2` connection, not a wire identity. Orca stamps the
+// - The wire `connectionId` is **always `null`**: a `connectionId` is CaPilot's
+//   local handle on an `ssh2` connection, not a wire identity. CaPilot stamps the
 //   real value on receive from `mux` identity inside `ingestRemote`.
 // - The wire `version` and `env` fields are forwarded from the agent CLI's
-//   POST body so Orca's warn-once protocol diagnostics still fire. The relay
+//   POST body so CaPilot's warn-once protocol diagnostics still fire. The relay
 //   default env is `remote`, a location marker ignored by dev-vs-prod checks.
 
 import { createHash } from 'node:crypto'
@@ -30,7 +30,7 @@ import type { AgentHookTarget } from './agent-hook-types'
 
 // Why: the local hook server knows the discriminator from URL pathname routing
 // (`/hook/<source>`); the relay equally must tag each forwarded notification
-// with the same value so Orca can attribute the event back to the right CLI.
+// with the same value so CaPilot can attribute the event back to the right CLI.
 // Promoted from `src/main/agent-hooks/server.ts` so the relay can import it
 // without dragging Electron in (the shared listener module is the only place
 // that consumes it from the relay side).
@@ -57,17 +57,17 @@ export type AgentHookSource =
  *  a dev-vs-prod build tag, so main-process env mismatch diagnostics ignore it. */
 export const REMOTE_AGENT_HOOK_ENV = 'remote' as const
 
-/** Wire envelope for a single hook event flowing relay → Orca. */
+/** Wire envelope for a single hook event flowing relay → CaPilot. */
 export type AgentHookRelayEnvelope = {
   source: AgentHookSource
   paneKey: string
-  /** Ephemeral Orca launch identity stamped into the PTY env for this process. */
+  /** Ephemeral CaPilot launch identity stamped into the PTY env for this process. */
   launchToken?: string
   tabId?: string
   worktreeId?: string
-  /** Always `null` on the wire — relay does not know Orca's local connectionId. */
+  /** Always `null` on the wire — relay does not know CaPilot's local connectionId. */
   connectionId: null
-  /** Preserved from the relay-side normalized hook event so Orca can
+  /** Preserved from the relay-side normalized hook event so CaPilot can
    *  distinguish a true same-prompt retry from a cached-prompt tool ping. */
   hasExplicitPrompt?: boolean
   /** Optional stable per-turn key from the relay-side listener. Used only for
@@ -85,18 +85,18 @@ export type AgentHookRelayEnvelope = {
   providerSession?: AgentProviderSessionMetadata
   /** True when this envelope updates resume identity without changing turn status. */
   providerSessionOnly?: boolean
-  /** True when the relay is replaying its cache after Orca reconnects. */
+  /** True when the relay is replaying its cache after CaPilot reconnects. */
   isReplay?: boolean
   /** Claude background-work evidence for input-interrupt inference on the receiving host. */
   claudeRunningNonAgentTask?: boolean
   /** Forwarded from the agent CLI POST body. The relay default is `remote`,
    *  which marks transport location rather than dev/prod build env. */
   env?: string
-  /** Forwarded verbatim from the agent CLI POST body. Lets Orca's warn-once
+  /** Forwarded verbatim from the agent CLI POST body. Lets CaPilot's warn-once
    *  protocol-version diagnostic fire on remote events the same as on local. */
   version?: string
   /** Pre-normalized status payload from the relay's `normalizeHookPayload`.
-   *  Orca's `ingestRemote` validates it again at the SSH trust boundary. */
+   *  CaPilot's `ingestRemote` validates it again at the SSH trust boundary. */
   payload: ParsedAgentStatusPayload
 }
 
@@ -149,7 +149,7 @@ function hasMatchingTurnIdentity(
 }
 
 /**
- * Re-attaches shed fields from Orca's cached payload for this pane, so a transport-level
+ * Re-attaches shed fields from CaPilot's cached payload for this pane, so a transport-level
  * truncation cannot read as a cleared field — an absent `subagents` blanks live child rows and
  * unblocks hibernation for a pane whose teammates are still running.
  *
@@ -179,12 +179,12 @@ export function restoreShedStatusFields(
   }
 }
 
-/** JSON-RPC request method Orca issues after `--connect` reattach to ask the
+/** JSON-RPC request method CaPilot issues after `--connect` reattach to ask the
  *  relay to replay its per-paneKey last-payload cache. See §5 Path 3 of the
  *  design doc for the race that ruled out push-on-`setWrite`. */
 export const AGENT_HOOK_REQUEST_REPLAY_METHOD = 'agent_hook.requestReplay' as const
 
-/** JSON-RPC request method Orca issues at session-ready to ship the
+/** JSON-RPC request method CaPilot issues at session-ready to ship the
  *  OpenCode/Pi plugin source files to the relay so it can materialize the
  *  overlay dirs on the remote. */
 export const AGENT_HOOK_INSTALL_PLUGINS_METHOD = 'agent_hook.installPlugins' as const
@@ -194,13 +194,13 @@ export const AGENT_HOOK_INSTALL_PLUGINS_METHOD = 'agent_hook.installPlugins' as 
 export const AGENT_HOOK_INSTALL_MANAGED_HOOKS_METHOD = 'agent_hook.installManagedHooks' as const
 
 export type AgentHookInstallManagedHooksParams = {
-  /** SHA-256 fingerprint of the server key negotiated by Orca's SSH transport. */
+  /** SHA-256 fingerprint of the server key negotiated by CaPilot's SSH transport. */
   hostKeyFingerprint?: string
   /** Positively detected and enabled agents allowed to mutate remote config. */
   agents: readonly AgentHookTarget[]
 }
 
-/** Feature-flag env var. Read once at process start by Orca and the relay.
+/** Feature-flag env var. Read once at process start by CaPilot and the relay.
  *  Remote agent hooks ship as the default SSH behavior; set "0" to opt out. */
 export const ORCA_FEATURE_REMOTE_AGENT_HOOKS_ENV = 'ORCA_FEATURE_REMOTE_AGENT_HOOKS' as const
 

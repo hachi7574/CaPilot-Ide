@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { OrcaRuntimeService } from '../../orca-runtime'
+import { OrcaRuntimeService } from '../../capilot-runtime'
 import type { RuntimeMobileSessionTabsSnapshot } from '../../../../shared/runtime-types'
 
 function setMobileSessionSnapshot(

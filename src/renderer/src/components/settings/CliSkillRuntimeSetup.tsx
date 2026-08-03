@@ -133,12 +133,12 @@ function normalizeWindowsSkillUpdateCommand(
 
 /**
  * Where a built skill command is going: the user's clipboard (their own shell)
- * or the setup terminal Orca spawns itself.
+ * or the setup terminal CaPilot spawns itself.
  */
-type SkillCommandTarget = 'copied-command' | 'orca-setup-terminal'
+type SkillCommandTarget = 'copied-command' | 'capilot-setup-terminal'
 
 /**
- * Re-adds the npx preflight for Orca's own setup terminal, which
+ * Re-adds the npx preflight for CaPilot's own setup terminal, which
  * `getAgentSkillTerminalShellOverride` forces onto powershell.exe. The copied
  * string stays bare for POSIX-family shells; only the executed one is wrapped.
  */
@@ -153,7 +153,7 @@ export function buildSkillSetupTerminalCommand(
   return wrapWindowsSkillCommandWithNpxPrerequisite(
     copiedCommand,
     currentPlatform,
-    'orca-setup-terminal'
+    'capilot-setup-terminal'
   )
 }
 

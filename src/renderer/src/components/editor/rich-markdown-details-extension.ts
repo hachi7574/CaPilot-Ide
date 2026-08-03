@@ -208,10 +208,10 @@ const OrcaDetails = Details.extend({
       ...this.parent?.(),
       variant: {
         default: null,
-        parseHTML: (element) => parseToggleHeadingVariant(element.getAttribute('data-orca-toggle')),
+        parseHTML: (element) => parseToggleHeadingVariant(element.getAttribute('data-capilot-toggle')),
         renderHTML: ({ variant }) => {
           const parsed = parseToggleHeadingVariant(variant)
-          return parsed ? { 'data-orca-toggle': parsed } : {}
+          return parsed ? { 'data-capilot-toggle': parsed } : {}
         }
       }
     }
@@ -311,7 +311,7 @@ export function createOrcaDetailsExtensions(): AnyExtension[] {
     OrcaDetails.configure({
       persist: true,
       HTMLAttributes: {
-        class: 'orca-details'
+        class: 'capilot-details'
       }
     }),
     DetailsSummary,

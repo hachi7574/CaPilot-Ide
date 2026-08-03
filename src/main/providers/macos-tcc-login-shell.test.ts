@@ -332,7 +332,7 @@ describe('wrapShellSpawnForMacosTccAttribution', () => {
     setPlatform('darwin')
     await prepareMacosTccLoginShell()
     expect(
-      wrapShellSpawnForMacosTccAttribution('/bin/bash', ['--rcfile', '/orca/bash/rcfile'])
+      wrapShellSpawnForMacosTccAttribution('/bin/bash', ['--rcfile', '/capilot/bash/rcfile'])
     ).toEqual({
       file: '/usr/bin/login',
       args: [
@@ -342,7 +342,7 @@ describe('wrapShellSpawnForMacosTccAttribution', () => {
         'SHELL=/bin/bash',
         '/bin/bash',
         '--rcfile',
-        '/orca/bash/rcfile'
+        '/capilot/bash/rcfile'
       ]
     })
   })

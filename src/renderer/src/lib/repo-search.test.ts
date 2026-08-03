@@ -5,7 +5,7 @@ import type { Repo } from '../../../shared/types'
 function makeRepo(overrides: Partial<Repo> = {}): Repo {
   return {
     id: 'repo-1',
-    path: '/Users/test/src/orca',
+    path: '/Users/test/src/capilot',
     displayName: 'stablyai/orca',
     badgeColor: '#22c55e',
     addedAt: 0,
@@ -43,7 +43,7 @@ describe('repo-search', () => {
 
   it('falls back to matching repo paths', () => {
     const repos = [
-      makeRepo({ id: '1', displayName: 'frontend', path: '/src/team-a/orca' }),
+      makeRepo({ id: '1', displayName: 'frontend', path: '/src/team-a/capilot' }),
       makeRepo({ id: '2', displayName: 'backend', path: '/src/team-b/noqa' })
     ]
 
@@ -52,11 +52,11 @@ describe('repo-search', () => {
 
   it('keeps display-name matches ahead of path-only matches', () => {
     const repos = [
-      makeRepo({ id: '1', displayName: 'misc', path: '/src/orca-tools/misc' }),
-      makeRepo({ id: '2', displayName: 'orca', path: '/src/team-a/project' })
+      makeRepo({ id: '1', displayName: 'misc', path: '/src/capilot-tools/misc' }),
+      makeRepo({ id: '2', displayName: 'capilot', path: '/src/team-a/project' })
     ]
 
-    expect(searchRepos(repos, 'orca').map((repo) => repo.id)).toEqual(['2', '1'])
+    expect(searchRepos(repos, 'capilot').map((repo) => repo.id)).toEqual(['2', '1'])
   })
 
   it('rejects oversized pasted queries before reading repo names or paths', () => {

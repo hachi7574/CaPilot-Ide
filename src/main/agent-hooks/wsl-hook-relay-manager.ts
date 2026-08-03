@@ -306,7 +306,7 @@ export class WslHookRelayManager {
       return
     }
     try {
-      // Why: runInstallers also re-ships the plugin source so a mid-session Orca upgrade refreshes it.
+      // Why: runInstallers also re-ships the plugin source so a mid-session CaPilot upgrade refreshes it.
       await this.runInstallers(state, mux, guestHome)
     } catch (err) {
       this.deps.warn(

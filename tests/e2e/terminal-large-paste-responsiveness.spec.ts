@@ -2,7 +2,7 @@ import { createHash, randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { test, expect } from './helpers/orca-app'
+import { test, expect } from './helpers/capilot-app'
 import { ensureTerminalVisible, waitForActiveWorktree, waitForSessionReady } from './helpers/store'
 import {
   focusActiveTerminalInput,
@@ -112,7 +112,7 @@ test.describe('large terminal paste responsiveness', () => {
     const expectedBytes = Buffer.byteLength(payload, 'utf8')
     const expectedHash = sha256(payload)
     const doneLine = `LARGE_PASTE_DONE_${runId}:${expectedBytes}:${expectedHash}`
-    const scriptPath = path.join(testRepoPath, `.orca-large-paste-${runId}.cjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-large-paste-${runId}.cjs`)
     writeFileSync(scriptPath, pasteReceiverScript(runId, expectedBytes, expectedHash))
     let scriptStarted = false
 

@@ -10,7 +10,7 @@ import {
   AGENT_SESSION_RPC_ERROR_CODES,
   AGENT_SESSION_OPERATION_FUTURE_SKEW_MS
 } from '../../../../shared/agent-session-host-authority'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import type { RpcRequest, RpcResponse } from '../core'
 import { RpcDispatcher } from '../dispatcher'
 import { AGENT_SESSION_METHODS } from './agent-session'

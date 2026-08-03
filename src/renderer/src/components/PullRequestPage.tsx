@@ -5491,7 +5491,7 @@ export default function PullRequestPage({
             </span>
           </h1>
           <div className="flex shrink-0 items-center gap-2">
-            {/* Why: Orca's signature affordance — keep primary so it stands out against GitHub's familiar surface. */}
+            {/* Why: CaPilot's signature affordance — keep primary so it stands out against GitHub's familiar surface. */}
             <DropdownMenu modal={false}>
               <ButtonGroup>
                 <Button

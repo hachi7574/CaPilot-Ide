@@ -87,7 +87,7 @@ function buildAppIfNeeded() {
 }
 
 function createGitRepo() {
-  const repoDir = mkdtempSync(path.join(tmpdir(), 'orca-wayland-gpu-repo-'))
+  const repoDir = mkdtempSync(path.join(tmpdir(), 'capilot-wayland-gpu-repo-'))
   run('git', ['init'], { cwd: repoDir, stdio: 'pipe' })
   run('git', ['config', 'user.email', 'wayland-gpu@test.local'], { cwd: repoDir, stdio: 'pipe' })
   run('git', ['config', 'user.name', 'Wayland GPU Test'], { cwd: repoDir, stdio: 'pipe' })
@@ -147,7 +147,7 @@ async function runValidation(mode) {
   buildAppIfNeeded()
 
   const repoPath = createGitRepo()
-  const userDataPath = mkdtempSync(path.join(tmpdir(), 'orca-wayland-gpu-userdata-'))
+  const userDataPath = mkdtempSync(path.join(tmpdir(), 'capilot-wayland-gpu-userdata-'))
   // Why: this harness cannot use the E2E flag because that disables Linux GPU,
   // but its Codex and Node home still must stay inside the disposable profile.
   const isolatedHome = path.join(userDataPath, 'home')

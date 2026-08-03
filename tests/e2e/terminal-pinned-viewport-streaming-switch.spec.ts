@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import type { Page } from '@stablyai/playwright-test'
-import { expect, test } from './helpers/orca-app'
+import { expect, test } from './helpers/capilot-app'
 import {
   ensureTerminalVisible,
   getAllWorktreeIds,
@@ -51,7 +51,7 @@ for (let tick = 0; tick < 800; tick += 1) {
 async function closeFeatureTips(page: Page): Promise<void> {
   await page.evaluate(() => {
     const store = window.__store
-    store?.getState().markFeatureTipsSeen(['orca-cli', 'cmd-j-palette', 'voice-dictation'])
+    store?.getState().markFeatureTipsSeen(['capilot-cli', 'cmd-j-palette', 'voice-dictation'])
     if (store?.getState().activeModal === 'feature-tips') {
       store.getState().closeModal()
     }
@@ -161,7 +161,7 @@ test.describe('Terminal pinned viewport with streaming agent across worktree swi
     const ptyId = await waitForActivePanePtyId(orcaPage)
     await waitForPtyShellEcho(orcaPage, ptyId, 15_000)
     const runId = randomUUID()
-    const scriptPath = path.join(testRepoPath, `.orca-streaming-switch-${runId}.mjs`)
+    const scriptPath = path.join(testRepoPath, `.capilot-streaming-switch-${runId}.mjs`)
     writeFileSync(scriptPath, streamingAgentFixtureScript(runId))
 
     try {

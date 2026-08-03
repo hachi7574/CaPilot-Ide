@@ -161,7 +161,7 @@ describe('GitHub PR local runtime routing', () => {
 
   it('routes PR details and mutations through the selected WSL distro', async () => {
     const localGitOptions = { wslDistro: 'Ubuntu' }
-    const prRepo = { owner: 'acme', repo: 'orca' }
+    const prRepo = { owner: 'acme', repo: 'capilot' }
     rateLimitGuardMock.mockReturnValue({
       blocked: true,
       remaining: 0,
@@ -170,7 +170,7 @@ describe('GitHub PR local runtime routing', () => {
     })
     getOwnerRepoMock.mockResolvedValue(prRepo)
     ghExecFileAsyncMock.mockImplementation(async (args: string[]) => {
-      const endpoint = args.find((arg) => arg.startsWith('repos/acme/orca/')) ?? ''
+      const endpoint = args.find((arg) => arg.startsWith('repos/acme/capilot/')) ?? ''
       const query = args.find((arg) => arg.startsWith('query=')) ?? ''
 
       if (args[0] === 'pr' && args[1] === 'view') {
@@ -296,7 +296,7 @@ describe('GitHub PR local runtime routing', () => {
   })
 
   it('never falls through to the default gh host for an unresolved SSH repository', async () => {
-    const legacyRepo = { owner: 'team', repo: 'orca' }
+    const legacyRepo = { owner: 'team', repo: 'capilot' }
     getOwnerRepoMock.mockResolvedValue(null)
     getEnterpriseGitHubRepoSlugMock.mockResolvedValue(null)
 
@@ -339,7 +339,7 @@ describe('GitHub PR local runtime routing', () => {
   })
 
   it('refuses unresolved local PR mutations instead of using ambient gh defaults', async () => {
-    const legacyRepo = { owner: 'team', repo: 'orca' }
+    const legacyRepo = { owner: 'team', repo: 'capilot' }
     getOwnerRepoMock.mockResolvedValue(null)
     getEnterpriseGitHubRepoSlugMock.mockResolvedValue(null)
 
@@ -366,13 +366,13 @@ describe('GitHub PR local runtime routing', () => {
   it('preserves a ported GHES host in SSH-backed review reads and mutations', async () => {
     const enterpriseRepo = {
       owner: 'team',
-      repo: 'orca',
+      repo: 'capilot',
       host: 'github.acme-corp.com:8443'
     }
     getOwnerRepoMock.mockResolvedValue(null)
     getEnterpriseGitHubRepoSlugMock.mockResolvedValue(enterpriseRepo)
     ghExecFileAsyncMock.mockImplementation(async (args: string[]) => {
-      const endpoint = args.find((arg) => arg.startsWith('repos/team/orca/')) ?? ''
+      const endpoint = args.find((arg) => arg.startsWith('repos/team/capilot/')) ?? ''
       const query = args.find((arg) => arg.startsWith('query=')) ?? ''
       if (args[0] === 'pr' && args[1] === 'checks') {
         return { stdout: '[]' }
@@ -473,7 +473,7 @@ describe('GitHub PR local runtime routing', () => {
       getWorkItemByOwnerRepo('/remote/repo', enterpriseRepo, 7, 'pr', 'ssh-1')
     ).resolves.toMatchObject({ number: 7, title: 'Enterprise PR' })
     await expect(
-      getWorkItemByOwnerRepo('/remote/repo', { owner: 'team', repo: 'orca' }, 7, 'pr', 'ssh-1')
+      getWorkItemByOwnerRepo('/remote/repo', { owner: 'team', repo: 'capilot' }, 7, 'pr', 'ssh-1')
     ).resolves.toMatchObject({ number: 7, title: 'Enterprise PR' })
     await expect(
       getPRComments('/remote/repo', 7, { prRepo: enterpriseRepo }, 'ssh-1')
@@ -556,12 +556,12 @@ describe('GitHub PR local runtime routing', () => {
     )
     // The runner host-qualifies argv at spawn time from options.host, so the
     // mocked call sees the unqualified --repo plus the host in exec options.
-    expect(prViewCall?.[0]).toEqual(expect.arrayContaining(['--repo', 'team/orca']))
+    expect(prViewCall?.[0]).toEqual(expect.arrayContaining(['--repo', 'team/capilot']))
     expect(prViewCall?.[1]).toEqual({ host: 'github.acme-corp.com:8443' })
     const prCalls = ghExecFileAsyncMock.mock.calls.filter(([args]) => args[0] === 'pr')
     expect(
       prCalls.every(
-        ([args]) => args.includes('--repo') && args[args.indexOf('--repo') + 1] === 'team/orca'
+        ([args]) => args.includes('--repo') && args[args.indexOf('--repo') + 1] === 'team/capilot'
       )
     ).toBe(true)
     const apiCalls = ghExecFileAsyncMock.mock.calls.filter(([args]) => args[0] === 'api')

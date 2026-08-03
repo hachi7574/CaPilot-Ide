@@ -1,6 +1,6 @@
 import { measureClipboardTextByteLength } from './clipboard-text'
 
-export const ORCA_INTERNAL_FILE_DRAG_TYPE = 'text/x-orca-file-path'
+export const ORCA_INTERNAL_FILE_DRAG_TYPE = 'text/x-capilot-file-path'
 
 export const NATIVE_FILE_DROP_MAX_PATHS = 256
 export const NATIVE_FILE_DROP_MAX_PATH_BYTES = 256 * 1024

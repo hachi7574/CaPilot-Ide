@@ -669,7 +669,7 @@ function scheduleChangedOnDiskMark(
   }
   const absolutePath = joinPath(notification.worktreePath, notification.relativePath)
   const recentSelfWrite = getRecentSelfWrite(absolutePath, target.runtimeEnvironmentId)
-  // Why: the fs event may be the echo of Orca's own save — verify disk really differs from our last write before showing a "changed on disk" banner.
+  // Why: the fs event may be the echo of CaPilot's own save — verify disk really differs from our last write before showing a "changed on disk" banner.
   if (!recentSelfWrite || recentSelfWrite.content === null) {
     markTabsChangedOnDisk(fileIds, target.connectionId)
     return
@@ -828,7 +828,7 @@ function scheduleSelfWriteAwareExternalReload(
   }
 
   const runtimeEnvironmentId = file.runtimeEnvironmentId ?? target.runtimeEnvironmentId
-  // Why: a self-write stamp only proves recent change; compare disk content so we suppress only Orca's own echo, not a newer agent write in the same TTL.
+  // Why: a self-write stamp only proves recent change; compare disk content so we suppress only CaPilot's own echo, not a newer agent write in the same TTL.
   void readFileForEchoVerification({
     runtimeEnvironmentId,
     filePath: file.filePath,

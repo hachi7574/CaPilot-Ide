@@ -362,7 +362,7 @@ async function deployAndLaunchRelayAttempt(
   const hostPlatform = await detectRemoteHostPlatform(conn, { signal: deploySignal })
   if (!hostPlatform) {
     throw new Error(
-      'Unsupported remote platform. Orca relay supports: linux-x64, linux-arm64, darwin-x64, darwin-arm64, win32-x64, win32-arm64.'
+      'Unsupported remote platform. CaPilot relay supports: linux-x64, linux-arm64, darwin-x64, darwin-arm64, win32-x64, win32-arm64.'
     )
   }
   const platform = hostPlatform.relayPlatform
@@ -372,7 +372,7 @@ async function deployAndLaunchRelayAttempt(
   if (!localRelayDir) {
     throw new Error(
       `Relay package for ${platform} not found locally. ` +
-        `This may be a packaging issue — try reinstalling Orca.`
+        `This may be a packaging issue — try reinstalling CaPilot.`
     )
   }
   // Why: content-hashed version doubles as remote dir name and wire-handshake version; throws on missing rather than falling back (see docs/ssh-relay-versioned-install-dirs.md).
@@ -615,7 +615,7 @@ async function uploadRelay(
   if (!localRelayDir || !existsSync(localRelayDir)) {
     throw new Error(
       `Relay package for ${platform} not found. Searched: ${getLocalRelayCandidates(platform).join(', ')}. ` +
-        `This may be a packaging issue — try reinstalling Orca.`
+        `This may be a packaging issue — try reinstalling CaPilot.`
     )
   }
 
@@ -665,7 +665,7 @@ async function uploadRelay(
 }
 
 /**
- * A marker is only meaningful where a split namespace can occur and where Orca
+ * A marker is only meaningful where a split namespace can occur and where CaPilot
  * owns the SFTP session: POSIX hosts reached over the bundled ssh2 transport.
  */
 function createInstallNamespaceIfSupported(
@@ -961,7 +961,7 @@ async function installNativeDeps(
       hostPlatform,
       joinRemotePath(hostPlatform, remoteDir, 'package.json'),
       `${JSON.stringify({
-        name: 'orca-relay',
+        name: 'capilot-relay',
         version: '1.0.0',
         private: true,
         type: 'commonjs',
@@ -1377,7 +1377,7 @@ async function launchRelay(
         )
   const escapedDir = shellEscape(remoteDir)
   const escapedNode = shellEscape(nodePath)
-  // Why: remoteRelayDir is shared across Orca targets for one account; hashing the target ID into the socket name stops cross-target attach.
+  // Why: remoteRelayDir is shared across CaPilot targets for one account; hashing the target ID into the socket name stops cross-target attach.
   const sockName = relaySocketNameForInstanceId(relayInstanceId)
   const sockFile = relayEndpointForHost(hostPlatform, remoteDir, sockName)
   const endpointDir = relayHookEndpointDirForHost(hostPlatform, remoteDir, sockFile)

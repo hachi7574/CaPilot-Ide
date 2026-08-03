@@ -4,7 +4,7 @@ import type {
   OrchestrationWorkerReadSource
 } from '../../../../shared/orchestration-worker-output'
 import type { RuntimeTerminalState } from '../../../../shared/runtime-types'
-import type { OrcaRuntimeService } from '../../orca-runtime'
+import type { OrcaRuntimeService } from '../../capilot-runtime'
 import { OrchestrationError } from '../../orchestration/orchestration-error'
 import {
   createWorkerOutputSourceIdentity,

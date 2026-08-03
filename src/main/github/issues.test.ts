@@ -201,7 +201,7 @@ describe('issue source operations', () => {
     await expect(
       addIssueComment('/remote/repo', 7, 'Enterprise comment', 'ssh-1', {
         owner: 'team',
-        repo: 'orca',
+        repo: 'capilot',
         host: 'github.acme-corp.com'
       })
     ).resolves.toMatchObject({ ok: true })
@@ -211,7 +211,7 @@ describe('issue source operations', () => {
         'api',
         '-X',
         'POST',
-        'repos/team/orca/issues/7/comments',
+        'repos/team/capilot/issues/7/comments',
         '--raw-field',
         'body=Enterprise comment'
       ],

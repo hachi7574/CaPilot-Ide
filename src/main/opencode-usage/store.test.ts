@@ -11,7 +11,7 @@ import type {
 } from './types'
 
 const { getPathMock, writeOpens, writeGate } = vi.hoisted(() => ({
-  getPathMock: vi.fn(() => '/tmp/orca-test-userdata'),
+  getPathMock: vi.fn(() => '/tmp/capilot-test-userdata'),
   // Why only mode 'w': the durable write also opens the directory read-only to fsync it, so counting
   // every open would hide a regression back to multiple full-cache rewrites per scan.
   writeOpens: { value: 0, inFlight: 0, maxConcurrent: 0 },
@@ -209,7 +209,7 @@ describe('OpenCodeUsageStore', () => {
   let tempUserData: string
 
   beforeEach(() => {
-    tempUserData = mkdtempSync(join(tmpdir(), 'orca-opencode-usage-store-'))
+    tempUserData = mkdtempSync(join(tmpdir(), 'capilot-opencode-usage-store-'))
     getPathMock.mockReturnValue(tempUserData)
     initOpenCodeUsagePath()
     writeOpens.value = 0
@@ -243,7 +243,7 @@ describe('OpenCodeUsageStore', () => {
     // Why exactly one: a refresh that rewrites the whole multi-MB cache twice is the regression this guards.
     expect(writeOpens.value).toBe(1)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
-    const persistedJson = readFileSync(join(tempUserData, 'orca-opencode-usage.json'), 'utf-8')
+    const persistedJson = readFileSync(join(tempUserData, 'capilot-opencode-usage.json'), 'utf-8')
     expect(persistedJson).toContain('\n')
     expect(JSON.parse(persistedJson).scanState).toMatchObject({
       enabled: true,
@@ -307,7 +307,7 @@ describe('OpenCodeUsageStore', () => {
     await Promise.all([first, second])
 
     expect(
-      JSON.parse(readFileSync(join(tempUserData, 'orca-opencode-usage.json'), 'utf-8')).scanState
+      JSON.parse(readFileSync(join(tempUserData, 'capilot-opencode-usage.json'), 'utf-8')).scanState
         .enabled
     ).toBe(false)
     expect(readdirSync(tempUserData).filter((f) => f.endsWith('.tmp'))).toHaveLength(0)
@@ -316,7 +316,7 @@ describe('OpenCodeUsageStore', () => {
   })
 
   it('sweeps a usage temp file orphaned by a crash between write and rename', async () => {
-    const orphan = join(tempUserData, 'orca-opencode-usage.json.999.1.abc.tmp')
+    const orphan = join(tempUserData, 'capilot-opencode-usage.json.999.1.abc.tmp')
     writeFileSync(orphan, '{}')
 
     createStoreWithState({})
@@ -325,7 +325,7 @@ describe('OpenCodeUsageStore', () => {
     )
   })
 
-  it('reports no data for Orca scope when only non-Orca OpenCode usage exists', async () => {
+  it('reports no data for CaPilot scope when only non-CaPilot OpenCode usage exists', async () => {
     const store = createStoreWithState({
       sessions: [
         makeSession({
@@ -344,7 +344,7 @@ describe('OpenCodeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
+    const summary = await store.getSummary('capilot', '30d')
 
     expect(summary.hasAnyOpenCodeData).toBe(false)
     expect(summary.sessions).toBe(0)
@@ -390,9 +390,9 @@ describe('OpenCodeUsageStore', () => {
       ]
     })
 
-    const summary = await store.getSummary('orca', '30d')
-    const daily = await store.getDaily('orca', '30d')
-    const breakdown = await store.getBreakdown('orca', '30d', 'model')
+    const summary = await store.getSummary('capilot', '30d')
+    const daily = await store.getDaily('capilot', '30d')
+    const breakdown = await store.getBreakdown('capilot', '30d', 'model')
 
     expect(summary).toMatchObject({
       sessions: 2,
@@ -429,7 +429,7 @@ describe('OpenCodeUsageStore', () => {
       dailyAggregates: [makeDaily()]
     })
 
-    const sessions = await store.getRecentSessions('orca', '30d', 5)
+    const sessions = await store.getRecentSessions('capilot', '30d', 5)
 
     expect(sessions).toEqual([
       {

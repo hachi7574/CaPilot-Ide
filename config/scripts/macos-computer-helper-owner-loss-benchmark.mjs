@@ -52,9 +52,9 @@ const helperAppPath = path.join(
   'computer-use-macos',
   '.build',
   'release',
-  'Orca Computer Use.app'
+  'CaPilot Computer Use.app'
 )
-const helperPath = path.join(helperAppPath, 'Contents', 'MacOS', 'orca-computer-use-macos')
+const helperPath = path.join(helperAppPath, 'Contents', 'MacOS', 'capilot-computer-use-macos')
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -452,15 +452,15 @@ function runTrial(executable, expectation) {
   let stdoutDescriptor
   let trialOutput = ''
   try {
-    launcherDir = mkdtempSync(path.join(tmpdir(), 'orca-helper-owner-bench-launcher-'))
-    trialTempDir = mkdtempSync(path.join(path.sep, 'tmp', 'orca-owner-bench-'))
+    launcherDir = mkdtempSync(path.join(tmpdir(), 'capilot-helper-owner-bench-launcher-'))
+    trialTempDir = mkdtempSync(path.join(path.sep, 'tmp', 'capilot-owner-bench-'))
     helperRecordPath = path.join(launcherDir, 'helper.json')
     resultPath = path.join(launcherDir, 'result.json')
     stderrPath = path.join(launcherDir, 'stderr.log')
     stdoutPath = path.join(launcherDir, 'stdout.log')
     writeFileSync(
       path.join(launcherDir, 'package.json'),
-      JSON.stringify({ name: 'orca-helper-owner-benchmark', main: 'main.cjs' })
+      JSON.stringify({ name: 'capilot-helper-owner-benchmark', main: 'main.cjs' })
     )
     writeFileSync(
       path.join(launcherDir, 'main.cjs'),

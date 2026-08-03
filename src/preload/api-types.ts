@@ -85,7 +85,7 @@ import type {
   OrcaProfileOrgMemberRemoveArgs,
   OrcaProfileOrgMembersListArgs,
   OrcaProfileOrgMembersListResult
-} from '../shared/orca-profiles'
+} from '../shared/capilot-profiles'
 import type { TerminalPaneSplitSource } from '../shared/feature-education-telemetry'
 import type { TaskSourceContext } from '../shared/task-source-context'
 import type { LinearIssueAttributeFilter } from '../shared/linear-issue-attribute-filter'
@@ -967,7 +967,7 @@ export type AppApi = {
   getFeatureWallAssetBaseUrl: () => Promise<string>
   /** Relaunches the app (app.relaunch() + app.exit(0)) for settings that need a full restart to apply. */
   relaunch: () => Promise<void>
-  /** Restarts Orca through the normal quit pipeline so daemon-backed terminal
+  /** Restarts CaPilot through the normal quit pipeline so daemon-backed terminal
    *  sessions survive and can reattach after the new process starts. */
   restart: () => Promise<void>
   /** Reloads the current app renderer through main so expected renderer
@@ -993,7 +993,7 @@ export type AppApi = {
   setUnreadDockBadgeCount: (count: number) => Promise<void>
   /** Resolves the launch directory for global Floating Terminal tabs. */
   getFloatingTerminalCwd: (args?: FloatingTerminalCwdRequest) => Promise<string>
-  /** Resolves Orca's app-owned directory for auto-created Floating Workspace
+  /** Resolves CaPilot's app-owned directory for auto-created Floating Workspace
    *  markdown notes. */
   getFloatingMarkdownDirectory: () => Promise<string>
   /** Opens a native picker for markdown documents, rooted in the floating
@@ -1416,7 +1416,7 @@ export type PreloadApi = {
       allowUnverifiedPtyStop?: boolean
       skipArchive?: boolean
     }) => Promise<RemoveWorktreeResult>
-    // Forget a workspace from Orca only (no remote Git/FS work) — for workspaces pinned to a removed/disconnected SSH host.
+    // Forget a workspace from CaPilot only (no remote Git/FS work) — for workspaces pinned to a removed/disconnected SSH host.
     forgetLocal: (args: {
       worktreeId: string
       hostId?: ExecutionHostId
@@ -2497,7 +2497,7 @@ export type PreloadApi = {
     onData: (callback: (payload: TerminalPreviewDataPayload) => void) => () => void
   }
   macosTccPrompts: {
-    /** Fires once macOS has raised its Nth consent dialog naming Orca (#9756). */
+    /** Fires once macOS has raised its Nth consent dialog naming CaPilot (#9756). */
     onThreshold: (callback: (payload: { promptCount: number }) => void) => () => void
     consumePending: () => Promise<{ claimId: number; promptCount: number } | null>
     acknowledgePending: (claimId: number) => Promise<void>
@@ -2608,7 +2608,7 @@ export type PreloadApi = {
     }) => Promise<
       | {
           ok: true
-          connectionType: 'orca-server'
+          connectionType: 'capilot-server'
           runtime: EphemeralVmRuntimeRecord
           environment: PublicKnownRuntimeEnvironment
           stderr: string

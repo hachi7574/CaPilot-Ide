@@ -907,7 +907,7 @@ describe('connectPanePty', () => {
         repo1: [{ id: 'wt-1', repoId: 'repo1', path: '/tmp/wt-1', displayName: 'feat/notis' }]
       },
       runtimeStatusByEnvironmentId: new Map(),
-      repos: [{ id: 'repo1', connectionId: null, displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: null, displayName: 'capilot' }],
       projects: [],
       sshConnectionStates: new Map(),
       transientClearedAgentStatusConnectionIds: {},
@@ -1117,7 +1117,7 @@ describe('connectPanePty', () => {
         ...mockStoreState,
         tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
         ptyIdsByTabId: { 'tab-1': [] },
-        repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+        repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
         sshConnectionStates: new Map([
           [
             'target-a',
@@ -1171,7 +1171,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1238,7 +1238,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1291,7 +1291,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1360,7 +1360,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1442,7 +1442,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: livePtyId, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [livePtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1505,7 +1505,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: livePtyId, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [livePtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1591,7 +1591,7 @@ describe('connectPanePty', () => {
       ...mockStoreState,
       tabsByWorktree: { 'wt-1': [{ id: 'tab-1', ptyId: null, generation: 7 }] },
       ptyIdsByTabId: { 'tab-1': [] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1695,7 +1695,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: restoredPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [restoredPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1759,7 +1759,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: restoredPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [restoredPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1825,7 +1825,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: restoredPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [restoredPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -1924,7 +1924,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: restoredPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [restoredPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -2003,7 +2003,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: restoredPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [restoredPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -2071,7 +2071,7 @@ describe('connectPanePty', () => {
         'wt-1': [{ id: 'tab-1', ptyId: firstPtyId, generation: 7 }]
       },
       ptyIdsByTabId: { 'tab-1': [firstPtyId, siblingPtyId] },
-      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'orca' }],
+      repos: [{ id: 'repo1', connectionId: 'target-a', displayName: 'capilot' }],
       sshConnectionStates: new Map([
         [
           'target-a',
@@ -2313,7 +2313,7 @@ describe('connectPanePty', () => {
       'wt-1',
       expect.objectContaining({
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca', host: 'github.com' },
+        slug: { owner: 'acme', repo: 'capilot', host: 'github.com' },
         number: 42
       })
     )
@@ -6407,7 +6407,7 @@ describe('connectPanePty', () => {
       }
       expect(transport.sendInput).not.toHaveBeenCalled()
 
-      capturedDataCallback.current?.('\x1b]777;orca-shell-ready\x07user@remote $ ')
+      capturedDataCallback.current?.('\x1b]777;capilot-shell-ready\x07user@remote $ ')
       for (const fn of pendingTimeouts.splice(0)) {
         fn()
       }
@@ -6675,7 +6675,7 @@ describe('connectPanePty', () => {
       }
       expect(transport.sendInput).not.toHaveBeenCalled()
 
-      capturedDataCallback.current?.('\x1b]777;orca-shell-ready\x07user@remote $ ')
+      capturedDataCallback.current?.('\x1b]777;capilot-shell-ready\x07user@remote $ ')
       for (const fn of pendingTimeouts.splice(0)) {
         fn()
       }
@@ -6735,7 +6735,7 @@ describe('connectPanePty', () => {
       }
       expect(transport.sendInput).not.toHaveBeenCalled()
 
-      capturedDataCallback.current?.('\x1b]777;orca-shell-ready\x07user@remote $ ')
+      capturedDataCallback.current?.('\x1b]777;capilot-shell-ready\x07user@remote $ ')
       for (const fn of pendingTimeouts.splice(0)) {
         fn()
       }
@@ -6788,7 +6788,7 @@ describe('connectPanePty', () => {
     expect(mockStoreState.removeAgentStatus).not.toHaveBeenCalled()
   })
 
-  it('clears pre-hook launch config when an Orca-started command exits', async () => {
+  it('clears pre-hook launch config when an CaPilot-started command exits', async () => {
     vi.useFakeTimers({ toFake: ['setTimeout'] })
     const { connectPanePty } = await import('./pty-connection')
     vi.mocked(window.api.pty.confirmForegroundProcess).mockResolvedValue('zsh')
@@ -6917,7 +6917,7 @@ describe('connectPanePty', () => {
     expect(resolveMockPaneWindowsShiftEnterEncoding(mockStoreState, paneKey)).toBe('csi-u')
   })
 
-  it('confirms an Orca-launched Droid fresh spawn in a no-OSC shell (Git Bash)', async () => {
+  it('confirms an CaPilot-launched Droid fresh spawn in a no-OSC shell (Git Bash)', async () => {
     // Why: no-OSC shells (Git Bash/cmd) emit no command boundary, so without a fresh-spawn sample the pane never earns routing trust and Shift+Enter regresses to Esc+CR (#7620).
     vi.useFakeTimers()
     const { connectPanePty } = await import('./pty-connection')
@@ -12821,7 +12821,7 @@ describe('connectPanePty', () => {
     })
 
     // One fish prompt cycle, exactly as fish's tty_handoff.rs emits it.
-    const FISH_PROMPT_HANDOFF = '\x1b[?2031h\x1b[0m~/orca \x1b[32m❯\x1b[0m \x1b[?2031l'
+    const FISH_PROMPT_HANDOFF = '\x1b[?2031h\x1b[0m~/capilot \x1b[32m❯\x1b[0m \x1b[?2031l'
 
     it('stays silent across three fish prompts', async () => {
       const { transport, emit, dispose } = await connectVisiblePane()
@@ -14104,7 +14104,7 @@ describe('connectPanePty', () => {
     })
     transportFactoryQueue.push(transport)
     mockStoreState.repos = [
-      { id: 'repo1', connectionId: null, displayName: 'orca', executionHostId: 'runtime:env-1' }
+      { id: 'repo1', connectionId: null, displayName: 'capilot', executionHostId: 'runtime:env-1' }
     ]
     mockStoreState.worktreesByRepo.repo1[0].runtimeOwnerEnvironmentId = 'env-1'
 
@@ -14238,7 +14238,7 @@ describe('connectPanePty', () => {
       {
         id: 'repo1',
         connectionId: null,
-        displayName: 'orca',
+        displayName: 'capilot',
         executionHostId: 'runtime:legacy-env'
       }
     ]
@@ -14488,7 +14488,7 @@ describe('connectPanePty', () => {
 
     expect(transport.serializeBuffer).toHaveBeenCalledTimes(1)
     expect(pane.terminal.write).not.toHaveBeenCalledWith(
-      expect.stringContaining('Orca skipped hidden terminal output'),
+      expect.stringContaining('CaPilot skipped hidden terminal output'),
       expect.any(Function)
     )
     expect(pane.terminal.write).not.toHaveBeenCalledWith(
@@ -15100,7 +15100,7 @@ describe('connectPanePty', () => {
       expect(getMainBufferSnapshot).toHaveBeenCalledTimes(4)
       expect(pane.terminal.write).toHaveBeenCalledWith(
         expect.stringContaining(
-          'Orca skipped hidden terminal output because main recovery was unavailable.'
+          'CaPilot skipped hidden terminal output because main recovery was unavailable.'
         ),
         expect.any(Function)
       )
@@ -17134,7 +17134,7 @@ describe('connectPanePty', () => {
       // Why: missing-glyph workaround is renderer-scoped, not PTY-scoped — SSH moves byte origin but Windows still paints locally.
       mockStoreState = {
         ...mockStoreState,
-        repos: [{ id: 'repo1', connectionId: 'conn-1', displayName: 'orca' }]
+        repos: [{ id: 'repo1', connectionId: 'conn-1', displayName: 'capilot' }]
       }
 
       const pane = createPane(1)
@@ -17924,7 +17924,7 @@ describe('connectPanePty', () => {
     const transport = createMockTransport()
     transportFactoryQueue.push(transport)
     const setupWorktreeId =
-      'ephemeral-setup-terminal:settings-mobile-emulator-orca-cli-skill-terminal'
+      'ephemeral-setup-terminal:settings-mobile-emulator-capilot-cli-skill-terminal'
     mockStoreState = {
       ...mockStoreState,
       tabsByWorktree: { [setupWorktreeId]: [{ id: 'tab-1', ptyId: null }] },
@@ -17950,7 +17950,7 @@ describe('connectPanePty', () => {
     const transport = createMockTransport()
     transportFactoryQueue.push(transport)
     const setupWorktreeId =
-      'ephemeral-setup-terminal:settings-mobile-emulator-orca-cli-skill-terminal'
+      'ephemeral-setup-terminal:settings-mobile-emulator-capilot-cli-skill-terminal'
     mockStoreState = {
       ...mockStoreState,
       tabsByWorktree: { [setupWorktreeId]: [{ id: 'tab-1', ptyId: null }] },
@@ -18011,14 +18011,14 @@ describe('connectPanePty', () => {
       // Why: the worktree row exists (so the owner is not "ambiguous") but its repo has
       // not landed yet — exactly the window that used to fail open to local.
       worktreesByRepo: {
-        repo1: [{ id: 'wt-remote', repoId: 'repo1', path: '/tmp/orca-docker-relay-perf-repo' }]
+        repo1: [{ id: 'wt-remote', repoId: 'repo1', path: '/tmp/capilot-docker-relay-perf-repo' }]
       },
       repos: []
     } as StoreState
 
     const deps = createDeps({
       worktreeId: 'wt-remote',
-      cwd: '/tmp/orca-docker-relay-perf-repo'
+      cwd: '/tmp/capilot-docker-relay-perf-repo'
     })
     connectPanePty(createPane(1) as never, createManager(1) as never, deps as never)
 
@@ -18195,7 +18195,7 @@ describe('connectPanePty', () => {
         {
           id: 'repo1',
           connectionId: null,
-          displayName: 'orca',
+          displayName: 'capilot',
           executionHostId: 'runtime:owner-runtime'
         }
       ],
@@ -18243,7 +18243,7 @@ describe('connectPanePty', () => {
         {
           id: 'repo1',
           connectionId: null,
-          displayName: 'orca',
+          displayName: 'capilot',
           executionHostId: 'local'
         }
       ],
@@ -18687,7 +18687,7 @@ describe('connectPanePty', () => {
 
       const link = {
         url: 'https://github.com/acme/orca/pull/42',
-        slug: { owner: 'acme', repo: 'orca' },
+        slug: { owner: 'acme', repo: 'capilot' },
         number: 42
       }
       handler._dispatchTerminalSideEffectBatchForTest({
@@ -20893,7 +20893,7 @@ describe('connectPanePty', () => {
       expect.objectContaining({
         source: 'agent-task-complete',
         worktreeId: 'wt-1',
-        repoLabel: 'orca',
+        repoLabel: 'capilot',
         worktreeLabel: 'feat/notis',
         hasMultipleActiveRepos: true,
         terminalTitle: '* Claude done',
@@ -21691,7 +21691,7 @@ describe('connectPanePty', () => {
           {
             id: 'repo1',
             connectionId: null,
-            displayName: 'orca',
+            displayName: 'capilot',
             executionHostId: 'runtime:owner-runtime'
           }
         ]

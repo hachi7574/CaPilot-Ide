@@ -40,7 +40,7 @@ const RECIPE_JSON = JSON.stringify({
   }),
   projectRoot: '/workspace/repo'
 })
-const SERVE_INSTALL_STATUS = '[serve] orca CLI install: installed'
+const SERVE_INSTALL_STATUS = '[serve] capilot CLI install: installed'
 const SSH_PRIVATE_KEY = 'TOP-SECRET-PRIVATE-KEY'
 const SSH_AUTHORIZATION = 'Bearer TOP-SECRET-AUTHORIZATION'
 const SSH_PASSPHRASE = 'TOP-SECRET-PASSPHRASE'
@@ -86,7 +86,7 @@ describe('serveOrcaApp', () => {
 
   beforeEach(() => {
     spawnMock.mockReset()
-    process.env.ORCA_APP_EXECUTABLE = '/Applications/Orca.app/Contents/MacOS/Orca'
+    process.env.ORCA_APP_EXECUTABLE = '/Applications/CaPilot.app/Contents/MacOS/CaPilot'
   })
 
   afterEach(() => {
@@ -103,10 +103,10 @@ describe('serveOrcaApp', () => {
   it.runIf(process.platform === 'darwin')(
     'keeps the serve supervisor alive until the installed target version can take ownership',
     async () => {
-      const root = await mkdtemp(join(tmpdir(), 'orca-serve-update-'))
+      const root = await mkdtemp(join(tmpdir(), 'capilot-serve-update-'))
       temporaryDirectories.push(root)
-      const appPath = join(root, 'Orca.app')
-      const executable = join(appPath, 'Contents', 'MacOS', 'Orca')
+      const appPath = join(root, 'CaPilot.app')
+      const executable = join(appPath, 'Contents', 'MacOS', 'CaPilot')
       const infoPlistPath = join(appPath, 'Contents', 'Info.plist')
       const userDataPath = join(root, 'user-data')
       await mkdir(join(appPath, 'Contents', 'MacOS'), { recursive: true })
@@ -157,7 +157,7 @@ describe('serveOrcaApp', () => {
       await rename(updateAppPath, appPath)
       await vi.waitFor(() => expect(spawnMock).toHaveBeenCalledTimes(2))
       replacementOwner.emit('message', {
-        type: 'orca:serve-ready',
+        type: 'capilot:serve-ready',
         version: '1.0.61',
         runtimeId: 'runtime-new'
       })
@@ -172,10 +172,10 @@ describe('serveOrcaApp', () => {
   it.runIf(process.platform === 'darwin')(
     'records a replacement version mismatch without starting a retry loop',
     async () => {
-      const root = await mkdtemp(join(tmpdir(), 'orca-serve-update-mismatch-'))
+      const root = await mkdtemp(join(tmpdir(), 'capilot-serve-update-mismatch-'))
       temporaryDirectories.push(root)
-      const appPath = join(root, 'Orca.app')
-      const executable = join(appPath, 'Contents', 'MacOS', 'Orca')
+      const appPath = join(root, 'CaPilot.app')
+      const executable = join(appPath, 'Contents', 'MacOS', 'CaPilot')
       const userDataPath = join(root, 'user-data')
       await mkdir(join(appPath, 'Contents', 'MacOS'), { recursive: true })
       await mkdir(userDataPath, { recursive: true })
@@ -204,7 +204,7 @@ describe('serveOrcaApp', () => {
       const supervisor = serveOrcaApp({ json: true })
       await vi.waitFor(() => expect(spawnMock).toHaveBeenCalledOnce())
       replacementOwner.emit('message', {
-        type: 'orca:serve-ready',
+        type: 'capilot:serve-ready',
         version: '1.0.51',
         runtimeId: 'runtime-old'
       })
@@ -226,10 +226,10 @@ describe('serveOrcaApp', () => {
   it.runIf(process.platform === 'darwin')(
     'records replacement spawn failure before rejecting without a retry loop',
     async () => {
-      const root = await mkdtemp(join(tmpdir(), 'orca-serve-update-spawn-failure-'))
+      const root = await mkdtemp(join(tmpdir(), 'capilot-serve-update-spawn-failure-'))
       temporaryDirectories.push(root)
-      const appPath = join(root, 'Orca.app')
-      const executable = join(appPath, 'Contents', 'MacOS', 'Orca')
+      const appPath = join(root, 'CaPilot.app')
+      const executable = join(appPath, 'Contents', 'MacOS', 'CaPilot')
       const userDataPath = join(root, 'user-data')
       await mkdir(join(appPath, 'Contents', 'MacOS'), { recursive: true })
       await mkdir(userDataPath, { recursive: true })
@@ -274,10 +274,10 @@ describe('serveOrcaApp', () => {
     'fails a replacement that never reports runtime readiness without retrying it',
     async () => {
       vi.useFakeTimers()
-      const root = await mkdtemp(join(tmpdir(), 'orca-serve-update-no-readiness-'))
+      const root = await mkdtemp(join(tmpdir(), 'capilot-serve-update-no-readiness-'))
       temporaryDirectories.push(root)
-      const appPath = join(root, 'Orca.app')
-      const executable = join(appPath, 'Contents', 'MacOS', 'Orca')
+      const appPath = join(root, 'CaPilot.app')
+      const executable = join(appPath, 'Contents', 'MacOS', 'CaPilot')
       const userDataPath = join(root, 'user-data')
       await mkdir(join(appPath, 'Contents', 'MacOS'), { recursive: true })
       await mkdir(userDataPath, { recursive: true })
@@ -343,7 +343,7 @@ describe('serveOrcaApp', () => {
     await expect(serveOrcaApp({ json: true })).resolves.toBe(0)
 
     expect(spawnMock).toHaveBeenCalledWith(
-      '/Applications/Orca.app/Contents/MacOS/Orca',
+      '/Applications/CaPilot.app/Contents/MacOS/CaPilot',
       ['--serve', '--serve-json'],
       expect.objectContaining({
         cwd: resolve(__dirname, '../../..')
@@ -375,7 +375,7 @@ describe('serveOrcaApp', () => {
     ).resolves.toBe(0)
 
     expect(spawnMock).toHaveBeenCalledWith(
-      '/Applications/Orca.app/Contents/MacOS/Orca',
+      '/Applications/CaPilot.app/Contents/MacOS/CaPilot',
       [
         '--serve',
         '--serve-json',
@@ -409,7 +409,7 @@ describe('serveOrcaApp', () => {
     await expect(serveOrcaApp({ json: true })).resolves.toBe(0)
 
     expect(spawnMock).toHaveBeenCalledWith(
-      '/Applications/Orca.app/Contents/MacOS/Orca',
+      '/Applications/CaPilot.app/Contents/MacOS/CaPilot',
       ['--no-sandbox', '--serve', '--serve-json'],
       expect.any(Object)
     )
@@ -461,7 +461,7 @@ describe('serveOrcaApp', () => {
     await expect(result).resolves.toBe(0)
 
     expect(spawnMock).toHaveBeenCalledWith(
-      '/Applications/Orca.app/Contents/MacOS/Orca',
+      '/Applications/CaPilot.app/Contents/MacOS/CaPilot',
       [
         '--serve',
         '--serve-pairing-address',
@@ -537,7 +537,7 @@ describe('serveOrcaApp', () => {
 
     await expect(result).rejects.toMatchObject({
       code: 'runtime_serve_failed',
-      message: 'Orca serve exited before printing valid recipe JSON with code 0.'
+      message: 'CaPilot serve exited before printing valid recipe JSON with code 0.'
     })
     expect(stdoutSpy).not.toHaveBeenCalled()
     expect(stderrSpy).toHaveBeenCalledTimes(5)
@@ -608,7 +608,7 @@ describe('launchOrcaApp', () => {
   })
 
   it('handles asynchronous detached spawn errors without throwing', async () => {
-    process.env.ORCA_APP_EXECUTABLE = '/missing/Orca'
+    process.env.ORCA_APP_EXECUTABLE = '/missing/CaPilot'
     const child = new FakeChildProcess()
     spawnMock.mockReturnValue(child)
 

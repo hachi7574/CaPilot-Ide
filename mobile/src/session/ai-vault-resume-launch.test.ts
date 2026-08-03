@@ -213,11 +213,11 @@ describe('buildMobileAiVaultResumeLaunch', () => {
       session: session({
         agent: 'codex',
         sessionId: 'codex-1',
-        codexHome: '/Users/ada/.orca/codex-runtime-home/home'
+        codexHome: '/Users/ada/.capilot/codex-runtime-home/home'
       }),
       hostPlatform: 'darwin'
     })
-    expect(launch.command).toContain("CODEX_HOME='/Users/ada/.orca/codex-runtime-home/home'")
+    expect(launch.command).toContain("CODEX_HOME='/Users/ada/.capilot/codex-runtime-home/home'")
     expect(launch.envToDelete).toBeUndefined()
   })
 })

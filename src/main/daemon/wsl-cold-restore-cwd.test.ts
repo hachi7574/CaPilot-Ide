@@ -13,7 +13,7 @@ describe('normalizeWslColdRestoreCwd', () => {
     ['C:\\work', 'C:\\work'],
     ['\\\\wsl.localhost\\ubuntu\\home\\jin', '\\\\wsl.localhost\\ubuntu\\home\\jin'],
     ['/home/jin', '\\\\wsl.localhost\\Ubuntu\\home\\jin'],
-    ['\\\\desktop-orca\\home\\jin', '\\\\wsl.localhost\\Ubuntu\\home\\jin'],
+    ['\\\\desktop-capilot\\home\\jin', '\\\\wsl.localhost\\Ubuntu\\home\\jin'],
     ['\\\\DESKTOP-ORCA\\mnt\\c\\work', 'C:\\work']
   ])('allows or repairs %s', (recoveredCwd, expected) => {
     expect(normalizeWslColdRestoreCwd({ ...base, recoveredCwd })).toBe(expected)
